@@ -1,0 +1,8 @@
+# Django
+Django==1.5
+
+# Utils
+
+# Clients
+tweept==2.0
+
