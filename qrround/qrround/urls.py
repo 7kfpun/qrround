@@ -13,6 +13,9 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^getPic$', views.getPic, name='getPic'),
 
+
+    # Callback
+    url(r'^oauth2callback$', views.oauth2callback, name='oauth2callback'),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

@@ -5,11 +5,9 @@
         <title>New Graph api & Javascript Base FBConnect Tutorial | Thinkdiff.net</title>
     </head>
     <body>{% csrf_token %}
-        <a href={{ auth_url }} target="_blank">Twitter auth url</a>
-        <div id="fb-root"></div>
+
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
-        
         <script> //Ajax prepare
         // using jQuery
         function getCookie(name) {
@@ -56,7 +54,71 @@
             }
         });
         </script>
+
         
+
+        <!--
+        <script src="https://apis.google.com/js/plus.js"></script>
+        <script src="https://apis.google.com/js/client:plus.js"></script>
+        -->
+        <script type="text/javascript">
+        (function() {
+          var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+          po.src = 'https://apis.google.com/js/client:plusone.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+        </script>
+
+        <script> // Google plus http://garage.socialisten.at/2013/03/hacking-google-plus-the-sign-in-button/
+        function signinCallback(authResult) {
+          if (authResult['access_token']) {
+            // The user has authorized the app, so lets see who we've got here...
+            // gAPI ('/people/me');
+            gapi.client.request({path:'/plus/v1/people/me', method:'GET', callback: function(result) {
+              console.log(result);
+            }})
+
+          } else if (authResult['error']) {
+            // User has not authorized the G+ App!
+          }
+        }
+
+        function sendCircle() {
+
+            gapi.client.request({path:'/plus/v1/people/me/people/visible', method:'GET', callback: function(result) {
+              console.log(result);
+
+              $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8000/getPic",
+                    data: JSON.stringify(result),
+                    success: function(data) {
+                       alert("Response: " + data);
+                    }
+                });
+            }})
+
+        }
+        </script>
+
+
+        <span id="signinButton">
+            <span class="g-signin"
+                data-callback="signinCallback"
+                data-clientid="533974579689.apps.googleusercontent.com"
+                data-cookiepolicy="single_host_origin"
+                data-requestvisibleactions="http://schemas.google.com/AddActivity"
+                data-scope="https://www.googleapis.com/auth/plus.login"
+                data-width="wide">
+            </span>
+        </span>
+
+        <a href="https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&redirect_uri=http://127.0.0.1:8000/oauth2callback&response_type=code&client_id=533974579689.apps.googleusercontent.com" target="_blank">Google plus auth url</a>
+        <a href={{ auth_url }} target="_blank">Twitter auth url</a>
+        <div id="fb-root"></div>
+
+
+
         <script type="text/javascript"> // Facebook
             window.fbAsyncInit = function() {
                 FB.init({appId: '236929692994329', status: true, cookie: true, xfbml: true});
@@ -194,7 +256,10 @@
                 );
             }
         </script>
- 
+
+
+
+        <!--
         <script type="text/javascript" src="http://tjs.sjs.sinajs.cn/t3/platform/js/api/wb.js" charset="utf-8" ></script>
         <script> // Weibo
         WB.core.load(['connect', 'client'], function() {
@@ -205,6 +270,7 @@
             WB.connect.init(cfg);
             WB.client.init(cfg); 
         });
+        -->
         
         </script>
         <h3>New Graph api & Javascript Base FBConnect Tutorial | Thinkdiff.net</h3>
@@ -216,11 +282,14 @@
             <a href="#" onclick="graphStreamPublish(); return false;">Publish Stream Using Graph API</a> |
             <a href="#" onclick="fqlQuery(); return false;">FQL Query Example</a>
         </p>
- 
+
         <textarea id="status" cols="50" rows="5">Write your status here and click 'Status Set Using Legacy Api Call'</textarea>
         <br />
         <a href="#" onclick="setStatus(); return false;">Status Set Using Legacy Api Call</a>
- 
+
+        <br /><br /><br />
+        <a href="#" onclick="sendCircle(); return false;">Send circle data of Google plus Api Call</a>
+
         <br /><br /><br />
         <div id="login" style ="display:none"></div>
         <div id="name"></div>

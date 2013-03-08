@@ -41,3 +41,8 @@ def getPic(request):
         print len(data)
 
     return HttpResponse("ya")
+
+
+def oauth2callback(request):
+    return HttpResponse(request.GET.get('code'))
+
