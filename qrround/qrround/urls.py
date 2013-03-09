@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     # url(r'^qrround/', include('qrround.foo.urls')),
     url(r'^$', views.index, name='index'),
     url(r'^getPic$', views.getPic, name='getPic'),
+    url(r'^getqrcode$', views.getqrcode, name='getqrcode'),
 
     # Callback
     url(r'^oauth2callback$', views.oauth2callback, name='oauth2callback'),

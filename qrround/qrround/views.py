@@ -55,6 +55,16 @@ def getPic(request):
 
     return HttpResponse("ya")
 
+def getqrcode(request):
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
+        print dir(request)
+        print request.body
+        data = json.loads(request.body)
+        print len(data)
+
+    return HttpResponse("Get qr code")
 
 def oauth2callback(request):
     return HttpResponse(request.GET.get('code'))
