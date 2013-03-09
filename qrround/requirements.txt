@@ -1,8 +1,19 @@
 # Django
 Django==1.5
+south==0.7.6
+
+# Debug
+django-debug-toolbar==0.9.4
+django-extensions==1.0.2
 
 # Utils
+django_compressor==1.1.2
+Jinja2==2.4
+pika==0.9.9
 
 # Clients
-tweept==2.0
+# tweepty==2.0
 
+# Tests
+coverage==3.5.2
+django_nose==1.1
