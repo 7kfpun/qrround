@@ -1,8 +1,15 @@
+from django.core.files import File
 from django.http import HttpResponse
 from django.shortcuts import render
 import json
+import os
+import qrcode
+import random
+from settings.settings import TEMPLATE_DIRS, STATICFILES_DIRS, MEDIA_ROOT
+import string
+import StringIO
 import tweepy
-from settings.settings import TEMPLATE_DIRS, STATICFILES_DIRS
+
 
 CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
 CONSUMER_SECRET = "2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M"
@@ -55,6 +62,35 @@ def getPic(request):
 
     return HttpResponse("ya")
 
+
+def unique_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for x in range(size))
+
+
+def getqrcode(request):
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
+        text = request.POST.get('text')
+
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=100,
+            border=4,
+        )
+        qr.add_data(text)
+        qr.make(fit=True)
+
+        img = qr.make_image()
+        filename = '.'.join([unique_generator(), 'png'])
+        img.save(os.path.join(MEDIA_ROOT, filename))
+        # f = open(os.path.join(MEDIA_ROOT, 'hello.png'), 'wb+')
+        # f.write(img)
+        # File(f)
+        # pilImage = open('/tmp/myfile.jpg','rb')
+
+    return HttpResponse(filename)
 
 def oauth2callback(request):
     return HttpResponse(request.GET.get('code'))

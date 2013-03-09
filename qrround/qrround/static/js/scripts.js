@@ -1,3 +1,23 @@
+$('#getqrcode').click(function() {    
+    var form = $(this).parents('form');
+    $.ajax({
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: form.serialize(),
+        success: function(data) {
+            console.log(data);
+            $('#qrcode').empty().append(
+                '<img src="media/' + data + '" alt="' + data + '" height="420" width="420">'
+            );
+        }
+    });
+});
+
+
+
+
+
+
 // Facebook
 (function() {
   var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
