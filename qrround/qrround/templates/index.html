@@ -1,52 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <span id="signinButton">
-            <span class="g-signin"
-                data-callback="signinCallback"
-                data-clientid="533974579689.apps.googleusercontent.com"
-                data-cookiepolicy="single_host_origin"
-                data-requestvisibleactions="http://schemas.google.com/AddActivity"
-                data-scope="https://www.googleapis.com/auth/plus.login"
-                data-width="wide">
-            </span>
-        </span>
+<span id="signinButton">
+  <span class="g-signin"
+    data-callback="signinCallback"
+    data-clientid="533974579689.apps.googleusercontent.com"
+    data-cookiepolicy="single_host_origin"
+    data-requestvisibleactions="http://schemas.google.com/AddActivity"
+    data-scope="https://www.googleapis.com/auth/plus.login"
+    data-width="wide">
+  </span>
+</span>
 
-        <script type="in/Login">
-        Hello, <?js= firstName ?> <?js= lastName ?>.
-        
-        IN.API.Profile("me")
-            .result( function(me) { console.log(me) })
-        
-        </script>
+<script type="in/Login">
+Hello, <?js= firstName ?> <?js= lastName ?>.
 
+IN.API.Profile("me")
+    .result( function(me) { console.log(me) })
+</script>
 
-        <a href="https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&redirect_uri=http://127.0.0.1:8000/oauth2callback&response_type=code&client_id=533974579689.apps.googleusercontent.com" target="_blank">Google plus auth url</a>
-        <a href="{{ linkedin_auth_url }}" target="_blank">LinkedIn auth url</a>
-        <a href="{{ twitter_auth_url }}" target="_blank">Twitter auth url</a>
+<!--
+<a href="{{ google_auth_url }}" target="_blank">Google plus auth url</a>
+<a href="{{ linkedin_auth_url }}" target="_blank">LinkedIn auth url</a>
+<a href="{{ twitter_auth_url }}" target="_blank">Twitter auth url</a>
+-->
 
-        <div id="fb-root">fb-root</div>
-        
-        <h3>New Graph api &amp; Javascript Base FBConnect Tutorial | Thinkdiff.net</h3>
-        <p><fb:login-button autologoutlink="true" scope="read_friendlists"></fb:login-button></p>
+<div id="fb-root"></div>
+
+<h3>New Graph api &amp; Javascript Base FBConnect Tutorial | Thinkdiff.net</h3>
+<p><fb:login-button autologoutlink="true" scope="read_friendlists"></fb:login-button></p>
  
-        <p>
-            <a href="#" onclick="showStream(); return false;">Publish Wall Post</a> |
-            <a href="#" onclick="share(); return false;">Share With Your Friends</a> |
-            <a href="#" onclick="graphStreamPublish(); return false;">Publish Stream Using Graph API</a> |
-            <a href="#" onclick="fqlQuery(); return false;">FQL Query Example</a>
-        </p>
+<p>
+  <a href="#" onclick="showStream(); return false;">Publish Wall Post</a> |
+  <a href="#" onclick="share(); return false;">Share With Your Friends</a> |
+  <a href="#" onclick="graphStreamPublish(); return false;">Publish Stream Using Graph API</a> |
+  <a href="#" onclick="fqlQuery(); return false;">FQL Query Example</a>
+</p>
 
-        <textarea id="status" cols="50" rows="5">Write your status here and click 'Status Set Using Legacy Api Call'</textarea>
-        <br />
-        <a href="#" onclick="setStatus(); return false;">Status Set Using Legacy Api Call</a>
+<textarea id="status" cols="50" rows="5">Write your status here and click 'Status Set Using Legacy Api Call'</textarea>
+<br />
+<a href="#" onclick="setStatus(); return false;">Status Set Using Legacy Api Call</a>
 
-        <br /><br /><br />
-        <a href="#" onclick="sendCircle(); return false;">Send circle data of Google plus Api Call</a>
+<br /><br /><br />
+<a href="#" onclick="sendCircle(); return false;">Send circle data of Google plus Api Call</a>
 
-        <br /><br /><br />
-        <div id="login" style ="display:none"></div>
-        <div id="name"></div>
-
+<br /><br /><br />
+<div id="login" style ="display:none"></div>
+<div id="name"></div>
 
 {% endblock %}
