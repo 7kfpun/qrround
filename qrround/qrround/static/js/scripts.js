@@ -175,12 +175,12 @@ function sendCircle() {
 }
 
 
-// Weibo
-WB.core.load(['connect', 'client'], function() {
-    var cfg = {
-        key: '1349178671',
-        xdpath: 'http://127.0.0.1:8000/'
-    };
-    WB.connect.init(cfg);
-    WB.client.init(cfg); 
-});
+// // Weibo
+// WB.core.load(['connect', 'client'], function() {
+    // var cfg = {
+        // key: '1349178671',
+        // xdpath: 'http://127.0.0.1:8000/'
+    // };
+    // WB.connect.init(cfg);
+    // WB.client.init(cfg);
+// });
