@@ -13,8 +13,9 @@ def index(request):
         auth = tweepy.OAuthHandler(CONSUMER_TOKEN, CONSUMER_SECRET)
         auth_url = auth.get_authorization_url()
     except tweepy.TweepError:
+        auth_url = None
         print 'Error! Failed to get request token.'
-    
+
     if request.GET.get('oauth_verifier'):
         verifier = request.GET.get('oauth_verifier')
 
