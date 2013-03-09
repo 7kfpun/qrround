@@ -9,9 +9,16 @@ $('#getqrcode_button').click(function() {
 });
 
 function getqrcode(el) {
-  $('#getqrcode_button').button('loading');
   var form = $(el).parents('form');
-  if (form.find('input.span5').val() !== "") {
+  console.log("click", form.find('input.span5').val() === "");
+  if (form.find('input.span5').val() === "") {
+    $("#getqrcode_button").popover('show');
+    setTimeout(function() {
+      $("#getqrcode_button").popover('hide');
+    }, 2000)
+    $('#getqrcode_button').button('reset');
+  } else {
+    $('#getqrcode_button').button('loading');
     $.ajax({
       type: form.attr('method'),
       url: form.attr('action'),

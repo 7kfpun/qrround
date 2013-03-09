@@ -47,6 +47,9 @@
       <hr>
 
       <div class="jumbotron">
+        <a href="#" id="example" class="btn btn-danger">hover for popover</a>
+        
+        
         <h1>It is Super<br />Awesome!</h1>
         <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
         <a class="btn btn-large btn-success" data-loading-text="Loading...">Sign up today</a>
@@ -54,7 +57,7 @@
 
         <form action="/getqrcode" method="post" class="btn-group" onsubmit="$(#getqrcode).click();">
           <input name="text" class="span5" id="getqrcode_input" type="text" placeholder="Input your data">
-          <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
+          <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!" rel="popover" data-content="Input some words!" data-placement="top">Have fun!</button>
           <br />
           <label class="checkbox">
             <input type="checkbox"> Remember me
@@ -138,6 +141,7 @@
   <script src="/static/js/bootstrap.js" />
   <script src="/static/js/bootstrap-button.js" />
   <script src="/static/js/bootstrap-modal.js" />
+  <script src="/static/js/bootstrap-popover.js" />
   <script src="/static/js/json2.js" />
   <script src="/static/js/ajax_csrf.js" />
   <script src="/static/js/scripts.js" />
