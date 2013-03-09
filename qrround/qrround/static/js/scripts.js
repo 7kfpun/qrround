@@ -1,16 +1,17 @@
-$("#getqrcode").click(function() {    
+$('#getqrcode').click(function() {    
+    var form = $(this).parents('form');
     $.ajax({
-        type: "POST",
-        url: "http://127.0.0.1:8000/getqrcode",
-        data: "{}",
+        type: form.attr('method'),
+        url: form.attr('action'),
+        data: form.serialize(),
         success: function(data) {
             console.log(data);
+            $('#qrcode').empty().append(
+                '<img src="media/' + data + '" alt="' + data + '" height="420" width="420">'
+            );
         }
     });
 });
-
-
-
 
 
 

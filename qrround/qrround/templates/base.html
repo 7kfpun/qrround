@@ -1,3 +1,4 @@
+{% load compress %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
     <head>
@@ -6,10 +7,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
-        
+
         <!-- CSS style -->
-        <link href="/static/css/bootstrap.css" rel="stylesheet">
-        <link href="/static/css/styles.css" rel="stylesheet">
+        {% compress css %}
+        <link type="text/css" href="/static/css/bootstrap.css" rel="stylesheet" />
+        <link type="text/css" href="/static/css/farbtastic.css" rel="stylesheet" />
+        <link type="text/css" href="/static/css/styles.css" rel="stylesheet" />
+        {% endcompress %}
 
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -48,11 +52,18 @@
         <h1>It is Super<br />Awesome!</h1>
         <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
         <a class="btn btn-large btn-success" href="#">Sign up today</a>
-        <p></p>
-        <p class="btn-group">
-          <input class="span5" id="appendedInputButton" type="text" placeholder="Input your data">
+        <p id="qrcode"></p>
+        <form action="/getqrcode" method="post" class="btn-group">
+          <input name="text" class="span5" id="appendedInputButton" type="text" placeholder="Input your data">
           <button class="btn" id="getqrcode" type="button">Have fun!</button>
-        </p>
+          <br />
+          <label class="checkbox">
+            <input type="checkbox"> Remember me
+          </label>
+        </form>
+
+        
+ 
       </div>
 
         
@@ -105,20 +116,22 @@
 
     <!-- Javascript -->
     <!--
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" />
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js" />
     -->
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/bootstrap.js"></script>
-    <script src="/static/js/json2.js"></script>
-    <script src="/static/js/ajax_csrf.js"></script>
-    <script src="/static/js/scripts.js"></script>
+    {% compress js %}
+    <script src="/static/js/jquery.min.js" />
+    <script src="/static/js/bootstrap.js" />
+    <script src="/static/js/json2.js" />
+    <script src="/static/js/ajax_csrf.js" />
+    <script src="/static/js/scripts.js" />
+    {% endcompress %}
     <!--
-    <script src="https://apis.google.com/js/plus.js"></script>
-    <script src="https://apis.google.com/js/client:plus.js"></script>
+    <script src="https://apis.google.com/js/plus.js" />
+    <script src="https://apis.google.com/js/client:plus.js" />
     -->
     <!--
-    <script type="text/javascript" src="http://tjs.sjs.sinajs.cn/t3/platform/js/api/wb.js" charset="utf-8" ></script>
+    <script type="text/javascript" src="http://tjs.sjs.sinajs.cn/t3/platform/js/api/wb.js" charset="utf-8" />
     -->
 
     </body>
