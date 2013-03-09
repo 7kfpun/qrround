@@ -1,3 +1,22 @@
+$("#getqrcode").click(function() {    
+    $.ajax({
+        type: "POST",
+        url: "http://127.0.0.1:8000/getqrcode",
+        data: "{}",
+        success: function(data) {
+            console.log(data);
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
 // Facebook
 (function() {
   var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;

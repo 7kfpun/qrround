@@ -22,6 +22,13 @@ body {
   line-height: 1;
 }
 .jumbotron .btn {
+    
+  margin: 10px 0;
+  font-size: 21px;
+  padding: 14px 24px;
+}
+.jumbotron .span5 {
+  margin: 10px 0;
   font-size: 21px;
   padding: 14px 24px;
 }
