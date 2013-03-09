@@ -57,15 +57,13 @@
           <button type="button" class="close" data-dismiss="alert">×</button>
           <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
         </div>
+
         <form action="/getqrcode" method="post" class="btn-group" onsubmit="$(#getqrcode).click();">
-
-          
-
           <input name="text" class="span5" id="getqrcode_input" type="text" placeholder="Input your data">
           <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
           <br />
           <label class="checkbox">
-            <input type="checkbox"> Remember me
+            <input type="checkbox"> I have read and accept <a href="javascript:void(0)" onclick="showModel();">Privacy Policy and Terms of Service</a>
           </label>
         </form>
 
@@ -127,7 +125,9 @@
         <h3 id="myModalLabel">Modal header</h3>
       </div>
       <div class="modal-body">
-        <p>One fine body…</p>
+        <p>About this website privacy policy</p>
+        <p>This is a model website privacy policy. It is written in plain language that is visitor-friendly. We have provided a large menu of paragraphs so that you can easily tailor the policy to suit the exact structure of your business and website.</p>
+        <p>Although this document cannot magically absolve you from the risk of data mismanagement, it is a giant first step. Informing your visitors and customers (and other parties) about the data you collect about them is a requirement. A privacy policy is a simple way to comply, but a good privacy policy goes further. It is prime evidence to everyone with whom you deal that you take confidentiality seriously. That can help increase the trust that visitors and customers have in your business and boost their confidence in using your services or buying from you.</p>
       </div>
       <div class="modal-footer">
         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>

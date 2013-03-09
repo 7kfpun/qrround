@@ -31,7 +31,9 @@ function getqrcode(el) {
   }
 }
 
-
+function showModel() {
+  $('#myModal').modal('show');
+}
 
 
 // Facebook
