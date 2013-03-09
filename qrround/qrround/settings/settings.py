@@ -1,11 +1,33 @@
 # Django settings for qrround project.
-import os
+from os import path as op, walk, listdir
+import logging
 
 
-PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = op.abspath(op.dirname(op.dirname(__file__)))
+PROJECT_NAME = op.basename(PROJECT_ROOT)
+
+ENVIRONMENT_NAME = 'core'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+INTERNAL_IPS = '127.0.0.1', '192.168.1.69'
+DEBUG_TOOLBAR_CONFIG = {
+    "INTERCEPT_REDIRECTS": False,
+    "HIDE_DJANGO_SQL": False,
+    "ENABLE_STACKTRACES": True,
+}
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.version.VersionDebugPanel',
+    'debug_toolbar.panels.timer.TimerDebugPanel',
+    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+    'debug_toolbar.panels.headers.HeaderDebugPanel',
+    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+    'debug_toolbar.panels.template.TemplateDebugPanel',
+    'debug_toolbar.panels.sql.SQLDebugPanel',
+    'debug_toolbar.panels.signals.SignalDebugPanel',
+    'debug_toolbar.panels.logger.LoggingPanel',
+)
 
 ADMINS = (
     ('123', '123@123.com'),
@@ -15,13 +37,21 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'database.sqlite',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
+    }
+}
+
+# Caches
+CACHES = {
+    'default': {
+    'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    'KEY_PREFIX': '_'.join((PROJECT_NAME, ENVIRONMENT_NAME))
     }
 }
 
@@ -59,7 +89,7 @@ MEDIA_ROOT = ''
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
+MEDIA_URL = op.join(PROJECT_ROOT, 'media/')
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -76,7 +106,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_ROOT, "static"),
+    op.join(PROJECT_ROOT, "static"),
 )
 
 # List of finder classes that know how to find static files in
@@ -107,6 +137,8 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+MIDDLEWARE_CLASSES += 'debug_toolbar.middleware.DebugToolbarMiddleware',
+
 ROOT_URLCONF = 'qrround.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -116,8 +148,14 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_ROOT, "templates"),
+    op.join(PROJECT_ROOT, 'templates'),
 )
+#for directory_name in walk(PROJECT_ROOT).next()[1]:
+#    logging.info(directory_name)
+#    directory_path = op.join(PROJECT_ROOT, directory_name)
+#    if 'templates' in listdir(directory_path):
+#        TEMPLATE_DIRS += (op.join(directory_path, 'templates'),)
+
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -126,11 +164,30 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+# Applications
+INSTALLED_APPS += (
+    # Debug
+    'debug_toolbar',
+    'django_extensions',
+
+    # Contrib
+    'django.contrib.admindocs',
+    'django.contrib.formtools',
+
+    # Community apps
+    'compressor',
+    'south',
+)
+
+# Base apps settings
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

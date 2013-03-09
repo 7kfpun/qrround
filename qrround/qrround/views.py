@@ -2,13 +2,15 @@ from django.http import HttpResponse
 from django.shortcuts import render
 import json
 import tweepy
-
+from settings.settings import TEMPLATE_DIRS, STATICFILES_DIRS
 
 CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
 CONSUMER_SECRET = "2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M"
 
 
 def index(request):
+    print 'TEMPLATE_DIRS', TEMPLATE_DIRS
+    print 'STATICFILES_DIRS', STATICFILES_DIRS
     try:
         auth = tweepy.OAuthHandler(CONSUMER_TOKEN, CONSUMER_SECRET)
         auth_url = auth.get_authorization_url()
