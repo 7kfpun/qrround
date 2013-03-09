@@ -47,17 +47,22 @@
       <hr>
 
       <div class="jumbotron">
-        <a href="#" id="example" class="btn btn-danger">hover for popover</a>
-        
-        
+
         <h1>It is Super<br />Awesome!</h1>
         <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
         <a class="btn btn-large btn-success" data-loading-text="Loading...">Sign up today</a>
         <p id="qrcode"></p>
 
+        <div class="alert fade in">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
+        </div>
         <form action="/getqrcode" method="post" class="btn-group" onsubmit="$(#getqrcode).click();">
+
+          
+
           <input name="text" class="span5" id="getqrcode_input" type="text" placeholder="Input your data">
-          <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!" rel="popover" data-content="Input some words!" data-placement="top">Have fun!</button>
+          <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
           <br />
           <label class="checkbox">
             <input type="checkbox"> Remember me
@@ -131,6 +136,7 @@
     </div>
 
 
+
   <!-- Javascript -->
   <!--
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" />
@@ -139,6 +145,7 @@
   {% compress js %}
   <script src="/static/js/jquery.min.js" />
   <script src="/static/js/bootstrap.js" />
+  <script src="/static/js/bootstrap-alert.js" />
   <script src="/static/js/bootstrap-button.js" />
   <script src="/static/js/bootstrap-modal.js" />
   <script src="/static/js/bootstrap-popover.js" />
