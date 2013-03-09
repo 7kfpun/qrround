@@ -18,6 +18,15 @@ def index(request):
         auth_url = None
         print 'Error! Failed to get request token.'
 
+
+    linkedin_auth_url = (
+        'https://www.linkedin.com/uas/oauth2/authorization?response_type=code'
+        '&client_id=2ykkt7cjhrcg'
+        '&scope=r_basicprofile%20r_emailaddress%20r_network'
+        '&state=STATE'
+        '&redirect_uri=http://127.0.0.1:8000/'
+    )
+
     if request.GET.get('oauth_verifier'):
         verifier = request.GET.get('oauth_verifier')
 
@@ -30,7 +39,8 @@ def index(request):
         # api.update_status('tweepy + oauth!')
 
     return render(request, 'index.html', {
-        'auth_url': auth_url,
+        'twitter_auth_url': auth_url,
+        'linkedin_auth_url': linkedin_auth_url,
     })
 
 
