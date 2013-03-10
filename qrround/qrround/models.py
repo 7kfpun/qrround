@@ -17,8 +17,42 @@ class UserProfile(models.Model):
           return "%s's profile" % self.user
 
 
+class Query(models.Model):
+
+    query = models.CharField(max_length=200)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    channel = models.CharField(max_length=200, blank=True, null=True)
+    channel_id = models.CharField(max_length=200, blank=True, null=True)
+
+    colour = models.CharField(max_length=10, blank=True, null=True)
+
+    def __unicode__(self):  
+          return self.query
+
+
+class QRImage(models.Model):
+
+    query = models.ForeignKey(Query)
+    photo = models.ImageField(
+        upload_to='qrimages/%Y/%m/%d',
+        blank=True
+    )
+    photo_thumbnail = ImageSpecField(
+        image_field='photo',
+        processors=[ResizeToFit(480, 480)],
+        format='JPEG',
+        options={'quality': 60}
+    )
+
+    def __unicode__(self):
+        return self.query.query
+
+
 class CachedImage(models.Model):
-    reporter = models.ForeignKey(UserProfile)
+
+    query = models.ForeignKey(Query)
     url = models.CharField(max_length=255, unique=True)
     photo = models.ImageField(
         upload_to='cachedimages/%Y/%m/%d',
@@ -27,7 +61,7 @@ class CachedImage(models.Model):
     photo_thumbnail = ImageSpecField(
         image_field='photo',
         processors=[ResizeToFit(50, 50)],
-        format='JPEG',
+        format='JPG',
         options={'quality': 60}
     )
 
@@ -46,7 +80,7 @@ class CachedImage(models.Model):
         return self.url
 
 
-class Query(models.Model):
+class TestQuery(models.Model):
     FRESHMAN = 'FR'
     SOPHOMORE = 'SO'
     JUNIOR = 'JR'

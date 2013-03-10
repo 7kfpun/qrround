@@ -58,7 +58,7 @@
           <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
         </div>
 
-        <form action="/getqrcode" method="post" class="btn-group" onsubmit="$(#getqrcode).click();">
+        <form action="/getqrcode" method="post" class="btn-group" onsubmit="return false">
           <input name="text" class="span5" id="getqrcode_input" type="text" placeholder="Input your data">
           <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
           <br />

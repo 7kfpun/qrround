@@ -1,9 +1,15 @@
 from django.core.files import File
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
+from django.template import Context, Template
 import json
 import os
 import qrcode
+from qrround.models import (
+    CachedImage,
+    QRImage,
+    Query,
+)
 import random
 from settings.settings import TEMPLATE_DIRS, STATICFILES_DIRS, MEDIA_ROOT
 import string
@@ -52,7 +58,7 @@ def index(request):
         # api = tweepy.API(auth)
         # api.update_status('tweepy + oauth!')
 
-    return render_to_response(request, 'index.html', {
+    return render(request, 'index.html', {
         'google_auth_url': google_auth_url,
         'twitter_auth_url': auth_url,
         'linkedin_auth_url': linkedin_auth_url,
@@ -71,21 +77,22 @@ def getPic(request):
     return HttpResponse("ya")
 
 
-def unique_generator(size=6, chars=string.ascii_uppercase + string.digits):
+def unique_generator(size=16, chars=string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for x in range(size))
 
 
 def getqrcode(request):
     if request.method == 'GET':
-        pass
+        return HttpResponse("Noooone")
+
     elif request.method == 'POST':
         text = request.POST.get('text')
 
         qr = qrcode.QRCode(
-            version=1,
+            version=None,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=100,
-            border=4,
+            box_size=10,
+            border=1,
         )
         qr.add_data(text)
         qr.make(fit=True)
@@ -93,12 +100,22 @@ def getqrcode(request):
         img = qr.make_image()
         filename = '.'.join([unique_generator(), 'png'])
         img.save(os.path.join(MEDIA_ROOT, filename))
-        # f = open(os.path.join(MEDIA_ROOT, 'hello.png'), 'wb+')
-        # f.write(img)
-        # File(f)
-        # pilImage = open('/tmp/myfile.jpg','rb')
 
-    return HttpResponse(filename)
+        return HttpResponse('<img src="/media/%s" />' % filename)
+
+#        query = Query(query=text)
+#        query.save()
+#        photo = QRImage(
+#            query=query,
+#            photo=File(open(os.path.join(MEDIA_ROOT, filename), 'rb'))
+#        )
+#        photo.save()
+#
+#        return HttpResponse(
+#            Template('<img src="{{ photo.photo.url }}" />'). \
+#            render(Context({'photo': photo}))
+#        )
+
 
 def oauth2callback(request):
     return HttpResponse(request.GET.get('code'))
