@@ -41,7 +41,7 @@ class QRImage(models.Model):
     )
     photo_thumbnail = ImageSpecField(
         image_field='photo',
-        processors=[ResizeToFit(50, 50)],
+        processors=[ResizeToFit(480, 480)],
         format='JPEG',
         options={'quality': 60}
     )
@@ -61,7 +61,7 @@ class CachedImage(models.Model):
     photo_thumbnail = ImageSpecField(
         image_field='photo',
         processors=[ResizeToFit(50, 50)],
-        format='JPEG',
+        format='JPG',
         options={'quality': 60}
     )
 

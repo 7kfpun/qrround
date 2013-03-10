@@ -1,19 +1,20 @@
 from django.core.files import File
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
+from django.template import Context, Template
 import json
 import os
 import qrcode
-import random
-from settings.settings import TEMPLATE_DIRS, STATICFILES_DIRS, MEDIA_ROOT
-import string
-import StringIO
-import tweepy
 from qrround.models import (
     CachedImage,
     QRImage,
     Query,
 )
+import random
+from settings.settings import TEMPLATE_DIRS, STATICFILES_DIRS, MEDIA_ROOT
+import string
+import StringIO
+import tweepy
 
 
 CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
@@ -76,21 +77,22 @@ def getPic(request):
     return HttpResponse("ya")
 
 
-def unique_generator(size=16, chars=string.ascii_uppercase + string.digits):
+def unique_generator(size=16, chars=string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for x in range(size))
 
 
 def getqrcode(request):
     if request.method == 'GET':
-        pass
+        return HttpResponse("Noooone")
+
     elif request.method == 'POST':
         text = request.POST.get('text')
 
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=100,
-            border=4,
+            box_size=50,
+            border=1,
         )
         qr.add_data(text)
         qr.make(fit=True)
@@ -111,7 +113,11 @@ def getqrcode(request):
         )
         photo.save()
 
-    return HttpResponse(filename)
+        return HttpResponse(
+            Template('<img src="{{ photo.photo_thumbnail.url }}" />'). \
+            render(Context({'photo': photo}))
+        )
+
 
 def oauth2callback(request):
     return HttpResponse(request.GET.get('code'))

@@ -22,7 +22,7 @@ function getqrcode(el) {
       success: function(data) {
         console.log(data);
         $('#qrcode').empty().append(
-            '<img src="media/' + data + '" alt="' + data + '" class="img-polaroid" height="420" width="420">'
+            data
         );
         $('#getqrcode_button').button('reset');
         $('#getqrcode_button').button('complete');
