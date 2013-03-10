@@ -1,6 +1,6 @@
 from django.core.files import File
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 import json
 import os
 import qrcode
@@ -9,6 +9,11 @@ from settings.settings import TEMPLATE_DIRS, STATICFILES_DIRS, MEDIA_ROOT
 import string
 import StringIO
 import tweepy
+from qrround.models import (
+    CachedImage,
+    QRImage,
+    Query,
+)
 
 
 CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
@@ -52,7 +57,7 @@ def index(request):
         # api = tweepy.API(auth)
         # api.update_status('tweepy + oauth!')
 
-    return render_to_response(request, 'index.html', {
+    return render(request, 'index.html', {
         'google_auth_url': google_auth_url,
         'twitter_auth_url': auth_url,
         'linkedin_auth_url': linkedin_auth_url,
@@ -71,7 +76,7 @@ def getPic(request):
     return HttpResponse("ya")
 
 
-def unique_generator(size=6, chars=string.ascii_uppercase + string.digits):
+def unique_generator(size=16, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for x in range(size))
 
 
@@ -97,6 +102,14 @@ def getqrcode(request):
         # f.write(img)
         # File(f)
         # pilImage = open('/tmp/myfile.jpg','rb')
+
+        query = Query(query=text)
+        query.save()
+        photo = QRImage(
+            query=query,
+            photo=File(open(os.path.join(MEDIA_ROOT, filename), 'rb'))
+        )
+        photo.save()
 
     return HttpResponse(filename)
 
