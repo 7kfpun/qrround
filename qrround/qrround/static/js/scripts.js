@@ -1,21 +1,39 @@
-$('#getqrcode').click(function() {    
-    var form = $(this).parents('form');
-    $.ajax({
-        type: form.attr('method'),
-        url: form.attr('action'),
-        data: form.serialize(),
-        success: function(data) {
-            console.log(data);
-            $('#qrcode').empty().append(
-                '<img src="media/' + data + '" alt="' + data + '" height="420" width="420">'
-            );
-        }
-    });
+$('#getqrcode_input').keydown(function (e){
+    if(e.keyCode == 13){
+        getqrcode(this);
+    }
 });
 
+$('#getqrcode_button').click(function() {
+    getqrcode(this);
+});
 
+function getqrcode(el) {
+  var form = $(el).parents('form');
+  console.log("click", form.find('input.span5').val() === "");
+  if (form.find('input.span5').val() === "") {
 
+  } else {
+    $('#getqrcode_button').button('loading');
+    $.ajax({
+      type: form.attr('method'),
+      url: form.attr('action'),
+      data: form.serialize(),
+      success: function(data) {
+        console.log(data);
+        $('#qrcode').empty().append(
+            '<img src="media/' + data + '" alt="' + data + '" class="img-polaroid" height="420" width="420">'
+        );
+        $('#getqrcode_button').button('reset');
+        $('#getqrcode_button').button('complete');
+      }
+    });
+  }
+}
 
+function showModel() {
+  $('#myModal').modal('show');
+}
 
 
 // Facebook
