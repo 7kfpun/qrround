@@ -89,9 +89,9 @@ def getqrcode(request):
         text = request.POST.get('text')
 
         qr = qrcode.QRCode(
-            version=1,
+            version=None,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=50,
+            box_size=10,
             border=1,
         )
         qr.add_data(text)
@@ -100,23 +100,21 @@ def getqrcode(request):
         img = qr.make_image()
         filename = '.'.join([unique_generator(), 'png'])
         img.save(os.path.join(MEDIA_ROOT, filename))
-        # f = open(os.path.join(MEDIA_ROOT, 'hello.png'), 'wb+')
-        # f.write(img)
-        # File(f)
-        # pilImage = open('/tmp/myfile.jpg','rb')
 
-        query = Query(query=text)
-        query.save()
-        photo = QRImage(
-            query=query,
-            photo=File(open(os.path.join(MEDIA_ROOT, filename), 'rb'))
-        )
-        photo.save()
+        return HttpResponse('<img src="/media/%s" />' % filename)
 
-        return HttpResponse(
-            Template('<img src="{{ photo.photo_thumbnail.url }}" />'). \
-            render(Context({'photo': photo}))
-        )
+#        query = Query(query=text)
+#        query.save()
+#        photo = QRImage(
+#            query=query,
+#            photo=File(open(os.path.join(MEDIA_ROOT, filename), 'rb'))
+#        )
+#        photo.save()
+#
+#        return HttpResponse(
+#            Template('<img src="{{ photo.photo.url }}" />'). \
+#            render(Context({'photo': photo}))
+#        )
 
 
 def oauth2callback(request):
