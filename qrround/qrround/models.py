@@ -23,13 +23,31 @@ class Query(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    channel = models.CharField(max_length=200)
-    channel_id = models.CharField(max_length=200)
+    channel = models.CharField(max_length=200, blank=True, null=True)
+    channel_id = models.CharField(max_length=200, blank=True, null=True)
 
-    colour = models.CharField(max_length=10)
+    colour = models.CharField(max_length=10, blank=True, null=True)
 
     def __unicode__(self):  
           return self.query
+
+
+class QRImage(models.Model):
+
+    query = models.ForeignKey(Query)
+    photo = models.ImageField(
+        upload_to='qrimages/%Y/%m/%d',
+        blank=True
+    )
+    photo_thumbnail = ImageSpecField(
+        image_field='photo',
+        processors=[ResizeToFit(50, 50)],
+        format='JPEG',
+        options={'quality': 60}
+    )
+
+    def __unicode__(self):
+        return self.query.query
 
 
 class CachedImage(models.Model):
