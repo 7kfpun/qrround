@@ -17,8 +17,24 @@ class UserProfile(models.Model):
           return "%s's profile" % self.user
 
 
+class Query(models.Model):
+
+    query = models.CharField(max_length=200)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    channel = models.CharField(max_length=200)
+    channel_id = models.CharField(max_length=200)
+
+    colour = models.CharField(max_length=10)
+
+    def __unicode__(self):  
+          return self.query
+
+
 class CachedImage(models.Model):
-    reporter = models.ForeignKey(UserProfile)
+
+    query = models.ForeignKey(Query)
     url = models.CharField(max_length=255, unique=True)
     photo = models.ImageField(
         upload_to='cachedimages/%Y/%m/%d',
@@ -46,7 +62,7 @@ class CachedImage(models.Model):
         return self.url
 
 
-class Query(models.Model):
+class TestQuery(models.Model):
     FRESHMAN = 'FR'
     SOPHOMORE = 'SO'
     JUNIOR = 'JR'
