@@ -1,6 +1,6 @@
 from django.core.files import File
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render_to_response, get_object_or_404
 import json
 import os
 import qrcode
@@ -52,7 +52,7 @@ def index(request):
         # api = tweepy.API(auth)
         # api.update_status('tweepy + oauth!')
 
-    return render(request, 'index.html', {
+    return render_to_response(request, 'index.html', {
         'google_auth_url': google_auth_url,
         'twitter_auth_url': auth_url,
         'linkedin_auth_url': linkedin_auth_url,

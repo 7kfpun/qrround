@@ -10,6 +10,7 @@ django-extensions==1.0.2
 django_compressor==1.1.2
 Jinja2==2.4
 pika==0.9.9
+django-imagekit==2.0.3
 
 # Clients
 # tweepty==2.0
@@ -17,3 +18,4 @@ pika==0.9.9
 # Tests
 coverage==3.5.2
 django_nose==1.1
+
