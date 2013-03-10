@@ -1,12 +1,12 @@
-from django.contrib.auth.models import User
-from django.db import models
 import datetime
-from settings.settings import MEDIA_ROOT
-import urllib
-import os
+from django.contrib.auth.models import User
 from django.core.files import File
+from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
+import os
+from settings.settings import MEDIA_ROOT
+import urllib
 
 
 class UserProfile(models.Model):  
@@ -26,7 +26,7 @@ class CachedImage(models.Model):
     )
     photo_thumbnail = ImageSpecField(
         image_field='photo',
-        processors=[ResizeToFit(500, 500)],
+        processors=[ResizeToFit(50, 50)],
         format='JPEG',
         options={'quality': 60}
     )
