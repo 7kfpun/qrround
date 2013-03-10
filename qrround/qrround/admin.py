@@ -12,8 +12,8 @@ class UserProfileAdmin(admin.ModelAdmin):
     
 
 class QueryProfileAdmin(admin.ModelAdmin):
-    list_display = Query._meta.get_all_field_names()
-    fields = ['query', 'test_field', 'year_in_school']
+    list_display = ['query']
+    fields = ['query']
 
 
 admin.site.register(UserProfile, UserProfileAdmin)
