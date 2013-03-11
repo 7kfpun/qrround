@@ -13,7 +13,7 @@ pika==0.9.9
 django-imagekit==2.0.3
 
 # Clients
-# tweepty==2.0
+tweepy==2.0
 
 # Tests
 coverage==3.5.2
