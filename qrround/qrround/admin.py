@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
 from qrround.models import (
     UserClient,
     Friend,
@@ -8,23 +7,27 @@ from qrround.models import (
 )
 
 
-
-
-
-
-
-
-
-
 class UserClientAdmin(admin.ModelAdmin):
-    list_display = ('user', 'client', 'client_id')
-    fields = ('user', 'client', 'client_id')
+    list_display = ('user', 'client', 'client_id',
+                    'username', 'first_name', 'last_name', 'email',
+                    'profile_picture', 'profile_picture_url', 'url',)
+
+
+class FriendAdmin(admin.ModelAdmin):
+    list_display = ('user', 'client', 'client_id',
+                    'username', 'first_name', 'last_name', 'email',
+                    'profile_picture', 'profile_picture_url', 'url',)
 
 
 class QueryProfileAdmin(admin.ModelAdmin):
-    list_display = ('text')
-    fields = ('text')
+    list_display = ('text',)
+
+
+class QRCodeAdmin(admin.ModelAdmin):
+    list_display = ('text', 'photo', 'photo_thumbnail',)
 
 
 admin.site.register(UserClient, UserClientAdmin)
+admin.site.register(Friend, FriendAdmin)
 admin.site.register(Query, QueryProfileAdmin)
+admin.site.register(QRCode, QRCodeAdmin)
