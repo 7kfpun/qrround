@@ -7,11 +7,12 @@ from helpers import unique_generator
 import json
 import os
 import qrcode
-#from qrround.models import (
-#    Friend,
-#    QRCode,
-#    Query,
-#)
+from qrround.models import (
+    UserClient,
+    Friend,
+    QRCode,
+    Query,
+)
 from settings.settings import MEDIA_ROOT
 #import StringIO
 #import tweepy
@@ -108,32 +109,39 @@ def getfriends(request):
         print dir(request)
         # print request.body
         data = json.loads(request.body)
-        try:
-            # Facebook
-            username = data["user"]["username"]
-        except:
-            try:
-                # Google+
-                username = data["user"]["displayName"]
-            except:
-                try:
-                    # LinkedIn
-                    username = data["user"]["firstName"] \
-                        + ' ' + data["user"]["lastName"]
-                except:
-                    pass
+        username = filter(
+            lambda x: x in data["user"], [
+                "firstName", "displayName", "username"
+                # LinkedIn   Google+        Facebook
+            ])[0] or None
+        first_name = filter(
+            lambda x: x in data["user"], [
+                "firstName", "name", "first_name"
+                # LinkedIn   Google+        Facebook
+            ])[0] or None
+        last_name = filter(
+            lambda x: x in data["user"], [
+                "lastName", "name", "last_name"
+                # LinkedIn   Google+        Facebook
+            ])[0] or None
 
-        client = data["meta"]["channel"]
-        clientid = data["user"]["id"]
+        username =  data["user"][username]
+        first_name =  data["user"][first_name]
+        last_name =  data["user"][last_name]
+
+        channel = data["meta"]["channel"]
+        channel_id = data["user"]["id"]
         print len(data["friends"])
 
-    user = User(
-        username=username,
-        client=client,
-        clientid=clientid,
+    userclient, created = UserClient.objects.get_or_create(
+        client=channel + '#' + channel_id,
     )
-    user.save()
+    userclient.username = username
+    userclient.first_name = first_name
+    userclient.last_name = lastname
+    userclient.save()
+
     return HttpResponse(
-        client + '#' + clientid + '\n'
+        channel + '#' + channel_id + '\n'
         + username + " has " + str(len(data["friends"]))
     )
