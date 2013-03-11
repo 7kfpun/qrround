@@ -12,7 +12,7 @@ class UserClient(models.Model):
     user = models.OneToOneField(User)
 
     client = models.CharField(max_length=200, blank=True, null=True)
-    client_id = models.CharField(max_length=200, blank=True, null=True)
+    clientid = models.CharField(max_length=200, blank=True, null=True)
 
     profile_picture = models.ImageField(
         upload_to='profile_picture',
@@ -23,7 +23,7 @@ class UserClient(models.Model):
     url = models.URLField(blank=True, null=True)
 
     class Meta:
-        unique_together = (("client", "client_id"),)
+        unique_together = (("client", "clientid"),)
 
     def __unicode__(self):
         return "%s's UserClient" % self.user

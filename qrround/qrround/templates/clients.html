@@ -28,20 +28,28 @@ IN.API.Profile("me")
 
 <h3>New Graph api &amp; Javascript Base FBConnect Tutorial | Thinkdiff.net</h3>
 <p><fb:login-button autologoutlink="true" scope="read_friendlists"></fb:login-button></p>
- 
+
 <p>
+  <p>LinkedIn</p>
+  <a href="#" onclick="sendLinkedinFriends(); return false;">FQL Query Example</a>
+</p>
+
+<p>
+  <p>Facebook</p>
   <a href="#" onclick="showStream(); return false;">Publish Wall Post</a> |
   <a href="#" onclick="share(); return false;">Share With Your Friends</a> |
   <a href="#" onclick="graphStreamPublish(); return false;">Publish Stream Using Graph API</a> |
   <a href="#" onclick="fqlQuery(); return false;">FQL Query Example</a>
 </p>
 
+<p>
+  <p>Google+</p>
+  <a href="#" onclick="sendCircle(); return false;">Send circle data of Google plus Api Call</a>
+</p>
+
 <textarea id="status" cols="50" rows="5">Write your status here and click 'Status Set Using Legacy Api Call'</textarea>
 <br />
 <a href="#" onclick="setStatus(); return false;">Status Set Using Legacy Api Call</a>
-
-<br /><br /><br />
-<a href="#" onclick="sendCircle(); return false;">Send circle data of Google plus Api Call</a>
 
 <br /><br /><br />
 <div id="login" style ="display:none"></div>
