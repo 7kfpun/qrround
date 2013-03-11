@@ -5,10 +5,11 @@ import os
 def resetdb(reset=True):
     class customAction(argparse.Action):
         def __call__(self, parser, args, values, option_string=None):
-           print("Reset DB", reset)
-           os.system("rm database.sqlite")
-           os.system("python manage.py syncdb --noinput")
-           # os.system("python manage.py schemamigration qrround --initial")
+            print("Reset DB", reset)
+            os.system("rm database.sqlite")
+            # os.system("python manage.py schemamigration qrround --initial")
+            # os.system("python manage.py migrate qrround")
+            os.system("python manage.py syncdb --noinput")
     return customAction
 
 
@@ -21,10 +22,8 @@ if __name__ == '__main__':
     )
 
     #./manage.py migrate qrround
-    
-    #os.system("./manage.py dumpdata --indent=2 auth > qrround/fixtures/initial_data.json")
+
+    #os.system("./manage.py dumpdata --indent=2 auth > qrround/fixtures/initial_data.json")  # noqa
     os.system("python manage.py syncdb --noinput")
     os.system("python manage.py schemamigration qrround --auto")
     os.system("python manage.py migrate qrround")
-    
-     

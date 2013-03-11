@@ -1,51 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-<span id="signinButton">
-  <span class="g-signin"
-    data-callback="signinCallback"
-    data-clientid="533974579689.apps.googleusercontent.com"
-    data-cookiepolicy="single_host_origin"
-    data-requestvisibleactions="http://schemas.google.com/AddActivity"
-    data-scope="https://www.googleapis.com/auth/plus.login"
-    data-width="wide">
-  </span>
-</span>
+<h1>It is Super<br />Awesome!</h1>
+<p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+<a class="btn btn-large btn-success" data-loading-text="Loading...">Sign up today</a>
+<p id="qrcode"></p>
 
-<script type="in/Login">
-Hello, <?js= firstName ?> <?js= lastName ?>.
+<div class="alert fade in">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
+</div>
 
-IN.API.Profile("me")
-    .result( function(me) { console.log(me) })
-</script>
-
-<!--
-<a href="{{ google_auth_url }}" target="_blank">Google plus auth url</a>
-<a href="{{ linkedin_auth_url }}" target="_blank">LinkedIn auth url</a>
-<a href="{{ twitter_auth_url }}" target="_blank">Twitter auth url</a>
--->
-
-<div id="fb-root"></div>
-
-<h3>New Graph api &amp; Javascript Base FBConnect Tutorial | Thinkdiff.net</h3>
-<p><fb:login-button autologoutlink="true" scope="read_friendlists"></fb:login-button></p>
- 
-<p>
-  <a href="#" onclick="showStream(); return false;">Publish Wall Post</a> |
-  <a href="#" onclick="share(); return false;">Share With Your Friends</a> |
-  <a href="#" onclick="graphStreamPublish(); return false;">Publish Stream Using Graph API</a> |
-  <a href="#" onclick="fqlQuery(); return false;">FQL Query Example</a>
-</p>
-
-<textarea id="status" cols="50" rows="5">Write your status here and click 'Status Set Using Legacy Api Call'</textarea>
-<br />
-<a href="#" onclick="setStatus(); return false;">Status Set Using Legacy Api Call</a>
-
-<br /><br /><br />
-<a href="#" onclick="sendCircle(); return false;">Send circle data of Google plus Api Call</a>
-
-<br /><br /><br />
-<div id="login" style ="display:none"></div>
-<div id="name"></div>
-
+<form action="/getqrcode" method="post" class="btn-group" onsubmit="return false">
+  <input name="text" class="span5" id="getqrcode_input" type="text" placeholder="Input your data">
+  <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
+  <br />
+  <label class="checkbox">
+    <input type="checkbox"> I have read and accept <a href="javascript:void(0)" onclick="showModel();">Privacy Policy and Terms of Service</a>
+  </label>
+</form>
 {% endblock %}
