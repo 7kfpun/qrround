@@ -6,12 +6,13 @@ from qrround import views
 
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     # Examples:
     # url(r'^$', 'qrround.views.home', name='home'),
     # url(r'^qrround/', include('qrround.foo.urls')),
     url(r'^$', views.index, name='index'),
-    url(r'^getPic$', views.getPic, name='getPic'),
+    url(r'^getfriends', views.getfriends, name='getfriends'),
     url(r'^getqrcode$', views.getqrcode, name='getqrcode'),
 
     # Callback
@@ -27,11 +28,12 @@ urlpatterns = patterns('',
 )
 
 if settings.DEBUG:
-    urlpatterns += patterns('',
+    urlpatterns += patterns(
+        '',
         url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.MEDIA_ROOT,
-        }),
+            }),
         url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.STATIC_ROOT,
-        }),
-)
+            }),
+    )

@@ -1,5 +1,5 @@
 #from django.core.files import File
-#from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render  # , get_object_or_404
 # from django.template import Context, Template
@@ -100,13 +100,40 @@ def oauth2callback(request):
     return HttpResponse(request.GET.get('code'))
 
 
-def getPic(request):
+def getfriends(request):
+    data = None
     if request.method == 'GET':
         pass
-    elif request.method == 'POST':
+    elif request.method == 'POST' and request.is_ajax():
         print dir(request)
-        print request.body
+        # print request.body
         data = json.loads(request.body)
-        print len(data)
+        try:
+            # Facebook
+            username = data["user"]["username"]
+        except:
+            try:
+                # Google+
+                username = data["user"]["displayName"]
+            except:
+                try:
+                    # LinkedIn
+                    username = data["user"]["firstName"] \
+                        + ' ' + data["user"]["lastName"]
+                except:
+                    pass
 
-    return HttpResponse("ya")
+        client = data["meta"]["channel"]
+        clientid = data["user"]["id"]
+        print len(data["friends"])
+
+    user = User(
+        username=username,
+        client=client,
+        clientid=clientid,
+    )
+    user.save()
+    return HttpResponse(
+        client + '#' + clientid + '\n'
+        + username + " has " + str(len(data["friends"]))
+    )

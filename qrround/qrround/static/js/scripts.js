@@ -67,16 +67,16 @@ window.fbAsyncInit = function() {
 };
 
 (function() {
-    var e = document.createElement('script');
-    e.type = 'text/javascript';
-    e.src = document.location.protocol +
-      '//connect.facebook.net/en_US/all.js';
-    e.async = true;
-    document.getElementById('fb-root').appendChild(e);
-  }());
+  var e = document.createElement('script');
+  e.type = 'text/javascript';
+  e.src = document.location.protocol +
+    '//connect.facebook.net/en_US/all.js';
+  e.async = true;
+  document.getElementById('fb-root').appendChild(e);
+}());
  
-  function login() {
-    FB.api('/me', function(response) {
+function login() {
+  FB.api('/me', function(response) {
     document.getElementById('login').style.display = "block";
     document.getElementById('login').innerHTML = response.name + " succsessfully logged in!";
   });
@@ -136,27 +136,39 @@ function graphStreamPublish() {
 }
 
 function fqlQuery() {
-  FB.api('/me', function(response) {
+  FB.api('/me', function(me) {
     var query = FB.Data.query('SELECT first_name, middle_name, last_name, username, name, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())');
 
     query.wait(function(rows) {
-      // console.log(rows);
-      var string;
-      rows.forEach(function(row) {
-          string = string + "<br />"
-        + 'Your name: ' + row.first_name + " " + row.last_name + "<br />"
-        + '<img src="' + row.pic_square + '" alt="" />' + "<br />";
-        // console.log(row);
-      })
+      // var string;
+      // rows.forEach(function(row) {
+          // string = string + "<br />"
+        // + 'Your name: ' + row.first_name + " " + row.last_name + "<br />"
+        // + '<img src="' + row.pic_square + '" alt="" />' + "<br />";
+        // // console.log(row);
+      // })
+// 
+      // document.getElementById('name').innerHTML = string;
 
-      document.getElementById('name').innerHTML = string;
+      var myJSONObject = {
+        "meta": {
+          "text": "this is text",
+          "method": "text",
+          "channel": "facebook",
+        },
+        "user": me,
+        "friends": rows,
+      };
 
+      // console.log(JSON.stringify(myJSONObject));
+      console.log(me);
+      console.log(rows);
       $.ajax({
         type: "POST",
-        url: "http://127.0.0.1:8000/getPic",
-        data: JSON.stringify(rows),
+        url: "http://127.0.0.1:8000/getfriends",
+        data: JSON.stringify(myJSONObject),
         success: function(data) {
-           alert("Response: " + data);
+          console.log("Received: " + data + " friends!");
         }
       });
     });
@@ -197,18 +209,64 @@ function signinCallback(authResult) {
 
 function sendCircle() {
 
-  gapi.client.request({path:'/plus/v1/people/me/people/visible', method:'GET', callback: function(result) {
-    console.log(result);
+  gapi.client.request({path:'/plus/v1/people/me', method:'GET', callback: function(me) {
+    console.log(me);
 
-    $.ajax({
-      type: "POST",
-      url: "http://127.0.0.1:8000/getPic",
-      data: JSON.stringify(result),
-      success: function(data) {
-         alert("Response: " + data);
-      }
-    });
+    gapi.client.request({path:'/plus/v1/people/me/people/visible', method:'GET', callback: function(result) {
+      console.log(result);
+
+      var myJSONObject = {
+        "meta": {
+          "text": "this is text",
+          "method": "text",
+          "channel": "google+",
+        },
+        "user": me,
+        "friends": result["items"],
+      };
+
+      $.ajax({
+        type: "POST",
+        url: "http://127.0.0.1:8000/getfriends",
+        data: JSON.stringify(myJSONObject),
+        success: function(data) {
+          console.log("Received: " + data);
+        }
+      });
+    }})
   }})
+}
+
+
+// LinkedIn
+function sendLinkedinFriends() {
+
+  IN.API.Profile("me").result(function(me) {
+    console.log(me);
+
+    IN.API.Connections("me").result(function(connections) {
+      console.log(connections);
+
+      var myJSONObject = {
+        "meta": {
+          "text": "this is text",
+          "method": "text",
+          "channel": "linkedin",
+        },
+        "user": me["values"][0],
+        "friends": connections["values"],
+      };
+
+      $.ajax({
+        type: "POST",
+        url: "http://127.0.0.1:8000/getfriends",
+        data: JSON.stringify(myJSONObject),
+        success: function(data) {
+          console.log("Received: " + data);
+        }
+      });
+    })
+  })
 }
 
 
