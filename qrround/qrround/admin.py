@@ -1,20 +1,33 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
 from qrround.models import (
-    UserProfile,
+    UserClient,
+    Friend,
+    QRCode,
     Query,
 )
 
 
-class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ['test_field', 'user']
-    fields = ['test_field', 'user']
-    
+class UserClientAdmin(admin.ModelAdmin):
+    list_display = ('user', 'client', 'client_id',
+                    'username', 'first_name', 'last_name', 'email',
+                    'profile_picture', 'profile_picture_url', 'url',)
+
+
+class FriendAdmin(admin.ModelAdmin):
+    list_display = ('user', 'client', 'client_id',
+                    'username', 'first_name', 'last_name', 'email',
+                    'profile_picture', 'profile_picture_url', 'url',)
+
 
 class QueryProfileAdmin(admin.ModelAdmin):
-    list_display = ['query']
-    fields = ['query']
+    list_display = ('text',)
 
 
-admin.site.register(UserProfile, UserProfileAdmin)
+class QRCodeAdmin(admin.ModelAdmin):
+    list_display = ('text', 'photo', 'photo_thumbnail',)
+
+
+admin.site.register(UserClient, UserClientAdmin)
+admin.site.register(Friend, FriendAdmin)
 admin.site.register(Query, QueryProfileAdmin)
+admin.site.register(QRCode, QRCodeAdmin)
