@@ -26,10 +26,6 @@
     <link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="/static/ico/favicon.ico">
 
-    <script type="text/javascript" src="http://platform.linkedin.com/in.js">
-      api_key: 2ykkt7cjhrcg
-      scope: r_basicprofile r_emailaddress r_network
-    </script>
 
   </head>
   <body>{% csrf_token %}
@@ -47,66 +43,18 @@
       <hr>
 
       <div class="jumbotron">
-
-        <h1>It is Super<br />Awesome!</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <a class="btn btn-large btn-success" data-loading-text="Loading...">Sign up today</a>
-        <p id="qrcode"></p>
-
-        <div class="alert fade in">
-          <button type="button" class="close" data-dismiss="alert">×</button>
-          <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
-        </div>
-
-        <form action="/getqrcode" method="post" class="btn-group" onsubmit="return false">
-          <input name="text" class="span5" id="getqrcode_input" type="text" placeholder="Input your data">
-          <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
-          <br />
-          <label class="checkbox">
-            <input type="checkbox"> I have read and accept <a href="javascript:void(0)" onclick="showModel();">Privacy Policy and Terms of Service</a>
-          </label>
-        </form>
-
-
-          </div>
-
+        {% block content %}{% endblock %}
+      </div>
+      <hr>
 
       <div id="content">
-
-
-        {% block content %}{% endblock %}
+        {% include "clients.html" %}
       </div>
 
       <hr>
 
       <div class="row-fluid marketing">
-        <div class="span6">
-          <h4>Subheading</h4>
-          <a class="btn btn-large btn-primary" href="#">Facebook</a>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-          <h4>Subheading</h4>
-          <a class="btn btn-large btn-warning" href="#">Weibo</a>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-          <h4>Subheading</h4>
-          <a class="btn btn-large btn-info" href="#">Twitter</a>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-        </div>
-
-        <div class="span6">
-          <h4>Subheading</h4>
-          <a class="btn btn-large btn-danger disabled" href="#">Badoo</a>
-          <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
-
-          <h4>Subheading</h4>
-          <a class="btn btn-large btn-inverse disabled" href="#">Renren</a>
-          <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-          <h4>Subheading</h4>
-          <a class="btn btn-large btn-inverse disabled" href="#">LinkedIn</a>
-          <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
-        </div>
+        {% include "clients_buttons.html" %}
       </div>
 
       <hr>
@@ -153,6 +101,12 @@
   <script src="/static/js/ajax_csrf.js" />
   <script src="/static/js/scripts.js" />
   {% endcompress %}
+  <script type="text/javascript" src="http://platform.linkedin.com/in.js">
+    api_key: 2ykkt7cjhrcg
+    authorize: true
+    credentials_cookie: true
+    scope: r_basicprofile r_emailaddress r_network
+  </script>
   <!--
   <script src="https://apis.google.com/js/plus.js" />
   <script src="https://apis.google.com/js/client:plus.js" />

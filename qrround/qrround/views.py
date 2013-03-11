@@ -1,20 +1,23 @@
-from django.core.files import File
+#from django.core.files import File
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-from django.template import Context, Template
+from django.shortcuts import render  # , get_object_or_404
+# from django.template import Context, Template
 from helpers import unique_generator
 import json
 import os
 import qrcode
 from qrround.models import (
+    UserClient,
     Friend,
     QRCode,
     Query,
+    CachedImage,
 )
 from settings.settings import MEDIA_ROOT
-import StringIO
-import tweepy
+#import StringIO
+#import tweepy
 
 
 #CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
@@ -100,13 +103,87 @@ def oauth2callback(request):
     return HttpResponse(request.GET.get('code'))
 
 
-def getPic(request):
+def getfriends(request):
+    data = None
     if request.method == 'GET':
         pass
-    elif request.method == 'POST':
+    elif request.method == 'POST' and request.is_ajax():
         print dir(request)
-        print request.body
+        # print request.body
         data = json.loads(request.body)
-        print len(data)
 
-    return HttpResponse("ya")
+        username = filter(
+            lambda x: x in data["user"], [
+                "firstName", "displayName", "username"
+                # LinkedIn   Google+        Facebook
+            ])[0] or None
+#        first_name = filter(
+#            lambda x: x in data["user"], [
+#                "firstName", "name", "first_name"
+#                # LinkedIn   Google+        Facebook
+#            ])[0] or None
+#        last_name = filter(
+#            lambda x: x in data["user"], [
+#                "lastName", "name", "last_name"
+#                # LinkedIn   Google+        Facebook
+#            ])[0] or None
+#
+        username =  data["user"][username]
+#        first_name =  data["user"][first_name]
+#        last_name =  data["user"][last_name]
+#
+        channel = data["meta"]["channel"]
+        channel_id = data["user"]["id"]
+#        print len(data["friends"])
+#
+#        userclient, created = UserClient.objects.get_or_create(
+#            client=channel + '#' + channel_id,
+#        )
+#        userclient.username = username
+#        userclient.first_name = first_name
+#        userclient.last_name = last_name
+#        userclient.save()
+    
+        for frd in data["friends"]:
+
+            if "pictureUrl" in frd:  # LinkedIn
+                url = frd["pictureUrl"]
+            elif "pic_square" in frd:  # Facebook
+                url = frd["pic_square"]
+            elif "image" in frd:  # Google+
+                url = frd["image"]["url"]
+
+            try:
+                cachedimage, created = CachedImage.objects.get_or_create(url=url)
+                cachedimage.cache_and_save()
+            except IntegrityError, e:
+                print e
+                
+#            username = filter(
+#                lambda x: x in data["user"], [
+#                    "firstName", "displayName", "username"
+#                    # LinkedIn   Google+        Facebook
+#                ])[0] or None
+#            first_name = filter(
+#                lambda x: x in data["user"], [
+#                    "firstName", "name", "first_name"
+#                    # LinkedIn   Google+        Facebook
+#                ])[0] or None
+#            last_name = filter(
+#                lambda x: x in data["user"], [
+#                    "lastName", "name", "last_name"
+#                    # LinkedIn   Google+        Facebook
+#                ])[0] or None
+#    
+#            frd_channel = data["meta"]["channel"]
+#            frd_channel_id = str(frd["id"] if "id" in frd else frd["uid"])
+#            friend, created = Friend.objects.get_or_create(
+#                user=userclient,
+#                client=frd_channel + '#' + frd_channel_id,
+#            )
+#            friend.save()
+
+    return HttpResponse(
+        channel + '#' + channel_id + '\n'
+        + username + " has " + str(len(data["friends"]))
+    )
