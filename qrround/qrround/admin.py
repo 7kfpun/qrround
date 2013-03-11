@@ -8,13 +8,15 @@ from qrround.models import (
 
 
 class UserClientAdmin(admin.ModelAdmin):
-    list_display = ('user', 'client', 'client_id',
+    list_display = ('client',
+                    'is_active', 'is_admin',
+                    'last_login', 'date_joined',
                     'username', 'first_name', 'last_name', 'email',
                     'profile_picture', 'profile_picture_url', 'url',)
 
 
 class FriendAdmin(admin.ModelAdmin):
-    list_display = ('user', 'client', 'client_id',
+    list_display = ('user', 'client',
                     'username', 'first_name', 'last_name', 'email',
                     'profile_picture', 'profile_picture_url', 'url',)
 

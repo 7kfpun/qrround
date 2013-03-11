@@ -8,6 +8,7 @@ def resetdb(reset=True):
             print("Reset DB", reset)
             os.system("rm database.sqlite")
             # os.system("python manage.py schemamigration qrround --initial")
+            # os.system("python manage.py migrate qrround")
             os.system("python manage.py syncdb --noinput")
     return customAction
 

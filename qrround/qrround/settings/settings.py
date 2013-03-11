@@ -1,5 +1,5 @@
 # Django settings for qrround project.
-from os import path as op, walk, listdir
+from os import path as op  # , walk, listdir
 import logging
 
 
@@ -31,6 +31,8 @@ DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.logger.LoggingPanel',
 )
 
+AUTH_USER_MODEL = 'qrround.UserClient'
+
 ADMINS = (
     ('123', '123@123.com'),
 )
@@ -39,12 +41,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'database.sqlite',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.  # noqa
+        'NAME': 'database.sqlite',                      # Or path to database file if using sqlite3.  # noqa
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.  # noqa
         'PORT': '',                      # Set to empty string for default.
     }
 }
@@ -116,7 +118,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
     'compressor.finders.CompressorFinder',
 )
 
@@ -127,7 +129,7 @@ SECRET_KEY = 'c((c@5v)q82$+!ko*=3^hg08*zpf38=u*)7tdf80gah=h2p0i7'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    # 'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -148,11 +150,11 @@ ROOT_URLCONF = 'qrround.urls'
 WSGI_APPLICATION = 'qrround.wsgi.application'
 
 FIXTURE_DIRS = (
-   op.join(PROJECT_ROOT, 'fixtures'),
+    op.join(PROJECT_ROOT, 'fixtures'),
 )
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".  # noqa
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     op.join(PROJECT_ROOT, 'templates'),
