@@ -1,6 +1,9 @@
 TODO
 =======
 
+Django new User Model
+http://procrastinatingdev.com/django/using-configurable-user-models-in-django-1-5/
+
 Add button CSS using CSS button generator
 http://blog.koalite.com/bbg/
 
