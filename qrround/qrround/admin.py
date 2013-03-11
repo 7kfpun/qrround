@@ -8,14 +8,22 @@ from qrround.models import (
 )
 
 
+
+
+
+
+
+
+
+
 class UserClientAdmin(admin.ModelAdmin):
-    list_display = ['user', 'client', 'client_id']
-    fields = ['user', 'client', 'client_id']
-    
+    list_display = ('user', 'client', 'client_id')
+    fields = ('user', 'client', 'client_id')
+
 
 class QueryProfileAdmin(admin.ModelAdmin):
-    list_display = ['text']
-    fields = ['text']
+    list_display = ('text')
+    fields = ('text')
 
 
 admin.site.register(UserClient, UserClientAdmin)
