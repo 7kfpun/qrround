@@ -36,7 +36,7 @@ class UserClient(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
 
-    client = models.CharField(max_length=200, unique=True,
+    client = models.CharField(max_length=200, unique=True, db_index=True,
                               blank=True, null=True)
 
     username = models.CharField(max_length=200, blank=True, null=True)
@@ -80,7 +80,8 @@ class UserClient(AbstractBaseUser):
 class Friend(models.Model):
     user = models.ForeignKey(UserClient)
 
-    client = models.CharField(max_length=200, blank=True, null=True)
+    client = models.CharField(max_length=200, unique=True,
+                              blank=True, null=True)
     username = models.CharField(max_length=200, blank=True, null=True)
     first_name = models.CharField(max_length=200, blank=True, null=True)
     last_name = models.CharField(max_length=200, blank=True, null=True)
@@ -149,7 +150,7 @@ class CachedImage(models.Model):
         options={'quality': 60}
     )
 
-    def cache(self):
+    def cache_and_save(self):
         """Store image locally if we have a URL"""
         if self.url and not self.photo:
             result = urllib.urlretrieve(self.url)
