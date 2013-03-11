@@ -1,20 +1,20 @@
-from django.core.files import File
-from django.contrib.auth.models import User
+#from django.core.files import File
+#from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-from django.template import Context, Template
+from django.shortcuts import render  # , get_object_or_404
+# from django.template import Context, Template
 from helpers import unique_generator
 import json
 import os
 import qrcode
-from qrround.models import (
-    Friend,
-    QRCode,
-    Query,
-)
+#from qrround.models import (
+#    Friend,
+#    QRCode,
+#    Query,
+#)
 from settings.settings import MEDIA_ROOT
-import StringIO
-import tweepy
+#import StringIO
+#import tweepy
 
 
 #CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
