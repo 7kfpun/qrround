@@ -1,4 +1,3 @@
-import datetime
 from django.contrib.auth.models import User
 from django.core.files import File
 from django.db import models
@@ -26,8 +25,24 @@ class UserClient(models.Model):
     class Meta:
         unique_together = (("client", "client_id"),)
 
-    def __unicode__(self):  
-          return "%s's UserClient" % self.user
+    def __unicode__(self):
+        return "%s's UserClient" % self.user
+
+    @property
+    def username(self):
+        return self.user.username
+
+    @property
+    def first_name(self):
+        return self.user.first_name
+
+    @property
+    def last_name(self):
+        return self.user.last_name
+
+    @property
+    def email(self):
+        return self.user.email
 
 
 class Friend(models.Model):
@@ -47,8 +62,8 @@ class Friend(models.Model):
     profile_picture_url = models.URLField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
 
-    def __unicode__(self):  
-          return "%s's Friend" % self.username
+    def __unicode__(self):
+        return "%s's Friend" % self.username
 
     @property
     def client(self):
@@ -65,8 +80,8 @@ class Query(models.Model):
     colour = models.CharField(max_length=10, default='#000000',
                               blank=True, null=True)
 
-    def __unicode__(self):  
-          return self.text
+    def __unicode__(self):
+        return self.text
 
 
 class QRCode(models.Model):
@@ -84,6 +99,10 @@ class QRCode(models.Model):
     )
 
     def __unicode__(self):
+        return self.query.text
+
+    @property
+    def text(self):
         return self.query.text
 
 
@@ -107,7 +126,7 @@ class CachedImage(models.Model):
         if self.url and not self.photo:
             result = urllib.urlretrieve(self.url)
             self.photo.save(
-                os.path.basename(self.url), 
+                os.path.basename(self.url),
                 File(open(result[0], 'rb')),
                 save=False,
             )
@@ -140,5 +159,5 @@ class TestQuery(models.Model):
     photo = models.ImageField(upload_to='/'.join([MEDIA_ROOT, 'phtotos']),
                               blank=True)
 
-    def __unicode__(self):  
-          return self.query
+    def __unicode__(self):
+        return self.query
