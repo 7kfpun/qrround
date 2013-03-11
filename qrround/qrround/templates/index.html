@@ -2,21 +2,21 @@
 
 {% block content %}
 <h1>It is Super<br />Awesome!</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <a class="btn btn-large btn-success" data-loading-text="Loading...">Sign up today</a>
-        <p id="qrcode"></p>
+<p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+<a class="btn btn-large btn-success" data-loading-text="Loading...">Sign up today</a>
+<p id="qrcode"></p>
 
-        <div class="alert fade in">
-          <button type="button" class="close" data-dismiss="alert">×</button>
-          <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
-        </div>
+<div class="alert fade in">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
+</div>
 
-        <form action="/getqrcode" method="post" class="btn-group" onsubmit="return false">
-          <input name="text" class="span5" id="getqrcode_input" type="text" placeholder="Input your data">
-          <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
-          <br />
-          <label class="checkbox">
-            <input type="checkbox"> I have read and accept <a href="javascript:void(0)" onclick="showModel();">Privacy Policy and Terms of Service</a>
-          </label>
-        </form>
+<form action="/getqrcode" method="post" class="btn-group" onsubmit="return false">
+  <input name="text" class="span5" id="getqrcode_input" type="text" placeholder="Input your data">
+  <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
+  <br />
+  <label class="checkbox">
+    <input type="checkbox"> I have read and accept <a href="javascript:void(0)" onclick="showModel();">Privacy Policy and Terms of Service</a>
+  </label>
+</form>
 {% endblock %}
