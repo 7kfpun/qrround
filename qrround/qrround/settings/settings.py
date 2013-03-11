@@ -197,6 +197,14 @@ INSTALLED_APPS += (
     'qrround',
 )
 
+# Mail
+EMAIL_HOST_USER = '7kfpun@gmail.com'
+EMAIL_HOST_PASSWORD = 'blah blah blah'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+RECEIVE_REGISTRATION = True
+
 # Base apps settings
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
@@ -228,3 +236,10 @@ LOGGING = {
         },
     }
 }
+
+# Logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+    datefmt='%d.%m %H:%M:%S',
+)
