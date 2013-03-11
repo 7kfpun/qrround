@@ -1,4 +1,3 @@
-import datetime
 from django.contrib.auth.models import User
 from django.core.files import File
 from django.db import models
@@ -9,34 +8,87 @@ from settings.settings import MEDIA_ROOT
 import urllib
 
 
-class UserProfile(models.Model):  
-    user = models.OneToOneField(User)  
-    test_field = models.CharField(max_length=200)
+class UserClient(models.Model):
+    user = models.OneToOneField(User)
 
-    def __unicode__(self):  
-          return "%s's profile" % self.user
+    client = models.CharField(max_length=200, blank=True, null=True)
+    client_id = models.CharField(max_length=200, blank=True, null=True)
+
+    profile_picture = models.ImageField(
+        upload_to='profile_picture',
+        blank=True,
+        null=True,
+    )
+    profile_picture_url = models.URLField(blank=True, null=True)
+    url = models.URLField(blank=True, null=True)
+
+    class Meta:
+        unique_together = (("client", "client_id"),)
+
+    def __unicode__(self):
+        return "%s's UserClient" % self.user
+
+    @property
+    def username(self):
+        return self.user.username
+
+    @property
+    def first_name(self):
+        return self.user.first_name
+
+    @property
+    def last_name(self):
+        return self.user.last_name
+
+    @property
+    def email(self):
+        return self.user.email
+
+
+class Friend(models.Model):
+    user = models.ForeignKey(UserClient)
+
+    client_id = models.CharField(max_length=200, blank=True, null=True)
+    username = models.CharField(max_length=200, blank=True, null=True)
+    first_name = models.CharField(max_length=200, blank=True, null=True)
+    last_name = models.CharField(max_length=200, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+
+    profile_picture = models.ImageField(
+        upload_to='profile_picture',
+        blank=True,
+        null=True,
+    )
+    profile_picture_url = models.URLField(blank=True, null=True)
+    url = models.URLField(blank=True, null=True)
+
+    def __unicode__(self):
+        return "%s's Friend" % self.username
+
+    @property
+    def client(self):
+        return self.user.client
 
 
 class Query(models.Model):
+    user = models.ForeignKey(UserClient, blank=True, null=True)
 
-    query = models.CharField(max_length=200)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    text = models.CharField(max_length=200, blank=True, null=True)
+    created_time = models.DateTimeField(auto_now_add=True)
 
-    channel = models.CharField(max_length=200, blank=True, null=True)
-    channel_id = models.CharField(max_length=200, blank=True, null=True)
+    # Options
+    colour = models.CharField(max_length=10, default='#000000',
+                              blank=True, null=True)
 
-    colour = models.CharField(max_length=10, blank=True, null=True)
-
-    def __unicode__(self):  
-          return self.query
+    def __unicode__(self):
+        return self.text
 
 
-class QRImage(models.Model):
-
+class QRCode(models.Model):
     query = models.ForeignKey(Query)
+
     photo = models.ImageField(
-        upload_to='qrimages/%Y/%m/%d',
+        upload_to='qrcode/%Y/%m/%d',
         blank=True
     )
     photo_thumbnail = ImageSpecField(
@@ -47,12 +99,16 @@ class QRImage(models.Model):
     )
 
     def __unicode__(self):
-        return self.query.query
+        return self.query.text
+
+    @property
+    def text(self):
+        return self.query.text
 
 
+# No need
 class CachedImage(models.Model):
 
-    query = models.ForeignKey(Query)
     url = models.CharField(max_length=255, unique=True)
     photo = models.ImageField(
         upload_to='cachedimages/%Y/%m/%d',
@@ -70,7 +126,7 @@ class CachedImage(models.Model):
         if self.url and not self.photo:
             result = urllib.urlretrieve(self.url)
             self.photo.save(
-                os.path.basename(self.url), 
+                os.path.basename(self.url),
                 File(open(result[0], 'rb')),
                 save=False,
             )
@@ -103,5 +159,5 @@ class TestQuery(models.Model):
     photo = models.ImageField(upload_to='/'.join([MEDIA_ROOT, 'phtotos']),
                               blank=True)
 
-    def __unicode__(self):  
-          return self.query
+    def __unicode__(self):
+        return self.query
