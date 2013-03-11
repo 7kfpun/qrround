@@ -137,7 +137,7 @@ function graphStreamPublish() {
 
 function fqlQuery() {
   FB.api('/me', function(me) {
-    var query = FB.Data.query('SELECT first_name, middle_name, last_name, username, name, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())');
+    var query = FB.Data.query('SELECT uid, first_name, middle_name, last_name, username, name, pic_square, profile_url FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())');
 
     query.wait(function(rows) {
       // var string;
