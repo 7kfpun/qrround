@@ -6,6 +6,7 @@ from imagekit.processors import ResizeToFit
 import os
 from settings.settings import MEDIA_ROOT
 import urllib
+from qrround.helpers import JSONField
 
 
 class UserClientManager(BaseUserManager):
@@ -52,6 +53,7 @@ class UserClient(AbstractBaseUser):
     profile_picture_url = models.URLField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
 
+    friends = models.TextField(blank=True, null=True)
     USERNAME_FIELD = 'client'
 
     def __unicode__(self):

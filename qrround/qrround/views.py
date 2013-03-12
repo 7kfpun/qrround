@@ -36,7 +36,7 @@ def index(request):
         'https://accounts.google.com/o/oauth2/auth?'
         'scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'
         '+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile'
-        '&redirect_uri=http://127.0.0.1:8000/oauth2callback&response_type=code'
+        '&redirect_uri=http://127.0.0.1:8001/oauth2callback&response_type=code'
         '&client_id=533974579689.apps.googleusercontent.com'
     )
 
@@ -45,7 +45,7 @@ def index(request):
         '&client_id=2ykkt7cjhrcg'
         '&scope=r_basicprofile%20r_emailaddress%20r_network'
         '&state=STATE'
-        '&redirect_uri=http://127.0.0.1:8000/'
+        '&redirect_uri=http://127.0.0.1:8001/'
     )
 
 #    if request.GET.get('oauth_verifier'):
@@ -117,33 +117,34 @@ def getfriends(request):
                 "firstName", "displayName", "username"
                 # LinkedIn   Google+        Facebook
             ])[0] or None
-#        first_name = filter(
-#            lambda x: x in data["user"], [
-#                "firstName", "name", "first_name"
-#                # LinkedIn   Google+        Facebook
-#            ])[0] or None
-#        last_name = filter(
-#            lambda x: x in data["user"], [
-#                "lastName", "name", "last_name"
-#                # LinkedIn   Google+        Facebook
-#            ])[0] or None
-#
+        first_name = filter(
+            lambda x: x in data["user"], [
+                "firstName", "name", "first_name"
+                # LinkedIn   Google+        Facebook
+            ])[0] or None
+        last_name = filter(
+            lambda x: x in data["user"], [
+                "lastName", "name", "last_name"
+                # LinkedIn   Google+        Facebook
+            ])[0] or None
+
         username =  data["user"][username]
-#        first_name =  data["user"][first_name]
-#        last_name =  data["user"][last_name]
-#
+        first_name =  data["user"][first_name]
+        last_name =  data["user"][last_name]
+
         channel = data["meta"]["channel"]
         channel_id = data["user"]["id"]
-#        print len(data["friends"])
-#
-#        userclient, created = UserClient.objects.get_or_create(
-#            client=channel + '#' + channel_id,
-#        )
-#        userclient.username = username
-#        userclient.first_name = first_name
-#        userclient.last_name = last_name
-#        userclient.save()
-    
+        print len(data["friends"])
+
+        userclient, created = UserClient.objects.get_or_create(
+            client=channel + '#' + channel_id,
+        )
+        userclient.username = username
+        userclient.first_name = first_name
+        userclient.last_name = last_name
+        #userclient.friends = json.dumps(data["friends"])
+        userclient.save()
+
         for frd in data["friends"]:
 
             if "pictureUrl" in frd:  # LinkedIn
@@ -158,7 +159,7 @@ def getfriends(request):
                 cachedimage.cache_and_save()
             except IntegrityError, e:
                 print e
-                
+
 #            username = filter(
 #                lambda x: x in data["user"], [
 #                    "firstName", "displayName", "username"
