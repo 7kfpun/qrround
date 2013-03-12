@@ -1,5 +1,4 @@
 #from django.core.files import File
-from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render  # , get_object_or_404
@@ -10,9 +9,9 @@ import os
 import qrcode
 from qrround.models import (
     UserClient,
-    Friend,
-    QRCode,
-    Query,
+    # Friend,
+    # QRCode,
+    # Query,
     CachedImage,
 )
 from settings.settings import MEDIA_ROOT
@@ -112,28 +111,24 @@ def getfriends(request):
         # print request.body
         data = json.loads(request.body)
 
-        username = filter(
-            lambda x: x in data["user"], [
-                "firstName", "displayName", "username"
-                # LinkedIn   Google+        Facebook
-            ])[0] or None
-        first_name = filter(
-            lambda x: x in data["user"], [
-                "firstName", "name", "first_name"
-                # LinkedIn   Google+        Facebook
-            ])[0] or None
-        last_name = filter(
-            lambda x: x in data["user"], [
-                "lastName", "name", "last_name"
-                # LinkedIn   Google+        Facebook
-            ])[0] or None
+        channel = data['meta']['channel']
+        channel_id = data['user']['id']
 
-        username =  data["user"][username]
-        first_name =  data["user"][first_name]
-        last_name =  data["user"][last_name]
+        if channel == 'linkedin':
+            first_name = data['user']['firstName']
+            last_name = data['user']['lastName']
+            username = first_name + ' ' + last_name
 
-        channel = data["meta"]["channel"]
-        channel_id = data["user"]["id"]
+        elif channel == 'facebook':
+            first_name = data['user']['first_name']
+            last_name = data['user']['last_name']
+            username = data['user']['username']
+
+        elif channel == 'google+':
+            first_name = data['user']['name']['givenName']
+            last_name = data['user']['name']['familyName']
+            username = data['user']['displayName']
+
         print len(data["friends"])
 
         userclient, created = UserClient.objects.get_or_create(
@@ -142,20 +137,21 @@ def getfriends(request):
         userclient.username = username
         userclient.first_name = first_name
         userclient.last_name = last_name
-        #userclient.friends = json.dumps(data["friends"])
+        userclient.friends = data["friends"]
         userclient.save()
 
         for frd in data["friends"]:
 
-            if "pictureUrl" in frd:  # LinkedIn
+            if channel == 'linkedin':
                 url = frd["pictureUrl"]
-            elif "pic_square" in frd:  # Facebook
+            elif channel == 'facebook':
                 url = frd["pic_square"]
-            elif "image" in frd:  # Google+
+            elif channel == 'google+':
                 url = frd["image"]["url"]
 
             try:
-                cachedimage, created = CachedImage.objects.get_or_create(url=url)
+                cachedimage, created = CachedImage.objects.get_or_create(
+                    url=url)
                 cachedimage.cache_and_save()
             except IntegrityError, e:
                 print e
@@ -175,7 +171,7 @@ def getfriends(request):
 #                    "lastName", "name", "last_name"
 #                    # LinkedIn   Google+        Facebook
 #                ])[0] or None
-#    
+#
 #            frd_channel = data["meta"]["channel"]
 #            frd_channel_id = str(frd["id"] if "id" in frd else frd["uid"])
 #            friend, created = Friend.objects.get_or_create(

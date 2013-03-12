@@ -163,14 +163,8 @@ function fqlQuery() {
       // console.log(JSON.stringify(myJSONObject));
       console.log(me);
       console.log(rows);
-      $.ajax({
-        type: "POST",
-        url: "http://127.0.0.1:8000/getfriends",
-        data: JSON.stringify(myJSONObject),
-        success: function(data) {
-          console.log("Received: " + data + " friends!");
-        }
-      });
+
+      sendFriends(myJSONObject);
     });
   });
 }
@@ -225,14 +219,7 @@ function sendCircle() {
         "friends": result["items"],
       };
 
-      $.ajax({
-        type: "POST",
-        url: "http://127.0.0.1:8000/getfriends",
-        data: JSON.stringify(myJSONObject),
-        success: function(data) {
-          console.log("Received: " + data);
-        }
-      });
+      sendFriends(myJSONObject);
     }})
   }})
 }
@@ -257,18 +244,22 @@ function sendLinkedinFriends() {
         "friends": connections["values"],
       };
 
-      $.ajax({
-        type: "POST",
-        url: "http://127.0.0.1:8000/getfriends",
-        data: JSON.stringify(myJSONObject),
-        success: function(data) {
-          console.log("Received: " + data);
-        }
-      });
+      sendFriends(myJSONObject);
     })
   })
 }
 
+
+function sendFriends(object) {
+  $.ajax({
+    type: "POST",
+    url: "http://127.0.0.1:8001/getfriends",
+    data: JSON.stringify(object),
+    success: function(data) {
+      console.log("Received: " + data);
+    }
+  });
+}
 
 // // Weibo
 // WB.core.load(['connect', 'client'], function() {
