@@ -150,18 +150,22 @@ def getfriends(request):
 
         for frd in data["friends"]:
 
-            if channel == 'linkedin':
-                url = frd["pictureUrl"]
-            elif channel == 'facebook':
-                url = frd["pic_square"]
-            elif channel == 'google+':
-                url = frd["image"]["url"]
-
             try:
-                cachedimage, created = CachedImage.objects.get_or_create(
-                    url=url)
-                cachedimage.cache_and_save()
-            except IntegrityError, e:
+                if channel == 'linkedin':
+                    url = frd["pictureUrl"]
+                elif channel == 'facebook':
+                    url = frd["pic_square"]
+                elif channel == 'google+':
+                    url = frd["image"]["url"]
+
+                try:
+                    cachedimage, created = CachedImage.objects.get_or_create(
+                        url=url)
+                    cachedimage.cache_and_save()
+                except IntegrityError, e:
+                    print e
+
+            except KeyError, e:
                 print e
 
 #            username = filter(
