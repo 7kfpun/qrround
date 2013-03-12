@@ -1,29 +1,50 @@
 {% block clients_buttons %}
 <div class="span6">
-  <h4>Subheading</h4>
-  <a class="btn btn-large btn-primary" href="#">Facebook</a>
+  <h4>Facebook</h4>
+  <a id="facebook_client" class="btn btn-large btn-primary">Facebook</a>
   <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
 
-  <h4>Subheading</h4>
-  <a class="btn btn-large btn-warning" href="#">Weibo</a>
+  <h4>Google+</h4>
+  <a id="google_client" class="btn btn-large btn-warning">Google+</a>
   <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+  <span id="signin_google_client" class="hide">
+    <span class="g-signin"
+      data-callback="signinCallback"
+      data-clientid="533974579689.apps.googleusercontent.com"
+      data-cookiepolicy="single_host_origin"
+      data-requestvisibleactions="http://schemas.google.com/AddActivity"
+      data-scope="https://www.googleapis.com/auth/plus.login"
+      data-width="wide">
+    </span>
+  </span>
 
-  <h4>Subheading</h4>
-  <a class="btn btn-large btn-info" href="#">Twitter</a>
+  <h4>LinkedIn</h4>
+  <a id="linkedin_client" class="btn btn-large btn-linkedin" href="#">LinkedIn</a>
   <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+  <span id="signin_linkedin_client" class="hide">
+    <script type="in/Login">
+    Hello, <?js= firstName ?> <?js= lastName ?>.
+    IN.API.Profile("me")
+        .result( function(me) { console.log(me) })
+    </script>
+  </span>
 </div>
 
 <div class="span6">
-  <h4>Subheading</h4>
-  <a class="btn btn-large btn-danger disabled" href="#">Badoo</a>
+  <h4>Twitter</h4>
+  <a id="twitter_client" class="btn btn-large btn-info">Twitter</a>
+  <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+
+  <h4>Badoo</h4>
+  <a id="badoo_client" class="btn btn-large btn-danger disabled" href="#">Badoo</a>
   <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
 
-  <h4>Subheading</h4>
-  <a class="btn btn-large btn-inverse disabled" href="#">Renren</a>
+  <h4>Renren</h4>
+  <a id="renren_client" class="btn btn-large btn-inverse disabled" href="#">Renren</a>
   <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+</div>
 
-  <h4>Subheading</h4>
-  <a class="btn btn-large btn-inverse disabled" href="#">LinkedIn</a>
-  <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+<div class="span12">
+  <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
 </div>
 {% endblock %}

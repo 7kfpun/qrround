@@ -1,5 +1,6 @@
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.core.files import File
+from django.core.files.storage import FileSystemStorage
 from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
@@ -52,6 +53,7 @@ class UserClient(AbstractBaseUser):
     profile_picture_url = models.URLField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
 
+    friends = models.TextField(blank=True, null=True)
     USERNAME_FIELD = 'client'
 
     def __unicode__(self):
@@ -113,11 +115,32 @@ class Query(models.Model):
         return self.text
 
 
+# CustomStorage
+class CustomStorage(FileSystemStorage):
+
+    def _open(self, name, mode='rb'):
+        return File(open(self.path(name), mode))
+
+    def _save(self, name, content):
+        # here, you should implement how the file is to be saved
+        # like on other machines or something, and return the name of the file.
+        # In our case, we just return the name, and disable any kind of save
+        return name.replace('_1', '').replace('_2', '').replace('_3', '')
+
+
+def get_available_name(self, name):
+    return name
+
+custom_store = CustomStorage()
+# EndCustomStorage
+
+
 class QRCode(models.Model):
     query = models.ForeignKey(Query)
 
     photo = models.ImageField(
-        upload_to='qrcode/%Y/%m/%d',
+        storage=custom_store,
+        upload_to='qrcode',
         blank=True
     )
     photo_thumbnail = ImageSpecField(
