@@ -84,7 +84,7 @@ def getqrcode(request):
             qr = qrcode.QRCode(
                 version=None,
                 error_correction=qrcode.constants.ERROR_CORRECT_L,
-                box_size=10,
+                box_size=25,
                 border=1,
             )
             qr.add_data(text)
@@ -160,6 +160,22 @@ def getfriends(request):
         userclient.friends = data["friends"]
         userclient.save()
 
+        if channel == 'linkedin':
+            url = data['user'].get("pictureUrl", None)
+        elif channel == 'facebook':
+            url = data['user'].get("pic_square", None)
+        elif channel == 'google+':
+            url = data['user']["image"]["url"] \
+                if "image" in data['user'] else None
+        else:
+            url = None
+
+        if url:
+            cachedimage, created = CachedImage.objects.get_or_create(
+                url=url)
+            cachedimage.cache_and_save()
+
+        # Caching friend's profile picture
         for frd in data["friends"]:
 
             if channel == 'linkedin':
