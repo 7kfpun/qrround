@@ -14,6 +14,7 @@ from qrround.models import (
     Query,
     CachedImage,
 )
+from ratelimit.decorators import ratelimit
 from settings.settings import MEDIA_ROOT
 #import StringIO
 #import tweepy
@@ -62,9 +63,14 @@ def index(request):
     })
 
 
+@ratelimit(rate='20/m')
 def getqrcode(request):
+
     if request.method == 'GET':
-        return HttpResponse("Noooone")
+        return HttpResponse('Noooone')
+
+    elif getattr(request, 'limited', False):
+        return HttpResponse('Was_limited')
 
     elif request.method == 'POST' and request.is_ajax():
         text = request.POST.get('text')
