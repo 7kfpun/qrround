@@ -1,22 +1,5 @@
 {% block clients %}
 
-<span id="signinButton">
-  <span class="g-signin"
-    data-callback="signinCallback"
-    data-clientid="533974579689.apps.googleusercontent.com"
-    data-cookiepolicy="single_host_origin"
-    data-requestvisibleactions="http://schemas.google.com/AddActivity"
-    data-scope="https://www.googleapis.com/auth/plus.login"
-    data-width="wide">
-  </span>
-</span>
-
-<script type="in/Login">
-Hello, <?js= firstName ?> <?js= lastName ?>.
-
-IN.API.Profile("me")
-    .result( function(me) { console.log(me) })
-</script>
 
 <!--
 <a href="{{ google_auth_url }}" target="_blank">Google plus auth url</a>
@@ -27,7 +10,7 @@ IN.API.Profile("me")
 <div id="fb-root"></div>
 
 <h3>New Graph api &amp; Javascript Base FBConnect Tutorial | Thinkdiff.net</h3>
-<p><fb:login-button autologoutlink="true" scope="read_friendlists"></fb:login-button></p>
+<fb:login-button autologoutlink="true" scope="read_friendlists"></fb:login-button>
 
 <p>
   <p>LinkedIn</p>

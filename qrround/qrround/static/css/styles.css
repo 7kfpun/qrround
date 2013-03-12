@@ -40,3 +40,30 @@ body {
 .marketing p + h4 {
   margin-top: 28px;
 }
+
+/* Customize buttons colour */
+.btn-linkedin {
+  color: #FFFFFF;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #6ABCF2;
+  *background-color: #6ABCF2;
+  background-image: -moz-linear-gradient(top, #4893C4, #6ABCF2);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4893C4), to(#6ABCF2));
+  background-image: -webkit-linear-gradient(top, #4893C4, #6ABCF2);
+  background-image: -o-linear-gradient(top, #4893C4, #6ABCF2);
+  background-image: linear-gradient(to bottom, #4893C4, #6ABCF2);
+  background-repeat: repeat-x;
+  border-color: #6ABCF2;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4893C4', endColorstr='#6ABCF2', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.btn-linkedin:hover,
+.btn-linkedin:active,
+.btn-linkedin.active,
+.btn-linkedin.disabled,
+.btn-linkedin[disabled] {
+  color: #FFFFFF;
+  background-color: #6ABCF2;
+  *background-color: #003bb3;
+}

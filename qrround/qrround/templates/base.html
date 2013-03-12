@@ -86,34 +86,42 @@
 
 
   <!-- Javascript -->
-  <!--
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" />
-  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js" />
-  -->
+  <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" />
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js" /> -->
   {% compress js %}
-  <script src="/static/js/jquery.min.js" />
-  <script src="/static/js/bootstrap.js" />
-  <script src="/static/js/bootstrap-alert.js" />
-  <script src="/static/js/bootstrap-button.js" />
-  <script src="/static/js/bootstrap-modal.js" />
-  <script src="/static/js/bootstrap-popover.js" />
-  <script src="/static/js/json2.js" />
-  <script src="/static/js/ajax_csrf.js" />
-  <script src="/static/js/scripts.js" />
-  {% endcompress %}
+  <script type="text/javascript" src="/static/js/jquery.min.js" />
+  <script type="text/javascript" src="/static/js/bootstrap.js" />
+  <script type="text/javascript" src="/static/js/bootstrap-alert.js" />
+  <script type="text/javascript" src="/static/js/bootstrap-button.js" />
+  <script type="text/javascript" src="/static/js/bootstrap-modal.js" />
+  <script type="text/javascript" src="/static/js/bootstrap-popover.js" />
+  <script type="text/javascript" src="/static/js/json2.js" />
+  <script type="text/javascript" src="/static/js/ajax_csrf.js" />
   <script type="text/javascript" src="http://platform.linkedin.com/in.js">
     api_key: 2ykkt7cjhrcg
     authorize: true
     credentials_cookie: true
     scope: r_basicprofile r_emailaddress r_network
   </script>
-  <!--
-  <script src="https://apis.google.com/js/plus.js" />
-  <script src="https://apis.google.com/js/client:plus.js" />
-  -->
-  <!--
+
+  <!-- <script type="text/javascript" src="/static/js/renren.js" />
   <script type="text/javascript" src="http://tjs.sjs.sinajs.cn/t3/platform/js/api/wb.js" charset="utf-8" />
-  -->
+  <script type="text/javascript">
+    WB.core.load(['connect', 'client'], function() {
+      var cfg = {
+          key: '1349178671',
+          xdpath: 'http://127.0.0.1:8000/',
+      };
+      WB.connect.init(cfg);
+      WB.client.init(cfg);
+  }); 
+  </script> -->
+
+  {% endcompress %}
+
+  <script type="text/javascript" src="/static/js/scripts.js" />
+  <!-- <script src="https://apis.google.com/js/plus.js" />
+  <script src="https://apis.google.com/js/client:plus.js" /> -->
 
   </body>
 </html>
