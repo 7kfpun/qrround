@@ -1,6 +1,9 @@
 TODO
 =======
 
+Rate limit
+http://django-ratelimit.readthedocs.org/en/latest/usage.html
+
 Django new User Model
 http://procrastinatingdev.com/django/using-configurable-user-models-in-django-1-5/
 
