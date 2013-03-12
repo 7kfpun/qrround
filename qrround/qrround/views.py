@@ -11,7 +11,7 @@ from qrround.models import (
     UserClient,
     # Friend,
     # QRCode,
-    # Query,
+    Query,
     CachedImage,
 )
 from settings.settings import MEDIA_ROOT
@@ -66,26 +66,34 @@ def getqrcode(request):
     if request.method == 'GET':
         return HttpResponse("Noooone")
 
-    elif request.method == 'POST':
+    elif request.method == 'POST' and request.is_ajax():
         text = request.POST.get('text')
+        if len(text) > 1000:
+            return HttpResponse('Text is too long')
 
-        qr = qrcode.QRCode(
-            version=None,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=10,
-            border=1,
-        )
-        qr.add_data(text)
-        qr.make(fit=True)
+        try:
+            qr = qrcode.QRCode(
+                version=None,
+                error_correction=qrcode.constants.ERROR_CORRECT_L,
+                box_size=10,
+                border=1,
+            )
+            qr.add_data(text)
+            qr.make(fit=True)
 
-        img = qr.make_image()
-        filename = '.'.join([unique_generator(), 'png'])
-        img.save(os.path.join(MEDIA_ROOT, filename))
+            img = qr.make_image()
+            filename = '.'.join([unique_generator(), 'png'])
+            img.save(os.path.join(MEDIA_ROOT, filename))
 
-        return HttpResponse('<img src="/media/%s" />' % filename)
+            query = Query(text=text)
+            query.save()
+            return HttpResponse(
+                '<img src="/media/%s" width="480" height="480"/>' % filename)
 
-#        query = Query(query=text)
-#        query.save()
+        except IndexError, e:
+            return HttpResponse(e)
+
+
 #        photo = QRImage(
 #            query=query,
 #            photo=File(open(os.path.join(MEDIA_ROOT, filename), 'rb'))
