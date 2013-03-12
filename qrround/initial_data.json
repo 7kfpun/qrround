@@ -15,7 +15,8 @@
     "last_login": "2013-03-11T10:13:34.553Z", 
     "password": "pbkdf2_sha256$10000$dqToQhXRFbU3$mS1lFBwPTwXSo9bDV1w/qGWMuKx12OGcCt8Y3IExHiI=", 
     "email": null, 
-    "date_joined": "2013-03-11T10:13:34.631Z"
+    "date_joined": "2013-03-11T10:13:34.631Z",
+    "friends": null
   }
 }
 ]
