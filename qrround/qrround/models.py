@@ -46,6 +46,7 @@ class UserClient(AbstractBaseUser):
     email = models.EmailField(blank=True, null=True)
 
     profile_picture = models.ImageField(
+        max_length=255,
         upload_to='profile_picture',
         blank=True,
         null=True,
@@ -90,6 +91,7 @@ class Friend(models.Model):
     email = models.EmailField(blank=True, null=True)
 
     profile_picture = models.ImageField(
+        max_length=255,
         upload_to='profile_picture',
         blank=True,
         null=True,
@@ -139,6 +141,7 @@ class QRCode(models.Model):
     query = models.ForeignKey(Query)
 
     photo = models.ImageField(
+        max_length=255,
         storage=custom_store,
         upload_to='qrcode',
         blank=True
@@ -160,9 +163,9 @@ class QRCode(models.Model):
 
 # No need
 class CachedImage(models.Model):
-
-    url = models.CharField(max_length=255, unique=True)
+    url = models.URLField(unique=True, db_index=True)
     photo = models.ImageField(
+        max_length=255,
         upload_to='cachedimages/%Y/%m/%d',
         blank=True
     )
@@ -180,9 +183,8 @@ class CachedImage(models.Model):
             self.photo.save(
                 os.path.basename(self.url),
                 File(open(result[0], 'rb')),
-                save=False,
             )
-            self.save()
+            # self.save()
 
     def __unicode__(self):
         return self.url

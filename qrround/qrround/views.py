@@ -1,5 +1,5 @@
 from django.core.files import File
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.http import HttpResponse
 from django.shortcuts import render  # , get_object_or_404
 from django.template import Context, Template
@@ -120,13 +120,14 @@ def oauth2callback(request):
     return HttpResponse(request.GET.get('code'))
 
 
+@transaction.commit_on_success
 def getfriends(request):
     data = None
     if request.method == 'GET':
         pass
+
     elif request.method == 'POST' and request.is_ajax():
-        print dir(request)
-        # print request.body
+
         data = json.loads(request.body)
 
         channel = data['meta']['channel']
@@ -160,23 +161,20 @@ def getfriends(request):
 
         for frd in data["friends"]:
 
-            try:
-                if channel == 'linkedin':
-                    url = frd["pictureUrl"]
-                elif channel == 'facebook':
-                    url = frd["pic_square"]
-                elif channel == 'google+':
-                    url = frd["image"]["url"]
+            if channel == 'linkedin':
+                url = frd.get("pictureUrl", None)
+            elif channel == 'facebook':
+                url = frd.get("pic_square", None)
+            elif channel == 'google+':
+                url = frd["image"]["url"] if "image" in frd else None
+            else:
+                url = None
 
-                try:
-                    cachedimage, created = CachedImage.objects.get_or_create(
-                        url=url)
-                    cachedimage.cache_and_save()
-                except IntegrityError, e:
-                    print e
+            if url:
+                cachedimage, created = CachedImage.objects.get_or_create(
+                    url=url)
+                cachedimage.cache_and_save()
 
-            except KeyError, e:
-                print e
 
 #            username = filter(
 #                lambda x: x in data["user"], [
