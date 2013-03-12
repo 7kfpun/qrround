@@ -171,7 +171,7 @@ def getfriends(request):
 #                    "lastName", "name", "last_name"
 #                    # LinkedIn   Google+        Facebook
 #                ])[0] or None
-#
+
 #            frd_channel = data["meta"]["channel"]
 #            frd_channel_id = str(frd["id"] if "id" in frd else frd["uid"])
 #            friend, created = Friend.objects.get_or_create(
