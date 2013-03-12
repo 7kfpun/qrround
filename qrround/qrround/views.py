@@ -1,8 +1,8 @@
-#from django.core.files import File
+from django.core.files import File
 from django.db import IntegrityError
 from django.http import HttpResponse
 from django.shortcuts import render  # , get_object_or_404
-# from django.template import Context, Template
+from django.template import Context, Template
 from helpers import unique_generator
 import json
 import os
@@ -10,7 +10,7 @@ import qrcode
 from qrround.models import (
     UserClient,
     # Friend,
-    # QRCode,
+    QRCode,
     Query,
     CachedImage,
 )
@@ -83,27 +83,31 @@ def getqrcode(request):
 
             img = qr.make_image()
             filename = '.'.join([unique_generator(), 'png'])
-            img.save(os.path.join(MEDIA_ROOT, filename))
+            img.save(os.path.join(MEDIA_ROOT + '/qrcode', filename))
 
             query = Query(text=text)
             query.save()
+
+            photo = QRCode(
+                query=query,
+                text=text,
+                photo=File(
+                    open(os.path.join(MEDIA_ROOT + '/qrcode', filename), 'rb')
+                )
+            )
+            photo.save()
+
             return HttpResponse(
-                '<img src="/media/%s" width="480" height="480"/>' % filename)
+                Template('<img src="{{ photo.photo.url }}" '
+                         'width="480" height="480" />').
+                render(Context({'photo': photo}))
+            )
+
+#            return HttpResponse('<img src="/media/qrcode/%s" '
+#                                'width="480" height="480" />' % filename)
 
         except IndexError, e:
             return HttpResponse(e)
-
-
-#        photo = QRImage(
-#            query=query,
-#            photo=File(open(os.path.join(MEDIA_ROOT, filename), 'rb'))
-#        )
-#        photo.save()
-#
-#        return HttpResponse(
-#            Template('<img src="{{ photo.photo.url }}" />'). \
-#            render(Context({'photo': photo}))
-#        )
 
 
 def oauth2callback(request):
