@@ -84,7 +84,7 @@ def getqrcode(request):
             qr = qrcode.QRCode(
                 version=None,
                 error_correction=qrcode.constants.ERROR_CORRECT_L,
-                box_size=10,
+                box_size=25,
                 border=1,
             )
             qr.add_data(text)

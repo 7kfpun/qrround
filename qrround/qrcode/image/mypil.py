@@ -1,12 +1,14 @@
+from qrround.models import (
+    CachedImage,
+)
+from random import choice
 # Try to import PIL in either of the two ways it can be installed.
 try:
     from PIL import Image, ImageDraw
 except ImportError:
-    import Image, ImageDraw
-
+    import Image
+    import ImageDraw
 import qrcode.image.base
-from StringIO import StringIO
-import urllib
 
 
 class PilImage(qrcode.image.base.BaseImage):
@@ -41,6 +43,7 @@ class PilImage(qrcode.image.base.BaseImage):
         self._image3 = self._image3.resize((self.box_size, self.box_size), Image.ANTIALIAS)
         self._image4 = self._image4.resize((self.box_size, self.box_size), Image.ANTIALIAS)
         self._image5 = self._image5.resize((self.box_size, self.box_size), Image.ANTIALIAS)
+        self._all_cached_images = CachedImage.objects.all()
 
     def drawrect(self, row, col):
         x = (col + self.border) * self.box_size
@@ -54,20 +57,23 @@ class PilImage(qrcode.image.base.BaseImage):
         x = (col + self.border) * self.box_size
         y = (row + self.border) * self.box_size
 
-        from random import choice
-        c = choice(range(6))
-        if c == 0:
-            self._img.paste(self._image0, (x, y))
-        elif c == 1:
-            self._img.paste(self._image1, (x, y))
-        elif c == 2:
-            self._img.paste(self._image2, (x, y))
-        elif c == 3:
-            self._img.paste(self._image3, (x, y))
-        elif c == 4:
-            self._img.paste(self._image4, (x, y))
-        elif c == 5:
-            self._img.paste(self._image5, (x, y))
+        image = choice(self._all_cached_images)
+        self._img.paste(Image.open(image.photo.path).resize(
+            (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+
+#        c = choice(range(6))
+#        if c == 0:
+#            self._img.paste(self._image0, (x, y))
+#        elif c == 1:
+#            self._img.paste(self._image1, (x, y))
+#        elif c == 2:
+#            self._img.paste(self._image2, (x, y))
+#        elif c == 3:
+#            self._img.paste(self._image3, (x, y))
+#        elif c == 4:
+#            self._img.paste(self._image4, (x, y))
+#        elif c == 5:
+#            self._img.paste(self._image5, (x, y))
             
     def show(self):
         self._img.show()
