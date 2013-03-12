@@ -4,6 +4,7 @@ from qrround.models import (
     Friend,
     QRCode,
     Query,
+    CachedImage,
 )
 
 
@@ -29,7 +30,12 @@ class QRCodeAdmin(admin.ModelAdmin):
     list_display = ('text', 'photo', 'photo_thumbnail',)
 
 
+class CachedImageAdmin(admin.ModelAdmin):
+    list_display = ('url', 'photo', 'photo_thumbnail',)
+
+
 admin.site.register(UserClient, UserClientAdmin)
 admin.site.register(Friend, FriendAdmin)
 admin.site.register(Query, QueryProfileAdmin)
 admin.site.register(QRCode, QRCodeAdmin)
+admin.site.register(CachedImage, CachedImageAdmin)
