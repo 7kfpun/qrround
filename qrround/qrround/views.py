@@ -1,10 +1,11 @@
 from django.core.files import File
-from django.db import IntegrityError, transaction
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render  # , get_object_or_404
 from django.template import Context, Template
 from helpers import unique_generator
 import json
+import logging
 import os
 import qrcode
 from qrround.models import (
@@ -23,6 +24,8 @@ from settings.settings import MEDIA_ROOT
 #CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
 #CONSUMER_SECRET = "2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M"
 
+logger = logging.getLogger(__name__)
+
 
 def index(request):
 #    try:
@@ -30,7 +33,7 @@ def index(request):
 #        twitter_auth_url = twitter_auth.get_authorization_url()
 #    except tweepy.TweepError:
 #        twitter_auth_url = None
-#        print 'Error! Failed to get request token.'
+#        logger.error('Error! Failed to get request token.')
 
     google_auth_url = (
         'https://accounts.google.com/o/oauth2/auth?'
@@ -54,7 +57,7 @@ def index(request):
 #        try:
 #            auth.get_access_token(verifier)
 #        except tweepy.TweepError:
-#            print 'Error! Failed to get access token.'
+#            logger.error('Error! Failed to get access token.')
 
     return render(request, 'index.html', {
         'google_auth_url': google_auth_url,
@@ -148,8 +151,6 @@ def getfriends(request):
             last_name = data['user']['name']['familyName']
             username = data['user']['displayName']
 
-        print len(data["friends"])
-
         userclient, created = UserClient.objects.get_or_create(
             client=channel + '#' + channel_id,
         )
@@ -174,7 +175,6 @@ def getfriends(request):
                 cachedimage, created = CachedImage.objects.get_or_create(
                     url=url)
                 cachedimage.cache_and_save()
-
 
 #            username = filter(
 #                lambda x: x in data["user"], [
