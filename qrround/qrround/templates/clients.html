@@ -16,8 +16,15 @@
 
 <div id="fb-root"></div>
 
+<script type="in/Login">
+Hello, <?js= firstName ?> <?js= lastName ?>.
+IN.API.Profile("me")
+    .result( function(me) { console.log(me) })
+</script>
+    
+    
 <h3>New Graph api &amp; Javascript Base FBConnect Tutorial | Thinkdiff.net</h3>
-<fb:login-button autologoutlink="true" scope="read_friendlists"></fb:login-button>
+<fb:login-button autologoutlink="true" scope="read_friendlists"></fb:login-button>  // Can be removed
 
 <p>
   <p>LinkedIn</p>
