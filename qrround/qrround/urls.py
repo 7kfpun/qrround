@@ -17,8 +17,17 @@ urlpatterns = patterns(
 
     # Callback
     url(r'^oauth2callback$', views.oauth2callback, name='oauth2callback'),
+    url(r'^facebook_callback$', views.facebookcallback, name='facebookcallback'),  # noqa
+    url(r'^google_callback$', views.googlecallback, name='googlecallback'),
+    url(r'^linkedin_callback$', views.linkedincallback, name='linkedincallback'),  # noqa
+    url(r'^twitter_callback$', views.twittercallback, name='twittercallback'),
+
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+
+    url(r'^close_window/$', 'close_window', name='close_window'),
+    url(r'^close_window_reload/$', 'close_window', {
+        'is_reload': True}, name='close_window_reload'),
 
     # Static files
     # url(r'^js/*', ),
