@@ -46,6 +46,7 @@ $('#facebook_client').click(function(){
             console.log('Welcome!  Fetching your information.... ');
             //console.log(response); // dump complete info
             access_token = response.authResponse.accessToken; //get access token
+            console.log(access_token);
             user_id = response.authResponse.userID; //get FB UID
 
             FB.api('/me', function(response) {
