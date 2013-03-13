@@ -116,6 +116,10 @@ class Query(models.Model):
     def __unicode__(self):
         return self.text
 
+    @property
+    def client(self):
+        return self.user.client
+
 
 # CustomStorage
 class CustomStorage(FileSystemStorage):
