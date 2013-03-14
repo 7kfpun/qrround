@@ -46,10 +46,12 @@ $('#facebook_client').click(function(){
             console.log('Welcome!  Fetching your information.... ');
             //console.log(response); // dump complete info
             access_token = response.authResponse.accessToken; //get access token
+            console.log(access_token);
             user_id = response.authResponse.userID; //get FB UID
 
             FB.api('/me', function(response) {
-              user_email = response.email; //get user email
+              user_email = response.email;  //get user email
+              console.log(user_email);
               // you can store this data into your database
             });
 
@@ -78,7 +80,10 @@ $('#google_client').click(function(){
 });
 
 $('#linkedin_client').click(function(){
-  $('#signin_linkedin_client a')[0].click();
+  IN.UI.Authorize().params(
+    {"scope":["r_basicprofile", "r_emailaddress","r_contactinfo","r_network"]}
+  ).place();
+  IN.Event.on(IN, "auth", onLinkedInAuth);
 });
 
 $('#google_client').click(function(){
@@ -111,6 +116,7 @@ window.fbAsyncInit = function() {
     // do something with response
     login();
   });
+
   FB.Event.subscribe('auth.logout', function(response) {
     // do something with response
     logout();
@@ -193,20 +199,12 @@ function graphStreamPublish() {
   });
 }
 
+// me?fields=friends.fields(id,first_name,username,last_name,cover,middle_name,link,name),id,first_name,username,last_name,cover,middle_name,link,name
 function fqlQuery() {
   FB.api('/me', function(me) {
     var query = FB.Data.query('SELECT uid, first_name, middle_name, last_name, username, name, pic_square, profile_url FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())');
 
     query.wait(function(rows) {
-      // var string;
-      // rows.forEach(function(row) {
-          // string = string + "<br />"
-        // + 'Your name: ' + row.first_name + " " + row.last_name + "<br />"
-        // + '<img src="' + row.pic_square + '" alt="" />' + "<br />";
-        // // console.log(row);
-      // })
-// 
-      // document.getElementById('name').innerHTML = string;
 
       var myJSONObject = {
         "meta": {

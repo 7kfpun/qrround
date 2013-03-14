@@ -116,6 +116,10 @@ class Query(models.Model):
     def __unicode__(self):
         return self.text
 
+    @property
+    def client(self):
+        return self.user.client
+
 
 # CustomStorage
 class CustomStorage(FileSystemStorage):
@@ -161,8 +165,10 @@ class QRCode(models.Model):
         return self.query.text
 
 
-# No need
 class CachedImage(models.Model):
+    # To avoid get_or_create
+    # user = models.ForeignKey(UserClient, blank=True, null=True)
+
     url = models.URLField(unique=True, db_index=True)
     photo = models.ImageField(
         max_length=255,
