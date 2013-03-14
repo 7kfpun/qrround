@@ -153,14 +153,14 @@ ROOT_URLCONF = 'qrround.urls'
 WSGI_APPLICATION = 'qrround.wsgi.application'
 
 FIXTURE_DIRS = (
-    op.join(PROJECT_ROOT, 'fixtures'),
+    op.join(PROJECT_ROOT, 'fixtures/'),
 )
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".  # noqa
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    op.join(PROJECT_ROOT, 'templates'),
+    op.join(PROJECT_ROOT, 'templates/'),
 )
 #for directory_name in walk(PROJECT_ROOT).next()[1]:
 #    logging.info(directory_name)
@@ -181,7 +181,9 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'imagekit',
+
+    # Qrround
+    'qrround',
 )
 
 # Applications
@@ -197,9 +199,7 @@ INSTALLED_APPS += (
     # Community apps
     'compressor',
     'south',
-
-    # Qrround
-    'qrround',
+    'imagekit',
 )
 
 # Mail
