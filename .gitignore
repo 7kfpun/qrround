@@ -6,3 +6,5 @@ local_settings.py
 .pydevproject
 qrround/qrround/media/*
 *.sqlite
+.dotcloud
+static/
