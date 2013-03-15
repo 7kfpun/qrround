@@ -1,7 +1,9 @@
 # Django settings for qrround project.
 from os import path as op  # , walk, listdir
 import logging
+import djcelery
 
+djcelery.setup_loader()
 
 PROJECT_ROOT = op.abspath(op.dirname(op.dirname(__file__)))
 PROJECT_NAME = op.basename(PROJECT_ROOT)
