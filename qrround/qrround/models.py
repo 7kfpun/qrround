@@ -4,6 +4,7 @@ from django.core.files.storage import FileSystemStorage
 from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
+from jsonfield import JSONField
 import os
 from settings.settings import MEDIA_ROOT
 import urllib
@@ -54,7 +55,7 @@ class UserClient(AbstractBaseUser):
     profile_picture_url = models.URLField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
 
-    friends = models.TextField(blank=True, null=True)
+    friends = JSONField(blank=True, null=True)
     USERNAME_FIELD = 'client'
 
     def __unicode__(self):
