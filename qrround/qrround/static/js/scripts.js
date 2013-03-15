@@ -16,6 +16,8 @@ function getqrcode(el) {
 
   } else {
     $('#getqrcode_button').button('loading');
+    setTimeout( "$('#getqrcode_button').button('reset');",3000 );
+
     $.ajax({
       type: form.attr('method'),
       url: form.attr('action'),

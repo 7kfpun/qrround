@@ -181,7 +181,6 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'imagekit',
 )
 
 # Applications
@@ -193,10 +192,12 @@ INSTALLED_APPS += (
     # Contrib
     'django.contrib.admindocs',
     'django.contrib.formtools',
+    'djcelery',
 
     # Community apps
     'compressor',
     'south',
+    'imagekit',
 
     # Qrround
     'qrround',
