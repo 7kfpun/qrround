@@ -16,6 +16,7 @@ function getqrcode(el) {
 
   } else {
     $('#getqrcode_button').button('loading');
+    setTimeout("$('#getqrcode_button').button('loading')", 3000);
     $.ajax({
       type: form.attr('method'),
       url: form.attr('action'),
@@ -35,6 +36,14 @@ function getqrcode(el) {
 // Initialize Model
 function showModel() {
   $('#myModal').modal('show');
+}
+
+function show_contact() {
+  $('#contact_modal').modal('show');
+}
+
+function show_about() {
+  $('#about_modal').modal('show');
 }
 
 // Initialize Client buttons

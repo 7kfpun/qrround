@@ -8,3 +8,5 @@ qrround/qrround/media/*
 *.sqlite
 .dotcloud
 static/
+stats/
+build/

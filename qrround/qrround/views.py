@@ -61,21 +61,22 @@ def index(request):
         '&scope=read_stream,publish_actions'
     )
 
-    twitter = OAuth1Service(
-        consumer_key='2Icic6DEGROMML9U3Xrrg',
-        consumer_secret='2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M',
-        name='twitter',
-        access_token_url='https://api.twitter.com/oauth/access_token',
-        authorize_url='https://api.twitter.com/oauth/authorize',
-        request_token_url='https://api.twitter.com/oauth/request_token',
-        base_url='https://api.twitter.com/1/'
-    )
-    request_token = twitter.get_request_token()[0]
-
-    twitter_auth_url = twitter.get_authorize_url(
-        request_token,
-        callback_url='http://127.0.0.1:8001/twitter_callback'
-    )
+#    twitter = OAuth1Service(
+#        consumer_key='2Icic6DEGROMML9U3Xrrg',
+#        consumer_secret='2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M',
+#        name='twitter',
+#        access_token_url='https://api.twitter.com/oauth/access_token',
+#        authorize_url='https://api.twitter.com/oauth/authorize',
+#        request_token_url='https://api.twitter.com/oauth/request_token',
+#        base_url='https://api.twitter.com/1/'
+#    )
+#    request_token = twitter.get_request_token()[0]
+#
+#    twitter_auth_url = twitter.get_authorize_url(
+#        request_token,
+#        callback_url='http://127.0.0.1:8001/twitter_callback'
+#    )
+    twitter_auth_url = None
 
     google_auth_url = (
         'https://accounts.google.com/o/oauth2/auth?'
