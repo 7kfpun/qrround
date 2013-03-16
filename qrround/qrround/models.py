@@ -107,7 +107,7 @@ class Friend(models.Model):
 class Query(models.Model):
     user = models.ForeignKey(UserClient, blank=True, null=True)
 
-    text = models.CharField(max_length=200, blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
     created_time = models.DateTimeField(auto_now_add=True)
 
     # Options

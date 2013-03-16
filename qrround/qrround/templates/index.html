@@ -12,13 +12,14 @@
 </div>
 
 <form action="/getqrcode" method="post" class="btn-group" onsubmit="return false">
-  <input name="text" class="span5" id="getqrcode_input" type="text" placeholder="Input your data">
+  <!-- <input name="text" class="span5" id="dgetqrcode_input" type="text" placeholder="Input your data"> -->
+  {{ form.text }}
   <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
   <br />
   <label class="checkbox">
-    <input type="checkbox"> I have read and accept <a href="javascript:void(0)" onclick="showModel();">Privacy Policy and Terms of Service</a>
+    {{ form.accept }} I have read and accept <a href="javascript:void(0)" onclick="showModel();">Privacy Policy and Terms of Service</a>
   </label>
-
+  {{ form.channel_choice|safe }}
   {% include "clients_radio.html" %}
 
 </form>

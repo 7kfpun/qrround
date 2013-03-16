@@ -1,10 +1,12 @@
 from celery import task
 from django.core.files import File
 from django.db import transaction
-from django.http import HttpResponse  # , HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseBadRequest  # , HttpResponseRedirect  # noqa
 from django.shortcuts import render  # , get_object_or_404
-from django.template import Context, Template
+# from django.template import Context, Template
+from jinja2 import Template
 from helpers import unique_generator
+from forms import QueryForm
 import json
 import logging
 import os
@@ -108,6 +110,7 @@ def index(request):
         'google_auth_url': google_auth_url,
         'linkedin_auth_url': linkedin_auth_url,
         'twitter_auth_url': twitter_auth_url,
+        'form': QueryForm(),
     })
 
 
@@ -156,16 +159,19 @@ def close_window(request, is_reload=False):
 def getqrcode(request):
 
     if request.method == 'GET':
-        return HttpResponse('Noooone')
+        return HttpResponseBadRequest('Noooone')
 
     elif getattr(request, 'limited', False):
-        return HttpResponse('Was_limited')
+        # Reach rate limit
+        return HttpResponseBadRequest('Was_limited')
 
     elif request.method == 'POST' and request.is_ajax():
-        text = request.POST.get('text')
-        if len(text) > 1000:
-            return HttpResponse('Text is too long')
 
+        form = QueryForm(request.POST)
+        if not form.is_valid():
+            return HttpResponseBadRequest(json.dumps(form.errors))
+
+        text = form.data['text']
         try:
             qr = qrcode.QRCode(
                 version=None,
@@ -194,8 +200,7 @@ def getqrcode(request):
 
             return HttpResponse(
                 Template('<img src="{{ photo.photo.url }}" '
-                         'width="480" height="480" />').
-                render(Context({'photo': photo}))
+                         'width="480" height="480" />').render(photo=photo)
             )
 
 #            return HttpResponse('<img src="/media/qrcode/%s" '
