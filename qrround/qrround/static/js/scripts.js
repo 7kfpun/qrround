@@ -12,12 +12,12 @@ $('#getqrcode_button').click(function() {
 function getqrcode(el) {
   var form = $(el).parents('form');
   console.log("click", form.find('input.span5').val() === "");
+  console.log(form.serialize());
+
   if (form.find('input.span5').val() === "") {
 
   } else {
     $('#getqrcode_button').button('loading');
-    setTimeout( "$('#getqrcode_button').button('reset');", 3000 );
-
     $.ajax({
       type: form.attr('method'),
       url: form.attr('action'),
@@ -27,9 +27,12 @@ function getqrcode(el) {
         $('#qrcode').empty().append(
             data
         );
-        $('#getqrcode_button').button('reset');
         $('#getqrcode_button').button('complete');
-      }
+      },
+      error: function (request, status, error) {
+        alert(request.responseText);
+        $('#getqrcode_button').button('reset');
+      },
     });
   }
 }
