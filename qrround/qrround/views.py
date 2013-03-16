@@ -1,3 +1,4 @@
+from celery import task
 from django.core.files import File
 from django.db import transaction
 from django.http import HttpResponse  # , HttpResponseRedirect
@@ -16,7 +17,7 @@ from qrround.models import (
     CachedImage,
 )
 from ratelimit.decorators import ratelimit
-from rauth import OAuth1Service, OAuth2Service
+from rauth import OAuth2Service  # OAuth1Service
 from settings.settings import MEDIA_ROOT
 #import StringIO
 #import tweepy
@@ -306,3 +307,8 @@ def getfriends(request):
         channel + '#' + channel_id + '\n'
         + username + " has " + str(len(data["friends"]))
     )
+
+
+@task(ignore_result=True)
+def add(x, y):
+    return x + y

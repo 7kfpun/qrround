@@ -3,7 +3,6 @@ from os import path as op  # , walk, listdir
 import logging
 import djcelery
 
-djcelery.setup_loader()
 
 PROJECT_ROOT = op.abspath(op.dirname(op.dirname(__file__)))
 PROJECT_NAME = op.basename(PROJECT_ROOT)
@@ -204,6 +203,17 @@ INSTALLED_APPS += (
     # Qrround
     'qrround',
 )
+
+# Celery
+djcelery.setup_loader()
+CELERY_ENABLED = True
+CELERYD_PREFETCH_MULTIPLIER = 1
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_DISABLE_RATE_LIMITS = True
+BROKER_URL = 'amqp://nyezagug:DSBH7ibcP4BeNVfObtTj4hgDvlM6LQgT@tiger.cloudamqp.com/nyezagug'  # noqa
+INSTALLED_APPS += ('djcelery',)
+CELERY_IMPORTS = ("qrround.views", )
 
 # Mail
 EMAIL_HOST_USER = '7kfpun@gmail.com'
