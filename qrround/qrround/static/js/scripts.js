@@ -16,7 +16,7 @@ function getqrcode(el) {
 
   } else {
     $('#getqrcode_button').button('loading');
-    setTimeout( "$('#getqrcode_button').button('reset');",3000 );
+    setTimeout( "$('#getqrcode_button').button('reset');", 3000 );
 
     $.ajax({
       type: form.attr('method'),
@@ -94,6 +94,7 @@ $('#linkedin_client').click(function(){
     {"scope":["r_basicprofile", "r_emailaddress","r_contactinfo","r_network"]}
   ).place();
   IN.Event.on(IN, "auth", onLinkedInAuth);
+  console.log("LinkedIn logged");
 });
 
 $('#google_client').click(function(){
