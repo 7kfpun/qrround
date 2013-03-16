@@ -56,26 +56,65 @@ class PilImage(qrcode.image.base.BaseImage):
                 y + self.box_size - 1)]
         self._idr.rectangle(box, fill="black")
 
-    def pasteimage(self, row, col):
+    def pasteempty(self, row, col):
         x = (col + self.border) * self.box_size
         y = (row + self.border) * self.box_size
 
         image = choice(self._all_cached_images)
 
-        if False:
+        if True:
+            self._img.paste(Image.open(image.photo.path).point(lambda p: p * 10).resize(
+                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+            
+            border = Image.open('qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
+            self._img.paste(border, (x, y), mask=border)
+
+            
+        elif False:
             self._img.paste(Image.open(image.photo.path).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
 
             border = Image.open('qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
             self._img.paste(border, (x, y), mask=border)
 
+        elif True:
+            try:
+                bord_white = self.bord_white
+            except:
+                bord_white = self.bord_white = Image.open('qrcode/image/resources/border10.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
+
+            self._img.paste(Image.open(image.photo.path).resize(
+                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+
+            self._img.paste(bord_white, (x, y), mask=bord_white)
+
+    def pasteimage(self, row, col):
+        x = (col + self.border) * self.box_size
+        y = (row + self.border) * self.box_size
+
+        image = choice(self._all_cached_images)
+
+        if True:
+            print Image.open(image.photo.path).getdata()
+            self._img.paste(Image.open(image.photo.path).point(lambda p: p * 0.9).resize(
+                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+            
+            
+            
         elif False:
+            self._img.paste(Image.open(image.photo.path).resize(
+                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+
+            border = Image.open('qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
+            self._img.paste(border, (x, y), mask=border)
+
+        elif True:
             try:
                 bord = self.bord
             except:
-                bord = self.bord = Image.open('qrcode/image/resources/border2.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
+                bord = self.bord = Image.open('qrcode/image/resources/border9.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
 
-            self._img.paste(Image.open(image.photo.path).resize(
+            self._img.paste(Image.open(image.photo.path).point(lambda p: p * 0.7).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
 
             self._img.paste(bord, (x, y), mask=bord)
