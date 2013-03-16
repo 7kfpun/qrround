@@ -95,7 +95,6 @@ class PilImage(qrcode.image.base.BaseImage):
         image = choice(self._all_cached_images)
 
         if True:
-            print Image.open(image.photo.path).getdata()
             self._img.paste(Image.open(image.photo.path).point(lambda p: p * 0.9).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
             

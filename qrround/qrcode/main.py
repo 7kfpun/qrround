@@ -191,6 +191,9 @@ class QRCode:
                     im.drawrect(r, c)
                 elif self.modules[r][c]:
                     im.pasteimage(r, c)
+                else:
+                    pass
+                    # im.pasteempty(r, c)
         return im
 
     def setup_timing_pattern(self):

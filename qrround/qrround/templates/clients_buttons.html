@@ -40,4 +40,9 @@
 <div class="span12">
   <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
 </div>
+
+  <div class="row">
+  {% for radio in form.error_correct_choice %}{{ radio }}{% endfor %}
+  </div>
+  
 {% endblock %}
