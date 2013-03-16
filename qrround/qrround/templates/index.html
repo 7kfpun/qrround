@@ -16,10 +16,22 @@
   {{ form.text }}
   <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
   <br />
-  <label class="checkbox">
+  <label for="id_accept" class="checkbox">
     {{ form.accept }} I have read and accept <a href="javascript:void(0)" onclick="showModel();">Privacy Policy and Terms of Service</a>
   </label>
-  {{ form.channel_choice|safe }}
+
+  <div class="row-fluid">
+    <div class="span4">
+    {{ form.error_correct_choice.label_tag }}
+      {{ form.error_correct_choice }}
+    </div>
+    <div class="span4">
+    {{ form.channel_choice.label_tag }}
+      {{ form.channel_choice }}
+    </div>
+
+  </div>
+
   {% include "clients_radio.html" %}
 
 </form>

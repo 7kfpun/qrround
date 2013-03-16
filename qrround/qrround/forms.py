@@ -3,14 +3,24 @@ from qrround.models import Query
 
 
 class QueryForm(forms.ModelForm):
-    CHOICES = (
+    CHANNEL_CHOICES = (
         ('facebook', 'Facebook',),
         ('google+', 'Google+',),
         ('linkedin', 'LinkedIn',),
         ('linkedin', 'LinkedIn',),
     )
     channel_choice = forms.ChoiceField(
-        widget=forms.RadioSelect, choices=CHOICES)
+        widget=forms.RadioSelect, choices=CHANNEL_CHOICES)
+
+    ERROR_CORRECT = (
+        ('ERROR_CORRECT_L', 'L',),
+        ('ERROR_CORRECT_M', 'M',),
+        ('ERROR_CORRECT_Q', 'Q',),
+        ('ERROR_CORRECT_H', 'H',),
+    )
+    error_correct_choice = forms.ChoiceField(
+        widget=forms.RadioSelect, choices=ERROR_CORRECT)
+
     accept = forms.NullBooleanField(widget=forms.CheckboxInput)
 
     class Meta:
@@ -27,7 +37,8 @@ class QueryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(self.__class__, self).__init__(*args, **kwargs)
         self.fields['text'].required = True
-        self.fields['text'].max_length = 12300
+        self.fields['text'].max_length = 2000
+        self.fields['error_correct_choice'].initial = 'ERROR_CORRECT_M'
         self.fields['channel_choice'].required = False
 
     def clean_text(self):
