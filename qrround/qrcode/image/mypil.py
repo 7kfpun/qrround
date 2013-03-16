@@ -29,9 +29,6 @@ class PilImage(qrcode.image.base.BaseImage):
 
         # url = "https://secure.gravatar.com/avatar/988f8daaaf0155e5536fbb2d7efe0d0f?s=420&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"  # noqa
         # self._image = Image.open(StringIO(urllib.urlopen(url).read()))
-        self._image = Image.open("wing.png")
-        self._image = self._image.resize(
-            (self.box_size, self.box_size), Image.ANTIALIAS)
 
         self._all_cached_images = CachedImage.objects.all()
         if not self._all_cached_images:

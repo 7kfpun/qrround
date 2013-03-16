@@ -4,6 +4,7 @@ from django.core.files.storage import FileSystemStorage
 from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
+from jsonfield import JSONField
 import os
 from settings.settings import MEDIA_ROOT
 import urllib
@@ -54,7 +55,7 @@ class UserClient(AbstractBaseUser):
     profile_picture_url = models.URLField(blank=True, null=True)
     url = models.URLField(blank=True, null=True)
 
-    friends = models.TextField(blank=True, null=True)
+    friends = JSONField(blank=True, null=True)
     USERNAME_FIELD = 'client'
 
     def __unicode__(self):
@@ -106,7 +107,7 @@ class Friend(models.Model):
 class Query(models.Model):
     user = models.ForeignKey(UserClient, blank=True, null=True)
 
-    text = models.CharField(max_length=200, blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
     created_time = models.DateTimeField(auto_now_add=True)
 
     # Options
@@ -166,8 +167,7 @@ class QRCode(models.Model):
 
 
 class CachedImage(models.Model):
-    # To avoid get_or_create
-    # user = models.ForeignKey(UserClient, blank=True, null=True)
+    user = models.ForeignKey(UserClient, blank=True, null=True)
 
     url = models.URLField(unique=True, db_index=True)
     photo = models.ImageField(
@@ -190,7 +190,7 @@ class CachedImage(models.Model):
                 os.path.basename(self.url),
                 File(open(result[0], 'rb')),
             )
-            # self.save()
+        self.save()
 
     def __unicode__(self):
         return self.url
