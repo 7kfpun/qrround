@@ -11,6 +11,7 @@ except ImportError:
 import qrcode.image.base
 #from StringIO import StringIO
 #import urllib
+import ImageOps
 
 
 class PilImage(qrcode.image.base.BaseImage):
@@ -60,13 +61,72 @@ class PilImage(qrcode.image.base.BaseImage):
         y = (row + self.border) * self.box_size
 
         image = choice(self._all_cached_images)
-        self._img.paste(Image.open(image.photo.path).resize(
-            (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+
+        if False:
+            self._img.paste(Image.open(image.photo.path).resize(
+                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+
+            border = Image.open('qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
+            self._img.paste(border, (x, y), mask=border)
+
+        elif False:
+            try:
+                bord = self.bord
+            except:
+                bord = self.bord = Image.open('qrcode/image/resources/border2.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
+
+            self._img.paste(Image.open(image.photo.path).resize(
+                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+
+            self._img.paste(bord, (x, y), mask=bord)
+
+        elif True:
+            try:
+                highlight = self.highlight
+                mask = self.mask
+            except:
+                print "get highlight...."
+                highlight = self.highlight = Image.open('qrcode/image/resources/round1.png').resize(
+                    (self.box_size, self.box_size), Image.ANTIALIAS)
+                mask = self.mask = Image.open('qrcode/image/resources/round-mask.png').resize(
+                    (self.box_size, self.box_size), Image.ANTIALIAS)
+
+            icon = Image.open(image.photo.path).resize(
+                (self.box_size, self.box_size), Image.ANTIALIAS)
+            button = Image.new('RGBA', mask.size)
+
+            # Resize Icon
+            icon = ImageOps.fit(
+              icon, highlight.size, method=Image.ANTIALIAS, centering=(0.5, 0.5)
+            )
+
+            # Create a helper image that will hold the icon after the reshape
+            helper = button.copy()
+            # Cut the icon by the shape of the mask
+            helper.paste(icon, mask=mask)
+
+            # Fill with a solid color by the mask's shape
+            button.paste((255, 255, 255), mask=mask)
+            # Get rid of the icon's alpha band
+            icon = icon.convert('RGB')
+            # Paste the icon on the solid background
+            # Note we are using the reshaped icon as a mask
+            button.paste(icon, mask=helper)
+
+            # Get a copy of the highlight image without the alpha band
+            overlay = highlight.copy().convert('RGB')
+            button.paste(overlay, mask=highlight)
+            button = button.resize(
+                (self.box_size, self.box_size), Image.ANTIALIAS)
+
+            self._img.paste(button, (x, y))
+
 
     def show(self):
         self._img.show()
 
     def save(self, stream, kind=None):
+
         if kind is None:
             kind = self.kind
         self._img.save(stream, kind)
