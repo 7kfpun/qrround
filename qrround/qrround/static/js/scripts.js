@@ -12,6 +12,8 @@ $('#getqrcode_button').click(function() {
 function getqrcode(el) {
   var form = $(el).parents('form');
   console.log("click", form.find('input.span5').val() === "");
+  console.log(form.serialize());
+
   if (form.find('input.span5').val() === "") {
 
   } else {
@@ -25,9 +27,12 @@ function getqrcode(el) {
         $('#qrcode').empty().append(
             data
         );
-        $('#getqrcode_button').button('reset');
         $('#getqrcode_button').button('complete');
-      }
+      },
+      error: function (request, status, error) {
+        alert(request.responseText);
+        $('#getqrcode_button').button('reset');
+      },
     });
   }
 }
@@ -35,6 +40,14 @@ function getqrcode(el) {
 // Initialize Model
 function showModel() {
   $('#myModal').modal('show');
+}
+
+function show_contact() {
+  $('#contact_modal').modal('show');
+}
+
+function show_about() {
+  $('#about_modal').modal('show');
 }
 
 // Initialize Client buttons
@@ -84,6 +97,7 @@ $('#linkedin_client').click(function(){
     {"scope":["r_basicprofile", "r_emailaddress","r_contactinfo","r_network"]}
   ).place();
   IN.Event.on(IN, "auth", onLinkedInAuth);
+  console.log("LinkedIn logged");
 });
 
 $('#google_client').click(function(){

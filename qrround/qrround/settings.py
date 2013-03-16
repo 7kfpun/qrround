@@ -1,7 +1,31 @@
+# Django settings for hellodjango project.
+# -*- coding: utf-8 -*-
+import logging
+import json
+
+
+logging.info("######################################")
+
+with open('/home/dotcloud/environment.json') as f:
+  env = json.load(f)
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+# …
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'happydb',
+        'USER': env['DOTCLOUD_DB_SQL_LOGIN'],
+        'PASSWORD': env['DOTCLOUD_DB_SQL_PASSWORD'],
+        'HOST': env['DOTCLOUD_DB_SQL_HOST'],
+        'PORT': int(env['DOTCLOUD_DB_SQL_PORT']),
+    }
+}
+
 # Django settings for qrround project.
 from os import path as op  # , walk, listdir
 import logging
-import djcelery
 
 
 PROJECT_ROOT = op.abspath(op.dirname(op.dirname(__file__)))
@@ -41,18 +65,6 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.  # noqa
-        'NAME': 'database.sqlite',                      # Or path to database file if using sqlite3.  # noqa
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.  # noqa
-        'PORT': '',                      # Set to empty string for default.
-    }
-}
 
 # Caches
 CACHES = {
@@ -154,14 +166,14 @@ ROOT_URLCONF = 'qrround.urls'
 WSGI_APPLICATION = 'qrround.wsgi.application'
 
 FIXTURE_DIRS = (
-    op.join(PROJECT_ROOT, 'fixtures/'),
+    op.join(PROJECT_ROOT, 'fixtures'),
 )
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".  # noqa
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    op.join(PROJECT_ROOT, 'templates/'),
+    op.join(PROJECT_ROOT, 'templates'),
 )
 #for directory_name in walk(PROJECT_ROOT).next()[1]:
 #    logging.info(directory_name)
@@ -182,6 +194,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'imagekit',
 )
 
 # Applications
@@ -193,27 +206,14 @@ INSTALLED_APPS += (
     # Contrib
     'django.contrib.admindocs',
     'django.contrib.formtools',
-    'djcelery',
 
     # Community apps
     'compressor',
     'south',
-    'imagekit',
 
     # Qrround
     'qrround',
 )
-
-# Celery
-djcelery.setup_loader()
-CELERY_ENABLED = True
-CELERYD_PREFETCH_MULTIPLIER = 1
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_DISABLE_RATE_LIMITS = True
-BROKER_URL = 'amqp://nyezagug:DSBH7ibcP4BeNVfObtTj4hgDvlM6LQgT@tiger.cloudamqp.com/nyezagug'  # noqa
-INSTALLED_APPS += ('djcelery',)
-CELERY_IMPORTS = ("qrround.views", )
 
 # Mail
 EMAIL_HOST_USER = '7kfpun@gmail.com'
