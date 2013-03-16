@@ -34,8 +34,8 @@
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
+          <li><a href="javascript:void(0)" onclick="show_about();">About</a></li>
+          <li><a href="javascript:void(0)" onclick="show_contact();">Contact</a></li>
         </ul>
         <h3 class="muted">Project name</h3>
       </div>
@@ -65,25 +65,7 @@
 
     </div> <!-- /container -->
 
-
-    <!-- Modal -->
-    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Modal header</h3>
-      </div>
-      <div class="modal-body">
-        <p>About this website privacy policy</p>
-        <p>This is a model website privacy policy. It is written in plain language that is visitor-friendly. We have provided a large menu of paragraphs so that you can easily tailor the policy to suit the exact structure of your business and website.</p>
-        <p>Although this document cannot magically absolve you from the risk of data mismanagement, it is a giant first step. Informing your visitors and customers (and other parties) about the data you collect about them is a requirement. A privacy policy is a simple way to comply, but a good privacy policy goes further. It is prime evidence to everyone with whom you deal that you take confidentiality seriously. That can help increase the trust that visitors and customers have in your business and boost their confidence in using your services or buying from you.</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        <button class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-
-
+    {% include "models.html" %}
 
   <!-- Javascript -->
   <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" />
