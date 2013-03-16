@@ -11,6 +11,7 @@ except ImportError:
 import qrcode.image.base
 #from StringIO import StringIO
 #import urllib
+import ImageOps
 
 
 class PilImage(qrcode.image.base.BaseImage):
@@ -29,9 +30,6 @@ class PilImage(qrcode.image.base.BaseImage):
 
         # url = "https://secure.gravatar.com/avatar/988f8daaaf0155e5536fbb2d7efe0d0f?s=420&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"  # noqa
         # self._image = Image.open(StringIO(urllib.urlopen(url).read()))
-        self._image = Image.open("wing.png")
-        self._image = self._image.resize(
-            (self.box_size, self.box_size), Image.ANTIALIAS)
 
         self._all_cached_images = CachedImage.objects.all()
         if not self._all_cached_images:
@@ -62,14 +60,52 @@ class PilImage(qrcode.image.base.BaseImage):
         x = (col + self.border) * self.box_size
         y = (row + self.border) * self.box_size
 
-        image = choice(self._all_cached_images)
-        self._img.paste(Image.open(image.photo.path).resize(
-            (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+#        image = choice(self._all_cached_images)
+#        self._img.paste(Image.open(image.photo.path).resize(
+#            (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+#
+#        border = Image.open('qrcode/image/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
+#        self._img.paste(border, (x, y))
+        
+        
+        
+        highlight = Image.open('qrcode/image/round.png')
+        mask = Image.open('qrcode/image/round-mask.png')
+        
+        # Read the icon and convert it into 'RGBA' in case it wasn't
+        icon = Image.open('qrcode/image/blogger.png').convert('RGBA')
+        button = Image.new('RGBA', mask.size)
+         
+        # Resize Icon
+        icon = ImageOps.fit(
+          icon, highlight.size, method=Image.ANTIALIAS, centering=(0.5, 0.5)
+        )
+         
+        # Create a helper image that will hold the icon after the reshape
+        helper = button.copy()
+        # Cut the icon by the shape of the mask
+        helper.paste(icon, mask=mask)
+         
+        # Fill with a solid color by the mask's shape
+        button.paste((255, 255, 255), mask=mask)
+        # Get rid of the icon's alpha band
+        icon = icon.convert('RGB')
+        # Paste the icon on the solid background
+        # Note we are using the reshaped icon as a mask
+        button.paste(icon, mask=helper)
+         
+        # Get a copy of the highlight image without the alpha band
+        overlay = highlight.copy().convert('RGB')
+        button.paste(overlay, mask=highlight)
+        
+        self._img = button
+
 
     def show(self):
         self._img.show()
 
     def save(self, stream, kind=None):
+
         if kind is None:
             kind = self.kind
         self._img.save(stream, kind)
