@@ -39,6 +39,14 @@ function showModel() {
   $('#myModal').modal('show');
 }
 
+function show_contact() {
+  $('#contact_modal').modal('show');
+}
+
+function show_about() {
+  $('#about_modal').modal('show');
+}
+
 // Initialize Client buttons
 $('#facebook_client').click(function(){
   function fb_login(){
