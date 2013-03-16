@@ -19,13 +19,7 @@
     <input type="checkbox"> I have read and accept <a href="javascript:void(0)" onclick="showModel();">Privacy Policy and Terms of Service</a>
   </label>
 
-  <p>
-      <div class="btn-group" data-toggle="buttons-radio">
-      <button type="button" class="btn btn-primary">Left</button>
-      <button type="button" class="btn btn-primary">Middle</button>
-      <button type="button" class="btn btn-primary">Right</button>
-    </div>
-  </p>
+  {% include "clients_radio.html" %}
 
 </form>
 {% endblock %}
