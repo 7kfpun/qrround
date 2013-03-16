@@ -1,9 +1,12 @@
+from celery import task
 from django.core.files import File
 from django.db import transaction
-from django.http import HttpResponse  # , HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseBadRequest  # , HttpResponseRedirect  # noqa
 from django.shortcuts import render  # , get_object_or_404
-from django.template import Context, Template
+# from django.template import Context, Template
+from jinja2 import Template
 from helpers import unique_generator
+from forms import QueryForm
 import json
 import logging
 import os
@@ -16,7 +19,7 @@ from qrround.models import (
     CachedImage,
 )
 from ratelimit.decorators import ratelimit
-from rauth import OAuth1Service, OAuth2Service
+from rauth import OAuth2Service  # OAuth1Service
 from settings.settings import MEDIA_ROOT
 #import StringIO
 #import tweepy
@@ -61,21 +64,22 @@ def index(request):
         '&scope=read_stream,publish_actions'
     )
 
-    twitter = OAuth1Service(
-        consumer_key='2Icic6DEGROMML9U3Xrrg',
-        consumer_secret='2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M',
-        name='twitter',
-        access_token_url='https://api.twitter.com/oauth/access_token',
-        authorize_url='https://api.twitter.com/oauth/authorize',
-        request_token_url='https://api.twitter.com/oauth/request_token',
-        base_url='https://api.twitter.com/1/'
-    )
-    request_token = twitter.get_request_token()[0]
-
-    twitter_auth_url = twitter.get_authorize_url(
-        request_token,
-        callback_url='http://127.0.0.1:8001/twitter_callback'
-    )
+#    twitter = OAuth1Service(
+#        consumer_key='2Icic6DEGROMML9U3Xrrg',
+#        consumer_secret='2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M',
+#        name='twitter',
+#        access_token_url='https://api.twitter.com/oauth/access_token',
+#        authorize_url='https://api.twitter.com/oauth/authorize',
+#        request_token_url='https://api.twitter.com/oauth/request_token',
+#        base_url='https://api.twitter.com/1/'
+#    )
+#    request_token = twitter.get_request_token()[0]
+#
+#    twitter_auth_url = twitter.get_authorize_url(
+#        request_token,
+#        callback_url='http://127.0.0.1:8001/twitter_callback'
+#    )
+    twitter_auth_url = None
 
     google_auth_url = (
         'https://accounts.google.com/o/oauth2/auth?'
@@ -106,6 +110,7 @@ def index(request):
         'google_auth_url': google_auth_url,
         'linkedin_auth_url': linkedin_auth_url,
         'twitter_auth_url': twitter_auth_url,
+        'form': QueryForm(),
     })
 
 
@@ -154,16 +159,19 @@ def close_window(request, is_reload=False):
 def getqrcode(request):
 
     if request.method == 'GET':
-        return HttpResponse('Noooone')
+        return HttpResponseBadRequest('Noooone')
 
     elif getattr(request, 'limited', False):
-        return HttpResponse('Was_limited')
+        # Reach rate limit
+        return HttpResponseBadRequest('Was_limited')
 
     elif request.method == 'POST' and request.is_ajax():
-        text = request.POST.get('text')
-        if len(text) > 1000:
-            return HttpResponse('Text is too long')
 
+        form = QueryForm(request.POST)
+        if not form.is_valid():
+            return HttpResponseBadRequest(json.dumps(form.errors))
+
+        text = form.data['text']
         try:
             qr = qrcode.QRCode(
                 version=None,
@@ -192,8 +200,7 @@ def getqrcode(request):
 
             return HttpResponse(
                 Template('<img src="{{ photo.photo.url }}" '
-                         'width="480" height="480" />').
-                render(Context({'photo': photo}))
+                         'width="480" height="480" />').render(photo=photo)
             )
 
 #            return HttpResponse('<img src="/media/qrcode/%s" '
@@ -203,6 +210,7 @@ def getqrcode(request):
             return HttpResponse(e)
 
 
+@ratelimit(rate='20/m')
 @transaction.commit_on_success
 def getfriends(request):
     data = None
@@ -216,12 +224,7 @@ def getfriends(request):
         channel = data['meta']['channel']
         channel_id = data['user']['id']
 
-        if channel == 'linkedin':
-            first_name = data['user']['firstName']
-            last_name = data['user']['lastName']
-            username = first_name + ' ' + last_name
-
-        elif channel == 'facebook':
+        if channel == 'facebook':
             first_name = data['user']['first_name']
             last_name = data['user']['last_name']
             username = data['user']['username']
@@ -230,6 +233,11 @@ def getfriends(request):
             first_name = data['user']['name']['givenName']
             last_name = data['user']['name']['familyName']
             username = data['user']['displayName']
+
+        elif channel == 'linkedin':
+            first_name = data['user']['firstName']
+            last_name = data['user']['lastName']
+            username = first_name + ' ' + last_name
 
         userclient, created = UserClient.objects.get_or_create(
             client=channel + '#' + channel_id,
@@ -240,13 +248,13 @@ def getfriends(request):
         userclient.friends = data["friends"]
         userclient.save()
 
-        if channel == 'linkedin':
-            url = data['user'].get("pictureUrl", None)
-        elif channel == 'facebook':
+        if channel == 'facebook':
             url = data['user'].get("pic_square", None)
         elif channel == 'google+':
             url = data['user']["image"]["url"] \
                 if "image" in data['user'] else None
+        elif channel == 'linkedin':
+            url = data['user'].get("pictureUrl", None)
         else:
             url = None
 
@@ -255,21 +263,25 @@ def getfriends(request):
                 url=url)
             cachedimage.cache_and_save()
 
+        frd_cachedimage = userclient.cachedimage_set.values_list('url',
+                                                                 flat=True)
         # Caching friend's profile picture
         for frd in data["friends"]:
 
-            if channel == 'linkedin':
-                url = frd.get("pictureUrl", None)
-            elif channel == 'facebook':
+            if channel == 'facebook':
                 url = frd.get("pic_square", None)
             elif channel == 'google+':
                 url = frd["image"]["url"] if "image" in frd else None
+            elif channel == 'linkedin':
+                url = frd.get("pictureUrl", None)
             else:
                 url = None
 
-            if url:
+            if url and url not in frd_cachedimage:
                 cachedimage, created = CachedImage.objects.get_or_create(
                     url=url)
+                # cachedimage = CachedImage(url=url)
+                cachedimage.user = userclient
                 cachedimage.cache_and_save()
 
 #            username = filter(
@@ -300,3 +312,8 @@ def getfriends(request):
         channel + '#' + channel_id + '\n'
         + username + " has " + str(len(data["friends"]))
     )
+
+
+@task(ignore_result=True)
+def add(x, y):
+    return x + y
