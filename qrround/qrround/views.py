@@ -203,6 +203,7 @@ def getqrcode(request):
             return HttpResponse(e)
 
 
+@ratelimit(rate='20/m')
 @transaction.commit_on_success
 def getfriends(request):
     data = None
@@ -216,12 +217,7 @@ def getfriends(request):
         channel = data['meta']['channel']
         channel_id = data['user']['id']
 
-        if channel == 'linkedin':
-            first_name = data['user']['firstName']
-            last_name = data['user']['lastName']
-            username = first_name + ' ' + last_name
-
-        elif channel == 'facebook':
+        if channel == 'facebook':
             first_name = data['user']['first_name']
             last_name = data['user']['last_name']
             username = data['user']['username']
@@ -230,6 +226,11 @@ def getfriends(request):
             first_name = data['user']['name']['givenName']
             last_name = data['user']['name']['familyName']
             username = data['user']['displayName']
+
+        elif channel == 'linkedin':
+            first_name = data['user']['firstName']
+            last_name = data['user']['lastName']
+            username = first_name + ' ' + last_name
 
         userclient, created = UserClient.objects.get_or_create(
             client=channel + '#' + channel_id,
@@ -240,13 +241,13 @@ def getfriends(request):
         userclient.friends = data["friends"]
         userclient.save()
 
-        if channel == 'linkedin':
-            url = data['user'].get("pictureUrl", None)
-        elif channel == 'facebook':
+        if channel == 'facebook':
             url = data['user'].get("pic_square", None)
         elif channel == 'google+':
             url = data['user']["image"]["url"] \
                 if "image" in data['user'] else None
+        elif channel == 'linkedin':
+            url = data['user'].get("pictureUrl", None)
         else:
             url = None
 
@@ -255,21 +256,25 @@ def getfriends(request):
                 url=url)
             cachedimage.cache_and_save()
 
+        frd_cachedimage = userclient.cachedimage_set.values_list('url',
+                                                                 flat=True)
         # Caching friend's profile picture
         for frd in data["friends"]:
 
-            if channel == 'linkedin':
-                url = frd.get("pictureUrl", None)
-            elif channel == 'facebook':
+            if channel == 'facebook':
                 url = frd.get("pic_square", None)
             elif channel == 'google+':
                 url = frd["image"]["url"] if "image" in frd else None
+            elif channel == 'linkedin':
+                url = frd.get("pictureUrl", None)
             else:
                 url = None
 
-            if url:
+            if url and url not in frd_cachedimage:
                 cachedimage, created = CachedImage.objects.get_or_create(
                     url=url)
+                # cachedimage = CachedImage(url=url)
+                cachedimage.user = userclient
                 cachedimage.cache_and_save()
 
 #            username = filter(

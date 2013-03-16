@@ -167,8 +167,7 @@ class QRCode(models.Model):
 
 
 class CachedImage(models.Model):
-    # To avoid get_or_create
-    # user = models.ForeignKey(UserClient, blank=True, null=True)
+    user = models.ForeignKey(UserClient, blank=True, null=True)
 
     url = models.URLField(unique=True, db_index=True)
     photo = models.ImageField(
@@ -191,7 +190,7 @@ class CachedImage(models.Model):
                 os.path.basename(self.url),
                 File(open(result[0], 'rb')),
             )
-            # self.save()
+        self.save()
 
     def __unicode__(self):
         return self.url
