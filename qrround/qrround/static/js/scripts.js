@@ -1,3 +1,9 @@
+function popitup(url) {
+	newwindow=window.open(url,'name','height=500,width=500');
+	if (window.focus) {newwindow.focus()}
+	return false;
+}
+
 // Send qrcode request
 $('#getqrcode_input').keydown(function (e){
   if(e.keyCode == 13){
@@ -49,6 +55,26 @@ function show_contact() {
 function show_about() {
   $('#about_modal').modal('show');
 }
+
+function show_import() {
+  $('#import_modal').modal('show');
+}
+
+$('#import').click(function(){
+  $.post("/getfriends",
+    {
+      facebook_access_token: $.cookie('facebook_access_token'),
+      google_access_token: $.cookie('google_access_token'),
+      linkedin_access_token: $.cookie('linkedin_access_token'),
+      twitter_access_token: $.cookie('twitter_access_token'),
+      weibo_access_token: $.cookie('weibo_access_token'),
+    },
+    function(data) {
+      console.log("Data Loaded: " + data);
+  });
+
+  $('#import_modal').modal('hide');
+});
 
 // Initialize Client buttons
 $('#facebook_client').click(function(){
@@ -111,7 +137,6 @@ $('#google_client').click(function(){
 $('#google_client').click(function(){
   $('#signinButton button').click();
 });
-
 
 // Facebook
 (function() {
@@ -283,7 +308,7 @@ function sendCircle() {
         "meta": {
           "text": "this is text",
           "method": "text",
-          "channel": "google+",
+          "channel": "google",
         },
         "user": me,
         "friends": result["items"],
