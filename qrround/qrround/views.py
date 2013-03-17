@@ -2,7 +2,7 @@ from celery import task
 from django.core.files import File
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseBadRequest  # , HttpResponseRedirect  # noqa
-from django.shortcuts import render  # , get_object_or_404
+from django.shortcuts import redirect, render   # , get_object_or_404
 # from django.template import Context, Template
 from jinja2 import Template
 from helpers import unique_generator
@@ -11,6 +11,7 @@ import json
 import logging
 import os
 import qrcode
+from qrround.clients import facebook, google, linkedin, renren, twitter
 from qrround.models import (
     UserClient,
     # Friend,
@@ -19,10 +20,11 @@ from qrround.models import (
     CachedImage,
 )
 from ratelimit.decorators import ratelimit
-from rauth import OAuth2Service  # OAuth1Service
+import requests
 from settings.settings import MEDIA_ROOT
 #import StringIO
 #import tweepy
+from rauth import OAuth1Service
 
 
 #CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
@@ -42,44 +44,28 @@ def index(request):
     # Protect against Cross-Site Request Forgery
     # STATE = 'YOUR_STATE_VALUEYOUR_STATE_VALUEYOUR_STATE_VALUE'
 
-    facebook = OAuth2Service(
-        client_id='236929692994329',
-        client_secret='9d65f7d0069567d6958f559ad918ada7',
-        name='facebook',
-        authorize_url='https://graph.facebook.com/oauth/authorize',
-        access_token_url='https://graph.facebook.com/oauth/access_token',
-        base_url='https://graph.facebook.com/')
-    redirect_uri = 'http://127.0.0.1:8001/facebook_callback'
-    params = {'scope': 'read_stream,publish_actions',
-              'response_type': 'code',
-              'redirect_uri': redirect_uri}
+    state = request.session['state'] = unique_generator(32)
 
+    params = {'scope': 'read_stream,publish_actions',
+          'response_type': 'code',
+          'state': state,
+          'redirect_uri': 'http://127.0.0.1:8001/facebook_callback'}
     facebook_auth_url = facebook.get_authorize_url(**params)
 
-    facebook_auth_url = (
-        'https://www.facebook.com/dialog/oauth/?'
-        'client_id=236929692994329'
-        '&redirect_uri=http://127.0.0.1:8001/facebook_callback'
-        '&state=STATE'
-        '&scope=read_stream,publish_actions'
-    )
+#    facebook_auth_url = (
+#        'https://www.facebook.com/dialog/oauth/?'
+#        'client_id=236929692994329'
+#        '&redirect_uri=http://127.0.0.1:8001/facebook_callback'
+#        '&state=STATE'
+#        '&scope=read_stream,publish_actions'
+#    )
 
-#    twitter = OAuth1Service(
-#        consumer_key='2Icic6DEGROMML9U3Xrrg',
-#        consumer_secret='2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M',
-#        name='twitter',
-#        access_token_url='https://api.twitter.com/oauth/access_token',
-#        authorize_url='https://api.twitter.com/oauth/authorize',
-#        request_token_url='https://api.twitter.com/oauth/request_token',
-#        base_url='https://api.twitter.com/1/'
-#    )
-#    request_token = twitter.get_request_token()[0]
-#
-#    twitter_auth_url = twitter.get_authorize_url(
-#        request_token,
-#        callback_url='http://127.0.0.1:8001/twitter_callback'
-#    )
-    twitter_auth_url = None
+    request_token = twitter.get_request_token()[0]
+    twitter_auth_url = twitter.get_authorize_url(
+        request_token,
+        callback_url='http://127.0.0.1:8001/twitter_callback'
+    )
+    # twitter_auth_url = None
 
     google_auth_url = (
         'https://accounts.google.com/o/oauth2/auth?'
@@ -89,6 +75,13 @@ def index(request):
         '&client_id=533974579689-j6h3lt2toobuok26n9o5g3n0qo0k2mbm.apps.googleusercontent.com'  # noqa
     )
 
+    params = {
+        'scope': 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+        'response_type': 'code',
+        'redirect_uri': 'http://127.0.0.1:8001/google_callback'
+    }
+    google_auth_url = google.get_authorize_url(**params)
+
     linkedin_auth_url = (
         'https://www.linkedin.com/uas/oauth2/authorization?response_type=code'
         '&client_id=2ykkt7cjhrcg'
@@ -96,6 +89,21 @@ def index(request):
         '&state=STATE'
         '&redirect_uri=http://127.0.0.1:8001/linkedin_callback'
     )
+
+    params = {
+        'scope': 'r_basicprofile r_emailaddress r_network',
+        'response_type': 'code',
+        'state': state,
+        'redirect_uri': 'http://127.0.0.1:8001/linkedin_callback',
+    }
+    linkedin_auth_url = linkedin.get_authorize_url(**params)
+
+    params = {
+        'response_type': 'code',
+        'state': state,
+        'redirect_uri': 'http://127.0.0.1:8001/renren_callback',
+    }
+    renren_auth_url = renren.get_authorize_url(**params)
 
 #    if request.GET.get('oauth_verifier'):
 #        verifier = request.GET.get('oauth_verifier')
@@ -110,36 +118,134 @@ def index(request):
         'google_auth_url': google_auth_url,
         'linkedin_auth_url': linkedin_auth_url,
         'twitter_auth_url': twitter_auth_url,
+        'renren_auth_url': renren_auth_url,
         'form': QueryForm(),
     })
 
 
 def facebookcallback(request):
-    response = HttpResponse('facebook_auth_session:' + json.dumps(request.GET))
-    response.set_cookie('facebook_auth_session',
-                        request.GET.get('code'), max_age=1000)
-    return response
+    if request.GET.get('state') == request.session['state']:
+        session = facebook.get_auth_session(data={
+            'code': request.GET.get('code'),
+            'redirect_uri': 'http://127.0.0.1:8001/facebook_callback'})
+
+        me = session.get('me').json()
+        friends = session.get('fql?q=SELECT uid, first_name, middle_name, last_name, username, name, pic_square, profile_url FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())').json()
+
+#        response = HttpResponse(
+#            'facebook_auth_session:' + json.dumps(request.GET)
+#            + '<br /><br /><br />' + json.dumps(me)
+#            + '<br /><br /><br />' + json.dumps(friends)
+#        )
+#        response.set_cookie('facebook_auth_session',
+#                            request.GET.get('code'), max_age=1000)
+
+        return redirect('/close_window/')  # HttpResponse(response)
+    else:
+        return HttpResponse('CSFS?')
 
 
+# Still have problem
 def googlecallback(request):
     response = HttpResponse('google_auth_session:' + json.dumps(request.GET))
     response.set_cookie('google_auth_session',
                         request.GET.get('code'), max_age=1000)
+
+#    session = google.get_auth_session(data={
+#        'code': request.GET.get('code'),
+#        'data-type': 'jsonp',
+#        'redirect_uri': 'http://127.0.0.1:8001/google_callback'})
+
+
+#    exchange_url = (
+#        'https://accounts.google.com/o/oauth2/token?'
+#        'code=' + request.GET.get('code') \
+#        + '&redirect_uri=http://127.0.0.1:8001/google_callback'
+#        '&client_id=533974579689-j6h3lt2toobuok26n9o5g3n0qo0k2mbm.apps.googleusercontent.com'
+#        '&client_secret=dtLZ9z-AGhid6knEOC54qudr'
+#        '&grant_type=authorization_code'
+#    )
+#    print exchange_url
+#    r = requests.post(exchange_url)
+#    print r.json()
+
+    #print session.get('userinfo').json()
     return response
 
 
 def linkedincallback(request):
-    response = HttpResponse('linkedin_auth_session:' + json.dumps(request.GET))
-    response.set_cookie('linkedin_auth_session',
-                        request.GET.get('code'), max_age=1000)
-    return response
+    if request.GET.get('state') == request.session['state']:
+
+        exchange_url = (
+            'https://www.linkedin.com/uas/oauth2/accessToken'
+            '?grant_type=authorization_code'
+            '&code=' + request.GET.get('code') \
+            + '&redirect_uri=http://127.0.0.1:8001/linkedin_callback'
+            '&client_id=2ykkt7cjhrcg'
+            '&client_secret=TV7x10lw1JY6Zfe2'
+        )
+        r = requests.post(exchange_url)
+        access_token = r.json()['access_token']
+
+        me_url = (
+            'https://api.linkedin.com/v1/people/~'
+            ':(id,first-name,last-name,headline,picture-url)'
+            '?oauth2_access_token=' + access_token + '&format=json'
+        )
+        me = requests.get(me_url).json()
+
+        friends_url = ('https://api.linkedin.com/v1/people/~/connections'
+                       '?oauth2_access_token=' + access_token + '&format=json')
+        friends = requests.get(friends_url).json()
+
+#        response = HttpResponse(
+#            'linkedin_auth_session:' + json.dumps(request.GET)
+#            + '<br /><br /><br />' + json.dumps(r.json())
+#            + '<br /><br /><br />' + json.dumps(me)
+#            + '<br /><br /><br />' + json.dumps(friends)
+#        )
+#        response.set_cookie('linkedin_auth_session',
+#                            request.GET.get('code'), max_age=1000)
+
+        return redirect('/close_window/')  # HttpResponse(response)
+    else:
+        return HttpResponse('CSFS?')
 
 
 def twittercallback(request):
     response = HttpResponse('twitter_auth_session:' + json.dumps(request.GET))
     response.set_cookie('twitter_auth_session',
                         request.GET.get('oauth_token'), max_age=1000)
+
+    print '#### get_request_token', twitter.get_request_token()
+    request_token = twitter.get_request_token()[0]
+    authorization_url = twitter.get_authorize_url(request_token)
+    print '#### authorization_url', authorization_url
+    # session = twitter.get_auth_session(request_token, request_token_secret)
+
     return response
+
+
+# Still have problem
+def renrencallback(request):
+    exchange_url = (
+        'https://graph.renren.com/oauth/authorize'
+        '?response_type=code'
+        '&code=' + request.GET.get('code') \
+        + '&redirect_uri=http://127.0.0.1:8001/renren_callback'
+        '&client_id=229108'
+        '&client_secret=8815838e95504011a18673ea9f37f3b4'
+        '&scope=read_user_album+read_user_feed'
+    )
+
+    r = requests.post(exchange_url)
+    return HttpResponse(r.text)
+    print r.text
+    access_token = r.json()['access_token']
+    print access_token
+
+    return redirect('/close_window/')  # HttpResponse(response)
+
 
 
 def oauth2callback(request):
@@ -172,10 +278,11 @@ def getqrcode(request):
             return HttpResponseBadRequest(json.dumps(form.errors))
 
         text = form.data['text']
+        error_correct = form.data['error_correct_choice']
         try:
             qr = qrcode.QRCode(
                 version=None,
-                error_correction=qrcode.constants.ERROR_CORRECT_M,
+                error_correction= getattr(qrcode.constants, error_correct),
                 box_size=25,
                 border=1,
             )
