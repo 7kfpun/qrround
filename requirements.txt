@@ -19,6 +19,7 @@ Jinja2==2.4
 Pil==1.1.7
 pika==0.9.9
 rauth==0.5.1
+django-google-analytics==1
 
 # Clients
 tweepy==2.0
