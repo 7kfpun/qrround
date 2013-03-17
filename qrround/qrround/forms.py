@@ -9,8 +9,9 @@ class QueryForm(forms.ModelForm):
         ('linkedin', 'LinkedIn',),
         ('linkedin', 'LinkedIn',),
     )
-    channel_choice = forms.ChoiceField(
-        widget=forms.RadioSelect, choices=CHANNEL_CHOICES)
+    channel_choice = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple,
+        choices=CHANNEL_CHOICES, required=True)
 
     ERROR_CORRECT = (
         ('ERROR_CORRECT_L', 'L',),
@@ -19,7 +20,7 @@ class QueryForm(forms.ModelForm):
         ('ERROR_CORRECT_H', 'H',),
     )
     error_correct_choice = forms.ChoiceField(
-        widget=forms.RadioSelect, choices=ERROR_CORRECT)
+        widget=forms.RadioSelect, choices=ERROR_CORRECT, required=True)
 
     accept = forms.NullBooleanField(widget=forms.CheckboxInput)
 
@@ -35,10 +36,17 @@ class QueryForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        session = kwargs.pop('session', [])
         super(self.__class__, self).__init__(*args, **kwargs)
+
         self.fields['text'].required = True
         self.fields['text'].max_length = 2000
         self.fields['error_correct_choice'].initial = 'ERROR_CORRECT_M'
+
+        channels = ['facebook_id', 'google_id', 'linkedin_id']
+        self.fields['channel_choice'].choices = (
+            (session[x], x[:-3].upper()) for x in channels if x in session
+        )
         self.fields['channel_choice'].required = False
 
     def clean_text(self):
