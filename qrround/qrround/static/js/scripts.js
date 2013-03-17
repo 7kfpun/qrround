@@ -71,6 +71,7 @@ $('#import').click(function(){
     },
     function(data) {
       console.log("Data Loaded: " + data);
+      location.reload();
   });
 
   $('#import_modal').modal('hide');
@@ -138,149 +139,6 @@ $('#google_client').click(function(){
   $('#signinButton button').click();
 });
 
-// Facebook
-(function() {
-  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-  po.src = 'https://apis.google.com/js/client:plusone.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-})();
-
-
-// Facebook
-window.fbAsyncInit = function() {
-  FB.init({appId: '236929692994329', status: true, cookie: true, xfbml: true});
-
-  /* All the events registered */
-  FB.Event.subscribe('auth.login', function(response) {
-    // do something with response
-    login();
-  });
-
-  FB.Event.subscribe('auth.logout', function(response) {
-    // do something with response
-    logout();
-  });
- 
-  FB.getLoginStatus(function(response) {
-    if (response.session) {
-      // logged in and connected user, someone you know
-      login();
-    }
-  });
-};
-
-(function() {
-  var e = document.createElement('script');
-  e.type = 'text/javascript';
-  e.src = document.location.protocol +
-    '//connect.facebook.net/en_US/all.js';
-  e.async = true;
-  document.getElementById('fb-root').appendChild(e);
-}());
- 
-function login() {
-  FB.api('/me', function(response) {
-    document.getElementById('login').style.display = "block";
-    document.getElementById('login').innerHTML = response.name + " succsessfully logged in!";
-  });
-}
-
-function logout() {
-  document.getElementById('login').style.display = "none";
-}
-
-//stream publish method
-function streamPublish(name, description, hrefTitle, hrefLink, userPrompt) {
-  FB.ui(
-  {
-    method: 'stream.publish',
-    message: '',
-    attachment: {
-      name: name,
-      caption: '',
-      description: (description),
-      href: hrefLink
-    },
-    action_links: [
-      { text: hrefTitle, href: hrefLink }
-    ],
-    user_prompt_message: userPrompt
-  },
-  function(response) {
-
-  });
-}
-
-function showStream(){
-  FB.api('/me', function(response) {
-    //console.log(response.id);
-    streamPublish(response.name, 'Thinkdiff.net contains geeky stuff', 'hrefTitle', 'http://thinkdiff.net', "Share thinkdiff.net");
-  });
-}
-
-function share(){
-  var share = {
-    method: 'stream.share',
-    u: 'http://thinkdiff.net/'
-  };
-
-  FB.ui(share, function(response) { console.log(response); });
-}
- 
-function graphStreamPublish() {
-  var body = 'Reading New Graph api & Javascript Base FBConnect Tutorial';
-  FB.api('/me/feed', 'post', { message: body }, function(response) {
-    if (!response || response.error) {
-      alert('Error occured');
-    } else {
-      alert('Post ID: ' + response.id);
-    }
-  });
-}
-
-// me?fields=friends.fields(id,first_name,username,last_name,cover,middle_name,link,name),id,first_name,username,last_name,cover,middle_name,link,name
-function fqlQuery() {
-  FB.api('/me', function(me) {
-    var query = FB.Data.query('SELECT uid, first_name, middle_name, last_name, username, name, pic_square, profile_url FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())');
-
-    query.wait(function(rows) {
-
-      var myJSONObject = {
-        "meta": {
-          "text": "this is text",
-          "method": "text",
-          "channel": "facebook",
-        },
-        "user": me,
-        "friends": rows,
-      };
-
-      // console.log(JSON.stringify(myJSONObject));
-      console.log(me);
-      console.log(rows);
-
-      sendFriends(myJSONObject);
-    });
-  });
-}
-
-function setStatus(){
-  status1 = document.getElementById('status').value;
-  FB.api(
-    {
-      method: 'status.set',
-      status: status1
-    },
-    function(response) {
-      if (response == 0) {
-        alert('Your facebook status not updated. Give Status Update Permission.');
-      } else {
-        alert('Your facebook status updated');
-      }
-    }
-  );
-}
-
 
 // Google plus http://garage.socialisten.at/2013/03/hacking-google-plus-the-sign-in-button/
 function signinCallback(authResult) {
@@ -317,31 +175,6 @@ function sendCircle() {
       sendFriends(myJSONObject);
     }})
   }})
-}
-
-
-// LinkedIn
-function sendLinkedinFriends() {
-
-  IN.API.Profile("me").result(function(me) {
-    console.log(me);
-
-    IN.API.Connections("me").result(function(connections) {
-      console.log(connections);
-
-      var myJSONObject = {
-        "meta": {
-          "text": "this is text",
-          "method": "text",
-          "channel": "linkedin",
-        },
-        "user": me["values"][0],
-        "friends": connections["values"],
-      };
-
-      sendFriends(myJSONObject);
-    })
-  })
 }
 
 
