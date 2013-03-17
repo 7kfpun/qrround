@@ -138,7 +138,14 @@ def facebookcallback(request):
             "user": me,
             "friends": friends,
         }
-        data
+
+        request.session['facebook_access_token'] = session.access_token
+        request.session['facebook_data'] = data
+
+        response = redirect('/close_window')
+        response.set_cookie('facebook_access_token',
+                            session.access_token, max_age=1000)
+        return response
 
 #        response = HttpResponse(
 #            'facebook_auth_session:' + json.dumps(request.GET)
@@ -149,7 +156,7 @@ def facebookcallback(request):
 #                            request.GET.get('code'), max_age=1000)
 #        return HttpResponse(response)
 
-        return redirect('/close_window_reload/')
+        return redirect('/close_window_reload')
     else:
         return HttpResponse('CSFS?')
 
@@ -215,7 +222,14 @@ def linkedincallback(request):
             "user": me,
             "friends": friends,
         }
-        data = data
+
+        request.session['linkedin_access_token'] = access_token
+        request.session['linkedin_data'] = data
+
+        response = redirect('/close_window')
+        response.set_cookie('linkedin_access_token',
+                            access_token, max_age=1000)
+        return response
 
 #        response = HttpResponse(
 #            'linkedin_auth_session:' + json.dumps(request.GET)
@@ -228,7 +242,7 @@ def linkedincallback(request):
 #
 #        return HttpResponse(response)
 
-        return redirect('/close_window_reload/')
+        return redirect('/close_window')
     else:
         return HttpResponse('CSFS?')
 
@@ -347,13 +361,21 @@ def getfriendsrequest(request):
         return HttpResponse('Geeeet')
 
     elif request.method == 'POST' and request.is_ajax():
-        data = json.loads(request.body)
-        getfriends(data)
+        html = ''
+        tokens = ('facebook_access_token', 'linkedin_access_token')
+        for token in tokens:
+            if token in request.POST and request.POST.get(token, None) \
+                    == request.session.get(token, None):
 
-        return HttpResponse(
-            data['meta']['channel'] + '#' + data['user']['id'] + '\n'
-            + json.dumps(data['user']) + " has " + str(len(data["friends"]))
-        )
+                data = request.session.get(
+                    token.replace('_access_token', '_data'), None)
+                getfriends(data)
+
+                html += data['meta']['channel'] + '#' + data['user']['id'] \
+                    + '\n' + json.dumps(data['user']) + " has " \
+                    + str(len(data["friends"])) + '\n\n'
+
+        return HttpResponse(html)
 
 
 @task(ignore_result=True)

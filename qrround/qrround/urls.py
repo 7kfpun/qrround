@@ -14,7 +14,7 @@ urlpatterns = patterns(
     url(r'', include('social_auth.urls')),
 
     url(r'^$', views.index, name='index'),
-    url(r'^getfriends', views.getfriendsrequest, name='getfriendsrequest'),
+    url(r'^getfriends$', views.getfriendsrequest, name='getfriendsrequest'),
     url(r'^getqrcode$', views.getqrcode, name='getqrcode'),
 
     # Callback
@@ -28,8 +28,8 @@ urlpatterns = patterns(
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    url(r'^close_window/$', views.close_window, name='close_window'),
-    url(r'^close_window_reload/$', views.close_window, {
+    url(r'^close_window$', views.close_window, name='close_window'),
+    url(r'^close_window_reload$', views.close_window, {
         'is_reload': True}, name='close_window_reload'),
 
     # Static files
