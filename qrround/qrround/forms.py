@@ -5,7 +5,7 @@ from qrround.models import Query
 class QueryForm(forms.ModelForm):
     CHANNEL_CHOICES = (
         ('facebook', 'Facebook',),
-        ('google+', 'Google+',),
+        ('google', 'Google+',),
         ('linkedin', 'LinkedIn',),
         ('linkedin', 'LinkedIn',),
     )

@@ -283,7 +283,7 @@ function sendCircle() {
         "meta": {
           "text": "this is text",
           "method": "text",
-          "channel": "google+",
+          "channel": "google",
         },
         "user": me,
         "friends": result["items"],

@@ -47,3 +47,11 @@ renren = OAuth2Service(
     access_token_url='https://graph.renren.com/oauth/authorize',
     base_url='https://api.linkedin.com/v1/'
 )
+
+#    facebook_auth_url = (
+#        'https://www.facebook.com/dialog/oauth/?'
+#        'client_id=236929692994329'
+#        '&redirect_uri=http://127.0.0.1:8001/facebook_callback'
+#        '&state=STATE'
+#        '&scope=read_stream,publish_actions'
+#    )

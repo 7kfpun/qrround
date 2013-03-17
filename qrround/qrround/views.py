@@ -52,20 +52,11 @@ def index(request):
         'redirect_uri': 'http://127.0.0.1:8001/facebook_callback'}
     facebook_auth_url = facebook.get_authorize_url(**params)
 
-#    facebook_auth_url = (
-#        'https://www.facebook.com/dialog/oauth/?'
-#        'client_id=236929692994329'
-#        '&redirect_uri=http://127.0.0.1:8001/facebook_callback'
-#        '&state=STATE'
-#        '&scope=read_stream,publish_actions'
-#    )
-
     request_token = twitter.get_request_token()[0]
     twitter_auth_url = twitter.get_authorize_url(
         request_token,
         callback_url='http://127.0.0.1:8001/twitter_callback'
     )
-    # twitter_auth_url = None
 
     google_auth_url = (
         'https://accounts.google.com/o/oauth2/auth?'
@@ -158,7 +149,7 @@ def facebookcallback(request):
 #                            request.GET.get('code'), max_age=1000)
 #        return HttpResponse(response)
 
-        return redirect('/close_window/')
+        return redirect('/close_window_reload/')
     else:
         return HttpResponse('CSFS?')
 
@@ -237,7 +228,7 @@ def linkedincallback(request):
 #
 #        return HttpResponse(response)
 
-        return redirect('/close_window/')
+        return redirect('/close_window_reload/')
     else:
         return HttpResponse('CSFS?')
 
@@ -291,7 +282,6 @@ def close_window(request, is_reload=False):
 
 @ratelimit(rate='20/m')
 def getqrcode(request):
-
     if request.method == 'GET':
         return HttpResponseBadRequest('Noooone')
 
@@ -349,109 +339,114 @@ def getqrcode(request):
             return HttpResponse(e)
 
 
-@task(ignore_result=True)
 @ratelimit(rate='20/m')
 @transaction.commit_on_success
-def getfriends(request):
+def getfriendsrequest(request):
     data = None
     if request.method == 'GET':
-        pass
+        return HttpResponse('Geeeet')
 
     elif request.method == 'POST' and request.is_ajax():
-
         data = json.loads(request.body)
+        getfriends(data)
 
-        channel = data['meta']['channel']
-        channel_id = data['user']['id']
-
-        if channel == 'facebook':
-            first_name = data['user']['first_name']
-            last_name = data['user']['last_name']
-            username = data['user']['username']
-
-        elif channel == 'google+':
-            first_name = data['user']['name']['givenName']
-            last_name = data['user']['name']['familyName']
-            username = data['user']['displayName']
-
-        elif channel == 'linkedin':
-            first_name = data['user']['firstName']
-            last_name = data['user']['lastName']
-            username = first_name + ' ' + last_name
-
-        userclient, created = UserClient.objects.get_or_create(
-            client=channel + '#' + channel_id,
+        return HttpResponse(
+            data['meta']['channel'] + '#' + data['user']['id'] + '\n'
+            + json.dumps(data['user']) + " has " + str(len(data["friends"]))
         )
-        userclient.username = username
-        userclient.first_name = first_name
-        userclient.last_name = last_name
-        userclient.friends = data["friends"]
-        userclient.save()
 
+
+@task(ignore_result=True)
+def getfriendstask(data):
+    getfriends(data)
+
+
+def getfriends(data):
+    channel = data['meta']['channel']
+    channel_id = data['user']['id']
+
+    if channel == 'facebook':
+        first_name = data['user']['first_name']
+        last_name = data['user']['last_name']
+        username = data['user']['username']
+
+    elif channel == 'google':
+        first_name = data['user']['name']['givenName']
+        last_name = data['user']['name']['familyName']
+        username = data['user']['displayName']
+
+    elif channel == 'linkedin':
+        first_name = data['user']['firstName']
+        last_name = data['user']['lastName']
+        username = first_name + ' ' + last_name
+
+    userclient, created = UserClient.objects.get_or_create(
+        client=channel + '#' + channel_id,
+    )
+    userclient.username = username
+    userclient.first_name = first_name
+    userclient.last_name = last_name
+    userclient.friends = data["friends"]
+    userclient.save()
+
+    if channel == 'facebook':
+        url = data['user'].get("pic_square", None)
+    elif channel == 'google':
+        url = data['user']["image"]["url"] \
+            if "image" in data['user'] else None
+    elif channel == 'linkedin':
+        url = data['user'].get("pictureUrl", None)
+    else:
+        url = None
+
+    if url:
+        cachedimage, created = CachedImage.objects.get_or_create(
+            url=url)
+        cachedimage.cache_and_save()
+
+    frd_cachedimage = userclient.cachedimage_set.values_list('url',
+                                                             flat=True)
+    # Caching friend's profile picture
+    for frd in data["friends"]:
         if channel == 'facebook':
-            url = data['user'].get("pic_square", None)
-        elif channel == 'google+':
-            url = data['user']["image"]["url"] \
-                if "image" in data['user'] else None
+            url = frd.get("pic_square", None)
+        elif channel == 'google':
+            url = frd["image"]["url"] if "image" in frd else None
         elif channel == 'linkedin':
-            url = data['user'].get("pictureUrl", None)
+            url = frd.get("pictureUrl", None)
         else:
             url = None
 
-        if url:
+        if url and url not in frd_cachedimage:
             cachedimage, created = CachedImage.objects.get_or_create(
                 url=url)
+            # cachedimage = CachedImage(url=url)
+            cachedimage.user = userclient
             cachedimage.cache_and_save()
 
-        frd_cachedimage = userclient.cachedimage_set.values_list('url',
-                                                                 flat=True)
-        # Caching friend's profile picture
-        for frd in data["friends"]:
-
-            if channel == 'facebook':
-                url = frd.get("pic_square", None)
-            elif channel == 'google+':
-                url = frd["image"]["url"] if "image" in frd else None
-            elif channel == 'linkedin':
-                url = frd.get("pictureUrl", None)
-            else:
-                url = None
-
-            if url and url not in frd_cachedimage:
-                cachedimage, created = CachedImage.objects.get_or_create(
-                    url=url)
-                # cachedimage = CachedImage(url=url)
-                cachedimage.user = userclient
-                cachedimage.cache_and_save()
-
-#            username = filter(
-#                lambda x: x in data["user"], [
-#                    "firstName", "displayName", "username"
-#                    # LinkedIn   Google+        Facebook
-#                ])[0] or None
-#            first_name = filter(
-#                lambda x: x in data["user"], [
-#                    "firstName", "name", "first_name"
-#                    # LinkedIn   Google+        Facebook
-#                ])[0] or None
-#            last_name = filter(
-#                lambda x: x in data["user"], [
-#                    "lastName", "name", "last_name"
-#                    # LinkedIn   Google+        Facebook
-#                ])[0] or None
-
-#            frd_channel = data["meta"]["channel"]
-#            frd_channel_id = str(frd["id"] if "id" in frd else frd["uid"])
-#            friend, created = Friend.objects.get_or_create(
-#                user=userclient,
-#                client=frd_channel + '#' + frd_channel_id,
-#            )
-#            friend.save()
-
-    return HttpResponse(
-        channel + '#' + channel_id + '\n'
-        + username + " has " + str(len(data["friends"]))
-    )
+#        username = filter(
+#            lambda x: x in data["user"], [
+#                "firstName", "displayName", "username"
+#                # LinkedIn   Google        Facebook
+#            ])[0] or None
+#        first_name = filter(
+#            lambda x: x in data["user"], [
+#                "firstName", "name", "first_name"
+#                # LinkedIn   Google        Facebook
+#            ])[0] or None
+#        last_name = filter(
+#            lambda x: x in data["user"], [
+#                "lastName", "name", "last_name"
+#                # LinkedIn   Google        Facebook
+#            ])[0] or None
+#
+#        frd_channel = data["meta"]["channel"]
+#        frd_channel_id = str(frd["id"] if "id" in frd else frd["uid"])
+#        friend, created = Friend.objects.get_or_create(
+#            user=userclient,
+#            client=frd_channel + '#' + frd_channel_id,
+#        )
+#        friend.save()
 
 
 @task(ignore_result=True)
