@@ -94,7 +94,7 @@ class PilImage(qrcode.image.base.BaseImage):
 
         image = choice(self._all_cached_images)
 
-        if True:
+        if False:
             self._img.paste(Image.open(image.photo.path).point(lambda p: p * 0.9).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
             
@@ -107,7 +107,7 @@ class PilImage(qrcode.image.base.BaseImage):
             border = Image.open('qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
             self._img.paste(border, (x, y), mask=border)
 
-        elif True:
+        elif False:
             try:
                 bord = self.bord
             except:
@@ -124,7 +124,7 @@ class PilImage(qrcode.image.base.BaseImage):
                 mask = self.mask
             except:
                 print "get highlight...."
-                highlight = self.highlight = Image.open('qrcode/image/resources/round1.png').resize(
+                highlight = self.highlight = Image.open('qrcode/image/resources/round.png').resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS)
                 mask = self.mask = Image.open('qrcode/image/resources/round-mask.png').resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS)
