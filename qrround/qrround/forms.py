@@ -47,7 +47,8 @@ class QueryForm(forms.ModelForm):
         self.fields['channel_choice'].choices = (
             (session[x], x[:-3].upper()) for x in channels if x in session
         )
-        self.fields['channel_choice'].required = False
+        self.fields['channel_choice'].initial = (
+            choice[0] for choice in self.fields['channel_choice'].choices)
 
     def clean_text(self):
         cleaned_data = super(self.__class__, self).clean()
