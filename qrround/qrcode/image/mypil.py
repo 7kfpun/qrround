@@ -17,7 +17,7 @@ import ImageOps
 class PilImage(qrcode.image.base.BaseImage):
     """PIL image builder, default format is PNG."""
 
-    def __init__(self, border, width, box_size):
+    def __init__(self, border, width, box_size, users=[]):
         if Image is None and ImageDraw is None:
             raise NotImplementedError("PIL not available")
         super(PilImage, self).__init__(border, width, box_size)
@@ -31,7 +31,11 @@ class PilImage(qrcode.image.base.BaseImage):
         # url = "https://secure.gravatar.com/avatar/988f8daaaf0155e5536fbb2d7efe0d0f?s=420&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"  # noqa
         # self._image = Image.open(StringIO(urllib.urlopen(url).read()))
 
-        self._all_cached_images = CachedImage.objects.all()
+        if users:
+            self._all_cached_images = CachedImage.objects.filter(user__client__in=users)
+        else:
+            self._all_cached_images = CachedImage.objects.all()
+
         if not self._all_cached_images:
             self._all_cached_images = [
                 Image.open("qrround/media/a.png").resize(
@@ -94,8 +98,7 @@ class PilImage(qrcode.image.base.BaseImage):
 
         image = choice(self._all_cached_images)
 
-        if True:
-            print Image.open(image.photo.path).getdata()
+        if False:
             self._img.paste(Image.open(image.photo.path).point(lambda p: p * 0.9).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
             
@@ -108,7 +111,7 @@ class PilImage(qrcode.image.base.BaseImage):
             border = Image.open('qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
             self._img.paste(border, (x, y), mask=border)
 
-        elif True:
+        elif False:
             try:
                 bord = self.bord
             except:
@@ -125,7 +128,7 @@ class PilImage(qrcode.image.base.BaseImage):
                 mask = self.mask
             except:
                 print "get highlight...."
-                highlight = self.highlight = Image.open('qrcode/image/resources/round1.png').resize(
+                highlight = self.highlight = Image.open('qrcode/image/resources/round.png').resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS)
                 mask = self.mask = Image.open('qrcode/image/resources/round-mask.png').resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS)

@@ -14,7 +14,8 @@ class QRCode:
     def __init__(self, version=None,
                  error_correction=constants.ERROR_CORRECT_M,
                  box_size=10, border=4,
-                 image_factory=None):
+                 image_factory=None,
+                 users=[]):
         self.version = version and int(version)
         self.error_correction = int(error_correction)
         self.box_size = int(box_size)
@@ -22,6 +23,7 @@ class QRCode:
         # any (e.g. for producing printable QR codes).
         self.border = int(border)
         self.image_factory = image_factory
+        self.users = users
         if image_factory is not None:
             assert issubclass(image_factory, BaseImage)
         self.clear()
@@ -183,7 +185,7 @@ class QRCode:
                 from qrcode.image.mypil import PilImage
                 image_factory = PilImage
 
-        im = image_factory(self.border, self.modules_count, self.box_size)
+        im = image_factory(self.border, self.modules_count, self.box_size, self.users)
         for r in range(self.modules_count):
             for c in range(self.modules_count):
 
@@ -191,6 +193,9 @@ class QRCode:
                     im.drawrect(r, c)
                 elif self.modules[r][c]:
                     im.pasteimage(r, c)
+                else:
+                    pass
+                    # im.pasteempty(r, c)
         return im
 
     def setup_timing_pattern(self):
