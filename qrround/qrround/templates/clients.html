@@ -1,49 +1,8 @@
 {% block clients %}
 
 <p>
-  <a href="#" target="_blank">get Facebook frds</a>
-  <a href="#" target="_blank">get Google plus frds</a>
-  <a href="#" target="_blank">get LinkedIn frds</a>
-  <a href="#" target="_blank">get Twitter frds</a>
-</p>
-
-<div id="fb-root"></div>
-
-<script type="in/Login">
-Hello, <?js= firstName ?> <?js= lastName ?>.
-IN.API.Profile("me")
-    .result( function(me) { console.log(me) })
-</script>
-    
-    
-<h3>New Graph api &amp; Javascript Base FBConnect Tutorial | Thinkdiff.net</h3>
-<fb:login-button autologoutlink="true" scope="read_friendlists"></fb:login-button>  // Can be removed
-
-<p>
-  <p>LinkedIn</p>
-  <a href="#" onclick="sendLinkedinFriends(); return false;">>> LinkedIn <<</a>
-</p>
-
-<p>
-  <p>Facebook</p>
-  <a href="#" onclick="fqlQuery(); return false;">>> Facebook <<</a><br />
-
-  <a href="#" onclick="showStream(); return false;">Publish Wall Post</a> |
-  <a href="#" onclick="share(); return false;">Share With Your Friends</a> |
-  <a href="#" onclick="graphStreamPublish(); return false;">Publish Stream Using Graph API</a> |
-</p>
-
-<p>
   <p>Google+</p>
   <a href="#" onclick="sendCircle(); return false;">>> Google plus <<</a>
 </p>
-
-<textarea id="status" cols="50" rows="5">Write your status here and click 'Status Set Using Legacy Api Call'</textarea>
-<br />
-<a href="#" onclick="setStatus(); return false;">Status Set Using Legacy Api Call</a>
-
-<br /><br /><br />
-<div id="login" style ="display:none"></div>
-<div id="name"></div>
 
 {% endblock %}

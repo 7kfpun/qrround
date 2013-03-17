@@ -6,34 +6,36 @@
   {{ form.text }}
 
   <div class="btn-group">
-  <button class="btn" type="button" onclick="show_import();"><abbr title="HyperText Markup Language">Import</abbr></button>
+  <button class="btn" id="import_button" type="button"><abbr title="HyperText Markup Language">Import</abbr></button>
   <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
   </div>
   <br />
   <label for="id_accept" class="checkbox">
-    {{ form.accept }} I have read and accept <a href="javascript:void(0)" onclick="showModel();">Privacy Policy and Terms of Service</a>
+    {{ form.accept }} I have read and accept <a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>
   </label>
   <br /><br />
 
 
   <div class="tabbable tabs-left">
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#lA" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
-      <li class=""><a href="#lB" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
+      <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
+      <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
       <li class=""><a href="#lC" data-toggle="tab">Section 3</a></li>
     </ul>
 
     <div class="tab-content">
       <div class="tab-pane active" id="lA">
+        <p>You can still import more accounts</p>
         <div class="row-fluid">
-          {% for choice in form.error_correct_choice %}
+          {% for choice in form.channel_choice %}
           <div class="span2">{{ choice }}</div>
           {% endfor %}
         </div>
       </div>
       <div class="tab-pane" id="lB">
+        <p>The higher error correct, the m</p>
         <div class="row-fluid">
-          {% for choice in form.channel_choice %}
+          {% for choice in form.error_correct_choice %}
           <div class="span2">{{ choice }}</div>
           {% endfor %}
         </div>
@@ -43,8 +45,6 @@
       </div>
     </div>
   </div>
-
-  {% include "clients_radio.html" %}
 
 </form>
 {% endblock %}
