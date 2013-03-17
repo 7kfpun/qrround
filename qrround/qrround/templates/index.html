@@ -6,12 +6,12 @@
   {{ form.text }}
 
   <div class="btn-group">
-  <button class="btn" type="button" onclick="show_import();"><abbr title="HyperText Markup Language">Import</abbr></button>
+  <button class="btn" id="import_button" type="button"><abbr title="HyperText Markup Language">Import</abbr></button>
   <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
   </div>
   <br />
   <label for="id_accept" class="checkbox">
-    {{ form.accept }} I have read and accept <a href="javascript:void(0)" onclick="showModel();">Privacy Policy and Terms of Service</a>
+    {{ form.accept }} I have read and accept <a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>
   </label>
   <br /><br />
 
