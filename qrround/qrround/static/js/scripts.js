@@ -11,7 +11,7 @@ $('#getqrcode_input').keydown(function (e){
   }
 });
 
-$('#getqrcode_button').click(function() {
+$('#getqrcode_button').on("click", function() {
     getqrcode(this);
 });
 
@@ -43,24 +43,25 @@ function getqrcode(el) {
   }
 }
 
+
 // Initialize Model
-function showModel() {
-  $('#myModal').modal('show');
-}
+$("#policy_modal_link").on("click", function() {
+    $('#policy_modal').modal('show');
+});
 
-function show_contact() {
-  $('#contact_modal').modal('show');
-}
+$("#contact_modal_link").on("click", function() {
+    $('#contact_modal').modal('show');
+});
 
-function show_about() {
-  $('#about_modal').modal('show');
-}
+$("#about_modal_link").on("click", function() {
+    $('#about_modal').modal('show');
+});
 
-function show_import() {
+$("#import_button").on("click", function() {
   $('#import_modal').modal('show');
-}
+});
 
-$('#import').click(function(){
+$('#import').on("click", function() {
   $.post("/getfriends",
     {
       facebook_access_token: $.cookie('facebook_access_token'),
@@ -77,66 +78,9 @@ $('#import').click(function(){
   $('#import_modal').modal('hide');
 });
 
-// Initialize Client buttons
-$('#facebook_client').click(function(){
-  function fb_login(){
-    FB.login(function(response) {
 
-        if (response.authResponse) {
-            console.log('Welcome!  Fetching your information.... ');
-            //console.log(response); // dump complete info
-            access_token = response.authResponse.accessToken; //get access token
-            console.log(access_token);
-            user_id = response.authResponse.userID; //get FB UID
-
-            FB.api('/me', function(response) {
-              user_email = response.email;  //get user email
-              console.log(user_email);
-              // you can store this data into your database
-            });
-
-        } else {
-            //user hit cancel button
-            console.log('User cancelled login or did not fully authorize.');
-
-        }
-    }, {
-        scope: 'publish_stream,email'
-    });
-  }
-  (function() {
-      var e = document.createElement('script');
-      e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-      e.async = true;
-      document.getElementById('fb-root').appendChild(e);
-      console.log("loged in fb");
-  }());
-
-  fb_login();
-});
-
-$('#google_client').click(function(){
+$('#google_client').on("click", function() {
   $('#signin_google_client button').click();
-});
-
-$('#linkedin_client').click(function(){
-  IN.UI.Authorize().params(
-    {"scope":["r_basicprofile", "r_emailaddress","r_contactinfo","r_network"]}
-  ).place();
-  IN.Event.on(IN, "auth", onLinkedInAuth);
-  console.log("LinkedIn logged");
-});
-
-$('#google_client').click(function(){
-  $('#signinButton button').click();
-});
-
-$('#google_client').click(function(){
-  $('#signinButton button').click();
-});
-
-$('#google_client').click(function(){
-  $('#signinButton button').click();
 });
 
 
@@ -241,3 +185,8 @@ function sendFriends(object) {
   // };
   // Renren.ui(uiOpts);
 // }
+
+
+var userAgent = navigator.userAgent.toLowerCase();
+var isiPhone = (userAgent.indexOf('ipad') != -1 || userAgent.indexOf('iphone') != -1 || userAgent.indexOf('ipod') != -1) ? true : false;
+clickEvent = isiPhone ? 'tap' : 'click';
