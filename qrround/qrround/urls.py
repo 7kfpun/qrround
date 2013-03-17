@@ -14,7 +14,7 @@ urlpatterns = patterns(
     url(r'', include('social_auth.urls')),
 
     url(r'^$', views.index, name='index'),
-    url(r'^getfriends', views.getfriends, name='getfriends'),
+    url(r'^getfriends', views.getfriendsrequest, name='getfriendsrequest'),
     url(r'^getqrcode$', views.getqrcode, name='getqrcode'),
 
     # Callback
