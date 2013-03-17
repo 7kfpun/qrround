@@ -11,7 +11,7 @@ $('#getqrcode_input').keydown(function (e){
   }
 });
 
-$('#getqrcode_button').click(function() {
+$('#getqrcode_button').on("click", function() {
     getqrcode(this);
 });
 
@@ -43,24 +43,25 @@ function getqrcode(el) {
   }
 }
 
+
 // Initialize Model
-function showModel() {
-  $('#myModal').modal('show');
-}
+$("#policy_modal_link").on("click", function() {
+    $('#policy_modal').modal('show');
+});
 
-function show_contact() {
-  $('#contact_modal').modal('show');
-}
+$("#contact_modal_link").on("click", function() {
+    $('#contact_modal').modal('show');
+});
 
-function show_about() {
-  $('#about_modal').modal('show');
-}
+$("#about_modal_link").on("click", function() {
+    $('#about_modal').modal('show');
+});
 
-function show_import() {
+$("#import_button").on("click", function() {
   $('#import_modal').modal('show');
-}
+});
 
-$('#import').click(function(){
+$('#import').on("click", function() {
   $.post("/getfriends",
     {
       facebook_access_token: $.cookie('facebook_access_token'),
@@ -71,215 +72,16 @@ $('#import').click(function(){
     },
     function(data) {
       console.log("Data Loaded: " + data);
+      location.reload();
   });
 
   $('#import_modal').modal('hide');
 });
 
-// Initialize Client buttons
-$('#facebook_client').click(function(){
-  function fb_login(){
-    FB.login(function(response) {
 
-        if (response.authResponse) {
-            console.log('Welcome!  Fetching your information.... ');
-            //console.log(response); // dump complete info
-            access_token = response.authResponse.accessToken; //get access token
-            console.log(access_token);
-            user_id = response.authResponse.userID; //get FB UID
-
-            FB.api('/me', function(response) {
-              user_email = response.email;  //get user email
-              console.log(user_email);
-              // you can store this data into your database
-            });
-
-        } else {
-            //user hit cancel button
-            console.log('User cancelled login or did not fully authorize.');
-
-        }
-    }, {
-        scope: 'publish_stream,email'
-    });
-  }
-  (function() {
-      var e = document.createElement('script');
-      e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-      e.async = true;
-      document.getElementById('fb-root').appendChild(e);
-      console.log("loged in fb");
-  }());
-
-  fb_login();
-});
-
-$('#google_client').click(function(){
+$('#google_client').on("click", function() {
   $('#signin_google_client button').click();
 });
-
-$('#linkedin_client').click(function(){
-  IN.UI.Authorize().params(
-    {"scope":["r_basicprofile", "r_emailaddress","r_contactinfo","r_network"]}
-  ).place();
-  IN.Event.on(IN, "auth", onLinkedInAuth);
-  console.log("LinkedIn logged");
-});
-
-$('#google_client').click(function(){
-  $('#signinButton button').click();
-});
-
-$('#google_client').click(function(){
-  $('#signinButton button').click();
-});
-
-$('#google_client').click(function(){
-  $('#signinButton button').click();
-});
-
-// Facebook
-(function() {
-  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-  po.src = 'https://apis.google.com/js/client:plusone.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-})();
-
-
-// Facebook
-window.fbAsyncInit = function() {
-  FB.init({appId: '236929692994329', status: true, cookie: true, xfbml: true});
-
-  /* All the events registered */
-  FB.Event.subscribe('auth.login', function(response) {
-    // do something with response
-    login();
-  });
-
-  FB.Event.subscribe('auth.logout', function(response) {
-    // do something with response
-    logout();
-  });
- 
-  FB.getLoginStatus(function(response) {
-    if (response.session) {
-      // logged in and connected user, someone you know
-      login();
-    }
-  });
-};
-
-(function() {
-  var e = document.createElement('script');
-  e.type = 'text/javascript';
-  e.src = document.location.protocol +
-    '//connect.facebook.net/en_US/all.js';
-  e.async = true;
-  document.getElementById('fb-root').appendChild(e);
-}());
- 
-function login() {
-  FB.api('/me', function(response) {
-    document.getElementById('login').style.display = "block";
-    document.getElementById('login').innerHTML = response.name + " succsessfully logged in!";
-  });
-}
-
-function logout() {
-  document.getElementById('login').style.display = "none";
-}
-
-//stream publish method
-function streamPublish(name, description, hrefTitle, hrefLink, userPrompt) {
-  FB.ui(
-  {
-    method: 'stream.publish',
-    message: '',
-    attachment: {
-      name: name,
-      caption: '',
-      description: (description),
-      href: hrefLink
-    },
-    action_links: [
-      { text: hrefTitle, href: hrefLink }
-    ],
-    user_prompt_message: userPrompt
-  },
-  function(response) {
-
-  });
-}
-
-function showStream(){
-  FB.api('/me', function(response) {
-    //console.log(response.id);
-    streamPublish(response.name, 'Thinkdiff.net contains geeky stuff', 'hrefTitle', 'http://thinkdiff.net', "Share thinkdiff.net");
-  });
-}
-
-function share(){
-  var share = {
-    method: 'stream.share',
-    u: 'http://thinkdiff.net/'
-  };
-
-  FB.ui(share, function(response) { console.log(response); });
-}
- 
-function graphStreamPublish() {
-  var body = 'Reading New Graph api & Javascript Base FBConnect Tutorial';
-  FB.api('/me/feed', 'post', { message: body }, function(response) {
-    if (!response || response.error) {
-      alert('Error occured');
-    } else {
-      alert('Post ID: ' + response.id);
-    }
-  });
-}
-
-// me?fields=friends.fields(id,first_name,username,last_name,cover,middle_name,link,name),id,first_name,username,last_name,cover,middle_name,link,name
-function fqlQuery() {
-  FB.api('/me', function(me) {
-    var query = FB.Data.query('SELECT uid, first_name, middle_name, last_name, username, name, pic_square, profile_url FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me())');
-
-    query.wait(function(rows) {
-
-      var myJSONObject = {
-        "meta": {
-          "text": "this is text",
-          "method": "text",
-          "channel": "facebook",
-        },
-        "user": me,
-        "friends": rows,
-      };
-
-      // console.log(JSON.stringify(myJSONObject));
-      console.log(me);
-      console.log(rows);
-
-      sendFriends(myJSONObject);
-    });
-  });
-}
-
-function setStatus(){
-  status1 = document.getElementById('status').value;
-  FB.api(
-    {
-      method: 'status.set',
-      status: status1
-    },
-    function(response) {
-      if (response == 0) {
-        alert('Your facebook status not updated. Give Status Update Permission.');
-      } else {
-        alert('Your facebook status updated');
-      }
-    }
-  );
-}
 
 
 // Google plus http://garage.socialisten.at/2013/03/hacking-google-plus-the-sign-in-button/
@@ -317,31 +119,6 @@ function sendCircle() {
       sendFriends(myJSONObject);
     }})
   }})
-}
-
-
-// LinkedIn
-function sendLinkedinFriends() {
-
-  IN.API.Profile("me").result(function(me) {
-    console.log(me);
-
-    IN.API.Connections("me").result(function(connections) {
-      console.log(connections);
-
-      var myJSONObject = {
-        "meta": {
-          "text": "this is text",
-          "method": "text",
-          "channel": "linkedin",
-        },
-        "user": me["values"][0],
-        "friends": connections["values"],
-      };
-
-      sendFriends(myJSONObject);
-    })
-  })
 }
 
 
@@ -408,3 +185,8 @@ function sendFriends(object) {
   // };
   // Renren.ui(uiOpts);
 // }
+
+
+var userAgent = navigator.userAgent.toLowerCase();
+var isiPhone = (userAgent.indexOf('ipad') != -1 || userAgent.indexOf('iphone') != -1 || userAgent.indexOf('ipod') != -1) ? true : false;
+clickEvent = isiPhone ? 'tap' : 'click';
