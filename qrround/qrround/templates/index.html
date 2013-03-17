@@ -18,22 +18,24 @@
 
   <div class="tabbable tabs-left">
     <ul class="nav nav-tabs">
-      <li class="active"><a href="#lA" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
-      <li class=""><a href="#lB" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
+      <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
+      <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
       <li class=""><a href="#lC" data-toggle="tab">Section 3</a></li>
     </ul>
 
     <div class="tab-content">
       <div class="tab-pane active" id="lA">
+        <p>You can still import more accounts</p>
         <div class="row-fluid">
-          {% for choice in form.error_correct_choice %}
+          {% for choice in form.channel_choice %}
           <div class="span2">{{ choice }}</div>
           {% endfor %}
         </div>
       </div>
       <div class="tab-pane" id="lB">
+        <p>The higher error correct, the m</p>
         <div class="row-fluid">
-          {% for choice in form.channel_choice %}
+          {% for choice in form.error_correct_choice %}
           <div class="span2">{{ choice }}</div>
           {% endfor %}
         </div>
