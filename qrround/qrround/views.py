@@ -23,28 +23,16 @@ from ratelimit.decorators import ratelimit
 import requests
 from settings.settings import MEDIA_ROOT
 #import StringIO
-#import tweepy
+import tweepy
 
-
-#CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
-#CONSUMER_SECRET = "2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M"
 
 logger = logging.getLogger(__name__)
 
 
 def index(request):
-#    try:
-#        twitter_auth = tweepy.OAuthHandler(CONSUMER_TOKEN, CONSUMER_SECRET)
-#        twitter_auth_url = twitter_auth.get_authorization_url()
-#    except tweepy.TweepError:
-#        twitter_auth_url = None
-#        logger.error('Error! Failed to get request token.')
-
-    # Protect against Cross-Site Request Forgery
-    # STATE = 'YOUR_STATE_VALUEYOUR_STATE_VALUEYOUR_STATE_VALUE'
-
     state = request.session['state'] = unique_generator(32)
 
+    # facebook
     params = {
         'scope': 'read_stream,publish_actions',
         'response_type': 'code',
@@ -52,35 +40,11 @@ def index(request):
         'redirect_uri': 'http://127.0.0.1:8001/facebook_callback'}
     facebook_auth_url = facebook.get_authorize_url(**params)
 
-    request_token = twitter.get_request_token()[0]
-    twitter_auth_url = twitter.get_authorize_url(
-        request_token,
-        callback_url='http://127.0.0.1:8001/twitter_callback'
-    )
+    # google
+    google.params.update({'state': state})
+    google_auth_url = google.step1_get_authorize_url()
 
-    google_auth_url = (
-        'https://accounts.google.com/o/oauth2/auth?'
-        'scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'
-        '+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile'
-        '&redirect_uri=http://127.0.0.1:8001/google_callback&response_type=code'  # noqa
-        '&client_id=533974579689-j6h3lt2toobuok26n9o5g3n0qo0k2mbm.apps.googleusercontent.com'  # noqa
-    )
-
-    params = {
-        'scope': 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',  # noqa
-        'response_type': 'code',
-        'redirect_uri': 'http://127.0.0.1:8001/google_callback'
-    }
-    google_auth_url = google.get_authorize_url(**params)
-
-    linkedin_auth_url = (
-        'https://www.linkedin.com/uas/oauth2/authorization?response_type=code'
-        '&client_id=2ykkt7cjhrcg'
-        '&scope=r_basicprofile%20r_emailaddress%20r_network'
-        '&state=STATE'
-        '&redirect_uri=http://127.0.0.1:8001/linkedin_callback'
-    )
-
+    # linkedin
     params = {
         'scope': 'r_basicprofile r_emailaddress r_network',
         'response_type': 'code',
@@ -89,6 +53,7 @@ def index(request):
     }
     linkedin_auth_url = linkedin.get_authorize_url(**params)
 
+    # renren
     params = {
         'response_type': 'code',
         'state': state,
@@ -96,13 +61,12 @@ def index(request):
     }
     renren_auth_url = renren.get_authorize_url(**params)
 
-#    if request.GET.get('oauth_verifier'):
-#        verifier = request.GET.get('oauth_verifier')
-#
-#        try:
-#            auth.get_access_token(verifier)
-#        except tweepy.TweepError:
-#            logger.error('Error! Failed to get access token.')
+    try:
+        twitter.callback = "http://127.0.0.1:8001/twitter_callback?state=%s" % state  # noqa
+        twitter_auth_url = twitter.get_authorization_url()
+    except tweepy.TweepError:
+        twitter_auth_url = None
+        logger.error('Error! Failed to get access token.')
 
     return render(request, 'index.html', {
         'facebook_auth_url': facebook_auth_url,
@@ -163,33 +127,44 @@ def facebookcallback(request):
 
 # Still have problem
 def googlecallback(request):
-    response = HttpResponse('google_auth_session:' + json.dumps(request.GET))
-    response.set_cookie('google_auth_session',
-                        request.GET.get('code'), max_age=1000)
+    if request.GET.get('state') == request.session['state']:
+        credentials = google.step2_exchange(request.GET.get('code'))
+        access_token = credentials.access_token
 
-#    session = google.get_auth_session(data={
-#        'code': request.GET.get('code'),
-#        'data-type': 'jsonp',
-#        'redirect_uri': 'http://127.0.0.1:8001/google_callback'})
+        me_url = (
+            'https://www.googleapis.com/plus/v1/people/me'
+            '?access_token=' + access_token
+        )
+        me = requests.get(me_url).json()
 
-    exchange_url = (
-        'https://accounts.google.com/o/oauth2/token?'
-        'code=' + request.GET.get('code') + '&redirect_uri=http://127.0.0.1:8001/google_callback'  # noqa
-        '&client_id=533974579689-j6h3lt2toobuok26n9o5g3n0qo0k2mbm.apps.googleusercontent.com'  # noqa
-        '&client_secret=dtLZ9z-AGhid6knEOC54qudr'
-        '&grant_type=authorization_code'
-    )
-    print exchange_url
-    r = requests.post(exchange_url)
-    print r.json()
+        friends_url = (
+            'https://www.googleapis.com/plus/v1/people/me/people/visible'
+            '?access_token=' + access_token
+        )
+        friends = requests.get(friends_url).json()['items']
 
-    #print session.get('userinfo').json()
-    return response
+        request.session['google_id'] = 'google#' + str(me['id'])
+        data = {
+            "meta": {
+                "text": "this is text",
+                "method": "text",
+                "channel": "linkedin",
+            },
+            "user": me,
+            "friends": friends,
+        }
+
+        request.session['google_access_token'] = access_token
+        request.session['google_data'] = data
+
+        response = redirect('/close_window')
+        response.set_cookie('google_access_token',
+                            access_token, max_age=1000)
+        return response
 
 
 def linkedincallback(request):
     if request.GET.get('state') == request.session['state']:
-
         exchange_url = (
             'https://www.linkedin.com/uas/oauth2/accessToken'
             '?grant_type=authorization_code'
@@ -248,17 +223,28 @@ def linkedincallback(request):
 
 
 def twittercallback(request):
-    response = HttpResponse('twitter_auth_session:' + json.dumps(request.GET))
-    response.set_cookie('twitter_auth_session',
-                        request.GET.get('oauth_token'), max_age=1000)
+    if request.GET.get('state') == request.session['state']:
+        verifier = request.GET.get('oauth_verifier')
+        try:
+            twitter.get_access_token(verifier)
+        except tweepy.TweepError:
+            print 'Error! Failed to get access token.'
 
-    print '#### get_request_token', twitter.get_request_token()
-    request_token = twitter.get_request_token()[0]
-    authorization_url = twitter.get_authorize_url(request_token)
-    print '#### authorization_url', authorization_url
-    # session = twitter.get_auth_session(request_token, request_token_secret)
+        twitter.set_access_token(twitter.access_token.key,
+                                 twitter.access_token.secret)
+        api = tweepy.API(twitter)
+        me = api.me()  # <object>
 
-    return response
+        name = me.name
+        profile_image_url = me.profile_image_url
+
+        request.session['twitter_id'] = 'twitter#' + me.id_str
+        friends = api.friends_ids()
+
+        response = HttpResponse('twitter: ' + name + ' ' + me.id_str + '\n'
+                                + 'has ' + str(len(friends)) + '\n'
+                                + profile_image_url)
+        return response
 
 
 # Still have problem
