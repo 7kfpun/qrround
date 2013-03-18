@@ -1,24 +1,11 @@
 from oauth2client.client import OAuth2WebServerFlow  # for google
-from rauth import OAuth1Service, OAuth2Service
+from rauth import OAuth2Service
 import tweepy
 
 
 CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
 CONSUMER_SECRET = "2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M"
-CALLBACK_URL = "http://127.0.0.1:8001/twitter_callback"
-twitter = tweepy.OAuthHandler(
-    CONSUMER_TOKEN, CONSUMER_SECRET, CALLBACK_URL)
-
-
-twitter = OAuth1Service(
-    consumer_key='2Icic6DEGROMML9U3Xrrg',
-    consumer_secret='2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M',
-    name='twitter',
-    access_token_url='https://api.twitter.com/oauth/access_token',
-    authorize_url='https://api.twitter.com/oauth/authorize',
-    request_token_url='https://api.twitter.com/oauth/request_token',
-    base_url='https://api.twitter.com/1/'
-)
+twitter = tweepy.OAuthHandler(CONSUMER_TOKEN, CONSUMER_SECRET)
 
 facebook = OAuth2Service(
     client_id='236929692994329',
@@ -75,5 +62,4 @@ google = OAuth2WebServerFlow(
     client_secret='dtLZ9z-AGhid6knEOC54qudr',
     scope='https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me',  # noqa
     redirect_uri='http://127.0.0.1:8001/google_callback',
-    state='@@@@@@@@@@@@@@@@@@@@'
 )
