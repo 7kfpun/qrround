@@ -23,6 +23,8 @@ http://developer.linkedinlabs.com/jsapi-console/#examples/sharing/shareapi.html&
 Weibo
 http://open.weibo.com/apps/
 http://open.weibo.com/wiki/Weibo-JS
+http://open.weibo.com/wiki/API%E6%96%87%E6%A1%A3_V2
+http://open.weibo.com/tools/console
 
 Renren
 http://app.renren.com/developers/newapp/229108/audit/appHome
