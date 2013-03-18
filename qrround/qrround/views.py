@@ -30,7 +30,6 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
-
     state = request.session['state'] = unique_generator(32)
 
     # facebook
@@ -42,6 +41,7 @@ def index(request):
     facebook_auth_url = facebook.get_authorize_url(**params)
 
     # google
+    google.params.update({'state': state})
     google_auth_url = google.step1_get_authorize_url()
 
     # linkedin
@@ -62,6 +62,7 @@ def index(request):
     renren_auth_url = renren.get_authorize_url(**params)
 
     try:
+        twitter.callback = "http://127.0.0.1:8001/twitter_callback?state=%s" % state  # noqa
         twitter_auth_url = twitter.get_authorization_url()
     except tweepy.TweepError:
         twitter_auth_url = None
@@ -222,27 +223,28 @@ def linkedincallback(request):
 
 
 def twittercallback(request):
-    verifier = request.GET.get('oauth_verifier')
-    try:
-        twitter.get_access_token(verifier)
-    except tweepy.TweepError:
-        print 'Error! Failed to get access token.'
+    if request.GET.get('state') == request.session['state']:
+        verifier = request.GET.get('oauth_verifier')
+        try:
+            twitter.get_access_token(verifier)
+        except tweepy.TweepError:
+            print 'Error! Failed to get access token.'
 
-    twitter.set_access_token(twitter.access_token.key,
-                             twitter.access_token.secret)
-    api = tweepy.API(twitter)
-    me = api.me()  # <object>
+        twitter.set_access_token(twitter.access_token.key,
+                                 twitter.access_token.secret)
+        api = tweepy.API(twitter)
+        me = api.me()  # <object>
 
-    name = me.name
-    profile_image_url = me.profile_image_url
+        name = me.name
+        profile_image_url = me.profile_image_url
 
-    request.session['twitter_id'] = 'twitter#' + me.id_str
-    friends = api.friends_ids()
+        request.session['twitter_id'] = 'twitter#' + me.id_str
+        friends = api.friends_ids()
 
-    response = HttpResponse('twitter: ' + name + ' ' + me.id_str + '\n'
-                            + 'has ' + str(len(friends)) + '\n'
-                            + profile_image_url)
-    return response
+        response = HttpResponse('twitter: ' + name + ' ' + me.id_str + '\n'
+                                + 'has ' + str(len(friends)) + '\n'
+                                + profile_image_url)
+        return response
 
 
 # Still have problem
