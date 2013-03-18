@@ -20,6 +20,7 @@ from qrround.clients import (
     facebook,
     google,
     linkedin,
+    kaixin001,
     renren,
     twitter,
     weibo,
@@ -57,6 +58,15 @@ def index(request):
     google.params.update({'state': state})
     google_auth_url = google.step1_get_authorize_url()
 
+    # kaixin001
+    params = {
+        'scope': 'basic',
+        'response_type': 'code',
+        'state': state,
+        'redirect_uri': 'http://127.0.0.1:8001/kaixin001_callback',
+    }
+    kaixin001_auth_url = kaixin001.get_authorize_url(**params)
+
     # linkedin
     params = {
         'scope': 'r_basicprofile r_emailaddress r_network',
@@ -84,8 +94,8 @@ def index(request):
     # weibo
     params = {
         'scope': 'email,direct_messages_write,friendships_groups_read',
-        'state': 'state',
-        'redirect_uri': 'http://127.0.0.1/',
+        'state': state,
+        'redirect_uri': 'http://127.0.0.1/weibo_callback',
         'grant_type': 'authorization_code',
     }
     weibo_auth_url = weibo.get_authorize_url(**params)
@@ -93,9 +103,10 @@ def index(request):
     return render(request, 'index.html', {
         'facebook_auth_url': facebook_auth_url,
         'google_auth_url': google_auth_url,
+        'kaixin001_auth_url': kaixin001_auth_url,
         'linkedin_auth_url': linkedin_auth_url,
-        'twitter_auth_url': twitter_auth_url,
         'renren_auth_url': renren_auth_url,
+        'twitter_auth_url': twitter_auth_url,
         'weibo_auth_url': weibo_auth_url,
         'form': QueryForm(session=request.session),
         'session': request.session.keys(),
@@ -246,6 +257,64 @@ def linkedincallback(request):
         return HttpResponse('CSFS?')
 
 
+def kaixin001callback(request):
+    if request.GET.get('state') == 'state':
+        exchange_url = (
+            'https://api.kaixin001.com/oauth2/access_token'
+            '?grant_type=authorization_code'
+            '&code=' + request.GET.get('code')
+            + '&client_id=1214876808351987b5b2f5659b72f67c'
+            '&client_secret=bf2726ad4eb6dc8e3c41fa6f9edf8ab3'
+            '&redirect_uri=http://127.0.0.1:8001/kaixin001_callback'
+        )
+        r = requests.get(exchange_url)
+        access_token = r.json()['access_token']
+
+        me_url = (
+            'https://api.kaixin001.com/users/me.json'
+            '?access_token=' + access_token
+        )
+        me = requests.get(me_url).json()
+
+        friends_url = (
+            'https://api.kaixin001.com/friends/me.json'
+            '?num=50'
+            '&access_token=' + access_token
+        )
+        friends = requests.get(friends_url).json()['users']
+
+        request.session['kaixin001'] = 'kaixin001#' + str(me['uid'])
+        data = {
+            "meta": {
+                "text": "this is text",
+                "method": "text",
+                "channel": "kaixin001",
+            },
+            "user": me,
+            "friends": friends,
+        }
+
+        request.session['kaixin001_access_token'] = access_token
+        request.session['kaixin001_data'] = data
+
+        response = redirect('/close_window')
+        response.set_cookie('kaixin001_access_token',
+                            access_token, max_age=1000)
+
+#        response = HttpResponse(
+#            'kaixin001_access_token:' + json.dumps(request.GET)
+#            + '<br /><br /><br />' + json.dumps(r.json())
+#            + '<br /><br /><br />' + json.dumps(me)
+#            + '<br /><br /><br />' + json.dumps(friends)
+#        )
+#        response.set_cookie('kaixin001_access_token',
+#                            request.GET.get('code'), max_age=1000)
+#
+#        return HttpResponse(response)
+
+        return response
+
+
 def twittercallback(request):
     if request.GET.get('state') == request.session['state']:
         verifier = request.GET.get('oauth_verifier')
@@ -270,6 +339,8 @@ def twittercallback(request):
                                 + 'has ' + str(len(friends)) + '\n'
                                 + profile_image_url)
         return response
+    else:
+        return HttpResponse('CSFS?')
 
 
 # Still have problem
@@ -340,6 +411,8 @@ def weibocallback(request):
         response.set_cookie('weibo_access_token',
                             access_token, max_age=1000)
         return response
+    else:
+        return HttpResponse('CSFS?')
 
 
 def oauth2callback(request):
