@@ -1,15 +1,11 @@
-from rauth import OAuth1Service, OAuth2Service
+from oauth2client.client import OAuth2WebServerFlow  # for google
+from rauth import OAuth2Service
+import tweepy
 
 
-twitter = OAuth1Service(
-    consumer_key='2Icic6DEGROMML9U3Xrrg',
-    consumer_secret='2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M',
-    name='twitter',
-    access_token_url='https://api.twitter.com/oauth/access_token',
-    authorize_url='https://api.twitter.com/oauth/authorize',
-    request_token_url='https://api.twitter.com/oauth/request_token',
-    base_url='https://api.twitter.com/1/'
-)
+CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
+CONSUMER_SECRET = "2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M"
+twitter = tweepy.OAuthHandler(CONSUMER_TOKEN, CONSUMER_SECRET)
 
 facebook = OAuth2Service(
     client_id='236929692994329',
@@ -18,16 +14,6 @@ facebook = OAuth2Service(
     authorize_url='https://graph.facebook.com/oauth/authorize',
     access_token_url='https://graph.facebook.com/oauth/access_token',
     base_url='https://graph.facebook.com/'
-)
-
-google = OAuth2Service(
-    client_id=('533974579689-j6h3lt2toobuok26n9o5g3n0qo0k2mbm'
-               '.apps.googleusercontent.com'),
-    client_secret='dtLZ9z-AGhid6knEOC54qudr',
-    name='google',
-    authorize_url='https://accounts.google.com/o/oauth2/auth',
-    access_token_url='https://accounts.google.com/o/oauth2/token',
-    base_url='https://www.googleapis.com/plus/v1/'
 )
 
 linkedin = OAuth2Service(
@@ -48,10 +34,32 @@ renren = OAuth2Service(
     base_url='https://api.linkedin.com/v1/'
 )
 
-#    facebook_auth_url = (
-#        'https://www.facebook.com/dialog/oauth/?'
-#        'client_id=236929692994329'
-#        '&redirect_uri=http://127.0.0.1:8001/facebook_callback'
-#        '&state=STATE'
-#        '&scope=read_stream,publish_actions'
-#    )
+# linkedin_auth_url = (
+#     'https://www.linkedin.com/uas/oauth2/authorization?response_type=code'
+#     '&client_id=2ykkt7cjhrcg'
+#     '&scope=r_basicprofile%20r_emailaddress%20r_network'
+#     '&state=STATE'
+#     '&redirect_uri=http://127.0.0.1:8001/linkedin_callback'
+# )
+
+# google_auth_url = (
+#     'https://accounts.google.com/o/oauth2/auth?'
+#     'scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'
+#     '+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile'
+#     '&redirect_uri=http://127.0.0.1:8001/google_callback&response_type=code'  # noqa
+#     '&client_id=533974579689-j6h3lt2toobuok26n9o5g3n0qo0k2mbm.apps.googleusercontent.com'  # noqa
+# )
+
+# params = {
+#     'scope': 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',  # noqa
+#     'response_type': 'code',
+#     'redirect_uri': 'http://127.0.0.1:8001/google_callback'
+# }
+# google_auth_url = google.get_authorize_url(**params)
+
+google = OAuth2WebServerFlow(
+    client_id='533974579689-j6h3lt2toobuok26n9o5g3n0qo0k2mbm.apps.googleusercontent.com',  # noqa
+    client_secret='dtLZ9z-AGhid6knEOC54qudr',
+    scope='https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me',  # noqa
+    redirect_uri='http://127.0.0.1:8001/google_callback',
+)
