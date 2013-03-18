@@ -1,5 +1,13 @@
-from rauth import OAuth1Service, OAuth2Service
 from oauth2client.client import OAuth2WebServerFlow  # for google
+from rauth import OAuth1Service, OAuth2Service
+import tweepy
+
+
+CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
+CONSUMER_SECRET = "2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M"
+CALLBACK_URL = "http://127.0.0.1:8001/twitter_callback"
+twitter = tweepy.OAuthHandler(
+    CONSUMER_TOKEN, CONSUMER_SECRET, CALLBACK_URL)
 
 
 twitter = OAuth1Service(
@@ -38,6 +46,14 @@ renren = OAuth2Service(
     access_token_url='https://graph.renren.com/oauth/authorize',
     base_url='https://api.linkedin.com/v1/'
 )
+
+# linkedin_auth_url = (
+#     'https://www.linkedin.com/uas/oauth2/authorization?response_type=code'
+#     '&client_id=2ykkt7cjhrcg'
+#     '&scope=r_basicprofile%20r_emailaddress%20r_network'
+#     '&state=STATE'
+#     '&redirect_uri=http://127.0.0.1:8001/linkedin_callback'
+# )
 
 # google_auth_url = (
 #     'https://accounts.google.com/o/oauth2/auth?'
