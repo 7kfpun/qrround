@@ -58,20 +58,7 @@ def index(request):
         callback_url='http://127.0.0.1:8001/twitter_callback'
     )
 
-    google_auth_url = (
-        'https://accounts.google.com/o/oauth2/auth?'
-        'scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'
-        '+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile'
-        '&redirect_uri=http://127.0.0.1:8001/google_callback&response_type=code'  # noqa
-        '&client_id=533974579689-j6h3lt2toobuok26n9o5g3n0qo0k2mbm.apps.googleusercontent.com'  # noqa
-    )
-
-    params = {
-        'scope': 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',  # noqa
-        'response_type': 'code',
-        'redirect_uri': 'http://127.0.0.1:8001/google_callback'
-    }
-    google_auth_url = google.get_authorize_url(**params)
+    google_auth_url = google.step1_get_authorize_url()
 
     linkedin_auth_url = (
         'https://www.linkedin.com/uas/oauth2/authorization?response_type=code'
@@ -163,28 +150,41 @@ def facebookcallback(request):
 
 # Still have problem
 def googlecallback(request):
-    response = HttpResponse('google_auth_session:' + json.dumps(request.GET))
-    response.set_cookie('google_auth_session',
-                        request.GET.get('code'), max_age=1000)
+    if request.GET.get('state') == request.session['state']:
 
-#    session = google.get_auth_session(data={
-#        'code': request.GET.get('code'),
-#        'data-type': 'jsonp',
-#        'redirect_uri': 'http://127.0.0.1:8001/google_callback'})
+        credentials = google.step2_exchange(request.GET.get('code'))
+        access_token = credentials.access_token
 
-    exchange_url = (
-        'https://accounts.google.com/o/oauth2/token?'
-        'code=' + request.GET.get('code') + '&redirect_uri=http://127.0.0.1:8001/google_callback'  # noqa
-        '&client_id=533974579689-j6h3lt2toobuok26n9o5g3n0qo0k2mbm.apps.googleusercontent.com'  # noqa
-        '&client_secret=dtLZ9z-AGhid6knEOC54qudr'
-        '&grant_type=authorization_code'
-    )
-    print exchange_url
-    r = requests.post(exchange_url)
-    print r.json()
+        me_url = (
+            'https://www.googleapis.com/plus/v1/people/me'
+            '?access_token=' + access_token
+        )
+        me = requests.get(me_url).json()
 
-    #print session.get('userinfo').json()
-    return response
+        friends_url = (
+            'https://www.googleapis.com/plus/v1/people/me/people/visible'
+            '?access_token=' + access_token
+        )
+        friends = requests.get(friends_url).json()['items']
+
+        request.session['google_id'] = 'google#' + str(me['id'])
+        data = {
+            "meta": {
+                "text": "this is text",
+                "method": "text",
+                "channel": "linkedin",
+            },
+            "user": me,
+            "friends": friends,
+        }
+
+        request.session['google_access_token'] = access_token
+        request.session['google_data'] = data
+
+        response = redirect('/close_window')
+        response.set_cookie('google_access_token',
+                            access_token, max_age=1000)
+        return response
 
 
 def linkedincallback(request):
