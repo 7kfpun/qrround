@@ -51,3 +51,12 @@ weibo = OAuth2Service(
     base_url='https://api.weibo.com/2/',
 )
 # POST  https://api.weibo.com/2/statuses/update.json?access_token=2.00wQWhVDL1OVtB1375cc41d6BUNfYB status=status  # noqa
+
+kaixin001 = OAuth2Service(
+    client_id='1214876808351987b5b2f5659b72f67c',
+    client_secret='bf2726ad4eb6dc8e3c41fa6f9edf8ab3',
+    name='weibo',
+    authorize_url='http://api.kaixin001.com/oauth2/authorize',
+    access_token_url='https://api.kaixin001.com/oauth2/access_token',
+    base_url='https://api.weibo.com/2/',
+)
