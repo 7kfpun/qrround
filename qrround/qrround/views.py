@@ -1,7 +1,12 @@
 from celery import task
+from django.contrib.auth import logout
 from django.core.files import File
 from django.db import transaction
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import (
+    HttpResponse,
+    HttpResponseBadRequest,
+    HttpResponseNotFound,
+)
 from django.shortcuts import redirect, render   # , get_object_or_404
 # from django.template import Context, Template
 from forms import QueryForm
@@ -11,7 +16,14 @@ import json
 import logging
 import os
 import qrcode
-from qrround.clients import facebook, google, linkedin, renren, twitter
+from qrround.clients import (
+    facebook,
+    google,
+    linkedin,
+    renren,
+    twitter,
+    weibo,
+)
 from qrround.models import (
     UserClient,
     # Friend,
@@ -37,7 +49,8 @@ def index(request):
         'scope': 'read_stream,publish_actions',
         'response_type': 'code',
         'state': state,
-        'redirect_uri': 'http://127.0.0.1:8001/facebook_callback'}
+        'redirect_uri': 'http://127.0.0.1:8001/facebook_callback'
+    }
     facebook_auth_url = facebook.get_authorize_url(**params)
 
     # google
@@ -68,12 +81,22 @@ def index(request):
         twitter_auth_url = None
         logger.error('Error! Failed to get access token.')
 
+    # weibo
+    params = {
+        'scope': 'email,direct_messages_write,friendships_groups_read',
+        'state': 'state',
+        'redirect_uri': 'http://127.0.0.1/',
+        'grant_type': 'authorization_code',
+    }
+    weibo_auth_url = weibo.get_authorize_url(**params)
+
     return render(request, 'index.html', {
         'facebook_auth_url': facebook_auth_url,
         'google_auth_url': google_auth_url,
         'linkedin_auth_url': linkedin_auth_url,
         'twitter_auth_url': twitter_auth_url,
         'renren_auth_url': renren_auth_url,
+        'weibo_auth_url': weibo_auth_url,
         'form': QueryForm(session=request.session),
         'session': request.session.keys(),
     })
@@ -168,7 +191,8 @@ def linkedincallback(request):
         exchange_url = (
             'https://www.linkedin.com/uas/oauth2/accessToken'
             '?grant_type=authorization_code'
-            '&code=' + request.GET.get('code') + '&redirect_uri=http://127.0.0.1:8001/linkedin_callback'  # noqa
+            '&code=' + request.GET.get('code')
+            + '&redirect_uri=http://127.0.0.1:8001/linkedin_callback'
             '&client_id=2ykkt7cjhrcg'
             '&client_secret=TV7x10lw1JY6Zfe2'
         )
@@ -229,6 +253,7 @@ def twittercallback(request):
             twitter.get_access_token(verifier)
         except tweepy.TweepError:
             print 'Error! Failed to get access token.'
+            return HttpResponseNotFound('Failed to get access token')
 
         twitter.set_access_token(twitter.access_token.key,
                                  twitter.access_token.secret)
@@ -252,7 +277,8 @@ def renrencallback(request):
     exchange_url = (
         'https://graph.renren.com/oauth/authorize'
         '?response_type=code'
-        '&code=' + request.GET.get('code') + '&redirect_uri=http://127.0.0.1:8001/renren_callback'  # noqa
+        '&code=' + request.GET.get('code')
+        + '&redirect_uri=http://127.0.0.1:8001/renren_callback'
         '&client_id=229108'
         '&client_secret=8815838e95504011a18673ea9f37f3b4'
         '&scope=read_user_album+read_user_feed'
@@ -267,6 +293,55 @@ def renrencallback(request):
     return redirect('/close_window/')  # HttpResponse(response)
 
 
+def weibocallback(request):
+    if request.GET.get('state') == request.session['state']:
+        exchange_url = (
+            'https://api.weibo.com/oauth2/access_token'
+            '?client_id=1736274547'
+            '&client_secret=f6f8fa98288e0cb75d9fe291f14c33eb'
+            '&grant_type=authorization_code'
+            '&code=' + request.GET.get('code')
+            + '&redirect_uri=http://127.0.0.1:8001/weibo_callback'
+        )
+        r = requests.post(exchange_url)
+        access_token = r.json()['access_token']
+        uid = str(r.json()['uid'])
+
+        me_url = (
+            'https://api.weibo.com/2/users/show.json'
+            '?uid=3216837074' + uid
+            + '&access_token=' + access_token
+        )
+        me = requests.get(me_url).json()
+
+        friends_url = (
+            'https://api.weibo.com/2/friendships/friends.json'
+            '?uid=' + uid
+            + '&count=200'
+            '&access_token=' + access_token
+        )
+        friends = requests.get(friends_url).json()['users']
+
+        request.session['linkedin_id'] = 'weibo#' + uid
+        data = {
+            "meta": {
+                "text": "this is text",
+                "method": "text",
+                "channel": "weibo",
+            },
+            "user": me,
+            "friends": friends,
+        }
+
+        request.session['weibo_access_token'] = access_token
+        request.session['weibo_data'] = data
+
+        response = redirect('/close_window')
+        response.set_cookie('weibo_access_token',
+                            access_token, max_age=1000)
+        return response
+
+
 def oauth2callback(request):
     return HttpResponse(request.GET.get('code'))
 
@@ -278,6 +353,13 @@ def close_window(request, is_reload=False):
     html = '''<script type="text/javascript">
            %swindow.close();</script>''' % reload_line
     return HttpResponse(html)
+
+
+def logout_user(request):
+    logout(request)
+    response = redirect('/close_window_reload/')
+    response.delete_cookie('user_location')
+    return response
 
 
 @ratelimit(rate='20/m')

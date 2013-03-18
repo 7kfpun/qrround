@@ -9,7 +9,7 @@ facebook = OAuth2Service(
     name='facebook',
     authorize_url='https://graph.facebook.com/oauth/authorize',
     access_token_url='https://graph.facebook.com/oauth/access_token',
-    base_url='https://graph.facebook.com/'
+    base_url='https://graph.facebook.com/',
 )
 
 google = OAuth2WebServerFlow(
@@ -25,7 +25,7 @@ linkedin = OAuth2Service(
     name='linkedin',
     authorize_url='https://www.linkedin.com/uas/oauth2/authorization',
     access_token_url='https://www.linkedin.com/uas/oauth2/accessToken',
-    base_url='https://api.linkedin.com/v1/'
+    base_url='https://api.linkedin.com/v1/',
 )
 
 renren = OAuth2Service(
@@ -34,9 +34,20 @@ renren = OAuth2Service(
     name='renren',
     authorize_url='https://graph.renren.com/oauth/authorize',
     access_token_url='https://graph.renren.com/oauth/authorize',
-    base_url='https://api.linkedin.com/v1/'
+    base_url='https://api.linkedin.com/v1/',
 )
 
 twitter = tweepy.OAuthHandler(
     consumer_key="2Icic6DEGROMML9U3Xrrg",
-    consumer_secret="2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M")
+    consumer_secret="2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M",
+)
+
+weibo = OAuth2Service(
+    client_id='1736274547',
+    client_secret='f6f8fa98288e0cb75d9fe291f14c33eb',
+    name='weibo',
+    authorize_url='https://api.weibo.com/oauth2/authorize',
+    access_token_url='https://api.weibo.com/oauth2/access_token',
+    base_url='https://api.weibo.com/2/',
+)
+# POST  https://api.weibo.com/2/statuses/update.json?access_token=2.00wQWhVDL1OVtB1375cc41d6BUNfYB status=status  # noqa
