@@ -1,8 +1,32 @@
 {% block clients %}
 
 <p>
+  <a href="#">>> Google dialog <<</a>
+</p>
+
+
+<p>
   <p>Google+</p>
   <a href="#" onclick="sendCircle(); return false;">>> Google plus <<</a>
 </p>
+
+
+<!-- Facebook -->
+<!-- Place this tag where you want the share button to render. -->
+<div class="g-plus" data-action="share" data-annotation="vertical-bubble" data-height="60" data-href="ygygygygyg.cc"></div>
+
+<!-- Place this tag after the last share tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+
+<!-- LinkedIn -->
+<script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+<script type="IN/Share" data-counter="top"></script>
 
 {% endblock %}

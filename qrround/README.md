@@ -31,6 +31,16 @@ https://api.renren.com/restserver.do?api_key=d53f334760c949278f43344c39a8ce0e&ac
 
 ==========================
 
+Share button
+
+Google
+https://developers.google.com/+/web/share/
+
+LinkedIn
+http://developer.linkedin.com/plugins/share-plugin-generator
+
+==========================
+
 PIL Image tutorial
 
 Built an icon
