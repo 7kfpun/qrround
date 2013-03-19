@@ -114,12 +114,13 @@ def index(request):
     })
 
 
-def store_session(request, channel, client_id, me, friends):
+def store_session(request, channel, client_id, access_token, me, friends):
     data = {
         'meta': {
             'text': 'this is text',
             'method': 'text',
             'channel': channel,
+            'access_token': access_token,
         },
         'user': me,
         'friends': friends,
@@ -148,16 +149,24 @@ def facebookcallback(request):
         session = facebook.get_auth_session(data={
             'code': request.GET.get('code'),
             'redirect_uri': 'http://127.0.0.1:8001/facebook_callback'})
+        access_token = session.access_token
 
-        me = session.get('me').json()
+        # me = session.get('me').json()
+        # to get pic_square of me()
+        me = session.get(
+            'fql?q=SELECT uid, first_name, middle_name,'
+            + ' last_name, username, name, pic_square, profile_url'
+            + ' FROM user WHERE uid = me()').json()['data'][0]
+
         friends = session.get(
             'fql?q=SELECT uid, first_name, middle_name,'
             + ' last_name, username, name, pic_square, profile_url'
             + ' FROM user WHERE uid in (SELECT uid2 FROM friend'
             + ' WHERE uid1 = me())').json()['data']
 
-        client_id = 'facebook#' + str(me['id'])
-        return store_session(request, 'facebook', client_id, me, friends)
+        client_id = 'facebook#' + str(me['uid'])
+        return store_session(request, 'facebook', client_id,
+                             access_token, me, friends)
 
     else:
         return HttpResponse('CSFS?')
@@ -182,7 +191,8 @@ def googlecallback(request):
         friends = requests.get(friends_url).json()['items']
 
         client_id = 'google#' + str(me['id'])
-        return store_session(request, 'google', client_id, me, friends)
+        return store_session(request, 'google', client_id,
+                             access_token, me, friends)
 
     else:
         return HttpResponse('CSFS?')
@@ -214,7 +224,8 @@ def linkedincallback(request):
         friends = requests.get(friends_url).json()['values']
 
         client_id = 'linkedin#' + str(me['id'])
-        return store_session(request, 'linkedin', client_id, me, friends)
+        return store_session(request, 'linkedin', client_id,
+                             access_token, me, friends)
 
     else:
         return HttpResponse('CSFS?')
@@ -247,7 +258,8 @@ def kaixin001callback(request):
         friends = requests.get(friends_url).json()['users']
 
         client_id = 'kaixin001#' + str(me['uid'])
-        return store_session(request, 'kaixin001', client_id, me, friends)
+        return store_session(request, 'kaixin001', client_id,
+                             access_token, me, friends)
 
     else:
         return HttpResponse('CSFS?')
@@ -354,7 +366,8 @@ def weibocallback(request):
         friends = requests.get(friends_url).json()['users']
 
         client_id = 'weibo#' + uid
-        return store_session(request, 'weibo', client_id, me, friends)
+        return store_session(request, 'weibo', client_id,
+                             access_token, me, friends)
 
     else:
         return HttpResponse('CSFS?')
@@ -466,7 +479,8 @@ def getfriendstask(data):
 
 def getfriends(data, cache_image=False):
     channel = data['meta']['channel']
-    channel_id = data['user'].get('id', None) or data['user'].get('uid', None)
+    channel_id = str(data['user'].get('id', None)
+                     or data['user'].get('uid', None))
 
     if channel == 'facebook':
         first_name = data['user']['first_name']
@@ -500,26 +514,29 @@ def getfriends(data, cache_image=False):
     userclient.first_name = first_name
     userclient.last_name = last_name
     userclient.friends = data['friends']
-    userclient.save()
+    userclient.access_token = data['meta']['access_token']
 
     if channel == 'facebook':
-        url = data['user'].get('pic_square', None)
+        profile_picture_url = data['user'].get('pic_square', None)
     elif channel == 'google':
-        url = data['user']['image']['url'] \
+        profile_picture_url = data['user']['image']['url'] \
             if 'image' in data['user'] else None
     elif channel == 'linkedin':
-        url = data['user'].get('pictureUrl', None)
+        profile_picture_url = data['user'].get('pictureUrl', None)
     elif channel == 'kaixin001':
-        url = data['user'].get('logo50', None)
+        profile_picture_url = data['user'].get('logo50', None)
     elif channel == 'twitter':
-        url = data['user']['profile_image_url']
+        profile_picture_url = data['user']['profile_image_url']
     else:
-        url = None
+        profile_picture_url = None
+
+    userclient.profile_picture_url = profile_picture_url
+    userclient.save()
 
     if cache_image:
-        if url:
+        if profile_picture_url:
             cachedimage, created = CachedImage.objects.get_or_create(
-                url=url)
+                url=profile_picture_url)
             cachedimage.cache_and_save()
 
         frd_cachedimage = userclient.cachedimage_set.values_list('url',
@@ -527,22 +544,24 @@ def getfriends(data, cache_image=False):
         # Caching friend's profile picture
         for frd in data['friends']:
             if channel == 'facebook':
-                url = frd.get('pic_square', None)
+                profile_picture_url = frd.get('pic_square', None)
             elif channel == 'google':
-                url = frd['image']['url'] if 'image' in frd else None
+                profile_picture_url = frd['image']['url'] \
+                    if 'image' in frd else None
             elif channel == 'linkedin':
-                url = frd.get('pictureUrl', None)
+                profile_picture_url = frd.get('pictureUrl', None)
             elif channel == 'kaixin001':
-                url = frd.get('logo50', None)
+                profile_picture_url = frd.get('logo50', None)
             elif channel == 'twitter':
-                url = None
+                profile_picture_url = None
                 # TODO: complicated get
             else:
-                url = None
+                profile_picture_url = None
 
-            if url and url not in frd_cachedimage:
+            if profile_picture_url \
+                    and profile_picture_url not in frd_cachedimage:
                 cachedimage, created = CachedImage.objects.get_or_create(
-                    url=url)
+                    url=profile_picture_url)
                 # cachedimage = CachedImage(url=url)
                 cachedimage.user = userclient
                 cachedimage.cache_and_save()
