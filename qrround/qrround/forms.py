@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.safestring import mark_safe
 from qrround.models import Query
 from qrround.channels import channels
 
@@ -9,7 +10,9 @@ class QueryForm(forms.ModelForm):
     )
     channel_choice = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
-        choices=CHANNEL_CHOICES, required=True)
+        choices=CHANNEL_CHOICES,
+        required=True,
+    )
 
     ERROR_CORRECT = (
         ('ERROR_CORRECT_L', 'L',),
@@ -20,7 +23,15 @@ class QueryForm(forms.ModelForm):
     error_correct_choice = forms.ChoiceField(
         widget=forms.RadioSelect, choices=ERROR_CORRECT, required=True)
 
-    accept = forms.NullBooleanField(widget=forms.CheckboxInput)
+    accept = forms.NullBooleanField(
+        widget=forms.CheckboxInput,
+        help_text=mark_safe('I have read and accept <a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>'),  # noqa
+    )
+    auto_post = forms.NullBooleanField(
+        widget=forms.CheckboxInput,
+        help_text='Valid wildcard search is in the format',
+        initial=True
+    )
 
     class Meta:
         model = Query

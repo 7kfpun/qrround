@@ -11,16 +11,17 @@
   </div>
   <br />
   <label for="id_accept" class="checkbox">
-    {{ form.accept }} I have read and accept <a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>
+    {{ form.accept }} {{ form.accept.help_text }}
   </label>
   <br /><br />
 
-
+  <p>Options</p>
   <div class="tabbable tabs-left">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
       <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
       <li class=""><a href="#lC" data-toggle="tab">Section 3</a></li>
+      <li class=""><a href="#lD" data-toggle="tab">{{ form.auto_post.label_tag }}</a></li>
     </ul>
 
     <div class="tab-content">
@@ -42,6 +43,9 @@
       </div>
       <div class="tab-pane" id="lC">
         <p>What up girl, this is Section C.</p>
+      </div>
+      <div class="tab-pane" id="lD">
+        <p>{{ form.auto_post }} {{ form.auto_post.help_text }}</p>
       </div>
     </div>
   </div>
