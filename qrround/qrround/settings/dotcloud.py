@@ -15,6 +15,20 @@ DATABASES = {
     }
 }
 
+USE_REDIS = True
+if USE_REDIS:
+    CACHES = {
+        'default': {
+            'BACKEND': 'redis_cache.RedisCache',
+            'LOCATION': env['DOTCLOUD_CACHE_REDIS_HOST']+':'+env['DOTCLOUD_CACHE_REDIS_PORT'],  # noqa
+            'OPTIONS': {
+                'DB': 1,
+                'PASSWORD': env['DOTCLOUD_CACHE_REDIS_PASSWORD'],
+                'PARSER_CLASS': 'redis.connection.HiredisParser'
+            },
+        },
+    }
+
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = '/home/dotcloud/data/media/'
