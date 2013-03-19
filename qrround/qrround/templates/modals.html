@@ -56,40 +56,19 @@
 <div id="import_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="importLabel">Modal header</h3>
+    <h3 id="importLabel">Import your account here!!</h3>
   </div>
   <div class="modal-body">
+    {% for channel, auth_url in auth_urls.iteritems %}
     <p>
-      <a class="btn btn-primary" href="{{ facebook_auth_url }}" target="_blank">Facebook auth url</a>
+      <a class="btn" onclick=popitup("{{ auth_url }}")>{{ channel }} auth url</a>
       Import your friends
     <p>
-    </p>
-      <a class="btn btn-warning" href="{{ google_auth_url }}" target="_blank">Google plus auth url</a>
-      Import your circle
-    <p>
-    </p>
-      <a class="btn btn-success" href="{{ linkedin_auth_url }}" target="_blank">LinkedIn auth url</a>
-      Import your connections
-    <p>
-    </p>
-      <a class="btn btn-info" disabled="disabled" href="{{ twitter_auth_url }}" target="_blank">Twitter auth url</a>
-      Import your connections
-    <p>
-    </p>
-      <a class="btn btn-danger" href="{{ kaixin001_auth_url }}" target="_blank">Kaixin001 auth url</a>
-      Import your connections
-    </p>
-    </p>
-      <a class="btn btn-danger" href="{{ weibo_auth_url }}" target="_blank">Weibo auth url</a>
-      Import your connections
-    </p>
-    </p>
-      <a class="btn btn-danger" href="{{ renren_auth_url }}" target="_blank">Renren auth url</a>
-      Import your connections
-    </p>
+    {% endfor %}
   </div>
   <div class="modal-footer">
-    <button id="logout" class="btn">Logout all</button>
+    <button id="logout" class="btn pull-left">Logout all</button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     <button id="import" class="btn btn-primary">Import</button>
   </div>
 </div>

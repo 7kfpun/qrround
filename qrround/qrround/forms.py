@@ -29,7 +29,7 @@ class QueryForm(forms.ModelForm):
     )
     auto_post = forms.NullBooleanField(
         widget=forms.CheckboxInput,
-        help_text='Valid wildcard search is in the format',
+        help_text='Post the code to your wall/stream/board',
         initial=True
     )
 

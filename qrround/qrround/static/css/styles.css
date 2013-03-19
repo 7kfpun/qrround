@@ -32,12 +32,8 @@ body {
   padding: 14px 24px;
 }
 
-ul {
+li {
   list-style-type: none;
-}
-
-.options {
-  text-align: left;
 }
 
 /* Supporting marketing content */
@@ -46,6 +42,10 @@ ul {
 }
 .marketing p + h4 {
   margin-top: 28px;
+}
+
+.options {
+  text-align: left;
 }
 
 /* Customize buttons colour */
