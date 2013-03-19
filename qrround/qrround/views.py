@@ -209,29 +209,7 @@ def linkedincallback(request):
         friends = requests.get(friends_url).json()['values']
 
         client_id = 'linkedin#' + str(me['id'])
-        data = {
-            "meta": {
-                "text": "this is text",
-                "method": "text",
-                "channel": "linkedin",
-            },
-            "user": me,
-            "friends": friends,
-        }
-        getfriends(data, cache_image=False)
-
-        request.session[client_id] = data
-        if 'linkedin_import' in request.session:
-            tmp = request.session['linkedin_import']
-            if client_id not in tmp:
-                tmp.append(client_id)
-            request.session['linkedin_import'] = tmp
-        else:
-            request.session['linkedin_import'] = [client_id]
-
-        response = redirect('/close_window')
-        response.set_cookie('linkedin_import', unique_generator(6))
-        return response
+        return store_session(request, 'linkedin', client_id, me, friends)
 
 #        response = HttpResponse(
 #            'linkedin_auth_session:' + json.dumps(request.GET)
@@ -274,23 +252,8 @@ def kaixin001callback(request):
         )
         friends = requests.get(friends_url).json()['users']
 
-        request.session['kaixin001'] = 'kaixin001#' + str(me['uid'])
-        data = {
-            "meta": {
-                "text": "this is text",
-                "method": "text",
-                "channel": "kaixin001",
-            },
-            "user": me,
-            "friends": friends,
-        }
-
-        request.session['kaixin001_access_token'] = access_token
-        request.session['kaixin001_data'] = data
-
-        response = redirect('/close_window')
-        response.set_cookie('kaixin001_access_token',
-                            access_token, max_age=1000)
+        client_id = 'kaixin001#' + str(me['uid'])
+        return store_session(request, 'kaixin001', client_id, me, friends)
 
 #        response = HttpResponse(
 #            'kaixin001_access_token:' + json.dumps(request.GET)
@@ -302,8 +265,6 @@ def kaixin001callback(request):
 #                            request.GET.get('code'), max_age=1000)
 #
 #        return HttpResponse(response)
-
-        return response
 
 
 def twittercallback(request):
@@ -384,24 +345,9 @@ def weibocallback(request):
         )
         friends = requests.get(friends_url).json()['users']
 
-        request.session['linkedin_id'] = 'weibo#' + uid
-        data = {
-            "meta": {
-                "text": "this is text",
-                "method": "text",
-                "channel": "weibo",
-            },
-            "user": me,
-            "friends": friends,
-        }
+        client_id = 'weibo#' + uid
+        return store_session(request, 'weibo', client_id, me, friends)
 
-        request.session['weibo_access_token'] = access_token
-        request.session['weibo_data'] = data
-
-        response = redirect('/close_window')
-        response.set_cookie('weibo_access_token',
-                            access_token, max_age=1000)
-        return response
     else:
         return HttpResponse('CSFS?')
 

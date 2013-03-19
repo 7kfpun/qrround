@@ -58,8 +58,8 @@ DATABASES = {
 # Caches
 CACHES = {
     'default': {
-    'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    'KEY_PREFIX': '_'.join((PROJECT_NAME, ENVIRONMENT_NAME))
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'KEY_PREFIX': '_'.join((PROJECT_NAME, ENVIRONMENT_NAME)),
     }
 }
 
