@@ -25,6 +25,7 @@ redis==2.7.2
 rauth==0.5.1
 django-google-analytics==1
 oauth2client==1.0c3
+jsonpickle==0.4.0
 
 # Clients
 tweepy==2.0
@@ -33,3 +34,4 @@ tweepy==2.0
 coverage==3.5.2
 django_nose==1.1
 flake8==2.0.0
+lettuce==0.2.15
