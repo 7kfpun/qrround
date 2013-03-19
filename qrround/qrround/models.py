@@ -56,6 +56,8 @@ class UserClient(AbstractBaseUser):
     url = models.URLField(blank=True, null=True)
 
     friends = JSONField(blank=True, null=True)
+
+    access_token = models.CharField(max_length=255, blank=True, null=True)
     USERNAME_FIELD = 'client'
 
     def __unicode__(self):

@@ -9,7 +9,7 @@ from qrround.models import (
 
 
 class UserClientAdmin(admin.ModelAdmin):
-    list_display = ('client',
+    list_display = ('client', 'access_token',
                     'is_active', 'is_admin',
                     'last_login', 'date_joined',
                     'username', 'first_name', 'last_name', 'email',
