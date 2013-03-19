@@ -12,27 +12,30 @@ ENVIRONMENT_NAME = 'core'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+ALLOWED_HOSTS = ["127.0.0.1"]
+
 COMPRESS_ENABLED = True  # Opposite with DEBUG
 
 RATELIMIT_ENABLE = True
 
-INTERNAL_IPS = '127.0.0.1', '192.168.1.69'
-DEBUG_TOOLBAR_CONFIG = {
-    "INTERCEPT_REDIRECTS": False,
-    "HIDE_DJANGO_SQL": False,
-    "ENABLE_STACKTRACES": True,
-}
-DEBUG_TOOLBAR_PANELS = (
-    'debug_toolbar.panels.version.VersionDebugPanel',
-    'debug_toolbar.panels.timer.TimerDebugPanel',
-    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-    'debug_toolbar.panels.headers.HeaderDebugPanel',
-    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
-    'debug_toolbar.panels.template.TemplateDebugPanel',
-    'debug_toolbar.panels.sql.SQLDebugPanel',
-    'debug_toolbar.panels.signals.SignalDebugPanel',
-    'debug_toolbar.panels.logger.LoggingPanel',
-)
+if DEBUG:
+    INTERNAL_IPS = '127.0.0.1', '192.168.1.69'
+    DEBUG_TOOLBAR_CONFIG = {
+        "INTERCEPT_REDIRECTS": False,
+        "HIDE_DJANGO_SQL": False,
+        "ENABLE_STACKTRACES": True,
+    }
+    DEBUG_TOOLBAR_PANELS = (
+        'debug_toolbar.panels.version.VersionDebugPanel',
+        'debug_toolbar.panels.timer.TimerDebugPanel',
+        'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+        'debug_toolbar.panels.headers.HeaderDebugPanel',
+        'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+        'debug_toolbar.panels.template.TemplateDebugPanel',
+        'debug_toolbar.panels.sql.SQLDebugPanel',
+        'debug_toolbar.panels.signals.SignalDebugPanel',
+        'debug_toolbar.panels.logger.LoggingPanel',
+    )
 
 AUTH_USER_MODEL = 'qrround.UserClient'
 
@@ -57,10 +60,12 @@ DATABASES = {
 # Caches
 CACHES = {
     'default': {
-    'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    'KEY_PREFIX': '_'.join((PROJECT_NAME, ENVIRONMENT_NAME))
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'KEY_PREFIX': '_'.join((PROJECT_NAME, ENVIRONMENT_NAME)),
     }
 }
+
+SESSION_COOKIE_AGE = 1209600  # 2 weeks in default
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts

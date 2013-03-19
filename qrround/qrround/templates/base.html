@@ -10,21 +10,21 @@
 
     <!-- CSS style -->
     {% compress css %}
-    <link type="text/css" href="/static/css/bootstrap.css" rel="stylesheet" />
-    <link type="text/css" href="/static/css/styles.css" rel="stylesheet" />
+    <link type="text/css" href="{{ STATIC_URL }}css/bootstrap.css" rel="stylesheet" />
+    <link type="text/css" href="{{ STATIC_URL }}css/styles.css" rel="stylesheet" />
     {% endcompress %}
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="../assets/js/html5shiv.js"></script>
+      <script src="{{ STATIC_URL }}js/html5shiv.js"></script>
     <![endif]-->
 
     <!-- Fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
-    <link rel="shortcut icon" href="/static/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ STATIC_URL }}ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ STATIC_URL }}ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ STATIC_URL }}ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}ico/favicon.ico">
 
   </head>
   <body>{% csrf_token %}
@@ -68,7 +68,6 @@
 
       <hr>
 
-
       <div class="footer">
         <p>&copy; Company 2013</p>
       </div>
@@ -77,20 +76,20 @@
 
     {% include "modals.html" %}
 
-  <!-- Javascript -->
-  <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" />
-  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js" /> -->
-  {% compress js %}
-  <script type="text/javascript" src="/static/js/jquery.min.js" />
-  <script type="text/javascript" src="/static/js/bootstrap.js" />
-  <script type="text/javascript" src="/static/js/json2.js" />
-  <script type="text/javascript" src="/static/js/ajax_csrf.js" />
-  <script type="text/javascript" src="/static/js/jquery.cookie.js" />
-  {% endcompress %}
+    <!-- Javascript -->
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" />
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js" /> -->
+    {% compress js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.min.js" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/json2.js" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/ajax_csrf.js" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js" />
+    {% endcompress %}
 
-  <script type="text/javascript" src="/static/js/scripts.js" />
-  <!-- <script src="https://apis.google.com/js/plus.js" />
-  <script src="https://apis.google.com/js/client:plus.js" /> -->
+    <script type="text/javascript" src="{{ STATIC_URL }}js/scripts.js" />
+    <!-- <script src="https://apis.google.com/js/plus.js" />
+    <script src="https://apis.google.com/js/client:plus.js" /> -->
 
   </body>
 </html>

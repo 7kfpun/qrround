@@ -1,13 +1,11 @@
 from django import forms
 from qrround.models import Query
+from qrround.channels import channels
 
 
 class QueryForm(forms.ModelForm):
     CHANNEL_CHOICES = (
-        ('facebook', 'Facebook',),
-        ('google', 'Google+',),
-        ('linkedin', 'LinkedIn',),
-        ('linkedin', 'LinkedIn',),
+        ('', '<< Empty >>',),
     )
     channel_choice = forms.MultipleChoiceField(
         widget=forms.CheckboxSelectMultiple,
@@ -43,10 +41,10 @@ class QueryForm(forms.ModelForm):
         self.fields['text'].max_length = 2000
         self.fields['error_correct_choice'].initial = 'ERROR_CORRECT_M'
 
-        channels = ['facebook_id', 'google_id', 'linkedin_id']
-        self.fields['channel_choice'].choices = (
-            (session[x], x[:-3].upper()) for x in channels if x in session
-        )
+        self.fields['channel_choice'].choices = [
+            (client, channel) for channel in channels if channel in session
+            for client in session[channel]
+        ]
         self.fields['channel_choice'].initial = (
             choice[0] for choice in self.fields['channel_choice'].choices)
 
