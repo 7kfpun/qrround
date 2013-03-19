@@ -76,20 +76,20 @@
 
     {% include "modals.html" %}
 
-  <!-- Javascript -->
-  <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" />
-  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js" /> -->
-  {% compress js %}
-  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.min.js" />
-  <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js" />
-  <script type="text/javascript" src="{{ STATIC_URL }}js/json2.js" />
-  <script type="text/javascript" src="{{ STATIC_URL }}js/ajax_csrf.js" />
-  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js" />
-  {% endcompress %}
+    <!-- Javascript -->
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" />
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js" /> -->
+    {% compress js %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.min.js" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/json2.js" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/ajax_csrf.js" />
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js" />
+    {% endcompress %}
 
-  <script type="text/javascript" src="{{ STATIC_URL }}js/scripts.js" />
-  <!-- <script src="https://apis.google.com/js/plus.js" />
-  <script src="https://apis.google.com/js/client:plus.js" /> -->
+    <script type="text/javascript" src="{{ STATIC_URL }}js/scripts.js" />
+    <!-- <script src="https://apis.google.com/js/plus.js" />
+    <script src="https://apis.google.com/js/client:plus.js" /> -->
 
   </body>
 </html>

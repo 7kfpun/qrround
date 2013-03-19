@@ -16,7 +16,7 @@ import json
 import logging
 import os
 import qrcode
-from qrround.clients import (
+from qrround.channels import (
     facebook,
     google,
     linkedin,
@@ -134,7 +134,7 @@ def store_session(request, channel, client_id, me, friends):
         request.session[channel] = [client_id]
 
     response = redirect('/close_window')
-    response.set_cookie(channel, unique_generator(6), 10)
+    response.set_cookie(channel, unique_generator(6))
     return response
 
 
@@ -367,7 +367,7 @@ def close_window(request, is_reload=False):
 
 def logout_user(request):
     logout(request)
-    response = redirect('/close_window_reload/')
+    response = redirect('close_window_reload')
     response.delete_cookie('user_location')
     return response
 
@@ -391,7 +391,6 @@ def getqrcode(request):
         error_correct = form.data['error_correct_choice']
         channel_choice = form.data.getlist('channel_choice', [])
 
-        print form.data
         try:
             qr = qrcode.QRCode(
                 version=None,
