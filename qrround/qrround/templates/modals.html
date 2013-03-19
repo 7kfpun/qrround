@@ -61,7 +61,7 @@
   <div class="modal-body">
     {% for channel, auth_url in auth_urls.iteritems %}
     <p>
-      <a class="btn" onclick=popitup("{{ auth_url }}")>{{ channel }} auth url</a>
+      <a class="btn importButton" onclick=popitup("{{ auth_url }}")>{{ channel }} auth url</a>
       Import your friends
     <p>
     {% endfor %}
