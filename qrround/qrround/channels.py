@@ -3,6 +3,9 @@ from rauth import OAuth2Service
 import tweepy
 
 
+channels = ['facebook', 'google', 'linkedin',
+    'renren', 'twitter', 'weibo', 'kaixin001']
+
 facebook = OAuth2Service(
     client_id='236929692994329',
     client_secret='9d65f7d0069567d6958f559ad918ada7',
