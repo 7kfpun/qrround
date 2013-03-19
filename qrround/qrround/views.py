@@ -114,13 +114,13 @@ def index(request):
 
 def store_session(request, channel, client_id, me, friends):
     data = {
-        "meta": {
-            "text": "this is text",
-            "method": "text",
-            "channel": channel,
+        'meta': {
+            'text': 'this is text',
+            'method': 'text',
+            'channel': channel,
         },
-        "user": me,
-        "friends": friends,
+        'user': me,
+        'friends': friends,
     }
 
     getfriends(data, cache_image=False)
@@ -272,25 +272,25 @@ def twittercallback(request):
 #        return HttpResponse(me)
 
         data = {
-            "meta": {
-                "text": "this is text",
-                "method": "text",
-                "channel": "twitter",
+            'meta': {
+                'text': 'this is text',
+                'method': 'text',
+                'channel': 'twitter',
             },
-            "user": {
-                "id": me.id_str,
-                "username": me.name,
-                "screen_name": me.screen_name,
-                "lang": me.lang,
-                "url": me.url,
-                "location": me.location,
-                "time_zone": me.time_zone,
-                "profile_image_url": me.profile_image_url,
-                "profile_image_url_https": me.profile_image_url_https,
-                "profile_background_image_url": me.profile_background_image_url,  # noqa
-                "profile_background_image_url_https": me.profile_background_image_url_https,  # noqa
+            'user': {
+                'id': me.id_str,
+                'username': me.name,
+                'screen_name': me.screen_name,
+                'lang': me.lang,
+                'url': me.url,
+                'location': me.location,
+                'time_zone': me.time_zone,
+                'profile_image_url': me.profile_image_url,
+                'profile_image_url_https': me.profile_image_url_https,
+                'profile_background_image_url': me.profile_background_image_url,  # noqa
+                'profile_background_image_url_https': me.profile_background_image_url_https,  # noqa
             },
-            "friends": [{"id": str(friend)} for friend in friends],
+            'friends': [{'id': str(friend)} for friend in friends],
         }
 
         client_id = 'twitter#' + me.id_str
@@ -363,9 +363,9 @@ def oauth2callback(request):
 
 
 def close_window(request, is_reload=False):
-    url = "window.opener.document.location.href"
-    reload_line = "window.opener.document.location.href = %s;" % url \
-        if is_reload else ""
+    url = 'window.opener.document.location.href'
+    reload_line = 'window.opener.document.location.href = %s;' % url \
+        if is_reload else ''
     html = '''<script type="text/javascript">
            %swindow.close();</script>''' % reload_line
     return HttpResponse(html)
@@ -452,8 +452,8 @@ def getfriendsrequest(request):
                 getfriends(data, True)
 
                 html += client_id \
-                    + '\n' + json.dumps(data['user']) + " has " \
-                    + str(len(data["friends"])) + '\n\n'
+                    + '\n' + json.dumps(data['user']) + ' has ' \
+                    + str(len(data['friends'])) + '\n\n'
         return HttpResponse(html)
 
 
@@ -497,18 +497,18 @@ def getfriends(data, cache_image=False):
     userclient.username = username
     userclient.first_name = first_name
     userclient.last_name = last_name
-    userclient.friends = data["friends"]
+    userclient.friends = data['friends']
     userclient.save()
 
     if channel == 'facebook':
-        url = data['user'].get("pic_square", None)
+        url = data['user'].get('pic_square', None)
     elif channel == 'google':
-        url = data['user']["image"]["url"] \
-            if "image" in data['user'] else None
+        url = data['user']['image']['url'] \
+            if 'image' in data['user'] else None
     elif channel == 'linkedin':
-        url = data['user'].get("pictureUrl", None)
+        url = data['user'].get('pictureUrl', None)
     elif channel == 'kaixin001':
-        url = data['user']['logo50']
+        url = data['user'].get('logo50', None)
     elif channel == 'twitter':
         url = data['user']['profile_image_url']
     else:
@@ -523,15 +523,15 @@ def getfriends(data, cache_image=False):
         frd_cachedimage = userclient.cachedimage_set.values_list('url',
                                                                  flat=True)
         # Caching friend's profile picture
-        for frd in data["friends"]:
+        for frd in data['friends']:
             if channel == 'facebook':
-                url = frd.get("pic_square", None)
+                url = frd.get('pic_square', None)
             elif channel == 'google':
-                url = frd["image"]["url"] if "image" in frd else None
+                url = frd['image']['url'] if 'image' in frd else None
             elif channel == 'linkedin':
-                url = frd.get("pictureUrl", None)
+                url = frd.get('pictureUrl', None)
             elif channel == 'kaixin001':
-                url = frd.get("logo50", None)
+                url = frd.get('logo50', None)
             elif channel == 'twitter':
                 url = None
                 # TODO: complicated get

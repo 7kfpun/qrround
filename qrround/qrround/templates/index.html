@@ -27,19 +27,15 @@
     <div class="tab-content">
       <div class="tab-pane active" id="lA">
         <p>You can still import more accounts</p>
-        <div class="row-fluid">
+        <div class="row-fluid choice">
           {% for choice in form.channel_choice %}
-          <div class="span2">{{ choice }}</div>
+          <div class="span3">{{ choice }}</div>
           {% endfor %}
         </div>
       </div>
       <div class="tab-pane" id="lB">
         <p>The higher error correct, the m</p>
-        <div class="row-fluid">
-          {% for choice in form.error_correct_choice %}
-          <div class="span2">{{ choice }}</div>
-          {% endfor %}
-        </div>
+        {{form.error_correct_choice }}
       </div>
       <div class="tab-pane" id="lC">
         <p>What up girl, this is Section C.</p>
