@@ -36,6 +36,10 @@ li {
   list-style-type: none;
 }
 
+.importButton {
+    width: 100px;
+}
+
 /* Supporting marketing content */
 .marketing {
   margin: 60px 0;
