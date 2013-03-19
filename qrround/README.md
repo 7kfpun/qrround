@@ -37,6 +37,16 @@ http://www.kaixin001.com/platform/tools/index.php
 
 ==========================
 
+Share button
+
+Google
+https://developers.google.com/+/web/share/
+
+LinkedIn
+http://developer.linkedin.com/plugins/share-plugin-generator
+
+==========================
+
 PIL Image tutorial
 
 Built an icon
