@@ -12,10 +12,14 @@ DATABASES = {
     }
 }
 
-## Caches
-#CACHES = {
-#    'default': {
-#    'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-#    'KEY_PREFIX': '_'.join((PROJECT_NAME, ENVIRONMENT_NAME))
-#    }
-#}
+
+CACHES = {
+    "default": {
+        "BACKEND": "redis_cache.cache.RedisCache",
+        'KEY_PREFIX': '_'.join((PROJECT_NAME, ENVIRONMENT_NAME)),
+        "LOCATION": "127.0.0.1:6379:1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "redis_cache.client.DefaultClient",
+        }
+    }
+}
