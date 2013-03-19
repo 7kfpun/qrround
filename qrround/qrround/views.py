@@ -101,13 +101,15 @@ def index(request):
     weibo_auth_url = weibo.get_authorize_url(**params)
 
     return render(request, 'index.html', {
-        'facebook_auth_url': facebook_auth_url,
-        'google_auth_url': google_auth_url,
-        'kaixin001_auth_url': kaixin001_auth_url,
-        'linkedin_auth_url': linkedin_auth_url,
-        'renren_auth_url': renren_auth_url,
-        'twitter_auth_url': twitter_auth_url,
-        'weibo_auth_url': weibo_auth_url,
+        'auth_urls': {
+            'Facebook': facebook_auth_url,
+            'Google+': google_auth_url,
+            'kaixin001': kaixin001_auth_url,
+            'LinkedIn': linkedin_auth_url,
+            'Renren': renren_auth_url,
+            'Twitter': twitter_auth_url,
+            'Weibo': weibo_auth_url,
+        },
         'form': QueryForm(session=request.session),
     })
 
