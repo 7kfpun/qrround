@@ -15,6 +15,29 @@ $('#getqrcode_button').on("click", function() {
     getqrcode(this);
 });
 
+
+// Alert
+function notify(notify_type, msg) {
+  var alerts = $('#alerts');
+
+  if (notify_type == 'success') {
+    alerts.append('<div class="alert alerts-success fade in"> \
+                     <button type="button" class="close" data-dismiss="alert">×</button> \
+                     <strong>Success!</strong> ' + msg + ' \
+                   </div>');
+    alerts.fadeIn('fast');
+  }
+  if (notify_type == 'failure') {
+    alerts.append('<div class="alert alerts-error fade in"> \
+                     <button type="button" class="close" data-dismiss="alert">×</button> \
+                     <strong>Alert!</strong> ' + msg + ' \
+                   </div>');
+    alerts.fadeIn('fast');
+  }
+}
+
+
+// QR code
 function getqrcode(el) {
   var form = $(el).parents('form');
   console.log("click", form.find('input.span5').val() === "");
@@ -34,9 +57,11 @@ function getqrcode(el) {
             data
         );
         $('#getqrcode_button').button('complete');
+        notify('success', 'Try more one?');
       },
       error: function (request, status, error) {
-        alert(request.responseText);
+        // alert(request.responseText);
+        notify('failure', request.responseText);
         $('#getqrcode_button').button('reset');
       },
     });
@@ -76,6 +101,9 @@ $('#logout').on("click", function() {
   });
 });
 
+$('#accept').on("click", function() {
+  $.cookie('accept', true)
+});
 
 // TODO: useless, remove it
 function sendFriends(object) {
@@ -110,6 +138,8 @@ function listenCookieChange(cookieName, callback) {
 $.cookie('facebook', 0);
 $.cookie('google', 0);
 $.cookie('linkedin', 0);
+$.cookie('kaixin001', 0);
+$.cookie('twitter', 0);
 // bind the listener
 listenCookieChange('facebook', function() {
   $.ajax({
@@ -147,6 +177,31 @@ listenCookieChange('linkedin', function() {
 });
 
 // bind the listener
+listenCookieChange('kaixin001', function() {
+  $.ajax({
+    type: "POST",
+    url: "http://127.0.0.1:8001/getfriends",
+    data: { import: 'kaixin001' },
+    success: function(data) {
+      console.log("Received: " + data);
+    }
+  });
+});
+
+// bind the listener
+listenCookieChange('twitter', function() {
+  $.ajax({
+    type: "POST",
+    url: "http://127.0.0.1:8001/getfriends",
+    data: { import: 'twitter' },
+    success: function(data) {
+      console.log("Received: " + data);
+    }
+  });
+});
+
+// bind the listener
 listenCookieChange('weibo', function() {
   alert('cookie weibo_import has changed!');
 });
+
