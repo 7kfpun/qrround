@@ -11,6 +11,5 @@ local_settings.py
 qrround/qrround/media/*
 *.sqlite
 .dotcloud
-static/
 stats/
 build/
