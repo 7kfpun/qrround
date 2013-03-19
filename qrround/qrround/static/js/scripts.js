@@ -110,6 +110,8 @@ function listenCookieChange(cookieName, callback) {
 $.cookie('facebook', 0);
 $.cookie('google', 0);
 $.cookie('linkedin', 0);
+$.cookie('kaixin001', 0);
+$.cookie('twitter', 0);
 // bind the listener
 listenCookieChange('facebook', function() {
   $.ajax({
@@ -140,6 +142,30 @@ listenCookieChange('linkedin', function() {
     type: "POST",
     url: "http://127.0.0.1:8001/getfriends",
     data: { import: 'linkedin' },
+    success: function(data) {
+      console.log("Received: " + data);
+    }
+  });
+});
+
+// bind the listener
+listenCookieChange('kaixin001', function() {
+  $.ajax({
+    type: "POST",
+    url: "http://127.0.0.1:8001/getfriends",
+    data: { import: 'kaixin001' },
+    success: function(data) {
+      console.log("Received: " + data);
+    }
+  });
+});
+
+// bind the listener
+listenCookieChange('twitter', function() {
+  $.ajax({
+    type: "POST",
+    url: "http://127.0.0.1:8001/getfriends",
+    data: { import: 'twitter' },
     success: function(data) {
       console.log("Received: " + data);
     }
