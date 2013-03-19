@@ -15,10 +15,10 @@ class QueryForm(forms.ModelForm):
     )
 
     ERROR_CORRECT = (
-        ('ERROR_CORRECT_L', 'L',),
-        ('ERROR_CORRECT_M', 'M',),
-        ('ERROR_CORRECT_Q', 'Q',),
-        ('ERROR_CORRECT_H', 'H',),
+        ('ERROR_CORRECT_L', 'Low (7% of codewords can be restored)',),
+        ('ERROR_CORRECT_M', 'Medium (15% of codewords can be restored)',),
+        ('ERROR_CORRECT_Q', 'Quartile (25% of codewords can be restored)',),
+        ('ERROR_CORRECT_H', 'High (30% of codewords can be restored)',),
     )
     error_correct_choice = forms.ChoiceField(
         widget=forms.RadioSelect, choices=ERROR_CORRECT, required=True)
