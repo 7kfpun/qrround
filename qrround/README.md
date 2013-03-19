@@ -23,11 +23,17 @@ http://developer.linkedinlabs.com/jsapi-console/#examples/sharing/shareapi.html&
 Weibo
 http://open.weibo.com/apps/
 http://open.weibo.com/wiki/Weibo-JS
+http://open.weibo.com/wiki/API%E6%96%87%E6%A1%A3_V2
+http://open.weibo.com/tools/console
 
 Renren
 http://app.renren.com/developers/newapp/229108/audit/appHome
 http://wiki.dev.renren.com/wiki/Friends.getAppFriends
 https://api.renren.com/restserver.do?api_key=d53f334760c949278f43344c39a8ce0e&access_token=229108|6.0216fdde9c9062410fa7ed054e612d51.2592000.1365674400-514305971&method=friends.getAppFriends&format=json
+
+Kaixin001
+http://open.kaixin001.com/app/app_overview.php
+http://www.kaixin001.com/platform/tools/index.php
 
 ==========================
 

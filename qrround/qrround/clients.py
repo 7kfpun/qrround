@@ -3,17 +3,20 @@ from rauth import OAuth2Service
 import tweepy
 
 
-CONSUMER_TOKEN = "2Icic6DEGROMML9U3Xrrg"
-CONSUMER_SECRET = "2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M"
-twitter = tweepy.OAuthHandler(CONSUMER_TOKEN, CONSUMER_SECRET)
-
 facebook = OAuth2Service(
     client_id='236929692994329',
     client_secret='9d65f7d0069567d6958f559ad918ada7',
     name='facebook',
     authorize_url='https://graph.facebook.com/oauth/authorize',
     access_token_url='https://graph.facebook.com/oauth/access_token',
-    base_url='https://graph.facebook.com/'
+    base_url='https://graph.facebook.com/',
+)
+
+google = OAuth2WebServerFlow(
+    client_id='533974579689-j6h3lt2toobuok26n9o5g3n0qo0k2mbm.apps.googleusercontent.com',  # noqa
+    client_secret='dtLZ9z-AGhid6knEOC54qudr',
+    scope='https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me',  # noqa
+    redirect_uri='http://127.0.0.1:8001/google_callback',
 )
 
 linkedin = OAuth2Service(
@@ -22,7 +25,7 @@ linkedin = OAuth2Service(
     name='linkedin',
     authorize_url='https://www.linkedin.com/uas/oauth2/authorization',
     access_token_url='https://www.linkedin.com/uas/oauth2/accessToken',
-    base_url='https://api.linkedin.com/v1/'
+    base_url='https://api.linkedin.com/v1/',
 )
 
 renren = OAuth2Service(
@@ -31,35 +34,29 @@ renren = OAuth2Service(
     name='renren',
     authorize_url='https://graph.renren.com/oauth/authorize',
     access_token_url='https://graph.renren.com/oauth/authorize',
-    base_url='https://api.linkedin.com/v1/'
+    base_url='https://api.linkedin.com/v1/',
 )
 
-# linkedin_auth_url = (
-#     'https://www.linkedin.com/uas/oauth2/authorization?response_type=code'
-#     '&client_id=2ykkt7cjhrcg'
-#     '&scope=r_basicprofile%20r_emailaddress%20r_network'
-#     '&state=STATE'
-#     '&redirect_uri=http://127.0.0.1:8001/linkedin_callback'
-# )
+twitter = tweepy.OAuthHandler(
+    consumer_key="2Icic6DEGROMML9U3Xrrg",
+    consumer_secret="2T4a3MpeqGSgOAehVrpm6hIO7ymf88XNabZgdZi7M",
+)
 
-# google_auth_url = (
-#     'https://accounts.google.com/o/oauth2/auth?'
-#     'scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'
-#     '+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile'
-#     '&redirect_uri=http://127.0.0.1:8001/google_callback&response_type=code'  # noqa
-#     '&client_id=533974579689-j6h3lt2toobuok26n9o5g3n0qo0k2mbm.apps.googleusercontent.com'  # noqa
-# )
+weibo = OAuth2Service(
+    client_id='1736274547',
+    client_secret='f6f8fa98288e0cb75d9fe291f14c33eb',
+    name='weibo',
+    authorize_url='https://api.weibo.com/oauth2/authorize',
+    access_token_url='https://api.weibo.com/oauth2/access_token',
+    base_url='https://api.weibo.com/2/',
+)
+# POST  https://api.weibo.com/2/statuses/update.json?access_token=2.00wQWhVDL1OVtB1375cc41d6BUNfYB status=status  # noqa
 
-# params = {
-#     'scope': 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',  # noqa
-#     'response_type': 'code',
-#     'redirect_uri': 'http://127.0.0.1:8001/google_callback'
-# }
-# google_auth_url = google.get_authorize_url(**params)
-
-google = OAuth2WebServerFlow(
-    client_id='533974579689-j6h3lt2toobuok26n9o5g3n0qo0k2mbm.apps.googleusercontent.com',  # noqa
-    client_secret='dtLZ9z-AGhid6knEOC54qudr',
-    scope='https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me',  # noqa
-    redirect_uri='http://127.0.0.1:8001/google_callback',
+kaixin001 = OAuth2Service(
+    client_id='1214876808351987b5b2f5659b72f67c',
+    client_secret='bf2726ad4eb6dc8e3c41fa6f9edf8ab3',
+    name='weibo',
+    authorize_url='http://api.kaixin001.com/oauth2/authorize',
+    access_token_url='https://api.kaixin001.com/oauth2/access_token',
+    base_url='https://api.weibo.com/2/',
 )
