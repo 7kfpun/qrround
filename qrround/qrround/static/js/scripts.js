@@ -214,12 +214,11 @@ function listenCookieChange(cookieName, callback) {
 }
 
 // bind the listener
-listenCookieChange('google_access_token', function() {
-  alert('cookie google_access_token has changed!');
+listenCookieChange('facebook', function() {
   $.ajax({
     type: "POST",
     url: "http://127.0.0.1:8001/getfriends",
-    data: { google_import: $.cookie("google_access_token") },
+    data: { import: 'facebook' },
     success: function(data) {
       console.log("Received: " + data);
     }
@@ -227,13 +226,27 @@ listenCookieChange('google_access_token', function() {
 });
 
 // bind the listener
-listenCookieChange('google_import', function() {
-  alert('cookie google_import has changed!');
+listenCookieChange('google', function() {
+  $.ajax({
+    type: "POST",
+    url: "http://127.0.0.1:8001/getfriends",
+    data: { import: 'google' },
+    success: function(data) {
+      console.log("Received: " + data);
+    }
+  });
 });
 
 // bind the listener
-listenCookieChange('linkedin_import', function() {
-  alert('cookie linkedin_import has changed!');
+listenCookieChange('linkedin', function() {
+  $.ajax({
+    type: "POST",
+    url: "http://127.0.0.1:8001/getfriends",
+    data: { import: 'linkedin' },
+    success: function(data) {
+      console.log("Received: " + data);
+    }
+  });
 });
 
 // bind the listener
