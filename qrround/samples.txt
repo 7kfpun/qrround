@@ -1,0 +1,297 @@
+facebook = {
+    meta: {
+    text: "this is text",
+    method: "text",
+    channel: "facebook"
+    },
+    user: {
+        username: "KF.JAY7",
+        first_name: "Kf",
+        last_name: "Jay",
+        verified: true,
+        name: "Kf Jay",
+        locale: "en_US",
+        gender: "male",
+        email: "francium87@inbox.com",
+        link: "http://www.facebook.com/KF.JAY7",
+        timezone: 8,
+        updated_time: "2013-03-13T07:23:21+0000",
+        id: "100001434919112"
+    },
+    friends: [
+        {
+            username: "juanjaimelam",
+            first_name: "Juanjaime",
+            last_name: "林自立",
+            middle_name: "",
+            uid: 61013486,
+            pic_square: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/157171_61013486_1128438690_q.jpg",
+            profile_url: "http://www.facebook.com/juanjaimelam",
+            name: "Juanjaime 林自立"
+        },
+        {
+            username: "jentrici",
+            first_name: "Jennifer",
+            last_name: "Lam",
+            middle_name: "Ka Yan",
+            uid: 335600875,
+            pic_square: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash4/275229_335600875_217390968_q.jpg",
+            profile_url: "http://www.facebook.com/jentrici",
+            name: "Jennifer Ka Yan Lam"
+        },
+        {
+            username: "liebryan",
+            first_name: "Bryan",
+            last_name: "Lie",
+            middle_name: "",
+            uid: 335601089,
+            pic_square: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/195275_335601089_113406633_q.jpg",
+            profile_url: "http://www.facebook.com/liebryan",
+            name: "Bryan Lie"
+        },
+        {
+            username: "cecilia.mong",
+            first_name: "Cecilia",
+            last_name: "Mong",
+            middle_name: "",
+            uid: 500725485,
+            pic_square: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/41487_500725485_5323_q.jpg",
+            profile_url: "http://www.facebook.com/cecilia.mong",
+            name: "Cecilia Mong"
+        },
+        {
+            username: "angus.choy.5",
+            first_name: "Angus",
+            last_name: "Choy",
+            middle_name: "",
+            uid: 504100536,
+            pic_square: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-snc6/276051_504100536_1410620153_q.jpg",
+            profile_url: "http://www.facebook.com/angus.choy.5",
+            name: "Angus Choy"
+        },
+    ],
+}
+
+
+google = {
+    meta: {
+    text: "this is text",
+    method: "text",
+    channel: "google"
+    },
+    user: {
+        kind: "plus#person",
+        displayName: "Kf Mika",
+        name: {
+            givenName: "Kf",
+            familyName: "Mika"
+        },
+        language: "en",
+        isPlusUser: true,
+        url: "https://plus.google.com/102987894799883192520",
+        gender: "male",
+        image: {
+            url: "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=50"
+        },
+        etag: ""TJ4YjXUi1XCM_G3FJ4uiPX8m6Fk/MkiFjrueFghZM7YHFiAQiLJ5B6w"",
+        verified: false,
+        id: "102987894799883192520",
+        objectType: "person"
+    },
+    friends: [
+        {
+            kind: "plus#person",
+            displayName: "Bonny Macedo",
+            url: "https://plus.google.com/106499251840746807862",
+            image: {
+                url: "https://lh3.googleusercontent.com/-uSkEEb5jYTE/AAAAAAAAAAI/AAAAAAAAACQ/ZXMCUdL6gsM/photo.jpg?sz=50"
+            },
+            etag: ""TJ4YjXUi1XCM_G3FJ4uiPX8m6Fk/TqnP5MN_oSZzCAz53l8T1g_ZFjM"",
+            id: "106499251840746807862",
+            objectType: "person"
+        },
+        {
+            kind: "plus#person",
+            displayName: "PBS .",
+            url: "https://plus.google.com/115800475809612886515",
+            image: {
+                url: "https://lh3.googleusercontent.com/-8meSrLqfKbk/AAAAAAAAAAI/AAAAAAAAA6E/pTfTEEZbak8/photo.jpg?sz=50"
+            },
+            etag: ""TJ4YjXUi1XCM_G3FJ4uiPX8m6Fk/sYl4t6H2FHMNVtUaKSO_F2mNhMg"",
+            id: "115800475809612886515",
+            objectType: "page"
+        },
+        {
+            kind: "plus#person",
+            displayName: "Philosoraptor .",
+            url: "https://plus.google.com/116747581186148686204",
+            image: {
+                url: "https://lh5.googleusercontent.com/-TICLBjZ1kqU/AAAAAAAAAAI/AAAAAAAAI1A/Xeo15wXifJ8/photo.jpg?sz=50"
+            },
+            etag: ""TJ4YjXUi1XCM_G3FJ4uiPX8m6Fk/A-p1sg1SV7SUCkILzZJj0ANrIKE"",
+            id: "116747581186148686204",
+            objectType: "page"
+        },
+        {
+            kind: "plus#person",
+            displayName: "The Economist .",
+            url: "https://plus.google.com/100470681032489535736",
+            image: {
+                url: "https://lh6.googleusercontent.com/-NFUs-UbAeN8/AAAAAAAAAAI/AAAAAAAAvJM/U8HurlzwLIU/photo.jpg?sz=50"
+            },
+            etag: ""TJ4YjXUi1XCM_G3FJ4uiPX8m6Fk/V3LbE89z-4k5bAx9-ye9KBob78Y"",
+            id: "100470681032489535736",
+            objectType: "page"
+        },
+        {
+            kind: "plus#person",
+            displayName: "Washington Post .",
+            url: "https://plus.google.com/103778755977163571576",
+            image: {
+                url: "https://lh5.googleusercontent.com/-bJlcViFalyA/AAAAAAAAAAI/AAAAAAAAFeQ/wk-6LdEZBdQ/photo.jpg?sz=50"
+            },
+            etag: ""TJ4YjXUi1XCM_G3FJ4uiPX8m6Fk/ZXiSjEfBsRyqH6WFozOwtdQ3xkI"",
+            id: "103778755977163571576",
+            objectType: "page"
+        }
+    ],
+}
+
+
+linkedin = {
+    meta: {
+        text: "this is text",
+        method: "text",
+        channel: "linkedin"
+    },
+    user: {
+        headline: "Software Developer at Multichannel Research",
+        lastName: "Pun",
+        pictureUrl: "http://m3.licdn.com/mpr/mprx/0_U-uG0hX-9q7aA8rGJN7j0_cpN9Vm1LhGJzZg0_bawKaY2TcCcqyali1hsRslKG3asAmprXJe66pj",
+        id: "JzIoZ6O7BN",
+        firstName: "KF"
+    },
+    friends: [
+        {
+            firstName: "Abby",
+            headline: "Marketing Executive (Hong Kong) at Multichannel Research",
+            lastName: "Aoke",
+            industry: "Information Technology and Services",
+            siteStandardProfileRequest: {
+                url: "http://www.linkedin.com/profile/view?id=158423765&authType=name&authToken=5JtE&trk=api*a258489*s266274*"
+            },
+            pictureUrl: "http://m3.licdn.com/mpr/mprx/0_CV5yQ4rEye5BuBJZ2OCfQsAdpa3v2qZZhZliQU1Miez51K74apvKHRbB-iTE71MN_JbCWpDbaM2e",
+            location: {
+                country: {
+                code: "hk"
+            },
+            name: "Hong Kong"
+            },
+            apiStandardProfileRequest: {
+                url: "http://api.linkedin.com/v1/people/1xS5CaM9nv",
+                headers: {
+                    _total: 1,
+                    values: [
+                        {
+                            name: "x-li-auth-token",
+                            value: "name:5JtE"
+                        }
+                    ]
+                }
+            },
+            id: "1xS5CaM9nv"
+        },
+        {
+            firstName: "Emprise",
+            headline: "Attended The Hong Kong University of Science and Technology",
+            lastName: "Chan",
+            industry: "Information Technology and Services",
+            siteStandardProfileRequest: {
+                url: "http://www.linkedin.com/profile/view?id=193704866&authType=name&authToken=P-WG&trk=api*a258489*s266274*"
+            },
+            location: {
+                country: {
+                code: "hk"
+            },
+            name: "Hong Kong"
+            },
+            apiStandardProfileRequest: {
+                url: "http://api.linkedin.com/v1/people/TOLVnHZkji",
+                headers: {
+                    _total: 1,
+                    values: [
+                        {
+                            name: "x-li-auth-token",
+                            value: "name:P-WG"
+                        }
+                    ]
+                }
+            },
+            id: "TOLVnHZkji"
+        },
+        {
+            firstName: "Dmitry",
+            headline: "Founder and CEO of Multichannel",
+            lastName: "Fedotov",
+            industry: "Information Technology and Services",
+            siteStandardProfileRequest: {
+                url: "http://www.linkedin.com/profile/view?id=115802121&authType=name&authToken=Kdl3&trk=api*a258489*s266274*"
+            },
+            pictureUrl: "http://m3.licdn.com/mpr/mprx/0_z4FpD6GexJ0j79LwcR57D5CwxjEKf9zwcJ1_Dk-Z8UY8rtGIMOcr_XQnlro7uAqbqRLGGi8RDyB3",
+            location: {
+                country: {
+                    code: "hk"
+                },
+                name: "Hong Kong"
+            },
+            apiStandardProfileRequest: {
+                url: "http://api.linkedin.com/v1/people/x2yrxUnm0p",
+                headers: {
+                    _total: 1,
+                    values: [
+                        {
+                            name: "x-li-auth-token",
+                            value: "name:Kdl3"
+                        }
+                    ]
+                }
+            },
+            id: "x2yrxUnm0p"
+        },
+    ],
+}
+
+
+kaixin001 = {
+    meta: {
+        text: "this is text",
+        method: "text",
+        channel: "kaixin001"
+    },
+    user: {
+        logo50: "http://img.kaixin001.com.cn/i/50_0_0.gif",
+        gender: "0",
+        uid: "152153822",
+        name: "开开"
+    },
+    friends: [
+        {
+            logo50: "http://logo.kaixin001.com.cn/logo/68/14/50_100681404_3.jpg",
+            gender: "0",
+            uid: "100681404",
+            name: "迷笛音乐节"
+        },
+        {
+            logo50: "http://logo.kaixin001.com.cn/logo/41/95/50_40419505_7.jpg",
+            gender: "1",
+            uid: "40419505",
+            name: "纪如璟"
+        },
+        {
+            logo50: "http://logo.kaixin001.com.cn/logo/5/76/50_130057630_1.jpg",
+            gender: "1",
+            uid: "130057630",
+            name: "BY2"
+        }
+    ],
+}
