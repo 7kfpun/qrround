@@ -378,14 +378,14 @@ def logout_user(request):
     return response
 
 
-@ratelimit(rate='20/m')
+@ratelimit(rate='30/m')
 def getqrcode(request):
     if request.method == 'GET':
         return HttpResponseBadRequest('Noooone')
 
     elif getattr(request, 'limited', False):
         # Reach rate limit
-        return HttpResponseBadRequest('Was_limited')
+        return HttpResponseBadRequest('Was_limited: we are poor, cannot afford server cost. Donate some and we can buy more server time')  # noqa
 
     elif request.method == 'POST' and request.is_ajax():
 

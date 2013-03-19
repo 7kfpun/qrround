@@ -19,21 +19,18 @@ $('#getqrcode_button').on("click", function() {
 // Alert
 function notify(notify_type, msg) {
   var alerts = $('#alerts');
-
   if (notify_type == 'success') {
-    alerts.append('<div class="alert alerts-success fade in"> \
-                     <button type="button" class="close" data-dismiss="alert">×</button> \
-                     <strong>Success!</strong> ' + msg + ' \
-                   </div>');
-    alerts.fadeIn('fast');
+    alerts.empty().append('<div class="alert alert-success fade in"><button type="button" class="close" data-dismiss="alert">×</button> \
+                        <strong>Alert!</strong> ' + msg + '</div>');
   }
-  if (notify_type == 'failure') {
-    alerts.append('<div class="alert alerts-error fade in"> \
-                     <button type="button" class="close" data-dismiss="alert">×</button> \
-                     <strong>Alert!</strong> ' + msg + ' \
-                   </div>');
-    alerts.fadeIn('fast');
+  else if (notify_type == 'failure') {
+    alerts.empty().append('<div class="alert alert-block fade in"><button type="button" class="close" data-dismiss="alert">×</button> \
+                        <strong>Alert!</strong> ' + msg + '</div>');
   }
+  alerts.fadeIn('fast');
+  setTimeout(function() {
+    alerts.fadeOut();
+  }, 5000);
 }
 
 
