@@ -122,6 +122,7 @@ def store_session(request, channel, client_id, me, friends):
         "user": me,
         "friends": friends,
     }
+
     getfriends(data, cache_image=False)
 
     request.session[client_id] = data
@@ -134,6 +135,8 @@ def store_session(request, channel, client_id, me, friends):
         request.session[channel] = [client_id]
 
     response = redirect('/close_window')
+    response = HttpResponse(json.dumps(data))  # block and see return data  TODO remove it  # noqa
+
     response.set_cookie(channel, unique_generator(6))
     return response
 
@@ -211,23 +214,12 @@ def linkedincallback(request):
         client_id = 'linkedin#' + str(me['id'])
         return store_session(request, 'linkedin', client_id, me, friends)
 
-#        response = HttpResponse(
-#            'linkedin_auth_session:' + json.dumps(request.GET)
-#            + '<br /><br /><br />' + json.dumps(r.json())
-#            + '<br /><br /><br />' + json.dumps(me)
-#            + '<br /><br /><br />' + json.dumps(friends)
-#        )
-#        response.set_cookie('linkedin_auth_session',
-#                            request.GET.get('code'), max_age=1000)
-#
-#        return HttpResponse(response)
-
     else:
         return HttpResponse('CSFS?')
 
 
 def kaixin001callback(request):
-    if request.GET.get('state') == 'state':
+    if request.GET.get('state') == request.session['state']:
         exchange_url = (
             'https://api.kaixin001.com/oauth2/access_token'
             '?grant_type=authorization_code'
@@ -255,16 +247,8 @@ def kaixin001callback(request):
         client_id = 'kaixin001#' + str(me['uid'])
         return store_session(request, 'kaixin001', client_id, me, friends)
 
-#        response = HttpResponse(
-#            'kaixin001_access_token:' + json.dumps(request.GET)
-#            + '<br /><br /><br />' + json.dumps(r.json())
-#            + '<br /><br /><br />' + json.dumps(me)
-#            + '<br /><br /><br />' + json.dumps(friends)
-#        )
-#        response.set_cookie('kaixin001_access_token',
-#                            request.GET.get('code'), max_age=1000)
-#
-#        return HttpResponse(response)
+    else:
+        return HttpResponse('CSFS?')
 
 
 def twittercallback(request):
@@ -281,16 +265,38 @@ def twittercallback(request):
         api = tweepy.API(twitter)
         me = api.me()  # <object>
 
-        name = me.name
-        profile_image_url = me.profile_image_url
-
-        request.session['twitter_id'] = 'twitter#' + me.id_str
         friends = api.friends_ids()
 
-        response = HttpResponse('twitter: ' + name + ' ' + me.id_str + '\n'
-                                + 'has ' + str(len(friends)) + '\n'
-                                + profile_image_url)
-        return response
+#        import jsonpickle
+#        me = jsonpickle.encode(me)
+#        return HttpResponse(me)
+
+        data = {
+            "meta": {
+                "text": "this is text",
+                "method": "text",
+                "channel": "twitter",
+            },
+            "user": {
+                "id": me.id_str,
+                "username": me.name,
+                "screen_name": me.screen_name,
+                "lang": me.lang,
+                "url": me.url,
+                "location": me.location,
+                "time_zone": me.time_zone,
+                "profile_image_url": me.profile_image_url,
+                "profile_image_url_https": me.profile_image_url_https,
+                "profile_background_image_url": me.profile_background_image_url,  # noqa
+                "profile_background_image_url_https": me.profile_background_image_url_https,  # noqa
+            },
+            "friends": [{"id": str(friend)} for friend in friends],
+        }
+
+        client_id = 'twitter#' + me.id_str
+        return store_session(request, 'twitter', client_id,
+                             data['user'], data['friends'])
+
     else:
         return HttpResponse('CSFS?')
 
@@ -445,7 +451,7 @@ def getfriendsrequest(request):
                 data = request.session.pop(client_id)
                 getfriends(data, True)
 
-                html += data['meta']['channel'] + '#' + data['user']['id'] \
+                html += client_id \
                     + '\n' + json.dumps(data['user']) + " has " \
                     + str(len(data["friends"])) + '\n\n'
         return HttpResponse(html)
@@ -458,7 +464,7 @@ def getfriendstask(data):
 
 def getfriends(data, cache_image=False):
     channel = data['meta']['channel']
-    channel_id = data['user']['id']
+    channel_id = data['user'].get('id', None) or data['user'].get('uid', None)
 
     if channel == 'facebook':
         first_name = data['user']['first_name']
@@ -475,6 +481,16 @@ def getfriends(data, cache_image=False):
         last_name = data['user']['lastName']
         username = first_name + ' ' + last_name
 
+    elif channel == 'kaixin001':
+        first_name = ''
+        last_name = ''
+        username = data['user']['name']
+
+    elif channel == 'twitter':
+        first_name = ''
+        last_name = ''
+        username = data['user']['username']
+
     userclient, created = UserClient.objects.get_or_create(
         client=channel + '#' + channel_id,
     )
@@ -484,8 +500,6 @@ def getfriends(data, cache_image=False):
     userclient.friends = data["friends"]
     userclient.save()
 
-    print 'userclient: ', userclient
-
     if channel == 'facebook':
         url = data['user'].get("pic_square", None)
     elif channel == 'google':
@@ -493,6 +507,10 @@ def getfriends(data, cache_image=False):
             if "image" in data['user'] else None
     elif channel == 'linkedin':
         url = data['user'].get("pictureUrl", None)
+    elif channel == 'kaixin001':
+        url = data['user']['logo50']
+    elif channel == 'twitter':
+        url = data['user']['profile_image_url']
     else:
         url = None
 
@@ -512,6 +530,11 @@ def getfriends(data, cache_image=False):
                 url = frd["image"]["url"] if "image" in frd else None
             elif channel == 'linkedin':
                 url = frd.get("pictureUrl", None)
+            elif channel == 'kaixin001':
+                url = frd.get("logo50", None)
+            elif channel == 'twitter':
+                url = None
+                # TODO: complicated get
             else:
                 url = None
 
@@ -521,30 +544,6 @@ def getfriends(data, cache_image=False):
                 # cachedimage = CachedImage(url=url)
                 cachedimage.user = userclient
                 cachedimage.cache_and_save()
-
-#            username = filter(
-#                lambda x: x in data["user"], [
-#                    "firstName", "displayName", "username"
-#                    # LinkedIn   Google        Facebook
-#                ])[0] or None
-#            first_name = filter(
-#                lambda x: x in data["user"], [
-#                    "firstName", "name", "first_name"
-#                    # LinkedIn   Google        Facebook
-#                ])[0] or None
-#            last_name = filter(
-#                lambda x: x in data["user"], [
-#                    "lastName", "name", "last_name"
-#                    # LinkedIn   Google        Facebook
-#                ])[0] or None
-#
-#            frd_channel = data["meta"]["channel"]
-#            frd_channel_id = str(frd["id"] if "id" in frd else frd["uid"])
-#            friend, created = Friend.objects.get_or_create(
-#                user=userclient,
-#                client=frd_channel + '#' + frd_channel_id,
-#            )
-#            friend.save()
 
 
 @task(ignore_result=True)
