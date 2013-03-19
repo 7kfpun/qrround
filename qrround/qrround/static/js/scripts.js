@@ -78,6 +78,15 @@ $('#import').on("click", function() {
   $('#import_modal').modal('hide');
 });
 
+$('#logout').on("click", function() {
+  $.get("/logout",
+    {
+    },
+    function(data) {
+      console.log("Logout");
+      // TODO: clear session and reload
+  });
+});
 
 $('#google_client').on("click", function() {
   $('#signin_google_client button').click();
@@ -187,6 +196,47 @@ function sendFriends(object) {
 // }
 
 
-var userAgent = navigator.userAgent.toLowerCase();
-var isiPhone = (userAgent.indexOf('ipad') != -1 || userAgent.indexOf('iphone') != -1 || userAgent.indexOf('ipod') != -1) ? true : false;
-clickEvent = isiPhone ? 'tap' : 'click';
+// Detect cookies change
+var cookieRegistry = [];
+
+function listenCookieChange(cookieName, callback) {
+  setInterval(function() {
+    if (cookieRegistry[cookieName]) {
+      if ($.cookie(cookieName) != cookieRegistry[cookieName]) {
+        // update registry so we dont get triggered again
+        cookieRegistry[cookieName] = $.cookie(cookieName);
+        return callback();
+      }
+    } else {
+      cookieRegistry[cookieName] = $.cookie(cookieName);
+    }
+  }, 100);
+}
+
+// bind the listener
+listenCookieChange('google_access_token', function() {
+  alert('cookie google_access_token has changed!');
+  $.ajax({
+    type: "POST",
+    url: "http://127.0.0.1:8001/getfriends",
+    data: { google_import: $.cookie("google_access_token") },
+    success: function(data) {
+      console.log("Received: " + data);
+    }
+  });
+});
+
+// bind the listener
+listenCookieChange('google_import', function() {
+  alert('cookie google_import has changed!');
+});
+
+// bind the listener
+listenCookieChange('linkedin_import', function() {
+  alert('cookie linkedin_import has changed!');
+});
+
+// bind the listener
+listenCookieChange('weibo_import', function() {
+  alert('cookie weibo_import has changed!');
+});
