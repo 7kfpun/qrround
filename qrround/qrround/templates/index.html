@@ -1,47 +1,45 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div id="alerts"></div>
+
 <form action="/getqrcode" method="post" onsubmit="return false">
   <!-- <input name="text" class="span5" id="dgetqrcode_input" type="text" placeholder="Input your data"> -->
   {{ form.text }}
-
   <div class="btn-group">
-  <button class="btn" id="import_button" type="button"><abbr title="HyperText Markup Language">Import</abbr></button>
-  <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
+    <button class="btn" id="import_button" type="button"><abbr title="HyperText Markup Language">Import</abbr></button>
+    <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
   </div>
   <br />
-  <label for="id_accept" class="checkbox">
-    {{ form.accept }} {{ form.accept.help_text }}
-  </label>
-  <br /><br />
+  <label>{{ form.accept }} {{ form.accept.help_text }}</label>
+  <br />
 
-  <p>Options</p>
-  <div class="tabbable tabs-left">
-    <ul class="nav nav-tabs">
-      <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
-      <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
-      <li class=""><a href="#lC" data-toggle="tab">Section 3</a></li>
-      <li class=""><a href="#lD" data-toggle="tab">{{ form.auto_post.label_tag }}</a></li>
-    </ul>
+  <div class="well">
+    <p><i class="icon-th-large"></i> Options <i class="icon-th-large"></i></p>
+    <br />
+    <div class="tabbable tabs-left">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
+        <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
+        <li class=""><a href="#lC" data-toggle="tab">Section 3</a></li>
+        <li class=""><a href="#lD" data-toggle="tab">{{ form.auto_post.label_tag }}</a></li>
+      </ul>
 
-    <div class="tab-content">
-      <div class="tab-pane active" id="lA">
-        <p>You can still import more accounts</p>
-        <div class="row-fluid choice">
-          {% for choice in form.channel_choice %}
-          <div class="span3">{{ choice }}</div>
-          {% endfor %}
+      <div class="tab-content options">
+        <div class="tab-pane active" id="lA">
+          <p>You can still import more accounts</p>
+          {{ form.channel_choice }}
         </div>
-      </div>
-      <div class="tab-pane" id="lB">
-        <p>The higher error correct, the m</p>
-        {{form.error_correct_choice }}
-      </div>
-      <div class="tab-pane" id="lC">
-        <p>What up girl, this is Section C.</p>
-      </div>
-      <div class="tab-pane" id="lD">
-        <p>{{ form.auto_post }} {{ form.auto_post.help_text }}</p>
+        <div class="tab-pane" id="lB">
+          <p>The higher error correct, the m</p>
+          {{form.error_correct_choice }}
+        </div>
+        <div class="tab-pane" id="lC">
+          <p>What up girl, this is Section C.</p>
+        </div>
+        <div class="tab-pane" id="lD">
+          <label>{{ form.auto_post }} {{ form.auto_post.help_text }}</label>
+        </div>
       </div>
     </div>
   </div>
