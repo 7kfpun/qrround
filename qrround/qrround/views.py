@@ -16,7 +16,7 @@ import json
 import logging
 import os
 import qrcode
-from qrround.clients import (
+from qrround.channels import (
     facebook,
     google,
     linkedin,
@@ -109,12 +109,33 @@ def index(request):
         'twitter_auth_url': twitter_auth_url,
         'weibo_auth_url': weibo_auth_url,
         'form': QueryForm(session=request.session),
-        'session': request.session.keys(),
     })
 
 
-def store_login(data):
-    print data
+def store_session(request, channel, client_id, me, friends):
+    data = {
+        "meta": {
+            "text": "this is text",
+            "method": "text",
+            "channel": channel,
+        },
+        "user": me,
+        "friends": friends,
+    }
+    getfriends(data, cache_image=False)
+
+    request.session[client_id] = data
+    if channel in request.session:
+        tmp = request.session[channel]
+        if client_id not in tmp:
+            tmp.append(client_id)
+        request.session[channel] = tmp
+    else:
+        request.session[channel] = [client_id]
+
+    response = redirect('/close_window')
+    response.set_cookie(channel, unique_generator(6))
+    return response
 
 
 def facebookcallback(request):
@@ -130,35 +151,9 @@ def facebookcallback(request):
             + ' FROM user WHERE uid in (SELECT uid2 FROM friend'
             + ' WHERE uid1 = me())').json()['data']
 
-        request.session['facebook_id'] = 'facebook#' + str(me['id'])
-        data = {
-            "meta": {
-                "text": "this is text",
-                "method": "text",
-                "channel": "facebook",
-            },
-            "user": me,
-            "friends": friends,
-        }
+        client_id = 'facebook#' + str(me['id'])
+        return store_session(request, 'facebook', client_id, me, friends)
 
-        request.session['facebook_access_token'] = session.access_token
-        request.session['facebook_data'] = data
-
-        response = redirect('/close_window')
-        response.set_cookie('facebook_access_token',
-                            session.access_token, max_age=1000)
-        return response
-
-#        response = HttpResponse(
-#            'facebook_auth_session:' + json.dumps(request.GET)
-#            + '<br /><br /><br />' + json.dumps(me)
-#            + '<br /><br /><br />' + json.dumps(friends)
-#        )
-#        response.set_cookie('facebook_auth_session',
-#                            request.GET.get('code'), max_age=1000)
-#        return HttpResponse(response)
-
-        return redirect('/close_window_reload')
     else:
         return HttpResponse('CSFS?')
 
@@ -181,27 +176,11 @@ def googlecallback(request):
         )
         friends = requests.get(friends_url).json()['items']
 
-        request.session['google_id'] = 'google#' + str(me['id'])
-        data = {
-            "meta": {
-                "text": "this is text",
-                "method": "text",
-                "channel": "google",
-            },
-            "user": me,
-            "friends": friends,
-        }
+        client_id = 'google#' + str(me['id'])
+        return store_session(request, 'google', client_id, me, friends)
 
-        getfriends(data, cache_image=False)
-        if 'google_import' in request.session:
-            tmp = request.session['google_import']
-            tmp.append('google#' + str(me['id']))
-            request.session['google_import'] = tmp
-        else:
-            request.session['google_import'] = ['google#' + str(me['id'])]
-        response = redirect('/close_window')
-        response.set_cookie('google_import', access_token, max_age=1000)
-        return response
+    else:
+        return HttpResponse('CSFS?')
 
 
 def linkedincallback(request):
@@ -229,23 +208,8 @@ def linkedincallback(request):
             '?oauth2_access_token=' + access_token + '&format=json')
         friends = requests.get(friends_url).json()['values']
 
-        request.session['linkedin_id'] = 'linkedin#' + str(me['id'])
-        data = {
-            "meta": {
-                "text": "this is text",
-                "method": "text",
-                "channel": "linkedin",
-            },
-            "user": me,
-            "friends": friends,
-        }
-
-        getfriends(data, cache_image=False)
-        request.session['linkedin_import'] = True
-        response = redirect('/close_window')
-        # TODO: use random string instead
-        response.set_cookie('linkedin_import', access_token, max_age=1000)
-        return response
+        client_id = 'linkedin#' + str(me['id'])
+        return store_session(request, 'linkedin', client_id, me, friends)
 
 #        response = HttpResponse(
 #            'linkedin_auth_session:' + json.dumps(request.GET)
@@ -258,7 +222,6 @@ def linkedincallback(request):
 #
 #        return HttpResponse(response)
 
-        return redirect('/close_window')
     else:
         return HttpResponse('CSFS?')
 
@@ -289,23 +252,8 @@ def kaixin001callback(request):
         )
         friends = requests.get(friends_url).json()['users']
 
-        request.session['kaixin001'] = 'kaixin001#' + str(me['uid'])
-        data = {
-            "meta": {
-                "text": "this is text",
-                "method": "text",
-                "channel": "kaixin001",
-            },
-            "user": me,
-            "friends": friends,
-        }
-
-        request.session['kaixin001_access_token'] = access_token
-        request.session['kaixin001_data'] = data
-
-        response = redirect('/close_window')
-        response.set_cookie('kaixin001_access_token',
-                            access_token, max_age=1000)
+        client_id = 'kaixin001#' + str(me['uid'])
+        return store_session(request, 'kaixin001', client_id, me, friends)
 
 #        response = HttpResponse(
 #            'kaixin001_access_token:' + json.dumps(request.GET)
@@ -317,8 +265,6 @@ def kaixin001callback(request):
 #                            request.GET.get('code'), max_age=1000)
 #
 #        return HttpResponse(response)
-
-        return response
 
 
 def twittercallback(request):
@@ -399,24 +345,9 @@ def weibocallback(request):
         )
         friends = requests.get(friends_url).json()['users']
 
-        request.session['linkedin_id'] = 'weibo#' + uid
-        data = {
-            "meta": {
-                "text": "this is text",
-                "method": "text",
-                "channel": "weibo",
-            },
-            "user": me,
-            "friends": friends,
-        }
+        client_id = 'weibo#' + uid
+        return store_session(request, 'weibo', client_id, me, friends)
 
-        request.session['weibo_access_token'] = access_token
-        request.session['weibo_data'] = data
-
-        response = redirect('/close_window')
-        response.set_cookie('weibo_access_token',
-                            access_token, max_age=1000)
-        return response
     else:
         return HttpResponse('CSFS?')
 
@@ -436,7 +367,7 @@ def close_window(request, is_reload=False):
 
 def logout_user(request):
     logout(request)
-    response = redirect('/close_window_reload/')
+    response = redirect('close_window_reload')
     response.delete_cookie('user_location')
     return response
 
@@ -460,7 +391,6 @@ def getqrcode(request):
         error_correct = form.data['error_correct_choice']
         channel_choice = form.data.getlist('channel_choice', [])
 
-        print form.data
         try:
             qr = qrcode.QRCode(
                 version=None,
@@ -507,21 +437,17 @@ def getfriendsrequest(request):
     if request.method == 'GET':
         return HttpResponse('Geeeet')
 
-    elif request.method == 'POST' and request.is_ajax():
+    elif request.method == 'POST' and request.is_ajax() \
+            and 'import' in request.POST:
         html = ''
-        imports = ('facebook_import', 'google_import', 'linkedin_import')
-        for imp in imports:
-            if imp in request.POST:
-
-                client = request.session.get(
-                    imp.replace('facebook_import', '_id'), None)
-                data = client  # TODO: don't know how to do
+        for client_id in request.session[request.POST['import']]:
+            if client_id in request.session:
+                data = request.session.pop(client_id)
                 getfriends(data, True)
 
                 html += data['meta']['channel'] + '#' + data['user']['id'] \
                     + '\n' + json.dumps(data['user']) + " has " \
                     + str(len(data["friends"])) + '\n\n'
-
         return HttpResponse(html)
 
 
