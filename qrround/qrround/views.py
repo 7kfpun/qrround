@@ -444,7 +444,7 @@ def getqrcode(request):
             photo.save()
 
             return HttpResponse(
-                Template('<img src="{{ photo.photo.url }}" '
+                Template('<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
                          'width="480" height="480" />').render(photo=photo)
             )
 

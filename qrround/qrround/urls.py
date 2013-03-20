@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.conf.urls import patterns, include, url
+from django.conf.urls.i18n import i18n_patterns
 from settings import settings
 
 
@@ -9,8 +10,6 @@ admin.autodiscover()
 urlpatterns = patterns(
     'qrround.views',
 
-    url(r'^$', 'index', name='index'),
-    url(r'^getfriends$', 'getfriendsrequest', name='getfriendsrequest'),
     url(r'^getqrcode$', 'getqrcode', name='getqrcode'),
 
     # Callback
@@ -23,6 +22,13 @@ urlpatterns = patterns(
     url(r'^renren_callback$', 'renrencallback', name='renrencallback'),
     url(r'^weibo_callback$', 'weibocallback', name='weibocallback'),
 
+    # Static files
+    # url(r'^js/*', ),
+
+    # Uncomment the next line to enable the admin:
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^rosetta/', include('rosetta.urls')),
+
     url(r'^logout/$', 'logout_user', name='logout'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
@@ -31,22 +37,22 @@ urlpatterns = patterns(
     url(r'^close_window$', 'close_window', name='close_window'),
     url(r'^close_window_reload$', 'close_window', {
         'is_reload': True}, name='close_window_reload'),
+)
 
-    # Static files
-    # url(r'^js/*', ),
+urlpatterns += i18n_patterns(
+    'qrround.views',
 
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^rosetta/', include('rosetta.urls')),
+    url(r'^$', 'index', name='index'),
+    url(r'^getfriends$', 'getfriendsrequest', name='getfriendsrequest'),
 )
 
 if settings.DEBUG:
     urlpatterns += patterns(
         '',
-        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+        url(r'^(.*)/media/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.MEDIA_ROOT,
             }),
-        url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {
+        url(r'^(.*)/static/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.STATIC_ROOT,
             }),
     )
