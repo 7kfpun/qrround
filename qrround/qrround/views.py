@@ -1,6 +1,7 @@
 from celery import task
 from django.contrib.auth import logout
 from django.core.files import File
+from django.utils.translation import ugettext as _
 from django.db import transaction
 from django.http import (
     HttpResponse,
@@ -401,7 +402,9 @@ def getqrcode(request):
 
     elif getattr(request, 'limited', False):
         # Reach rate limit
-        return HttpResponseBadRequest('Was_limited: we are poor, cannot afford server cost. Donate some and we can buy more server time')  # noqa
+        return HttpResponseBadRequest(
+            _('Was_limited: we are poor, cannot afford server cost. '
+              'Donate some and we can buy more server time'))
 
     elif request.method == 'POST' and request.is_ajax():
 

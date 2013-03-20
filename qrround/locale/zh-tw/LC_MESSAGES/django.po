@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-20 19:10+0800\n"
+"POT-Creation-Date: 2013-03-20 19:35+0800\n"
 "PO-Revision-Date: 2013-03-20 06:06-0600\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,3 +47,21 @@ msgstr "我同意並接受此協議條款"
 #: qrround/forms.py:33
 msgid "Post the code to your wall/stream/board"
 msgstr "讓朋友們也看看我的作品！！"
+
+#: qrround/forms.py:45
+msgid "Input your data"
+msgstr ""
+
+#: qrround/forms.py:66
+msgid "Text is too long"
+msgstr ""
+
+#: qrround/forms.py:72
+msgid "You should accept our policy"
+msgstr ""
+
+#: qrround/views.py:406
+msgid ""
+"Was_limited: we are poor, cannot afford server cost. Donate some and we can "
+"buy more server time"
+msgstr ""
