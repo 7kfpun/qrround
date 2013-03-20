@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Django settings for qrround project.
 from os import path as op  # , walk, listdir
 import logging
@@ -86,6 +87,19 @@ SITE_ID = 1
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
+ugettext = lambda s: s
+LANGUAGES = (
+    ('en', u'English'),
+    ('zh-cn', u'简体中文'),
+    ('zh-tw', u'繁體中文'),
+    ('th', u'Thai'),
+    ('jp', u'Japanese'),
+)
+LOCALE_PATHS = (
+    op.join(PROJECT_ROOT, '../locale'),
+)
+
+ROSETTA_STORAGE_CLASS = 'rosetta.storage.CacheRosettaStorage'
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -141,7 +155,6 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -149,6 +162,8 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
 )
 
 MIDDLEWARE_CLASSES += 'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -204,6 +219,7 @@ INSTALLED_APPS += (
     'compressor',
     'south',
     'imagekit',
+    'rosetta',
 
     # Qrround
     'qrround',

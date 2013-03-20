@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from django.contrib import admin
+from django.contrib.auth.models import Group
 from qrround.models import (
     UserClient,
     Friend,
@@ -10,10 +12,13 @@ from qrround.models import (
 
 class UserClientAdmin(admin.ModelAdmin):
     list_display = ('client', 'access_token',
-                    'is_active', 'is_admin',
+                    'is_active', 'is_superuser', 'is_admin',
                     'last_login', 'date_joined',
                     'username', 'first_name', 'last_name', 'email',
                     'profile_picture', 'profile_picture_url', 'url',)
+    search_fields = ('email',)
+    ordering = ('email',)
+    filter_horizontal = ()
 
 
 class FriendAdmin(admin.ModelAdmin):
@@ -39,3 +44,4 @@ admin.site.register(Friend, FriendAdmin)
 admin.site.register(Query, QueryProfileAdmin)
 admin.site.register(QRCode, QRCodeAdmin)
 admin.site.register(CachedImage, CachedImageAdmin)
+admin.site.unregister(Group)
