@@ -36,6 +36,7 @@ from ratelimit.decorators import ratelimit
 import requests
 from settings.settings import MEDIA_ROOT
 #import StringIO
+from time import time
 import tweepy
 
 
@@ -43,7 +44,7 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
-    state = request.session['state'] = unique_generator(32)
+    state = request.session['state'] = str(time())
 
     # facebook
     params = {
@@ -140,7 +141,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
     response = redirect('/close_window')
     response = HttpResponse(json.dumps(data))  # block and see return data  TODO remove it  # noqa
 
-    response.set_cookie(channel, unique_generator(6))
+    response.set_cookie(channel, time())
     return response
 
 
