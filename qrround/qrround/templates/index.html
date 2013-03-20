@@ -1,7 +1,18 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 <div id="alerts"></div>
+
+{% get_available_languages as languages %}
+
+{% trans "View this site in:" %}
+{% for lang_code, lang_name in languages %}
+  {% language lang_code %}
+  <a href="{% url 'index' %}">{{ lang_name }}</a>
+  {% endlanguage %}
+{% endfor %}
+
 
 <form action="/getqrcode" method="post" onsubmit="return false">
   <!-- <input name="text" class="span5" id="dgetqrcode_input" type="text" placeholder="Input your data"> -->

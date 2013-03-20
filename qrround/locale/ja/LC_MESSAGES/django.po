@@ -9,44 +9,44 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-20 23:31+0800\n"
-"PO-Revision-Date: 2013-03-20 06:06-0600\n"
-"Last-Translator:   <>\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Translated-Using: django-rosetta 0.7.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: qrround/forms.py:19
 #, python-format
 msgid "Low (7% of codewords can be restored)"
-msgstr "低"
+msgstr ""
 
 #: qrround/forms.py:20
 #, python-format
 msgid "Medium (15% of codewords can be restored)"
-msgstr "中"
+msgstr ""
 
 #: qrround/forms.py:21
 #, python-format
 msgid "Quartile (25% of codewords can be restored)"
-msgstr "高"
+msgstr ""
 
 #: qrround/forms.py:22
 #, python-format
 msgid "High (30% of codewords can be restored)"
-msgstr "很高"
+msgstr ""
 
 #: qrround/forms.py:29
 msgid ""
 "I have read and accept <a id=\"policy_modal_link\" type=\"button\">Privacy "
 "Policy and Terms of Service</a>"
-msgstr "我同意並接受此協議條款"
+msgstr ""
 
 #: qrround/forms.py:33
 msgid "Post the code to your wall/stream/board"
-msgstr "讓朋友們也看看我的作品！！"
+msgstr ""
 
 #: qrround/forms.py:45
 msgid "Input your data"

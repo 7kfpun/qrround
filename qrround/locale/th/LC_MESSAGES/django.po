@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-20 19:35+0800\n"
+"POT-Creation-Date: 2013-03-20 23:31+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,4 +63,107 @@ msgstr ""
 msgid ""
 "Was_limited: we are poor, cannot afford server cost. Donate some and we can "
 "buy more server time"
+msgstr ""
+
+#: qrround/templates/base.html:6
+msgid "QR"
+msgstr ""
+
+#: qrround/templates/base.html:36
+msgid "Home"
+msgstr ""
+
+#: qrround/templates/base.html:37 qrround/templates/modals.html:43
+msgid "About"
+msgstr ""
+
+#: qrround/templates/base.html:38 qrround/templates/modals.html:25
+msgid "Contact"
+msgstr ""
+
+#: qrround/templates/base.html:40
+msgid "Project name"
+msgstr ""
+
+#: qrround/templates/base.html:46
+msgid "It is Super<br />Awesome!"
+msgstr ""
+
+#: qrround/templates/base.html:47
+msgid ""
+"Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, "
+"tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa "
+"justo sit amet risus."
+msgstr ""
+
+#: qrround/templates/base.html:48
+msgid "Sign up today"
+msgstr ""
+
+#: qrround/templates/base.html:54
+msgid "Language"
+msgstr ""
+
+#: qrround/templates/index.html:9
+msgid "View this site in:"
+msgstr ""
+
+#: qrround/templates/modals.html:7
+msgid "Policy"
+msgstr ""
+
+#: qrround/templates/modals.html:10 qrround/templates/modals.html.py:46
+msgid "About this website privacy policy"
+msgstr ""
+
+#: qrround/templates/modals.html:11 qrround/templates/modals.html.py:29
+#: qrround/templates/modals.html:47
+msgid ""
+"This is a model website privacy policy. It is written in plain language that "
+"is visitor-friendly. We have provided a large menu of paragraphs so that you "
+"can easily tailor the policy to suit the exact structure of your business "
+"and website."
+msgstr ""
+
+#: qrround/templates/modals.html:12 qrround/templates/modals.html.py:30
+#: qrround/templates/modals.html:48
+msgid ""
+"Although this document cannot magically absolve you from the risk of data "
+"mismanagement, it is a giant first step. Informing your visitors and "
+"customers (and other parties) about the data you collect about them is a "
+"requirement. A privacy policy is a simple way to comply, but a good privacy "
+"policy goes further. It is prime evidence to everyone with whom you deal "
+"that you take confidentiality seriously. That can help increase the trust "
+"that visitors and customers have in your business and boost their confidence "
+"in using your services or buying from you."
+msgstr ""
+
+#: qrround/templates/modals.html:15 qrround/templates/modals.html.py:33
+#: qrround/templates/modals.html:51 qrround/templates/modals.html.py:73
+msgid "Close"
+msgstr ""
+
+#: qrround/templates/modals.html:16 qrround/templates/modals.html.py:34
+#: qrround/templates/modals.html:52
+msgid "Save changes"
+msgstr ""
+
+#: qrround/templates/modals.html:28
+msgid "About this website contact"
+msgstr ""
+
+#: qrround/templates/modals.html:61
+msgid "Import your account here!!"
+msgstr ""
+
+#: qrround/templates/modals.html:67
+msgid "Import your friends"
+msgstr ""
+
+#: qrround/templates/modals.html:72
+msgid "Logout all"
+msgstr ""
+
+#: qrround/templates/modals.html:74
+msgid "Import"
 msgstr ""

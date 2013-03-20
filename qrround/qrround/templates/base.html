@@ -1,8 +1,9 @@
 {% load compress %}
+{% load i18n %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
-    <title>QR</title>
+    <title>{% trans 'QR' %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
@@ -32,25 +33,40 @@
     <div class="container-narrow">
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a id="about_modal_link">About</a></li>
-          <li><a id="contact_modal_link">Contact</a></li>
+          <li class="active"><a href="#">{% trans 'Home' %}</a></li>
+          <li><a id="about_modal_link">{% trans 'About' %}</a></li>
+          <li><a id="contact_modal_link">{% trans 'Contact' %}</a></li>
         </ul>
-        <h3 class="muted">Project name</h3>
+        <h3 class="muted">{% trans 'Project name' %}</h3>
       </div>
 
       <hr>
 
       <div class="jumbotron">
-        <h1>It is Super<br />Awesome!</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <a class="btn btn-large btn-success" data-loading-text="Loading...">Sign up today</a>
-        <p id="qrcode"></p>
+        <h1>{% trans 'It is Super<br />Awesome!' %}</h1>
+        <p class="lead">{% trans 'Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.' %}</p>
+        <a class="btn btn-large btn-success" data-loading-text="Loading...">{% trans 'Sign up today' %}</a>
 
-        <!-- <div class="alert fade in">
-          <button type="button" class="close" data-dismiss="alert">×</button>
-          <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
-        </div> -->
+        <!-- Language selector -->
+        {% get_available_languages as languages %}
+        <ul class="nav pull-right">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Language" %}<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+            {% for lang_code, lang_name in languages %}
+              <li>
+              {% language lang_code %}
+                <form name="{{ lang_name }}" action="{% url 'index' %}" method="POST">{% csrf_token %}
+                  <a href="{% url 'index' %}">{{ lang_code|language_name_local }}</a>
+                </form>
+              {% endlanguage %}
+              </li>
+            {% endfor %}    
+            </ul>
+          </li>
+        </ul>
+
+        <p id="qrcode"></p>
 
         {% block content %}{% endblock %}
       </div>
