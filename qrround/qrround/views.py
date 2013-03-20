@@ -425,7 +425,7 @@ def getqrcode(request):
             qr.make(fit=True)
 
             img = qr.make_image()
-            filename = '.'.join([unique_generator(), 'png'])
+            filename = unique_generator() + '.png'
             img.save(os.path.join(MEDIA_ROOT + '/qrcode', filename))
 
             query = Query(text=text)
@@ -455,7 +455,6 @@ def getqrcode(request):
 @ratelimit(rate='20/m')
 @transaction.commit_on_success
 def getfriendsrequest(request):
-    data = None
     if request.method == 'GET':
         return HttpResponse('Geeeet')
 
