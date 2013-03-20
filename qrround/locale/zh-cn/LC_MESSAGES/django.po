@@ -1,0 +1,49 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-20 19:10+0800\n"
+"PO-Revision-Date: 2013-03-20 06:03-0600\n"
+"Last-Translator:   <>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Translated-Using: django-rosetta 0.7.1\n"
+
+#: qrround/forms.py:19
+#, python-format
+msgid "Low (7% of codewords can be restored)"
+msgstr "低"
+
+#: qrround/forms.py:20
+#, python-format
+msgid "Medium (15% of codewords can be restored)"
+msgstr "中"
+
+#: qrround/forms.py:21
+#, python-format
+msgid "Quartile (25% of codewords can be restored)"
+msgstr "高"
+
+#: qrround/forms.py:22
+#, python-format
+msgid "High (30% of codewords can be restored)"
+msgstr "很高"
+
+#: qrround/forms.py:29
+msgid ""
+"I have read and accept <a id=\"policy_modal_link\" type=\"button\">Privacy "
+"Policy and Terms of Service</a>"
+msgstr "我同意并接受此协议条款"
+
+#: qrround/forms.py:33
+msgid "Post the code to your wall/stream/board"
+msgstr "让朋友们也看看我的作品!!"

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.core.files import File
 from django.core.files.storage import FileSystemStorage
@@ -35,6 +36,7 @@ class UserClient(AbstractBaseUser):
     objects = UserClientManager()
 
     is_active = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
 
