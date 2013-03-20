@@ -42,7 +42,7 @@ class QueryForm(forms.ModelForm):
                 'id': 'getqrcode_input',
                 'autofocus': 'autofocus',
                 'class': 'span5',
-                'placeholder': 'Input your data'}),
+                'placeholder': _('Input your data')}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -63,13 +63,13 @@ class QueryForm(forms.ModelForm):
     def clean_text(self):
         cleaned_data = super(self.__class__, self).clean()
         if len(cleaned_data.get('text')) > 1000:
-            raise forms.ValidationError('Text is too long')
+            raise forms.ValidationError(_('Text is too long'))
         return cleaned_data
 
     def clean_accept(self):
         cleaned_data = super(self.__class__, self).clean()
         if not cleaned_data.get('accept'):
-            raise forms.ValidationError('You should accept our policy')
+            raise forms.ValidationError(_('You should accept our policy'))
         return cleaned_data
 
 
