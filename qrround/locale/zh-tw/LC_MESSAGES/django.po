@@ -2,20 +2,20 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-20 23:31+0800\n"
-"PO-Revision-Date: 2013-03-20 06:06-0600\n"
+"PO-Revision-Date: 2013-03-20 11:02-0600\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Translated-Using: django-rosetta 0.7.1\n"
 
 #: qrround/forms.py:19
@@ -72,15 +72,15 @@ msgstr ""
 
 #: qrround/templates/base.html:36
 msgid "Home"
-msgstr ""
+msgstr "首頁"
 
 #: qrround/templates/base.html:37 qrround/templates/modals.html:43
 msgid "About"
-msgstr ""
+msgstr "關於"
 
 #: qrround/templates/base.html:38 qrround/templates/modals.html:25
 msgid "Contact"
-msgstr ""
+msgstr "聯絡"
 
 #: qrround/templates/base.html:40
 msgid "Project name"
@@ -93,8 +93,8 @@ msgstr ""
 #: qrround/templates/base.html:47
 msgid ""
 "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, "
-"tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa "
-"justo sit amet risus."
+"tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa"
+" justo sit amet risus."
 msgstr ""
 
 #: qrround/templates/base.html:48
@@ -103,7 +103,7 @@ msgstr ""
 
 #: qrround/templates/base.html:54
 msgid "Language"
-msgstr ""
+msgstr "語言"
 
 #: qrround/templates/index.html:9
 msgid "View this site in:"
@@ -120,10 +120,10 @@ msgstr ""
 #: qrround/templates/modals.html:11 qrround/templates/modals.html.py:29
 #: qrround/templates/modals.html:47
 msgid ""
-"This is a model website privacy policy. It is written in plain language that "
-"is visitor-friendly. We have provided a large menu of paragraphs so that you "
-"can easily tailor the policy to suit the exact structure of your business "
-"and website."
+"This is a model website privacy policy. It is written in plain language that"
+" is visitor-friendly. We have provided a large menu of paragraphs so that "
+"you can easily tailor the policy to suit the exact structure of your "
+"business and website."
 msgstr ""
 
 #: qrround/templates/modals.html:12 qrround/templates/modals.html.py:30
@@ -135,19 +135,19 @@ msgid ""
 "requirement. A privacy policy is a simple way to comply, but a good privacy "
 "policy goes further. It is prime evidence to everyone with whom you deal "
 "that you take confidentiality seriously. That can help increase the trust "
-"that visitors and customers have in your business and boost their confidence "
-"in using your services or buying from you."
+"that visitors and customers have in your business and boost their confidence"
+" in using your services or buying from you."
 msgstr ""
 
 #: qrround/templates/modals.html:15 qrround/templates/modals.html.py:33
 #: qrround/templates/modals.html:51 qrround/templates/modals.html.py:73
 msgid "Close"
-msgstr ""
+msgstr "關閉"
 
 #: qrround/templates/modals.html:16 qrround/templates/modals.html.py:34
 #: qrround/templates/modals.html:52
 msgid "Save changes"
-msgstr ""
+msgstr "保存"
 
 #: qrround/templates/modals.html:28
 msgid "About this website contact"
