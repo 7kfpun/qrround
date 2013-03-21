@@ -87,13 +87,13 @@ SITE_ID = 1
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
-ugettext = lambda s: s
+gettext_noop = lambda s: s
 LANGUAGES = (
-    ('en', u'English'),
-    ('ja', u'日本語'),
-    ('th', u'ภาษาไทย'),
-    ('zh-cn', u'简体中文'),
-    ('zh-tw', u'繁體中文'),
+    ('en', gettext_noop(u'English')),
+    ('zh-tw', gettext_noop(u'繁體中文')),
+    ('zh-cn', gettext_noop(u'简体中文')),
+    ('th', gettext_noop(u'ภาษาไทย')),
+    ('ja', gettext_noop(u'日本語')),
 )
 
 ROSETTA_STORAGE_CLASS = 'rosetta.storage.CacheRosettaStorage'
