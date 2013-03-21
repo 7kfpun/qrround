@@ -128,7 +128,7 @@ function listenCookieChange(cookieName, callback) {
 var channels = ['facebook', 'google', 'kaixin001', 'linkedin', 'twitter', 'weibo']
 $(channels).each(function(i, channel) {
   console.log(channel)
-  $.cookie(channel, 0);
+  $.cookie(channel, 0, { path: '/' });
 
   // bind the listener
   listenCookieChange(channel, function() {
