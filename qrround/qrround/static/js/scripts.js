@@ -134,7 +134,7 @@ $(channels).each(function(i, channel) {
   listenCookieChange(channel, function() {
     $.ajax({
       type: "POST",
-      url: "http://127.0.0.1:8001/getfriends",
+      url: "/getfriends",
       data: { import: channel },
       success: function(data) {
         console.log("Received: " + data);
