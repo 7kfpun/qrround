@@ -2,56 +2,57 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-21 12:17+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-03-21 12:54+0800\n"
+"PO-Revision-Date: 2013-03-20 23:56-0600\n"
+"Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Translated-Using: django-rosetta 0.7.1\n"
 
-#: forms.py:19
+#: forms.py:20
 msgid "Low 7 percent of codewords can be restored)"
 msgstr ""
 
-#: forms.py:20
+#: forms.py:22
 msgid "Medium 15 percent of codewords can be restored)"
 msgstr ""
 
-#: forms.py:21
+#: forms.py:24
 msgid "Quartile 25 percent of codewords can be restored)"
 msgstr ""
 
-#: forms.py:22
+#: forms.py:26
 msgid "High 30 percent of codewords can be restored)"
 msgstr ""
 
-#: forms.py:29
+#: forms.py:33
 msgid ""
 "I have read and accept <a id=\"policy_modal_link\" type=\"button\">Privacy "
 "Policy and Terms of Service</a>"
 msgstr ""
 
-#: forms.py:33
+#: forms.py:37
 msgid "Post the code to your wall/stream/board"
 msgstr ""
 
-#: forms.py:45
+#: forms.py:49
 msgid "Input your data"
 msgstr ""
 
-#: forms.py:66
+#: forms.py:70
 msgid "Text is too long"
 msgstr ""
 
-#: forms.py:72
+#: forms.py:76
 msgid "You should accept our policy"
 msgstr ""
 
@@ -59,6 +60,26 @@ msgstr ""
 msgid ""
 "Was_limited: we are poor, cannot afford server cost. Donate some and we can "
 "buy more server time"
+msgstr ""
+
+#: settings/settings.py:92
+msgid "English"
+msgstr ""
+
+#: settings/settings.py:93
+msgid "日本語"
+msgstr ""
+
+#: settings/settings.py:94
+msgid "ภาษาไทย"
+msgstr ""
+
+#: settings/settings.py:95
+msgid "简体中文"
+msgstr ""
+
+#: settings/settings.py:96
+msgid "繁體中文"
 msgstr ""
 
 #: templates/base.html:6
@@ -79,7 +100,7 @@ msgstr ""
 
 #: templates/base.html:52
 msgid "Project name"
-msgstr ""
+msgstr "日本語"
 
 #: templates/base.html:58
 msgid "It is Super<br />Awesome!"
@@ -88,8 +109,8 @@ msgstr ""
 #: templates/base.html:59
 msgid ""
 "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, "
-"tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa "
-"justo sit amet risus."
+"tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa"
+" justo sit amet risus."
 msgstr ""
 
 #: templates/base.html:60
@@ -115,10 +136,10 @@ msgstr ""
 #: templates/modals.html:11 templates/modals.html.py:29
 #: templates/modals.html:47
 msgid ""
-"This is a model website privacy policy. It is written in plain language that "
-"is visitor-friendly. We have provided a large menu of paragraphs so that you "
-"can easily tailor the policy to suit the exact structure of your business "
-"and website."
+"This is a model website privacy policy. It is written in plain language that"
+" is visitor-friendly. We have provided a large menu of paragraphs so that "
+"you can easily tailor the policy to suit the exact structure of your "
+"business and website."
 msgstr ""
 
 #: templates/modals.html:12 templates/modals.html.py:30
@@ -130,8 +151,8 @@ msgid ""
 "requirement. A privacy policy is a simple way to comply, but a good privacy "
 "policy goes further. It is prime evidence to everyone with whom you deal "
 "that you take confidentiality seriously. That can help increase the trust "
-"that visitors and customers have in your business and boost their confidence "
-"in using your services or buying from you."
+"that visitors and customers have in your business and boost their confidence"
+" in using your services or buying from you."
 msgstr ""
 
 #: templates/modals.html:15 templates/modals.html.py:33
