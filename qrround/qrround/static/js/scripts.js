@@ -114,7 +114,7 @@ var cookieRegistry = [];
 function listenCookieChange(cookieName, callback) {
   setInterval(function() {
     if (cookieRegistry[cookieName]) {
-      if ($.cookie(cookieName, { path: '/' }) != cookieRegistry[cookieName]) {
+      if ($.cookie(cookieName) != cookieRegistry[cookieName]) {
         // update registry so we dont get triggered again
         cookieRegistry[cookieName] = $.cookie(cookieName);
         return callback();
@@ -128,7 +128,7 @@ function listenCookieChange(cookieName, callback) {
 var channels = ['facebook', 'google', 'kaixin001', 'linkedin', 'twitter', 'weibo']
 $(channels).each(function(i, channel) {
   console.log(channel)
-  $.cookie(channel, 0, { path: '/' });
+  $.cookie(channel, 0);
 
   // bind the listener
   listenCookieChange(channel, function() {

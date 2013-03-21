@@ -11,6 +11,7 @@ urlpatterns = patterns(
     'qrround.views',
 
     url(r'^getqrcode$', 'getqrcode', name='getqrcode'),
+    url(r'^getfriends$', 'getfriendsrequest', name='getfriendsrequest'),
 
     # Callback
     url(r'^oauth2callback$', 'oauth2callback', name='oauth2callback'),
@@ -47,7 +48,6 @@ urlpatterns += i18n_patterns(
     'qrround.views',
 
     url(r'^$', 'index', name='index'),
-    url(r'^getfriends$', 'getfriendsrequest', name='getfriendsrequest'),
 )
 
 if settings.DEBUG:
