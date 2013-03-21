@@ -15,19 +15,22 @@ DATABASES = {
     }
 }
 
-USE_REDIS = True
+USE_REDIS = False
 if USE_REDIS:
     CACHES = {
         'default': {
-            'BACKEND': 'redis_cache.RedisCache',
-            'LOCATION': env['DOTCLOUD_CACHE_REDIS_HOST']+':'+env['DOTCLOUD_CACHE_REDIS_PORT'],  # noqa
-            'OPTIONS': {
-                'DB': 1,
-                'PASSWORD': env['DOTCLOUD_CACHE_REDIS_PASSWORD'],
-                'PARSER_CLASS': 'redis.connection.HiredisParser'
-            },
+	    'BACKEND': 'redis_cache.cache.RedisCache',
+	    'LOCATION': env['DOTCLOUD_CACHE_REDIS_HOST']+':'+env['DOTCLOUD_CACHE_REDIS_PORT'],  # noqa
+	    'OPTIONS': {
+	        'DB': 1,
+	        'PASSWORD': env['DOTCLOUD_CACHE_REDIS_PASSWORD'],
+	        'PARSER_CLASS': 'redis.connection.HiredisParser'
+	    },
         },
     }
+
+    # we also are going to use redis for our session cache as well.
+    SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
