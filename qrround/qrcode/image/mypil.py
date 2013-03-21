@@ -1,3 +1,4 @@
+from qrround.settings.settings import PROJECT_ROOT
 from qrround.models import (
     CachedImage,
 )
@@ -108,14 +109,14 @@ class PilImage(qrcode.image.base.BaseImage):
             self._img.paste(Image.open(image.photo.path).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
 
-            border = Image.open('qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
+            border = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
             self._img.paste(border, (x, y), mask=border)
 
         elif False:
             try:
                 bord = self.bord
             except:
-                bord = self.bord = Image.open('qrcode/image/resources/border9.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
+                bord = self.bord = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border9.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
 
             self._img.paste(Image.open(image.photo.path).point(lambda p: p * 0.7).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
@@ -128,9 +129,9 @@ class PilImage(qrcode.image.base.BaseImage):
                 mask = self.mask
             except:
                 print "get highlight...."
-                highlight = self.highlight = Image.open('qrcode/image/resources/round.png').resize(
+                highlight = self.highlight = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round.png').resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS)
-                mask = self.mask = Image.open('qrcode/image/resources/round-mask.png').resize(
+                mask = self.mask = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round-mask.png').resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS)
 
             icon = Image.open(image.photo.path).resize(
