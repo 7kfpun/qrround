@@ -10,7 +10,7 @@ class QueryForm(forms.ModelForm):
         ('', '<< Empty >>',),
     )
     channel_choice = forms.MultipleChoiceField(
-        _('Channel choice'),
+        label=_('Channel choice'),
         widget=forms.CheckboxSelectMultiple,
         choices=CHANNEL_CHOICES,
         required=True,
@@ -31,16 +31,16 @@ class QueryForm(forms.ModelForm):
             % {'PERCENT_SIGN': '%'}),
     )
     error_correct_choice = forms.ChoiceField(
-        _('Error correct choice'),
+        label=_('Error correct choice'),
         widget=forms.RadioSelect, choices=ERROR_CORRECT, required=True)
 
     accept = forms.NullBooleanField(
-        _('Accept'),
+        label=_('Accept'),
         widget=forms.CheckboxInput,
         help_text=mark_safe(_('I have read and accept <a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>')),  # noqa
     )
     auto_post = forms.NullBooleanField(
-        _('Auto post'),
+        label=_('Auto post'),
         widget=forms.CheckboxInput,
         help_text=_('Post the code to your wall/stream/board'),
         initial=True
