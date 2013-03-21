@@ -10,6 +10,7 @@ class QueryForm(forms.ModelForm):
         ('', '<< Empty >>',),
     )
     channel_choice = forms.MultipleChoiceField(
+        _('Channel choice'),
         widget=forms.CheckboxSelectMultiple,
         choices=CHANNEL_CHOICES,
         required=True,
@@ -17,22 +18,29 @@ class QueryForm(forms.ModelForm):
 
     ERROR_CORRECT = (
         ('ERROR_CORRECT_L',
-            _('Low 7 percent of codewords can be restored)')),
+            _('Low 7 %(PERCENT_SIGN)s of codewords can be restored)')
+            % {'PERCENT_SIGN': '%'}),
         ('ERROR_CORRECT_M',
-            _('Medium 15 percent of codewords can be restored)')),
+            _('Medium 15 %(PERCENT_SIGN)s of codewords can be restored)')
+            % {'PERCENT_SIGN': '%'}),
         ('ERROR_CORRECT_Q',
-            _('Quartile 25 percent of codewords can be restored)')),
+            _('Quartile 25 %(PERCENT_SIGN)s of codewords can be restored)')
+            % {'PERCENT_SIGN': '%'}),
         ('ERROR_CORRECT_H',
-            _('High 30 percent of codewords can be restored)')),
+            _('High 30 %(PERCENT_SIGN)s of codewords can be restored)')
+            % {'PERCENT_SIGN': '%'}),
     )
     error_correct_choice = forms.ChoiceField(
+        _('Error correct choice'),
         widget=forms.RadioSelect, choices=ERROR_CORRECT, required=True)
 
     accept = forms.NullBooleanField(
+        _('Accept'),
         widget=forms.CheckboxInput,
         help_text=mark_safe(_('I have read and accept <a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>')),  # noqa
     )
     auto_post = forms.NullBooleanField(
+        _('Auto post'),
         widget=forms.CheckboxInput,
         help_text=_('Post the code to your wall/stream/board'),
         initial=True
