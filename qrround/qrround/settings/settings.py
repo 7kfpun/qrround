@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Django settings for qrround project.
 from os import path as op  # , walk, listdir
 import logging
@@ -79,13 +80,33 @@ TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
+gettext_noop = lambda s: s
+LANGUAGES = (
+    ('en', gettext_noop(u'English')),
+    ('zh-tw', gettext_noop(u'繁體中文')),
+    ('zh-cn', gettext_noop(u'简体中文')),
+    ('th', gettext_noop(u'ภาษาไทย')),
+    ('ja', gettext_noop(u'日本語')),
+)
+
+ROSETTA_STORAGE_CLASS = 'rosetta.storage.CacheRosettaStorage'
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages"
+)
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
@@ -141,7 +162,6 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -149,6 +169,8 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.common.CommonMiddleware',
 )
 
 MIDDLEWARE_CLASSES += 'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -204,6 +226,7 @@ INSTALLED_APPS += (
     'compressor',
     'south',
     'imagekit',
+    'rosetta',
 
     # Qrround
     'qrround',

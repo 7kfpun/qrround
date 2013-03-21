@@ -1,7 +1,18 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
 <div id="alerts"></div>
+
+{% get_available_languages as languages %}
+
+{% trans "View this site in:" %}
+{% for lang_code, lang_name in languages %}
+  {% language lang_code %}
+  <a href="{% url 'index' %}">{{ lang_name }}</a>
+  {% endlanguage %}
+{% endfor %}
+
 
 <form action="/getqrcode" method="post" onsubmit="return false">
   <!-- <input name="text" class="span5" id="dgetqrcode_input" type="text" placeholder="Input your data"> -->
@@ -27,8 +38,18 @@
 
       <div class="tab-content options">
         <div class="tab-pane active" id="lA">
-          <p>You can still import more accounts</p>
-          {{ form.channel_choice }}
+          {% if form.fields.channel_choice.choices|length %}
+            <div class="alert alert-info">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <strong>Info!</strong> You can import more accounts.
+            </div>
+            {{ form.channel_choice }}
+          {% else %}
+            <div class="alert alert-block">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              <strong>Info!</strong> Import your account first!!
+            </div>
+          {% endif %}
         </div>
         <div class="tab-pane" id="lB">
           <p>The higher error correct, the m</p>

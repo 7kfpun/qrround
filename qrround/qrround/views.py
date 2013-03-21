@@ -1,6 +1,7 @@
 from celery import task
 from django.contrib.auth import logout
 from django.core.files import File
+from django.utils.translation import ugettext_lazy as _
 from django.db import transaction
 from django.http import (
     HttpResponse,
@@ -36,14 +37,21 @@ from ratelimit.decorators import ratelimit
 import requests
 from settings.settings import MEDIA_ROOT
 #import StringIO
+from time import time
 import tweepy
 
 
 logger = logging.getLogger(__name__)
 
 
+def login(request):
+    return render(request, 'login.html')
+
+
 def index(request):
-    state = request.session['state'] = unique_generator(32)
+    print 'LANGUAGE_CODE LANGUAGE_CODE', request.LANGUAGE_CODE
+
+    state = request.session['state'] = str(time())
 
     # facebook
     params = {
@@ -140,7 +148,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
     response = redirect('/close_window')
     response = HttpResponse(json.dumps(data))  # block and see return data  TODO remove it  # noqa
 
-    response.set_cookie(channel, unique_generator(6))
+    response.set_cookie(channel, time())
     return response
 
 
@@ -400,7 +408,9 @@ def getqrcode(request):
 
     elif getattr(request, 'limited', False):
         # Reach rate limit
-        return HttpResponseBadRequest('Was_limited: we are poor, cannot afford server cost. Donate some and we can buy more server time')  # noqa
+        return HttpResponseBadRequest(
+            _('Was_limited: we are poor, cannot afford server cost. '
+              'Donate some and we can buy more server time'))
 
     elif request.method == 'POST' and request.is_ajax():
 
@@ -424,7 +434,7 @@ def getqrcode(request):
             qr.make(fit=True)
 
             img = qr.make_image()
-            filename = '.'.join([unique_generator(), 'png'])
+            filename = unique_generator() + '.png'
             img.save(os.path.join(MEDIA_ROOT + '/qrcode', filename))
 
             query = Query(text=text)
@@ -440,7 +450,7 @@ def getqrcode(request):
             photo.save()
 
             return HttpResponse(
-                Template('<img src="{{ photo.photo.url }}" '
+                Template('<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
                          'width="480" height="480" />').render(photo=photo)
             )
 
@@ -454,7 +464,6 @@ def getqrcode(request):
 @ratelimit(rate='20/m')
 @transaction.commit_on_success
 def getfriendsrequest(request):
-    data = None
     if request.method == 'GET':
         return HttpResponse('Geeeet')
 
