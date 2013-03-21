@@ -1,5 +1,5 @@
 from hashlib import md5
-from time import localtime
+from time import time
 #import random
 #import string
 
@@ -9,4 +9,4 @@ from time import localtime
 
 
 def unique_generator(size=16):
-    return md5(str(localtime()) + 'QRROUND').hexdigest()[:size]  # MAX: 32
+    return md5(str(time()) + 'QRROUND').hexdigest()[:size]  # MAX: 32

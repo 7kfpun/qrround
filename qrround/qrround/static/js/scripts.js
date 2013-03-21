@@ -23,7 +23,7 @@ function getqrcode(el) {
   console.log(form.serialize());
 
   if (form.find('input.span5').val() === "") {
-
+    notify('failure', 'Input some text first');
   } else {
     $('#getqrcode_button').button('loading');
     $.ajax({
@@ -52,12 +52,14 @@ function getqrcode(el) {
 function notify(notify_type, msg) {
   var alerts = $('#alerts');
   if (notify_type == 'success') {
-    alerts.empty().append('<div class="alert alert-success fade in"><button type="button" class="close" data-dismiss="alert">×</button> \
-                        <strong>Alert!</strong> ' + msg + '</div>');
+    alerts.empty().append('<div class="alert alert-success fade in"> \
+      <button type="button" class="close" data-dismiss="alert">×</button> \
+      <strong>Yo!</strong> ' + msg + '</div>');
   }
   else if (notify_type == 'failure') {
-    alerts.empty().append('<div class="alert alert-block fade in"><button type="button" class="close" data-dismiss="alert">×</button> \
-                        <strong>Alert!</strong> ' + msg + '</div>');
+    alerts.empty().append('<div class="alert alert-block fade in"> \
+      <button type="button" class="close" data-dismiss="alert">×</button> \
+      <strong>Alert!</strong> ' + msg + '</div>');
   }
   alerts.fadeIn('fast');
   setTimeout(function() {

@@ -2,6 +2,7 @@ from django import forms
 from django.utils.safestring import mark_safe
 from qrround.models import Query
 from qrround.channels import channels
+from django.utils.translation import ugettext_lazy as _
 
 
 class QueryForm(forms.ModelForm):
@@ -15,21 +16,25 @@ class QueryForm(forms.ModelForm):
     )
 
     ERROR_CORRECT = (
-        ('ERROR_CORRECT_L', 'Low (7% of codewords can be restored)',),
-        ('ERROR_CORRECT_M', 'Medium (15% of codewords can be restored)',),
-        ('ERROR_CORRECT_Q', 'Quartile (25% of codewords can be restored)',),
-        ('ERROR_CORRECT_H', 'High (30% of codewords can be restored)',),
+        ('ERROR_CORRECT_L',
+            _('Low 7 percent of codewords can be restored)')),
+        ('ERROR_CORRECT_M',
+            _('Medium 15 percent of codewords can be restored)')),
+        ('ERROR_CORRECT_Q',
+            _('Quartile 25 percent of codewords can be restored)')),
+        ('ERROR_CORRECT_H',
+            _('High 30 percent of codewords can be restored)')),
     )
     error_correct_choice = forms.ChoiceField(
         widget=forms.RadioSelect, choices=ERROR_CORRECT, required=True)
 
     accept = forms.NullBooleanField(
         widget=forms.CheckboxInput,
-        help_text=mark_safe('I have read and accept <a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>'),  # noqa
+        help_text=mark_safe(_('I have read and accept <a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>')),  # noqa
     )
     auto_post = forms.NullBooleanField(
         widget=forms.CheckboxInput,
-        help_text='Post the code to your wall/stream/board',
+        help_text=_('Post the code to your wall/stream/board'),
         initial=True
     )
 
@@ -41,7 +46,7 @@ class QueryForm(forms.ModelForm):
                 'id': 'getqrcode_input',
                 'autofocus': 'autofocus',
                 'class': 'span5',
-                'placeholder': 'Input your data'}),
+                'placeholder': _('Input your data')}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -62,13 +67,13 @@ class QueryForm(forms.ModelForm):
     def clean_text(self):
         cleaned_data = super(self.__class__, self).clean()
         if len(cleaned_data.get('text')) > 1000:
-            raise forms.ValidationError('Text is too long')
+            raise forms.ValidationError(_('Text is too long'))
         return cleaned_data
 
     def clean_accept(self):
         cleaned_data = super(self.__class__, self).clean()
         if not cleaned_data.get('accept'):
-            raise forms.ValidationError('You should accept our policy')
+            raise forms.ValidationError(_('You should accept our policy'))
         return cleaned_data
 
 
