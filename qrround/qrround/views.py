@@ -1,7 +1,7 @@
 from celery import task
 from django.contrib.auth import logout
 from django.core.files import File
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.db import transaction
 from django.http import (
     HttpResponse,
@@ -44,7 +44,13 @@ import tweepy
 logger = logging.getLogger(__name__)
 
 
+def login(request):
+    return render(request, 'login.html')
+
+
 def index(request):
+    print 'LANGUAGE_CODE LANGUAGE_CODE', request.LANGUAGE_CODE
+
     state = request.session['state'] = str(time())
 
     # facebook

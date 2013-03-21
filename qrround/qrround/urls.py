@@ -26,6 +26,7 @@ urlpatterns = patterns(
     # url(r'^js/*', ),
 
     # Uncomment the next line to enable the admin:
+    url(r'^login/$', 'login', name='login'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^rosetta/', include('rosetta.urls')),
 
@@ -37,6 +38,9 @@ urlpatterns = patterns(
     url(r'^close_window$', 'close_window', name='close_window'),
     url(r'^close_window_reload$', 'close_window', {
         'is_reload': True}, name='close_window_reload'),
+
+    # the rest is above
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 )
 
 urlpatterns += i18n_patterns(
