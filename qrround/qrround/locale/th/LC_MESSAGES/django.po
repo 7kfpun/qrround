@@ -3,122 +3,116 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-20 23:31+0800\n"
-"PO-Revision-Date: 2013-03-20 10:22-0600\n"
-"Last-Translator:   <>\n"
+"POT-Creation-Date: 2013-03-21 12:17+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Translated-Using: django-rosetta 0.7.1\n"
 
-#: qrround/forms.py:19
-#, python-format
-msgid "Low (7% of codewords can be restored)"
-msgstr "低"
+#: forms.py:19
+msgid "Low 7 percent of codewords can be restored)"
+msgstr ""
 
-#: qrround/forms.py:20
-#, python-format
-msgid "Medium (15% of codewords can be restored)"
-msgstr "中"
+#: forms.py:20
+msgid "Medium 15 percent of codewords can be restored)"
+msgstr ""
 
-#: qrround/forms.py:21
-#, python-format
-msgid "Quartile (25% of codewords can be restored)"
-msgstr "高"
+#: forms.py:21
+msgid "Quartile 25 percent of codewords can be restored)"
+msgstr ""
 
-#: qrround/forms.py:22
-#, python-format
-msgid "High (30% of codewords can be restored)"
-msgstr "很高"
+#: forms.py:22
+msgid "High 30 percent of codewords can be restored)"
+msgstr ""
 
-#: qrround/forms.py:29
+#: forms.py:29
 msgid ""
 "I have read and accept <a id=\"policy_modal_link\" type=\"button\">Privacy "
 "Policy and Terms of Service</a>"
-msgstr "我同意并接受此协议条款"
+msgstr ""
 
-#: qrround/forms.py:33
+#: forms.py:33
 msgid "Post the code to your wall/stream/board"
-msgstr "让朋友们也看看我的作品!!"
+msgstr ""
 
-#: qrround/forms.py:45
+#: forms.py:45
 msgid "Input your data"
 msgstr ""
 
-#: qrround/forms.py:66
+#: forms.py:66
 msgid "Text is too long"
-msgstr "太长了啦~~~"
+msgstr ""
 
-#: qrround/forms.py:72
+#: forms.py:72
 msgid "You should accept our policy"
 msgstr ""
 
-#: qrround/views.py:406
+#: views.py:412
 msgid ""
 "Was_limited: we are poor, cannot afford server cost. Donate some and we can "
 "buy more server time"
-msgstr "我们太穷了啦，没那么多钱交服务器费用。要么赞助赞助我们以下。"
+msgstr ""
 
-#: qrround/templates/base.html:6
+#: templates/base.html:6
 msgid "QR"
 msgstr ""
 
-#: qrround/templates/base.html:36
+#: templates/base.html:48
 msgid "Home"
-msgstr "首页"
+msgstr ""
 
-#: qrround/templates/base.html:37 qrround/templates/modals.html:43
+#: templates/base.html:49 templates/modals.html:43
 msgid "About"
-msgstr "关于"
+msgstr ""
 
-#: qrround/templates/base.html:38 qrround/templates/modals.html:25
+#: templates/base.html:50 templates/modals.html:25
 msgid "Contact"
-msgstr "联络我们"
+msgstr ""
 
-#: qrround/templates/base.html:40
+#: templates/base.html:52
 msgid "Project name"
-msgstr "我的名"
+msgstr ""
 
-#: qrround/templates/base.html:46
+#: templates/base.html:58
 msgid "It is Super<br />Awesome!"
-msgstr "超棒的说"
+msgstr ""
 
-#: qrround/templates/base.html:47
+#: templates/base.html:59
 msgid ""
 "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, "
 "tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa "
 "justo sit amet risus."
 msgstr ""
 
-#: qrround/templates/base.html:48
+#: templates/base.html:60
 msgid "Sign up today"
 msgstr ""
 
-#: qrround/templates/base.html:54
+#: templates/base.html:66
 msgid "Language"
-msgstr "语言"
+msgstr ""
 
-#: qrround/templates/index.html:9
+#: templates/index.html:9
 msgid "View this site in:"
-msgstr "选择"
+msgstr ""
 
-#: qrround/templates/modals.html:7
+#: templates/modals.html:7
 msgid "Policy"
-msgstr "同意协议"
+msgstr ""
 
-#: qrround/templates/modals.html:10 qrround/templates/modals.html.py:46
+#: templates/modals.html:10 templates/modals.html.py:46
 msgid "About this website privacy policy"
 msgstr ""
 
-#: qrround/templates/modals.html:11 qrround/templates/modals.html.py:29
-#: qrround/templates/modals.html:47
+#: templates/modals.html:11 templates/modals.html.py:29
+#: templates/modals.html:47
 msgid ""
 "This is a model website privacy policy. It is written in plain language that "
 "is visitor-friendly. We have provided a large menu of paragraphs so that you "
@@ -126,8 +120,8 @@ msgid ""
 "and website."
 msgstr ""
 
-#: qrround/templates/modals.html:12 qrround/templates/modals.html.py:30
-#: qrround/templates/modals.html:48
+#: templates/modals.html:12 templates/modals.html.py:30
+#: templates/modals.html:48
 msgid ""
 "Although this document cannot magically absolve you from the risk of data "
 "mismanagement, it is a giant first step. Informing your visitors and "
@@ -139,32 +133,32 @@ msgid ""
 "in using your services or buying from you."
 msgstr ""
 
-#: qrround/templates/modals.html:15 qrround/templates/modals.html.py:33
-#: qrround/templates/modals.html:51 qrround/templates/modals.html.py:73
+#: templates/modals.html:15 templates/modals.html.py:33
+#: templates/modals.html:51 templates/modals.html.py:73
 msgid "Close"
-msgstr "关闭"
+msgstr ""
 
-#: qrround/templates/modals.html:16 qrround/templates/modals.html.py:34
-#: qrround/templates/modals.html:52
+#: templates/modals.html:16 templates/modals.html.py:34
+#: templates/modals.html:52
 msgid "Save changes"
-msgstr "保存"
+msgstr ""
 
-#: qrround/templates/modals.html:28
+#: templates/modals.html:28
 msgid "About this website contact"
 msgstr ""
 
-#: qrround/templates/modals.html:61
+#: templates/modals.html:61
 msgid "Import your account here!!"
-msgstr "汇入帐户"
+msgstr ""
 
-#: qrround/templates/modals.html:67
+#: templates/modals.html:67
 msgid "Import your friends"
-msgstr "汇入朋友"
+msgstr ""
 
-#: qrround/templates/modals.html:72
+#: templates/modals.html:72
 msgid "Logout all"
-msgstr "全部登出"
+msgstr ""
 
-#: qrround/templates/modals.html:74
+#: templates/modals.html:74
 msgid "Import"
-msgstr "汇入"
+msgstr ""

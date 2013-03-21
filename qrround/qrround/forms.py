@@ -2,7 +2,7 @@ from django import forms
 from django.utils.safestring import mark_safe
 from qrround.models import Query
 from qrround.channels import channels
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 
 
 class QueryForm(forms.ModelForm):
@@ -16,10 +16,14 @@ class QueryForm(forms.ModelForm):
     )
 
     ERROR_CORRECT = (
-        ('ERROR_CORRECT_L', _('Low (7% of codewords can be restored)'),),
-        ('ERROR_CORRECT_M', _('Medium (15% of codewords can be restored)'),),
-        ('ERROR_CORRECT_Q', _('Quartile (25% of codewords can be restored)'),),
-        ('ERROR_CORRECT_H', _('High (30% of codewords can be restored)'),),
+        ('ERROR_CORRECT_L',
+            _('Low 7 percent of codewords can be restored)')),
+        ('ERROR_CORRECT_M',
+            _('Medium 15 percent of codewords can be restored)')),
+        ('ERROR_CORRECT_Q',
+            _('Quartile 25 percent of codewords can be restored)')),
+        ('ERROR_CORRECT_H',
+            _('High 30 percent of codewords can be restored)')),
     )
     error_correct_choice = forms.ChoiceField(
         widget=forms.RadioSelect, choices=ERROR_CORRECT, required=True)

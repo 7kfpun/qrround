@@ -80,7 +80,7 @@ TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 SITE_ID = 1
 
@@ -90,16 +90,23 @@ USE_I18N = True
 ugettext = lambda s: s
 LANGUAGES = (
     ('en', u'English'),
+    ('ja', u'日本語'),
+    ('th', u'ภาษาไทย'),
     ('zh-cn', u'简体中文'),
     ('zh-tw', u'繁體中文'),
-    ('th', u'ภาษาไทย'),
-    ('ja', u'日本語'),
-)
-LOCALE_PATHS = (
-    op.join(PROJECT_ROOT, '../locale'),
 )
 
 ROSETTA_STORAGE_CLASS = 'rosetta.storage.CacheRosettaStorage'
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages"
+)
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale.
