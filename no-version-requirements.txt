@@ -1,0 +1,40 @@
+# Environment
+virtualenv
+
+# Django
+Django
+south
+
+# Debug
+django-debug-toolbar
+django-extensions
+
+# Django tools
+django-celery
+django_compressor
+django-jsonfield
+django-imagekit
+django-ratelimit
+django-redis
+django-rosetta
+django-social-auth
+Jinja2
+
+# Utils
+Pil
+pika
+requests
+redis
+rauth
+django-google-analytics
+jsonpickle
+
+# Clients
+oauth2client
+tweepy
+
+# Tests
+coverage
+django_nose
+flake8
+lettuce
