@@ -2,19 +2,19 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-03-21 15:10+0800\n"
-"PO-Revision-Date: 2013-03-20 23:19-0600\n"
+"PO-Revision-Date: 2013-03-21 02:27-0600\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 "X-Translated-Using: django-rosetta 0.7.1\n"
 
 #: forms.py:13
@@ -22,24 +22,24 @@ msgid "Channel choice"
 msgstr ""
 
 #: forms.py:21
-#, fuzzy, python-format
+#, python-format
 msgid "Low 7 %(PERCENT_SIGN)s of codewords can be restored)"
-msgstr "低 (7 of codewords can be restored)"
+msgstr "低 7 %(PERCENT_SIGN)s 的损坏可被恢复"
 
 #: forms.py:24
-#, fuzzy, python-format
+#, python-format
 msgid "Medium 15 %(PERCENT_SIGN)s of codewords can be restored)"
-msgstr "中 (7 of codewords can be restored)"
+msgstr "中 15 %(PERCENT_SIGN)s 的损坏可被恢复"
 
 #: forms.py:27
-#, fuzzy, python-format
+#, python-format
 msgid "Quartile 25 %(PERCENT_SIGN)s of codewords can be restored)"
-msgstr "高 (7 of codewords can be restored)"
+msgstr "高 25 %(PERCENT_SIGN)s 的损坏可被恢复"
 
 #: forms.py:30
-#, fuzzy, python-format
+#, python-format
 msgid "High 30 %(PERCENT_SIGN)s of codewords can be restored)"
-msgstr "很高 (7 of codewords can be restored)"
+msgstr "很高 30 %(PERCENT_SIGN)s 的损坏可被恢复"
 
 #: forms.py:34
 msgid "Error correct choice"
@@ -128,8 +128,8 @@ msgstr "超棒的说"
 #: templates/base.html:59
 msgid ""
 "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, "
-"tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa "
-"justo sit amet risus."
+"tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa"
+" justo sit amet risus."
 msgstr ""
 
 #: templates/base.html:60
@@ -155,10 +155,10 @@ msgstr ""
 #: templates/modals.html:11 templates/modals.html.py:29
 #: templates/modals.html:47
 msgid ""
-"This is a model website privacy policy. It is written in plain language that "
-"is visitor-friendly. We have provided a large menu of paragraphs so that you "
-"can easily tailor the policy to suit the exact structure of your business "
-"and website."
+"This is a model website privacy policy. It is written in plain language that"
+" is visitor-friendly. We have provided a large menu of paragraphs so that "
+"you can easily tailor the policy to suit the exact structure of your "
+"business and website."
 msgstr ""
 
 #: templates/modals.html:12 templates/modals.html.py:30
@@ -170,8 +170,8 @@ msgid ""
 "requirement. A privacy policy is a simple way to comply, but a good privacy "
 "policy goes further. It is prime evidence to everyone with whom you deal "
 "that you take confidentiality seriously. That can help increase the trust "
-"that visitors and customers have in your business and boost their confidence "
-"in using your services or buying from you."
+"that visitors and customers have in your business and boost their confidence"
+" in using your services or buying from you."
 msgstr ""
 
 #: templates/modals.html:15 templates/modals.html.py:33

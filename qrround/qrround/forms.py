@@ -1,8 +1,8 @@
 from django import forms
 from django.utils.safestring import mark_safe
-from qrround.models import Query
-from qrround.channels import channels
 from django.utils.translation import ugettext_lazy as _
+from .channels import channels
+from .models import Query
 
 
 class QueryForm(forms.ModelForm):

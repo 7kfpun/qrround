@@ -10,35 +10,29 @@ from django.http import (
 )
 from django.shortcuts import redirect, render   # , get_object_or_404
 # from django.template import Context, Template
-from forms import QueryForm
-from helpers import unique_generator
 from jinja2 import Template
 import json
 import logging
 import os
-import qrcode
-from qrround.channels import (
-    facebook,
-    google,
-    linkedin,
-    kaixin001,
-    renren,
-    twitter,
-    weibo,
-)
-from qrround.models import (
-    UserClient,
-    # Friend,
-    QRCode,
-    Query,
-    CachedImage,
-)
 from ratelimit.decorators import ratelimit
 import requests
 from settings.settings import MEDIA_ROOT
 #import StringIO
 from time import time
 import tweepy
+
+import qrcode
+from .channels import *  # noqa
+from .channels_settings import *  # noqa
+from .forms import QueryForm
+from .helpers import unique_generator
+from .models import (
+    UserClient,
+    # Friend,
+    QRCode,
+    Query,
+    CachedImage,
+)
 
 
 logger = logging.getLogger(__name__)
@@ -58,7 +52,7 @@ def index(request):
         'scope': 'read_stream,publish_actions',
         'response_type': 'code',
         'state': state,
-        'redirect_uri': 'http://127.0.0.1:8001/facebook_callback'
+        'redirect_uri': FACEBOOK_REDIRECT_URI,
     }
     facebook_auth_url = facebook.get_authorize_url(**params)
 
@@ -71,7 +65,7 @@ def index(request):
         'scope': 'basic',
         'response_type': 'code',
         'state': state,
-        'redirect_uri': 'http://127.0.0.1:8001/kaixin001_callback',
+        'redirect_uri': KAIXIN001_REDIRECT_URI,
     }
     kaixin001_auth_url = kaixin001.get_authorize_url(**params)
 
@@ -80,7 +74,7 @@ def index(request):
         'scope': 'r_basicprofile r_emailaddress r_network',
         'response_type': 'code',
         'state': state,
-        'redirect_uri': 'http://127.0.0.1:8001/linkedin_callback',
+        'redirect_uri': LINKEDIN_REDIRECT_URI,
     }
     linkedin_auth_url = linkedin.get_authorize_url(**params)
 
@@ -88,12 +82,13 @@ def index(request):
     params = {
         'response_type': 'code',
         'state': state,
-        'redirect_uri': 'http://127.0.0.1:8001/renren_callback',
+        'redirect_uri': RENREN_REDIRECT_URI,
     }
     renren_auth_url = renren.get_authorize_url(**params)
 
     try:
-        twitter.callback = "http://127.0.0.1:8001/twitter_callback?state=%s" % state  # noqa
+        twitter.callback = "%(redirect_url)s?state=%(state)s" \
+            % {'redirect_url': RENREN_REDIRECT_URI, 'state': state}
         twitter_auth_url = twitter.get_authorization_url()
     except tweepy.TweepError:
         twitter_auth_url = None
@@ -103,7 +98,7 @@ def index(request):
     params = {
         'scope': 'email,direct_messages_write,friendships_groups_read',
         'state': state,
-        'redirect_uri': 'http://127.0.0.1/weibo_callback',
+        'redirect_uri': WEIBO_REDIRECT_URI,
         'grant_type': 'authorization_code',
     }
     weibo_auth_url = weibo.get_authorize_url(**params)
