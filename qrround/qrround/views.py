@@ -154,18 +154,18 @@ def facebookcallback(request):
             'redirect_uri': FACEBOOK_REDIRECT_URI})
         access_token = session.access_token
 
-        # me = session.get('me').json
+        # me = session.get('me').json()
         # to get pic_square of me()
         me = session.get(
             'fql?q=SELECT uid, first_name, middle_name,'
             + ' last_name, username, name, pic_square, profile_url'
-            + ' FROM user WHERE uid = me()').json['data'][0]
+            + ' FROM user WHERE uid = me()').json()['data'][0]
 
         friends = session.get(
             'fql?q=SELECT uid, first_name, middle_name,'
             + ' last_name, username, name, pic_square, profile_url'
             + ' FROM user WHERE uid in (SELECT uid2 FROM friend'
-            + ' WHERE uid1 = me())').json['data']
+            + ' WHERE uid1 = me())').json()['data']
 
         client_id = 'facebook#' + str(me['uid'])
         return store_session(request, 'facebook', client_id,
@@ -185,13 +185,13 @@ def googlecallback(request):
             'https://www.googleapis.com/plus/v1/people/me'
             '?access_token=' + access_token
         )
-        me = requests.get(me_url).json
+        me = requests.get(me_url).json()
 
         friends_url = (
             'https://www.googleapis.com/plus/v1/people/me/people/visible'
             '?access_token=' + access_token
         )
-        friends = requests.get(friends_url).json['items']
+        friends = requests.get(friends_url).json()['items']
 
         client_id = 'google#' + str(me['id'])
         return store_session(request, 'google', client_id,
@@ -212,19 +212,19 @@ def linkedincallback(request):
             + '&client_secret=' + LINKEDIN_CLIENT_SECRET + ''
         )
         r = requests.post(exchange_url)
-        access_token = r.json['access_token']
+        access_token = r.json()['access_token']
 
         me_url = (
             'https://api.linkedin.com/v1/people/~'
             ':(id,first-name,last-name,headline,picture-url)'
             '?oauth2_access_token=' + access_token + '&format=json'
         )
-        me = requests.get(me_url).json
+        me = requests.get(me_url).json()
 
         friends_url = (
             'https://api.linkedin.com/v1/people/~/connections'
             '?oauth2_access_token=' + access_token + '&format=json')
-        friends = requests.get(friends_url).json['values']
+        friends = requests.get(friends_url).json()['values']
 
         client_id = 'linkedin#' + str(me['id'])
         return store_session(request, 'linkedin', client_id,
@@ -245,20 +245,20 @@ def kaixin001callback(request):
             '&redirect_uri=http://127.0.0.1:8001/kaixin001_callback'
         )
         r = requests.get(exchange_url)
-        access_token = r.json['access_token']
+        access_token = r.json()['access_token']
 
         me_url = (
             'https://api.kaixin001.com/users/me.json'
             '?access_token=' + access_token
         )
-        me = requests.get(me_url).json
+        me = requests.get(me_url).json()
 
         friends_url = (
             'https://api.kaixin001.com/friends/me.json'
             '?num=50'
             '&access_token=' + access_token
         )
-        friends = requests.get(friends_url).json['users']
+        friends = requests.get(friends_url).json()['users']
 
         client_id = 'kaixin001#' + str(me['uid'])
         return store_session(request, 'kaixin001', client_id,
