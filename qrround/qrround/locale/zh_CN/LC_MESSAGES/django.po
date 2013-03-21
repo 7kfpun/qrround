@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-21 12:54+0800\n"
+"POT-Creation-Date: 2013-03-21 15:10+0800\n"
 "PO-Revision-Date: 2013-03-20 23:19-0600\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,41 +17,61 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Translated-Using: django-rosetta 0.7.1\n"
 
-#: forms.py:20
-msgid "Low 7 percent of codewords can be restored)"
+#: forms.py:13
+msgid "Channel choice"
+msgstr ""
+
+#: forms.py:21
+#, fuzzy, python-format
+msgid "Low 7 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr "低 (7 of codewords can be restored)"
 
-#: forms.py:22
-msgid "Medium 15 percent of codewords can be restored)"
+#: forms.py:24
+#, fuzzy, python-format
+msgid "Medium 15 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr "中 (7 of codewords can be restored)"
 
-#: forms.py:24
-msgid "Quartile 25 percent of codewords can be restored)"
+#: forms.py:27
+#, fuzzy, python-format
+msgid "Quartile 25 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr "高 (7 of codewords can be restored)"
 
-#: forms.py:26
-msgid "High 30 percent of codewords can be restored)"
+#: forms.py:30
+#, fuzzy, python-format
+msgid "High 30 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr "很高 (7 of codewords can be restored)"
 
-#: forms.py:33
+#: forms.py:34
+msgid "Error correct choice"
+msgstr ""
+
+#: forms.py:38
+msgid "Accept"
+msgstr ""
+
+#: forms.py:40
 msgid ""
 "I have read and accept <a id=\"policy_modal_link\" type=\"button\">Privacy "
 "Policy and Terms of Service</a>"
 msgstr "我同意并接受此协议条款"
 
-#: forms.py:37
+#: forms.py:43
+msgid "Auto post"
+msgstr ""
+
+#: forms.py:45
 msgid "Post the code to your wall/stream/board"
 msgstr "让朋友们也看看我的作品!!"
 
-#: forms.py:49
+#: forms.py:57
 msgid "Input your data"
 msgstr ""
 
-#: forms.py:70
+#: forms.py:78
 msgid "Text is too long"
 msgstr "太长了啦~~~"
 
-#: forms.py:76
+#: forms.py:84
 msgid "You should accept our policy"
 msgstr ""
 
@@ -66,19 +86,19 @@ msgid "English"
 msgstr ""
 
 #: settings/settings.py:93
-msgid "日本語"
+msgid "繁體中文"
 msgstr ""
 
 #: settings/settings.py:94
-msgid "ภาษาไทย"
-msgstr ""
-
-#: settings/settings.py:95
 msgid "简体中文"
 msgstr ""
 
+#: settings/settings.py:95
+msgid "ภาษาไทย"
+msgstr ""
+
 #: settings/settings.py:96
-msgid "繁體中文"
+msgid "日本語"
 msgstr ""
 
 #: templates/base.html:6
