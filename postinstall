@@ -1,8 +1,6 @@
 #!/bin/sh
 # python createdb.py
-python qrround/manage.py syncdb --noinput
-python qrround/reinstall.py
-python qrround/reinstall.py
+python qrround/reinstall.py --settings=qrround.settings.dotcloud
 # python mkadmin.py
 mkdir -p /home/dotcloud/data/media /home/dotcloud/volatile/static
-python qrround/manage.py collectstatic --noinput
+python qrround/manage.py collectstatic --noinput --settings=qrround.settings.dotcloud

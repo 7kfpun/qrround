@@ -1,4 +1,5 @@
 import argparse
+import os
 from subprocess import Popen
 
 
@@ -20,8 +21,13 @@ def main():
         settings_arg = ""
 
     run = lambda cmd: Popen(cmd, shell=True).communicate()
-    django_run = lambda cmd: run("python manage.py %s %s" %
-                                 (cmd, settings_arg))
+    if 'dotcloud' not in os.environ.get('PYTHONPATH', ''):
+        django_run = lambda cmd: run("python manage.py %s %s" %
+                                    (cmd, settings_arg))
+    else:
+        django_run = lambda cmd: run("python qrround/manage.py %s %s" %
+                                    (cmd, settings_arg))
+
     if args.resetdb:
         # remove database
         django_run("reset_db --router=default --noinput")
