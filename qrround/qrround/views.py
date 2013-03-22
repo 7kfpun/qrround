@@ -1,7 +1,6 @@
 from celery import task
 from django.contrib.auth import logout
 from django.core.files import File
-from django.utils.translation import ugettext_lazy as _
 from django.db import transaction
 from django.http import (
     HttpResponse,
@@ -10,6 +9,8 @@ from django.http import (
 )
 from django.shortcuts import redirect, render   # , get_object_or_404
 # from django.template import Context, Template
+from django.utils.translation import ugettext_lazy as _
+# from django.views.decorators.cache import cache_page
 from jinja2 import Template
 import json
 import logging
@@ -24,7 +25,7 @@ import tweepy
 import qrcode
 from .channels import *  # noqa
 from .channels_settings import *  # noqa
-from .forms import QueryForm
+from .forms import ContactForm, QueryForm
 from .helpers import unique_generator
 from .models import (
     UserClient,
@@ -119,77 +120,86 @@ def index(request):
     """
     return render(request, 'index.html', {
         'form': QueryForm(session=request.session),
+        'contact_form': ContactForm(),
     })
 
 
+@ratelimit(rate='20/m')
 def getauthurls(request):
-    state = request.session['state'] = str(time())
+    if getattr(request, 'limited', False):
+        # Reach rate limit
+        return HttpResponseBadRequest(
+            _('Was_limited: we are poor, cannot afford server cost. '
+              'Donate some and we can buy more server time'))
 
-    # facebook
-    params = {
-        'scope': 'read_stream,publish_actions',
-        'response_type': 'code',
-        'state': state,
-        'redirect_uri': FACEBOOK_REDIRECT_URI,
-    }
-    facebook_auth_url = facebook.get_authorize_url(**params)
+    elif True:  # and request.is_ajax():
+        state = request.session['state'] = str(time())
 
-    # google
-    google.params.update({'state': state})
-    google_auth_url = google.step1_get_authorize_url()
+        # facebook
+        params = {
+            'scope': 'read_stream,publish_actions',
+            'response_type': 'code',
+            'state': state,
+            'redirect_uri': FACEBOOK_REDIRECT_URI,
+        }
+        facebook_auth_url = facebook.get_authorize_url(**params)
 
-    # kaixin001
-    params = {
-        'scope': 'basic',
-        'response_type': 'code',
-        'state': state,
-        'redirect_uri': KAIXIN001_REDIRECT_URI,
-    }
-    kaixin001_auth_url = kaixin001.get_authorize_url(**params)
+        # google
+        google.params.update({'state': state})
+        google_auth_url = google.step1_get_authorize_url()
 
-    # linkedin
-    params = {
-        'scope': 'r_basicprofile r_emailaddress r_network',
-        'response_type': 'code',
-        'state': state,
-        'redirect_uri': LINKEDIN_REDIRECT_URI,
-    }
-    linkedin_auth_url = linkedin.get_authorize_url(**params)
+        # kaixin001
+        params = {
+            'scope': 'basic',
+            'response_type': 'code',
+            'state': state,
+            'redirect_uri': KAIXIN001_REDIRECT_URI,
+        }
+        kaixin001_auth_url = kaixin001.get_authorize_url(**params)
 
-    # renren
-    params = {
-        'response_type': 'code',
-        'state': state,
-        'redirect_uri': RENREN_REDIRECT_URI,
-    }
-    renren_auth_url = renren.get_authorize_url(**params)
+        # linkedin
+        params = {
+            'scope': 'r_basicprofile r_emailaddress r_network',
+            'response_type': 'code',
+            'state': state,
+            'redirect_uri': LINKEDIN_REDIRECT_URI,
+        }
+        linkedin_auth_url = linkedin.get_authorize_url(**params)
 
-    try:
-        twitter.callback = "%(redirect_url)s?state=%(state)s" \
-            % {'redirect_url': RENREN_REDIRECT_URI, 'state': state}
-        twitter_auth_url = twitter.get_authorization_url()
-    except tweepy.TweepError:
-        twitter_auth_url = None
-        logger.error('Error! Failed to get access token.')
+        # renren
+        params = {
+            'response_type': 'code',
+            'state': state,
+            'redirect_uri': RENREN_REDIRECT_URI,
+        }
+        renren_auth_url = renren.get_authorize_url(**params)
 
-    # weibo
-    params = {
-        'scope': 'email,direct_messages_write,friendships_groups_read',
-        'state': state,
-        'redirect_uri': WEIBO_REDIRECT_URI,
-        'grant_type': 'authorization_code',
-    }
-    weibo_auth_url = weibo.get_authorize_url(**params)
+        try:
+            twitter.callback = "%(redirect_url)s?state=%(state)s" \
+                % {'redirect_url': RENREN_REDIRECT_URI, 'state': state}
+            twitter_auth_url = twitter.get_authorization_url()
+        except tweepy.TweepError:
+            twitter_auth_url = None
+            logger.error('Error! Failed to get access token.')
 
-    return HttpResponse(json.dumps({
-        'Facebook': facebook_auth_url,
-        'Google+': google_auth_url,
-        'kaixin001': kaixin001_auth_url,
-        'LinkedIn': linkedin_auth_url,
-        'Renren': renren_auth_url,
-        'Twitter': twitter_auth_url,
-        'Weibo': weibo_auth_url,
-    }), mimetype="application/json")
+        # weibo
+        params = {
+            'scope': 'email,direct_messages_write,friendships_groups_read',
+            'state': state,
+            'redirect_uri': WEIBO_REDIRECT_URI,
+            'grant_type': 'authorization_code',
+        }
+        weibo_auth_url = weibo.get_authorize_url(**params)
+
+        return HttpResponse(json.dumps({
+            'Facebook': facebook_auth_url,
+            'Google+': google_auth_url,
+            'Kaixin001': kaixin001_auth_url,
+            'LinkedIn': linkedin_auth_url,
+            'Renren': renren_auth_url,
+            'Twitter': twitter_auth_url,
+            'Weibo': weibo_auth_url,
+        }), mimetype="application/json")
 
 
 def store_session(request, channel, client_id, access_token, me, friends):
@@ -223,7 +233,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
 
 
 def facebookcallback(request):
-    if request.GET.get('state') == request.session['state']:
+    if request.GET.get('state', '') == request.session.get('state', 'fake'):
         session = facebook.get_auth_session(data={
             'code': request.GET.get('code'),
             'redirect_uri': FACEBOOK_REDIRECT_URI})
@@ -252,7 +262,7 @@ def facebookcallback(request):
 
 # Still have problem
 def googlecallback(request):
-    if request.GET.get('state') == request.session['state']:
+    if request.GET.get('state', '') == request.session.get('state', 'fake'):
         credentials = google.step2_exchange(request.GET.get('code'))
         access_token = credentials.access_token
 
@@ -277,7 +287,7 @@ def googlecallback(request):
 
 
 def linkedincallback(request):
-    if request.GET.get('state') == request.session['state']:
+    if request.GET.get('state', '') == request.session.get('state', 'fake'):
         exchange_url = (
             'https://www.linkedin.com/uas/oauth2/accessToken'
             '?grant_type=authorization_code'
@@ -310,7 +320,7 @@ def linkedincallback(request):
 
 
 def kaixin001callback(request):
-    if request.GET.get('state') == request.session['state']:
+    if request.GET.get('state', '') == request.session.get('state', 'fake'):
         exchange_url = (
             'https://api.kaixin001.com/oauth2/access_token'
             '?grant_type=authorization_code'
@@ -344,7 +354,7 @@ def kaixin001callback(request):
 
 
 def twittercallback(request):
-    if request.GET.get('state') == request.session['state']:
+    if request.GET.get('state', '') == request.session.get('state', 'fake'):
         verifier = request.GET.get('oauth_verifier')
         try:
             twitter.get_access_token(verifier)
@@ -415,7 +425,7 @@ def renrencallback(request):
 
 
 def weibocallback(request):
-    if request.GET.get('state') == request.session['state']:
+    if request.GET.get('state', '') == request.session.get('state', 'fake'):
         exchange_url = (
             'https://api.weibo.com/oauth2/access_token'
             '?client_id=1736274547'
@@ -471,7 +481,7 @@ def logout_user(request):
     return response
 
 
-@ratelimit(rate='30/m')
+@ratelimit(rate='20/m')
 def getqrcode(request):
     if request.method == 'GET':
         return HttpResponseBadRequest('Noooone')
@@ -536,6 +546,12 @@ def getqrcode(request):
 def getfriendsrequest(request):
     if request.method == 'GET':
         return HttpResponse('Geeeet')
+
+    elif getattr(request, 'limited', False):
+        # Reach rate limit
+        return HttpResponseBadRequest(
+            _('Was_limited: we are poor, cannot afford server cost. '
+              'Donate some and we can buy more server time'))
 
     elif request.method == 'POST' and request.is_ajax() \
             and 'import' in request.POST:

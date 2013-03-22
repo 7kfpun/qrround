@@ -13,12 +13,21 @@ import qrcode.image.base
 #from StringIO import StringIO
 #import urllib
 import ImageOps
+from time import time
+import logging
+
+START_TIME = 0
+logger = logging.getLogger(__name__)
 
 
 class PilImage(qrcode.image.base.BaseImage):
     """PIL image builder, default format is PNG."""
 
     def __init__(self, border, width, box_size, users=[]):
+        global START_TIME
+        START_TIME = time()
+        logger.info('START TIME: %.4f', START_TIME)
+
         if Image is None and ImageDraw is None:
             raise NotImplementedError("PIL not available")
         super(PilImage, self).__init__(border, width, box_size)
@@ -128,7 +137,6 @@ class PilImage(qrcode.image.base.BaseImage):
                 highlight = self.highlight
                 mask = self.mask
             except:
-                print "get highlight...."
                 highlight = self.highlight = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round.png').resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS)
                 mask = self.mask = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round-mask.png').resize(
@@ -164,12 +172,12 @@ class PilImage(qrcode.image.base.BaseImage):
 
             self._img.paste(button, (x, y))
 
-
     def show(self):
         self._img.show()
 
     def save(self, stream, kind=None):
-
         if kind is None:
             kind = self.kind
         self._img.save(stream, kind)
+
+        logger.info('END TIME: %.4f', (time() - START_TIME))

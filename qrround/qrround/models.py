@@ -9,6 +9,7 @@ from jsonfield import JSONField
 import os
 from settings.settings import MEDIA_ROOT
 import urllib
+import caching.base
 
 
 class UserClientManager(BaseUserManager):
@@ -170,7 +171,7 @@ class QRCode(models.Model):
         return self.query.text
 
 
-class CachedImage(models.Model):
+class CachedImage(caching.base.CachingMixin, models.Model):
     user = models.ForeignKey(UserClient, blank=True, null=True)
 
     url = models.URLField(unique=True, db_index=True)
@@ -185,6 +186,8 @@ class CachedImage(models.Model):
         format='JPG',
         options={'quality': 60}
     )
+
+    objects = caching.base.CachingManager()
 
     def cache_and_save(self):
         """Store image locally if we have a URL"""

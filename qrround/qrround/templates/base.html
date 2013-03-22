@@ -10,10 +10,13 @@
     <meta name="author" content="">
 
     <!-- CSS CDN -->
+    <!--
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    -->
 
     <!-- CSS style -->
     {% compress css %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/styles.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/colorpicker.css" />
     {% endcompress %}
