@@ -16,6 +16,7 @@
 
 <form action="/getqrcode" method="post" onsubmit="return false">
   <!-- <input name="text" class="span5" id="dgetqrcode_input" type="text" placeholder="Input your data"> -->
+  {{ form.backdoor }}
   {{ form.text }}
   <div class="btn-group">
     <button class="btn" id="import_button" type="button"><abbr title="HyperText Markup Language">Import</abbr></button>
