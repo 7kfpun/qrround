@@ -228,6 +228,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
         request.session[channel] = [client_id]
 
     response = redirect('/close_window')
+
     response = HttpResponse(json.dumps(data))  # block and see return data  TODO remove it  # noqa
 
     response.set_cookie(channel, time())
