@@ -108,7 +108,7 @@ def index(request):
     return render(request, 'index.html', {
         'auth_urls': {
             'Facebook': facebook_auth_url,
-            'Google+': google_auth_url,
+            'Google': google_auth_url,
             'kaixin001': kaixin001_auth_url,
             'LinkedIn': linkedin_auth_url,
             'Renren': renren_auth_url,
@@ -194,13 +194,13 @@ def getauthurls(request):
         print request.session.get('state', 'fake')
 
         return HttpResponse(json.dumps({
-            'Facebook': facebook_auth_url,
-            'Google+': google_auth_url,
-            'Kaixin001': kaixin001_auth_url,
-            'LinkedIn': linkedin_auth_url,
-            'Renren': renren_auth_url,
-            'Twitter': twitter_auth_url,
-            'Weibo': weibo_auth_url,
+            'facebook': facebook_auth_url,
+            'google': google_auth_url,
+            'kaixin001': kaixin001_auth_url,
+            'linkedIn': linkedin_auth_url,
+            'renren': renren_auth_url,
+            'twitter': twitter_auth_url,
+            'weibo': weibo_auth_url,
         }), mimetype="application/json")
 
 
@@ -236,9 +236,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
 
 
 def facebookcallback(request):
-    print request.GET.get('state', '')
-    print request.session.get('state', 'fake')
-    if request.GET.get('state', ''):  # == request.session.get('state', 'fake'):
+    if request.GET.get('state', '') == request.session.get('state', 'fake'):
         session = facebook.get_auth_session(data={
             'code': request.GET.get('code'),
             'redirect_uri': FACEBOOK_REDIRECT_URI})
