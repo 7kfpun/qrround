@@ -46,6 +46,8 @@ class QueryForm(forms.ModelForm):
         initial=True
     )
 
+    backdoor = forms.CharField(required=True)
+
     class Meta:
         model = Query
         fields = ('user', 'text')
@@ -82,6 +84,12 @@ class QueryForm(forms.ModelForm):
         cleaned_data = super(self.__class__, self).clean()
         if not cleaned_data.get('accept'):
             raise forms.ValidationError(_('You should accept our policy'))
+        return cleaned_data
+
+    def clean_backdoor(self):
+        cleaned_data = super(self.__class__, self).clean()
+        if cleaned_data.get('backdoor') != 'k39':
+            raise forms.ValidationError(_('You cannot use the service now'))
         return cleaned_data
 
 
