@@ -18,7 +18,6 @@ django-extensions==1.1.1
 
 # Utils
 BeautifulSoup==3.2.1
-django-google-analytics==1
 jsonpickle==0.4.0
 Pil==1.1.7
 pika==0.9.12
