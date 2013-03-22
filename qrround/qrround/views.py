@@ -16,6 +16,7 @@ import json
 import logging
 import os
 from ratelimit.decorators import ratelimit
+import re
 import requests
 from settings.settings import MEDIA_ROOT
 #import StringIO
@@ -504,7 +505,12 @@ def getqrcode(request):
         text = form.data['text']
         error_correct = form.data['error_correct_choice']
         channel_choice = form.data.getlist('channel_choice', [])
-
+        options = {}
+        # Convert string 'rgb(x,x,x)' --> tuple (x,x,x)
+        options['color'] = tuple(map(
+            lambda x: int(x),
+            re.findall(r'\b\d+\b', form.data.get('color', 'rgb(0, 0, 0)'))))
+        print options['color']
         try:
             qr = qrcode.QRCode(
                 version=None,
@@ -512,6 +518,7 @@ def getqrcode(request):
                 box_size=25,
                 border=1,
                 users=channel_choice,
+                options=options,
             )
             qr.add_data(text)
             qr.make(fit=True)

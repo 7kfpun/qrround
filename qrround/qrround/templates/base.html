@@ -46,35 +46,31 @@
           <li class="active"><a href="#">{% trans 'Home' %}</a></li>
           <li><a id="about_modal_link">{% trans 'About' %}</a></li>
           <li><a id="contact_modal_link">{% trans 'Contact' %}</a></li>
+          <li><!-- Language selector -->
+            {% get_available_languages as languages %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Language" %}<b class="caret"></b></a>
+              <ul class="dropdown-menu pull-right" role="menu">
+              {% for lang_code, lang_name in languages %}
+                <li>
+                {% language lang_code %}
+                  <a href="{% url 'index' %}">{{ lang_code|language_name_local }}</a>
+                {% endlanguage %}
+                </li>
+              {% endfor %}    
+              </ul>
+            </li>
+          </li>
         </ul>
         <h3 class="muted">{% trans 'Project name' %}</h3>
       </div>
 
       <hr>
-
+        
       <div class="jumbotron">
         <h1>{% trans 'It is Super<br />Awesome!' %}</h1>
         <p class="lead">{% trans 'Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.' %}</p>
         <a class="btn btn-large btn-success" data-loading-text="Loading...">{% trans 'Sign up today' %}</a>
-
-        <!-- Language selector -->
-        {% get_available_languages as languages %}
-        <ul class="nav pull-right">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Language" %}<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-            {% for lang_code, lang_name in languages %}
-              <li>
-              {% language lang_code %}
-                <form name="{{ lang_name }}" action="{% url 'index' %}" method="POST">{% csrf_token %}
-                  <a href="{% url 'index' %}">{{ lang_code|language_name_local }}</a>
-                </form>
-              {% endlanguage %}
-              </li>
-            {% endfor %}    
-            </ul>
-          </li>
-        </ul>
 
         <p id="qrcode"></p>
 
@@ -91,9 +87,7 @@
 
       <div class="footer">
         <p>&copy; KFPUN 2013</p>
-      </div>
-
-    </div> <!-- /container -->
+      </div> <!-- /container -->
 
     {% include "modals.html" %}
 

@@ -24,7 +24,7 @@
       <ul class="nav nav-tabs">
         <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
         <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
-        <li class=""><a href="#lC" data-toggle="tab">Section 3</a></li>
+        <li class=""><a href="#lC" data-toggle="tab">{{ form.color.label_tag }}</a></li>
         <li class=""><a href="#lD" data-toggle="tab">{{ form.auto_post.label_tag }}</a></li>
       </ul>
 
@@ -50,9 +50,10 @@
         <div class="tab-pane" id="lC">
           <p>Select your theme color here!!</p>
           <div class="input-append color" data-color="rgb(0, 0, 0)" data-color-format="rgb" id="colorpicker">
-            <input type="text" class="span2" value="" readonly="">
+            {{ form.color }}
             <span class="add-on"><i style="background-color: rgb(255, 255, 255);"></i></span>
           </div>
+          <p>{{ form.color.help_text }}</p>
         </div>
         <div class="tab-pane" id="lD">
           <p>Show off to your friends!!</p>

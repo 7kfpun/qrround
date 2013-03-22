@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 class PilImage(qrcode.image.base.BaseImage):
     """PIL image builder, default format is PNG."""
 
-    def __init__(self, border, width, box_size, users=[]):
+    def __init__(self, border, width, box_size, users=[], options={}):
         global START_TIME
         START_TIME = time()
         logger.info('START TIME: %.4f', START_TIME)
@@ -45,6 +45,8 @@ class PilImage(qrcode.image.base.BaseImage):
             self._all_cached_images = CachedImage.objects.filter(user__client__in=users)
         else:
             self._all_cached_images = CachedImage.objects.all()
+
+        self.options = options
 
         if not self._all_cached_images:
             self._all_cached_images = [
@@ -68,7 +70,7 @@ class PilImage(qrcode.image.base.BaseImage):
         box = [(x, y),
                (x + self.box_size - 1,
                 y + self.box_size - 1)]
-        self._idr.rectangle(box, fill="black")
+        self._idr.rectangle(box, fill=self.options.get('color', None) or "black")
 
     def pasteempty(self, row, col):
         x = (col + self.border) * self.box_size
