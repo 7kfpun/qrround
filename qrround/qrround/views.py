@@ -1,7 +1,6 @@
 from celery import task
 from django.contrib.auth import logout
 from django.core.files import File
-from django.utils.translation import ugettext_lazy as _
 from django.db import transaction
 from django.http import (
     HttpResponse,
@@ -10,35 +9,32 @@ from django.http import (
 )
 from django.shortcuts import redirect, render   # , get_object_or_404
 # from django.template import Context, Template
-from forms import QueryForm
-from helpers import unique_generator
+from django.utils.translation import ugettext_lazy as _
+# from django.views.decorators.cache import cache_page
 from jinja2 import Template
 import json
 import logging
 import os
+from ratelimit.decorators import ratelimit
+import re
+import requests
+from settings.settings import MEDIA_ROOT
+#import StringIO
+from time import time
+import tweepy
+
 import qrcode
-from qrround.channels import (
-    facebook,
-    google,
-    linkedin,
-    kaixin001,
-    renren,
-    twitter,
-    weibo,
-)
-from qrround.models import (
+from .channels import *  # noqa
+from .channels_settings import *  # noqa
+from .forms import ContactForm, QueryForm
+from .helpers import unique_generator
+from .models import (
     UserClient,
     # Friend,
     QRCode,
     Query,
     CachedImage,
 )
-from ratelimit.decorators import ratelimit
-import requests
-from settings.settings import MEDIA_ROOT
-#import StringIO
-from time import time
-import tweepy
 
 
 logger = logging.getLogger(__name__)
@@ -51,6 +47,7 @@ def login(request):
 def index(request):
     print 'LANGUAGE_CODE LANGUAGE_CODE', request.LANGUAGE_CODE
 
+    """
     state = request.session['state'] = str(time())
 
     # facebook
@@ -58,7 +55,7 @@ def index(request):
         'scope': 'read_stream,publish_actions',
         'response_type': 'code',
         'state': state,
-        'redirect_uri': 'http://127.0.0.1:8001/facebook_callback'
+        'redirect_uri': FACEBOOK_REDIRECT_URI,
     }
     facebook_auth_url = facebook.get_authorize_url(**params)
 
@@ -71,7 +68,7 @@ def index(request):
         'scope': 'basic',
         'response_type': 'code',
         'state': state,
-        'redirect_uri': 'http://127.0.0.1:8001/kaixin001_callback',
+        'redirect_uri': KAIXIN001_REDIRECT_URI,
     }
     kaixin001_auth_url = kaixin001.get_authorize_url(**params)
 
@@ -80,7 +77,7 @@ def index(request):
         'scope': 'r_basicprofile r_emailaddress r_network',
         'response_type': 'code',
         'state': state,
-        'redirect_uri': 'http://127.0.0.1:8001/linkedin_callback',
+        'redirect_uri': LINKEDIN_REDIRECT_URI,
     }
     linkedin_auth_url = linkedin.get_authorize_url(**params)
 
@@ -88,12 +85,13 @@ def index(request):
     params = {
         'response_type': 'code',
         'state': state,
-        'redirect_uri': 'http://127.0.0.1:8001/renren_callback',
+        'redirect_uri': RENREN_REDIRECT_URI,
     }
     renren_auth_url = renren.get_authorize_url(**params)
 
     try:
-        twitter.callback = "http://127.0.0.1:8001/twitter_callback?state=%s" % state  # noqa
+        twitter.callback = "%(redirect_url)s?state=%(state)s" \
+            % {'redirect_url': RENREN_REDIRECT_URI, 'state': state}
         twitter_auth_url = twitter.get_authorization_url()
     except tweepy.TweepError:
         twitter_auth_url = None
@@ -103,23 +101,108 @@ def index(request):
     params = {
         'scope': 'email,direct_messages_write,friendships_groups_read',
         'state': state,
-        'redirect_uri': 'http://127.0.0.1/weibo_callback',
+        'redirect_uri': WEIBO_REDIRECT_URI,
         'grant_type': 'authorization_code',
     }
     weibo_auth_url = weibo.get_authorize_url(**params)
 
     return render(request, 'index.html', {
         'auth_urls': {
-            'Facebook': facebook_auth_url,
-            'Google+': google_auth_url,
+            'facebook': facebook_auth_url,
+            'google': google_auth_url,
             'kaixin001': kaixin001_auth_url,
-            'LinkedIn': linkedin_auth_url,
-            'Renren': renren_auth_url,
-            'Twitter': twitter_auth_url,
-            'Weibo': weibo_auth_url,
+            'linkedin': linkedin_auth_url,
+            'renren': renren_auth_url,
+            'twitter': twitter_auth_url,
+            'weibo': weibo_auth_url,
         },
         'form': QueryForm(session=request.session),
     })
+    """
+    return render(request, 'index.html', {
+        'form': QueryForm(session=request.session),
+        'contact_form': ContactForm(),
+    })
+
+
+@ratelimit(rate='20/m')
+def getauthurls(request):
+    if getattr(request, 'limited', False):
+        # Reach rate limit
+        return HttpResponseBadRequest(
+            _('Was_limited: we are poor, cannot afford server cost. '
+              'Donate some and we can buy more server time'))
+
+    elif True:  # and request.is_ajax():
+        state = request.session['state'] = str(time())
+
+        # facebook
+        params = {
+            'scope': 'read_stream,publish_actions',
+            'response_type': 'code',
+            'state': state,
+            'redirect_uri': FACEBOOK_REDIRECT_URI,
+        }
+        facebook_auth_url = facebook.get_authorize_url(**params)
+
+        # google
+        google.params.update({'state': state})
+        google_auth_url = google.step1_get_authorize_url()
+
+        # kaixin001
+        params = {
+            'scope': 'basic',
+            'response_type': 'code',
+            'state': state,
+            'redirect_uri': KAIXIN001_REDIRECT_URI,
+        }
+        kaixin001_auth_url = kaixin001.get_authorize_url(**params)
+
+        # linkedin
+        params = {
+            'scope': 'r_basicprofile r_emailaddress r_network',
+            'response_type': 'code',
+            'state': state,
+            'redirect_uri': LINKEDIN_REDIRECT_URI,
+        }
+        linkedin_auth_url = linkedin.get_authorize_url(**params)
+
+        # renren
+        params = {
+            'response_type': 'code',
+            'state': state,
+            'redirect_uri': RENREN_REDIRECT_URI,
+        }
+        renren_auth_url = renren.get_authorize_url(**params)
+
+        try:
+            twitter.callback = "%(redirect_url)s?state=%(state)s" \
+                % {'redirect_url': RENREN_REDIRECT_URI, 'state': state}
+            twitter_auth_url = twitter.get_authorization_url()
+        except tweepy.TweepError:
+            twitter_auth_url = None
+            logger.error('Error! Failed to get access token.')
+
+        # weibo
+        params = {
+            'scope': 'email,direct_messages_write,friendships_groups_read',
+            'state': state,
+            'redirect_uri': WEIBO_REDIRECT_URI,
+            'grant_type': 'authorization_code',
+        }
+        weibo_auth_url = weibo.get_authorize_url(**params)
+
+        print request.session.get('state', '***')
+
+        return HttpResponse(json.dumps({
+            'facebook': facebook_auth_url,
+            'google': google_auth_url,
+            'kaixin001': kaixin001_auth_url,
+            'linkedin': linkedin_auth_url,
+            'renren': renren_auth_url,
+            'twitter': twitter_auth_url,
+            'weibo': weibo_auth_url,
+        }), mimetype="application/json")
 
 
 def store_session(request, channel, client_id, access_token, me, friends):
@@ -146,6 +229,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
         request.session[channel] = [client_id]
 
     response = redirect('/close_window')
+
     response = HttpResponse(json.dumps(data))  # block and see return data  TODO remove it  # noqa
 
     response.set_cookie(channel, time())
@@ -153,10 +237,10 @@ def store_session(request, channel, client_id, access_token, me, friends):
 
 
 def facebookcallback(request):
-    if request.GET.get('state') == request.session['state']:
+    if request.GET.get('state', '') == request.session.get('state', '***'):
         session = facebook.get_auth_session(data={
             'code': request.GET.get('code'),
-            'redirect_uri': 'http://127.0.0.1:8001/facebook_callback'})
+            'redirect_uri': FACEBOOK_REDIRECT_URI})
         access_token = session.access_token
 
         # me = session.get('me').json()
@@ -182,7 +266,7 @@ def facebookcallback(request):
 
 # Still have problem
 def googlecallback(request):
-    if request.GET.get('state') == request.session['state']:
+    if request.GET.get('state', '') == request.session.get('state', '***'):
         credentials = google.step2_exchange(request.GET.get('code'))
         access_token = credentials.access_token
 
@@ -207,14 +291,14 @@ def googlecallback(request):
 
 
 def linkedincallback(request):
-    if request.GET.get('state') == request.session['state']:
+    if request.GET.get('state', '') == request.session.get('state', '***'):
         exchange_url = (
             'https://www.linkedin.com/uas/oauth2/accessToken'
             '?grant_type=authorization_code'
             '&code=' + request.GET.get('code')
-            + '&redirect_uri=http://127.0.0.1:8001/linkedin_callback'
-            '&client_id=2ykkt7cjhrcg'
-            '&client_secret=TV7x10lw1JY6Zfe2'
+            + '&redirect_uri=' + LINKEDIN_REDIRECT_URI
+            + '&client_id=' + LINKEDIN_CLIENT_ID
+            + '&client_secret=' + LINKEDIN_CLIENT_SECRET + ''
         )
         r = requests.post(exchange_url)
         access_token = r.json()['access_token']
@@ -240,7 +324,7 @@ def linkedincallback(request):
 
 
 def kaixin001callback(request):
-    if request.GET.get('state') == request.session['state']:
+    if request.GET.get('state', '') == request.session.get('state', '***'):
         exchange_url = (
             'https://api.kaixin001.com/oauth2/access_token'
             '?grant_type=authorization_code'
@@ -274,7 +358,7 @@ def kaixin001callback(request):
 
 
 def twittercallback(request):
-    if request.GET.get('state') == request.session['state']:
+    if request.GET.get('state', '') == request.session.get('state', '***'):
         verifier = request.GET.get('oauth_verifier')
         try:
             twitter.get_access_token(verifier)
@@ -345,7 +429,7 @@ def renrencallback(request):
 
 
 def weibocallback(request):
-    if request.GET.get('state') == request.session['state']:
+    if request.GET.get('state', '') == request.session.get('state', '***'):
         exchange_url = (
             'https://api.weibo.com/oauth2/access_token'
             '?client_id=1736274547'
@@ -401,7 +485,7 @@ def logout_user(request):
     return response
 
 
-@ratelimit(rate='30/m')
+@ratelimit(rate='20/m')
 def getqrcode(request):
     if request.method == 'GET':
         return HttpResponseBadRequest('Noooone')
@@ -421,7 +505,12 @@ def getqrcode(request):
         text = form.data['text']
         error_correct = form.data['error_correct_choice']
         channel_choice = form.data.getlist('channel_choice', [])
-
+        options = {}
+        # Convert string 'rgb(x,x,x)' --> tuple (x,x,x)
+        options['color'] = tuple(map(
+            lambda x: int(x),
+            re.findall(r'\b\d+\b', form.data.get('color', 'rgb(0, 0, 0)'))))
+        print options['color']
         try:
             qr = qrcode.QRCode(
                 version=None,
@@ -429,6 +518,7 @@ def getqrcode(request):
                 box_size=25,
                 border=1,
                 users=channel_choice,
+                options=options,
             )
             qr.add_data(text)
             qr.make(fit=True)
@@ -466,6 +556,12 @@ def getqrcode(request):
 def getfriendsrequest(request):
     if request.method == 'GET':
         return HttpResponse('Geeeet')
+
+    elif getattr(request, 'limited', False):
+        # Reach rate limit
+        return HttpResponseBadRequest(
+            _('Was_limited: we are poor, cannot afford server cost. '
+              'Donate some and we can buy more server time'))
 
     elif request.method == 'POST' and request.is_ajax() \
             and 'import' in request.POST:

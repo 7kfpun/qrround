@@ -13,3 +13,4 @@ qrround/qrround/media/*
 .dotcloud
 stats/
 build/
+*.mo

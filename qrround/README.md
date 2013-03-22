@@ -51,3 +51,9 @@ PIL Image tutorial
 
 Built an icon
 http://nadiana.com/pil-tutorial-how-create-button-generator
+
+============================
+
+bootstrap-wysihtml5 is a javascript plugin that makes it easy to create simple, beautiful wysiwyg editors with the help of wysihtml5 and Twitter Bootstrap
+
+http://jhollingworth.github.com/bootstrap-wysihtml5/

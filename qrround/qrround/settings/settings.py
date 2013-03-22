@@ -15,7 +15,7 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
-COMPRESS_ENABLED = True  # Opposite with DEBUG
+COMPRESS_ENABLED = False  # True  # Opposite with DEBUG
 
 RATELIMIT_ENABLE = True
 
@@ -65,6 +65,8 @@ CACHES = {
         'KEY_PREFIX': '_'.join((PROJECT_NAME, ENVIRONMENT_NAME)),
     }
 }
+
+CACHE_BACKEND = 'caching.backends.locmem://'
 
 SESSION_COOKIE_AGE = 1209600  # 2 weeks in default
 
@@ -128,7 +130,7 @@ MEDIA_URL = 'media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = 'static'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -153,6 +155,9 @@ STATICFILES_FINDERS = (
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'c((c@5v)q82$+!ko*=3^hg08*zpf38=u*)7tdf80gah=h2p0i7'
+
+RECAPTCHA_PUBLIC_KEY = '6LdQu94SAAAAAAvCQKcPlxSlv4xVH3l66UYDcpMw'
+RECAPTCHA_PRIVATE_KEY = '6LdQu94SAAAAAPIbtvEF4qK59iJzsgVd3SxIpnrF'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -198,6 +203,7 @@ TEMPLATE_DIRS = (
 
 
 INSTALLED_APPS = (
+    'redis_cache',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -223,6 +229,7 @@ INSTALLED_APPS += (
     'djcelery',
 
     # Community apps
+    'captcha',
     'compressor',
     'south',
     'imagekit',
