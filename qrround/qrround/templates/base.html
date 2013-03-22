@@ -9,9 +9,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <!-- CSS CDN -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+
     <!-- CSS style -->
     {% compress css %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/styles.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/colorpicker.css" />
     {% endcompress %}
@@ -105,13 +107,19 @@
 
     {% include "modals.html" %}
 
-    <!-- Javascript -->
-    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" />
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js" /> -->
-    {% compress js %}
+    <!-- Javascript CDN -->
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
+    <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//yandex.st/json2/2011-10-19/json2.min.js"></script>
+    
+    <!--
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/json2.js"></script>
+     -->
+
+    {% compress js %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/ajax_csrf.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-colorpicker.js"></script>
