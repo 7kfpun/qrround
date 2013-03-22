@@ -142,3 +142,7 @@ $(channels).each(function(i, channel) {
     });
   });
 });
+
+
+///////////////// Color picker ///////////////////
+$('#colorpicker').colorpicker();

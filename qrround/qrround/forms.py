@@ -4,6 +4,8 @@ from django.utils.translation import ugettext_lazy as _
 from .channels import channels
 from .models import Query
 
+BACKDOOR_KEY = 'kkk'
+
 
 class QueryForm(forms.ModelForm):
     CHANNEL_CHOICES = (
@@ -46,7 +48,7 @@ class QueryForm(forms.ModelForm):
         initial=True
     )
 
-    backdoor = forms.CharField(required=True)
+    backdoor = forms.CharField(required=False)
 
     class Meta:
         model = Query
@@ -88,10 +90,6 @@ class QueryForm(forms.ModelForm):
 
     def clean_backdoor(self):
         cleaned_data = super(self.__class__, self).clean()
-        if cleaned_data.get('backdoor') != 'k39':
+        if cleaned_data.get('backdoor') != BACKDOOR_KEY:
             raise forms.ValidationError(_('You cannot use the service now'))
         return cleaned_data
-
-
-class EmptyForm(forms.Form):
-    empty = forms.CharField(max_length=100)
