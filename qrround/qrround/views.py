@@ -191,6 +191,8 @@ def getauthurls(request):
         }
         weibo_auth_url = weibo.get_authorize_url(**params)
 
+        print request.session.get('state', 'fake')
+
         return HttpResponse(json.dumps({
             'Facebook': facebook_auth_url,
             'Google+': google_auth_url,
@@ -233,7 +235,9 @@ def store_session(request, channel, client_id, access_token, me, friends):
 
 
 def facebookcallback(request):
-    if request.GET.get('state', '') == request.session.get('state', 'fake'):
+    print request.GET.get('state', '')
+    print request.session.get('state', 'fake')
+    if request.GET.get('state', ''):  # == request.session.get('state', 'fake'):
         session = facebook.get_auth_session(data={
             'code': request.GET.get('code'),
             'redirect_uri': FACEBOOK_REDIRECT_URI})
