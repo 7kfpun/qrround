@@ -1,3 +1,4 @@
+from qrround.settings.settings import PROJECT_ROOT
 from qrround.models import (
     CachedImage,
 )
@@ -12,12 +13,21 @@ import qrcode.image.base
 #from StringIO import StringIO
 #import urllib
 import ImageOps
+from time import time
+import logging
+
+START_TIME = 0
+logger = logging.getLogger(__name__)
 
 
 class PilImage(qrcode.image.base.BaseImage):
     """PIL image builder, default format is PNG."""
 
-    def __init__(self, border, width, box_size, users=[]):
+    def __init__(self, border, width, box_size, users=[], options={}):
+        global START_TIME
+        START_TIME = time()
+        logger.info('START TIME: %.4f', START_TIME)
+
         if Image is None and ImageDraw is None:
             raise NotImplementedError("PIL not available")
         super(PilImage, self).__init__(border, width, box_size)
@@ -35,6 +45,8 @@ class PilImage(qrcode.image.base.BaseImage):
             self._all_cached_images = CachedImage.objects.filter(user__client__in=users)
         else:
             self._all_cached_images = CachedImage.objects.all()
+
+        self.options = options
 
         if not self._all_cached_images:
             self._all_cached_images = [
@@ -58,7 +70,7 @@ class PilImage(qrcode.image.base.BaseImage):
         box = [(x, y),
                (x + self.box_size - 1,
                 y + self.box_size - 1)]
-        self._idr.rectangle(box, fill="black")
+        self._idr.rectangle(box, fill=self.options.get('color', None) or "black")
 
     def pasteempty(self, row, col):
         x = (col + self.border) * self.box_size
@@ -108,14 +120,14 @@ class PilImage(qrcode.image.base.BaseImage):
             self._img.paste(Image.open(image.photo.path).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
 
-            border = Image.open('qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
+            border = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
             self._img.paste(border, (x, y), mask=border)
 
         elif False:
             try:
                 bord = self.bord
             except:
-                bord = self.bord = Image.open('qrcode/image/resources/border9.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
+                bord = self.bord = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border9.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
 
             self._img.paste(Image.open(image.photo.path).point(lambda p: p * 0.7).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
@@ -127,10 +139,9 @@ class PilImage(qrcode.image.base.BaseImage):
                 highlight = self.highlight
                 mask = self.mask
             except:
-                print "get highlight...."
-                highlight = self.highlight = Image.open('qrcode/image/resources/round.png').resize(
+                highlight = self.highlight = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round.png').resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS)
-                mask = self.mask = Image.open('qrcode/image/resources/round-mask.png').resize(
+                mask = self.mask = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round-mask.png').resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS)
 
             icon = Image.open(image.photo.path).resize(
@@ -163,12 +174,12 @@ class PilImage(qrcode.image.base.BaseImage):
 
             self._img.paste(button, (x, y))
 
-
     def show(self):
         self._img.show()
 
     def save(self, stream, kind=None):
-
         if kind is None:
             kind = self.kind
         self._img.save(stream, kind)
+
+        logger.info('END TIME: %.4f', (time() - START_TIME))

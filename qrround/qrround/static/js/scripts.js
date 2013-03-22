@@ -1,7 +1,7 @@
 function popitup(url) {
-	newwindow=window.open(url,'name','height=500,width=500');
-	if (window.focus) {newwindow.focus()}
-	return false;
+  newwindow=window.open(url,'name','height=500,width=500');
+  if (window.focus) {newwindow.focus()}
+  return false;
 }
 
 
@@ -19,7 +19,6 @@ $('#getqrcode_button').on("click", function() {
 
 function getqrcode(el) {
   var form = $(el).parents('form');
-  console.log("click", form.find('input.span5').val() === "");
   console.log(form.serialize());
 
   if (form.find('input.span5').val() === "") {
@@ -68,6 +67,86 @@ function notify(notify_type, msg) {
 }
 
 
+/////////////////// Logout /////////////////////////////
+$('#logout').on("click", function() {
+  $.get("/logout",
+    {},
+    function(data) {
+      console.log("Logout");
+      location.reload();
+  });
+});
+
+
+///////////// Remember accept checkbox state ///////////////////
+$('#id_accept').attr('checked', $.cookie('id_accept') && $.cookie('id_accept') == "true");
+$('#id_accept').change(function() {
+    $.cookie('id_accept', $('#id_accept').is(':checked'));
+    console.log($('#id_accept').is(':checked'));
+});
+
+
+
+///////////////// Get auth urls ///////////////////
+var channels = []
+setTimeout(function(){
+  $.ajax({
+    type: "GET",
+    url: "/getauthurls",
+    success: function(authurls) {
+      $('#auth_url').empty();
+      $.each( authurls, function( channel, url ) {
+        console.log( channel + ": " + url );
+        channels.push(channel);  // Get all channels here
+        $('#auth_url').append(
+          '<p> \
+            <a class="btn importButton" onclick=popitup("' + url + '")>' + channel.toUpperCase() + '</a> \
+            Import your friends here! \
+          <p>');
+      });
+      setDetectCookies();
+    }
+  });
+}, 600);
+
+
+///////////////////// Detect cookies change /////////////////////
+function setDetectCookies() {
+  var cookieRegistry = [];
+  function listenCookieChange(cookieName, callback) {
+    setInterval(function() {
+      if (cookieRegistry[cookieName]) {
+        if ($.cookie(cookieName) != cookieRegistry[cookieName]) {
+          // update registry so we dont get triggered again
+          cookieRegistry[cookieName] = $.cookie(cookieName);
+          return callback();
+        }
+      } else {
+        cookieRegistry[cookieName] = $.cookie(cookieName);
+      }
+    }, 200);
+  }
+
+
+  $(channels).each(function(i, channel) {
+    console.log(channel)
+    $.cookie(channel, 0, { path: '/' });
+
+    // bind the listener
+    listenCookieChange(channel, function() {
+      $.ajax({
+        type: "POST",
+        url: "/getfriends",
+        data: { import: channel },
+        success: function(data) {
+          console.log("Received: " + data);
+        }
+      });
+    });
+  });
+}
+
+
 ///////////////////// Initialize Model /////////////////////
 $("#policy_modal_link").on("click", function() {
     $('#policy_modal').modal('show');
@@ -88,53 +167,12 @@ $("#import_button").on("click", function() {
 $('#import').on("click", function() {
   location.reload();
   console.log("Import");
-  // $('#import_modal').modal('hide');
-});
+  $(channels).each(function(i, channel) {
+    console.log(channel)
 
-$('#logout').on("click", function() {
-  $.get("/logout",
-    {},
-    function(data) {
-      console.log("Logout");
-      location.reload();
-  });
-});
-
-
-// Remember accept checkbox state
-$('#id_accept').attr('checked', $.cookie('id_accept') && $.cookie('id_accept') == "true");
-$('#id_accept').change(function() {
-    $.cookie('id_accept', $('#id_accept').is(':checked'));
-    console.log($('#id_accept').is(':checked'));
-});
-
-
-///////////////////// Detect cookies change /////////////////////
-var cookieRegistry = [];
-function listenCookieChange(cookieName, callback) {
-  setInterval(function() {
-    if (cookieRegistry[cookieName]) {
-      if ($.cookie(cookieName) != cookieRegistry[cookieName]) {
-        // update registry so we dont get triggered again
-        cookieRegistry[cookieName] = $.cookie(cookieName);
-        return callback();
-      }
-    } else {
-      cookieRegistry[cookieName] = $.cookie(cookieName);
-    }
-  }, 100);
-}
-
-var channels = ['facebook', 'google', 'kaixin001', 'linkedin', 'twitter', 'weibo']
-$(channels).each(function(i, channel) {
-  console.log(channel)
-  $.cookie(channel, 0);
-
-  // bind the listener
-  listenCookieChange(channel, function() {
     $.ajax({
       type: "POST",
-      url: "http://127.0.0.1:8001/getfriends",
+      url: "/getfriends",
       data: { import: channel },
       success: function(data) {
         console.log("Received: " + data);
@@ -142,3 +180,7 @@ $(channels).each(function(i, channel) {
     });
   });
 });
+
+
+///////////////// Color picker ///////////////////
+$('#colorpicker').colorpicker();

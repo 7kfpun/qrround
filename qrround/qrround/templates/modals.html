@@ -4,7 +4,7 @@
 <div id="policy_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">{% trans 'Policy' %}</h3>
+    <h3>{% trans 'Policy' %}</h3>
   </div>
   <div class="modal-body">
     <p>{% trans 'About this website privacy policy' %}</p>
@@ -22,12 +22,38 @@
 <div id="contact_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="contact_model_label">{% trans 'Contact' %}</h3>
+    <h3>{% trans 'Contact' %}</h3>
   </div>
   <div class="modal-body">
-    <p>{% trans 'About this website contact' %}</p>
-    <p>{% trans 'This is a model website privacy policy. It is written in plain language that is visitor-friendly. We have provided a large menu of paragraphs so that you can easily tailor the policy to suit the exact structure of your business and website.' %}</p>
-    <p>{% trans 'Although this document cannot magically absolve you from the risk of data mismanagement, it is a giant first step. Informing your visitors and customers (and other parties) about the data you collect about them is a requirement. A privacy policy is a simple way to comply, but a good privacy policy goes further. It is prime evidence to everyone with whom you deal that you take confidentiality seriously. That can help increase the trust that visitors and customers have in your business and boost their confidence in using your services or buying from you.' %}</p>
+    <form class="form-horizontal" action="/sendMassage/" method="POST">
+      <div class="control-group">
+        <label class="control-label" for="inputName">Name</label>
+        <div class="controls">
+          <div class="input-prepend">
+            <span class="add-on"><i class="icon-user"></i></span>
+            {{ contact_form.name | safe }}
+          </div>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputEmail">Email</label>
+        <div class="controls">
+          <div class="input-prepend">
+            <span class="add-on"><i class="icon-envelope"></i></span>
+            {{ contact_form.email | safe }}
+          </div>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputMessage">Message</label>
+        <div class="controls">
+          {{ contact_form.message | safe }}
+        </div>
+      </div>
+      <div class="control-group">
+        {{ contact_form.captcha | safe }}
+      </div>
+    </form>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">{% trans 'Close' %}</button>
@@ -40,7 +66,7 @@
 <div id="about_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="about_model_label">{% trans 'About' %}</h3>
+    <h3>{% trans 'About' %}</h3>
   </div>
   <div class="modal-body">
     <p>{% trans 'About this website privacy policy' %}</p>
@@ -58,15 +84,23 @@
 <div id="import_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="importLabel">{% trans 'Import your account here!!' %}</h3>
+    <h3>{% trans 'Import your account here!!' %}</h3>
   </div>
   <div class="modal-body">
-    {% for channel, auth_url in auth_urls.iteritems %}
-    <p>
-      <a class="btn importButton" onclick=popitup("{{ auth_url }}")>{{ channel }}</a>
-      {% trans 'Import your friends' %}
-    <p>
-    {% endfor %}
+    <div id="auth_url">
+      <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        {% trans '<strong>Oops!!</strong> something wrong with the site. Try reloading please or report us and we will fix it soon' %}
+      </div>
+    </div>
+    {% comment %}
+      {% for channel, auth_url in auth_urls.iteritems %}
+      <p>
+        <a class="btn importButton" onclick=popitup("{{ auth_url }}")>{{ channel }}</a>
+        {% trans 'Import your friends' %}
+      <p>
+      {% endfor %}
+    {% endcomment %}
   </div>
   <div class="modal-footer">
     <button id="logout" class="btn pull-left">{% trans 'Logout all' %}</button>
