@@ -129,44 +129,47 @@ setTimeout(function(){
             Import your friends here! \
           <p>');
       });
+      setDetectCookies();
     }
   });
 }, 600);
 
 
 ///////////////////// Detect cookies change /////////////////////
-var cookieRegistry = [];
-function listenCookieChange(cookieName, callback) {
-  setInterval(function() {
-    if (cookieRegistry[cookieName]) {
-      if ($.cookie(cookieName) != cookieRegistry[cookieName]) {
-        // update registry so we dont get triggered again
+function setDetectCookies() {
+  var cookieRegistry = [];
+  function listenCookieChange(cookieName, callback) {
+    setInterval(function() {
+      if (cookieRegistry[cookieName]) {
+        if ($.cookie(cookieName) != cookieRegistry[cookieName]) {
+          // update registry so we dont get triggered again
+          cookieRegistry[cookieName] = $.cookie(cookieName);
+          return callback();
+        }
+      } else {
         cookieRegistry[cookieName] = $.cookie(cookieName);
-        return callback();
       }
-    } else {
-      cookieRegistry[cookieName] = $.cookie(cookieName);
-    }
-  }, 200);
-}
+    }, 200);
+  }
 
 
-$(channels).each(function(i, channel) {
-  console.log(channel)
-  $.cookie(channel, 0, { path: '/' });
+  $(channels).each(function(i, channel) {
+    console.log(channel)
+    $.cookie(channel, 0, { path: '/' });
 
-  // bind the listener
-  listenCookieChange(channel, function() {
-    $.ajax({
-      type: "GET",
-      url: "/getfriends",
-      data: { import: channel },
-      success: function(data) {
-        console.log("Received: " + data);
-      }
+    // bind the listener
+    listenCookieChange(channel, function() {
+      $.ajax({
+        type: "GET",
+        url: "/getfriends",
+        data: { import: channel },
+        success: function(data) {
+          console.log("Received: " + data);
+        }
+      });
     });
   });
-});
+}
 
 
 ///////////////// Color picker ///////////////////
