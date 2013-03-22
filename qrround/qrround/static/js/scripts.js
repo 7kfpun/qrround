@@ -67,30 +67,6 @@ function notify(notify_type, msg) {
 }
 
 
-///////////////////// Initialize Model /////////////////////
-$("#policy_modal_link").on("click", function() {
-    $('#policy_modal').modal('show');
-});
-
-$("#contact_modal_link").on("click", function() {
-    $('#contact_modal').modal('show');
-});
-
-$("#about_modal_link").on("click", function() {
-    $('#about_modal').modal('show');
-});
-
-$("#import_button").on("click", function() {
-  $('#import_modal').modal('show');
-});
-
-$('#import').on("click", function() {
-  location.reload();
-  console.log("Import");
-  // $('#import_modal').modal('hide');
-});
-
-
 /////////////////// Logout /////////////////////////////
 $('#logout').on("click", function() {
   $.get("/logout",
@@ -169,6 +145,41 @@ function setDetectCookies() {
     });
   });
 }
+
+
+///////////////////// Initialize Model /////////////////////
+$("#policy_modal_link").on("click", function() {
+    $('#policy_modal').modal('show');
+});
+
+$("#contact_modal_link").on("click", function() {
+    $('#contact_modal').modal('show');
+});
+
+$("#about_modal_link").on("click", function() {
+    $('#about_modal').modal('show');
+});
+
+$("#import_button").on("click", function() {
+  $('#import_modal').modal('show');
+});
+
+$('#import').on("click", function() {
+  location.reload();
+  console.log("Import");
+  $(channels).each(function(i, channel) {
+    console.log(channel)
+
+    $.ajax({
+      type: "POST",
+      url: "/getfriends",
+      data: { import: channel },
+      success: function(data) {
+        console.log("Received: " + data);
+      }
+    });
+  });
+});
 
 
 ///////////////// Color picker ///////////////////
