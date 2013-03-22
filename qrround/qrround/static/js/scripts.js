@@ -19,7 +19,6 @@ $('#getqrcode_button').on("click", function() {
 
 function getqrcode(el) {
   var form = $(el).parents('form');
-  console.log("click", form.find('input.span5').val() === "");
   console.log(form.serialize());
 
   if (form.find('input.span5').val() === "") {
@@ -125,7 +124,7 @@ setTimeout(function(){
         channels.push(channel);  // Get all channels here
         $('#auth_url').append(
           '<p> \
-            <a class="btn importButton" onclick=popitup("' + url + '")>' + channel + '</a> \
+            <a class="btn importButton" onclick=popitup("' + url + '")>' + channel.toUpperCase() + '</a> \
             Import your friends here! \
           <p>');
       });
@@ -160,7 +159,7 @@ function setDetectCookies() {
     // bind the listener
     listenCookieChange(channel, function() {
       $.ajax({
-        type: "GET",
+        type: "POST",
         url: "/getfriends",
         data: { import: channel },
         success: function(data) {
