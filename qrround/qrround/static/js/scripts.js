@@ -116,7 +116,7 @@ $('#id_accept').change(function() {
 var channels = []
 setTimeout(function(){
   $.ajax({
-    type: "POST",
+    type: "GET",
     url: "/getauthurls",
     success: function(authurls) {
       $('#auth_url').empty();
@@ -131,7 +131,7 @@ setTimeout(function(){
       });
     }
   });
-}, 1000);
+}, 600);
 
 
 ///////////////////// Detect cookies change /////////////////////
@@ -158,7 +158,7 @@ $(channels).each(function(i, channel) {
   // bind the listener
   listenCookieChange(channel, function() {
     $.ajax({
-      type: "POST",
+      type: "GET",
       url: "/getfriends",
       data: { import: channel },
       success: function(data) {

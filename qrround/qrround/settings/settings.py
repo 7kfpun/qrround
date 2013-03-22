@@ -15,7 +15,7 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
-COMPRESS_ENABLED = True  # Opposite with DEBUG
+COMPRESS_ENABLED = False  # True  # Opposite with DEBUG
 
 RATELIMIT_ENABLE = True
 
@@ -65,6 +65,10 @@ CACHES = {
         'KEY_PREFIX': '_'.join((PROJECT_NAME, ENVIRONMENT_NAME)),
     }
 }
+
+CACHE_BACKEND = 'caching.backends.locmem://'
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 SESSION_COOKIE_AGE = 1209600  # 2 weeks in default
 
@@ -154,6 +158,9 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'c((c@5v)q82$+!ko*=3^hg08*zpf38=u*)7tdf80gah=h2p0i7'
 
+RECAPTCHA_PUBLIC_KEY = '6LdQu94SAAAAAAvCQKcPlxSlv4xVH3l66UYDcpMw'
+RECAPTCHA_PRIVATE_KEY = '6LdQu94SAAAAAPIbtvEF4qK59iJzsgVd3SxIpnrF'
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -224,6 +231,7 @@ INSTALLED_APPS += (
     'djcelery',
 
     # Community apps
+    'captcha',
     'compressor',
     'south',
     'imagekit',

@@ -3,8 +3,36 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from .channels import channels
 from .models import Query
+from captcha.fields import ReCaptchaField
 
 BACKDOOR_KEY = 'kkk'
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(
+        label=u'Your name',
+        max_length=100,
+        widget=forms.TextInput,
+        help_text=_('Your name'),
+        required=True,
+    )
+
+    email = forms.EmailField(
+        label=u'Your E-mail',
+        max_length=200,
+        widget=forms.TextInput,
+        help_text=_('Your E-mail'),
+        required=True,
+    )
+
+    message = forms.CharField(
+        label=u'Your message',
+        widget=forms.Textarea,
+        help_text=_('Leave your message here...'),
+        required=True,
+    )
+
+    captcha = ReCaptchaField(attrs={'theme': 'clean'})
 
 
 class QueryForm(forms.ModelForm):
