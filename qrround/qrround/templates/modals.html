@@ -61,12 +61,20 @@
     <h3 id="importLabel">{% trans 'Import your account here!!' %}</h3>
   </div>
   <div class="modal-body">
-    {% for channel, auth_url in auth_urls.iteritems %}
-    <p>
-      <a class="btn importButton" onclick=popitup("{{ auth_url }}")>{{ channel }}</a>
-      {% trans 'Import your friends' %}
-    <p>
-    {% endfor %}
+    <div id="auth_url">
+      <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        {% trans '<strong>Oops!!</strong> something wrong with the site. Try reloading please' %}
+      </div>
+    </div>
+    {% comment %}
+      {% for channel, auth_url in auth_urls.iteritems %}
+      <p>
+        <a class="btn importButton" onclick=popitup("{{ auth_url }}")>{{ channel }}</a>
+        {% trans 'Import your friends' %}
+      <p>
+      {% endfor %}
+    {% endcomment %}
   </div>
   <div class="modal-footer">
     <button id="logout" class="btn pull-left">{% trans 'Logout all' %}</button>

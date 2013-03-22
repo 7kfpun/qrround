@@ -45,6 +45,7 @@ def login(request):
 def index(request):
     print 'LANGUAGE_CODE LANGUAGE_CODE', request.LANGUAGE_CODE
 
+    """
     state = request.session['state'] = str(time())
 
     # facebook
@@ -111,10 +112,84 @@ def index(request):
             'LinkedIn': linkedin_auth_url,
             'Renren': renren_auth_url,
             'Twitter': twitter_auth_url,
-            'Weibo': weibo_auth_url,
+            'weibo': weibo_auth_url,
         },
         'form': QueryForm(session=request.session),
     })
+    """
+    return render(request, 'index.html', {
+        'form': QueryForm(session=request.session),
+    })
+
+
+def getauthurls(request):
+    state = request.session['state'] = str(time())
+
+    # facebook
+    params = {
+        'scope': 'read_stream,publish_actions',
+        'response_type': 'code',
+        'state': state,
+        'redirect_uri': FACEBOOK_REDIRECT_URI,
+    }
+    facebook_auth_url = facebook.get_authorize_url(**params)
+
+    # google
+    google.params.update({'state': state})
+    google_auth_url = google.step1_get_authorize_url()
+
+    # kaixin001
+    params = {
+        'scope': 'basic',
+        'response_type': 'code',
+        'state': state,
+        'redirect_uri': KAIXIN001_REDIRECT_URI,
+    }
+    kaixin001_auth_url = kaixin001.get_authorize_url(**params)
+
+    # linkedin
+    params = {
+        'scope': 'r_basicprofile r_emailaddress r_network',
+        'response_type': 'code',
+        'state': state,
+        'redirect_uri': LINKEDIN_REDIRECT_URI,
+    }
+    linkedin_auth_url = linkedin.get_authorize_url(**params)
+
+    # renren
+    params = {
+        'response_type': 'code',
+        'state': state,
+        'redirect_uri': RENREN_REDIRECT_URI,
+    }
+    renren_auth_url = renren.get_authorize_url(**params)
+
+    try:
+        twitter.callback = "%(redirect_url)s?state=%(state)s" \
+            % {'redirect_url': RENREN_REDIRECT_URI, 'state': state}
+        twitter_auth_url = twitter.get_authorization_url()
+    except tweepy.TweepError:
+        twitter_auth_url = None
+        logger.error('Error! Failed to get access token.')
+
+    # weibo
+    params = {
+        'scope': 'email,direct_messages_write,friendships_groups_read',
+        'state': state,
+        'redirect_uri': WEIBO_REDIRECT_URI,
+        'grant_type': 'authorization_code',
+    }
+    weibo_auth_url = weibo.get_authorize_url(**params)
+
+    return HttpResponse(json.dumps({
+        'Facebook': facebook_auth_url,
+        'Google+': google_auth_url,
+        'kaixin001': kaixin001_auth_url,
+        'LinkedIn': linkedin_auth_url,
+        'Renren': renren_auth_url,
+        'Twitter': twitter_auth_url,
+        'Weibo': weibo_auth_url,
+    }), mimetype="application/json")
 
 
 def store_session(request, channel, client_id, access_token, me, friends):

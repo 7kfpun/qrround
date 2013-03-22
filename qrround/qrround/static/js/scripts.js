@@ -91,6 +91,8 @@ $('#import').on("click", function() {
   // $('#import_modal').modal('hide');
 });
 
+
+/////////////////// Logout /////////////////////////////
 $('#logout').on("click", function() {
   $.get("/logout",
     {},
@@ -101,12 +103,35 @@ $('#logout').on("click", function() {
 });
 
 
-// Remember accept checkbox state
+///////////// Remember accept checkbox state ///////////////////
 $('#id_accept').attr('checked', $.cookie('id_accept') && $.cookie('id_accept') == "true");
 $('#id_accept').change(function() {
     $.cookie('id_accept', $('#id_accept').is(':checked'));
     console.log($('#id_accept').is(':checked'));
 });
+
+
+
+///////////////// Get auth urls ///////////////////
+var channels = []
+setTimeout(function(){
+  $.ajax({
+    type: "POST",
+    url: "/getauthurls",
+    success: function(authurls) {
+      $('#auth_url').empty();
+      $.each( authurls, function( channel, url ) {
+        console.log( channel + ": " + url );
+        channels.push(channel);  // Get all channels here
+        $('#auth_url').append(
+          '<p> \
+            <a class="btn importButton" onclick=popitup("' + url + '")>' + channel + '</a> \
+            Import your friends here! \
+          <p>');
+      });
+    }
+  });
+}, 1000);
 
 
 ///////////////////// Detect cookies change /////////////////////
@@ -122,10 +147,10 @@ function listenCookieChange(cookieName, callback) {
     } else {
       cookieRegistry[cookieName] = $.cookie(cookieName);
     }
-  }, 100);
+  }, 200);
 }
 
-var channels = ['facebook', 'google', 'kaixin001', 'linkedin', 'twitter', 'weibo']
+
 $(channels).each(function(i, channel) {
   console.log(channel)
   $.cookie(channel, 0, { path: '/' });
