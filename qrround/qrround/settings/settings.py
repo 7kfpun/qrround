@@ -66,7 +66,7 @@ CACHES = {
     }
 }
 
-#CACHE_BACKEND = 'caching.backends.locmem://'
+CACHE_BACKEND = 'caching.backends.locmem://'
 
 SESSION_COOKIE_AGE = 1209600  # 2 weeks in default
 

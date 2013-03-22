@@ -1,5 +1,7 @@
 {% load compress %}
 {% load i18n %}
+{% load cache %}
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
@@ -79,6 +81,7 @@
         {% block content %}{% endblock %}
       </div>
 
+{% cache 600 index %}
       <div id="content">
         <hr>
         {% include "clients.html" %}
@@ -86,14 +89,8 @@
 
       <hr>
 
-      <div class="row-fluid marketing">
-        {% include "clients_buttons.html" %}
-      </div>
-
-      <hr>
-
       <div class="footer">
-        <p>&copy; Company 2013</p>
+        <p>&copy; KFPUN 2013</p>
       </div>
 
     </div> <!-- /container -->
@@ -123,3 +120,4 @@
     <script src="https://apis.google.com/js/client:plus.js" /> -->
   </body>
 </html>
+{% endcache %}

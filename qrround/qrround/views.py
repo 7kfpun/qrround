@@ -107,12 +107,12 @@ def index(request):
 
     return render(request, 'index.html', {
         'auth_urls': {
-            'Facebook': facebook_auth_url,
-            'Google': google_auth_url,
+            'facebook': facebook_auth_url,
+            'google': google_auth_url,
             'kaixin001': kaixin001_auth_url,
-            'LinkedIn': linkedin_auth_url,
-            'Renren': renren_auth_url,
-            'Twitter': twitter_auth_url,
+            'linkedin': linkedin_auth_url,
+            'renren': renren_auth_url,
+            'twitter': twitter_auth_url,
             'weibo': weibo_auth_url,
         },
         'form': QueryForm(session=request.session),
@@ -191,13 +191,13 @@ def getauthurls(request):
         }
         weibo_auth_url = weibo.get_authorize_url(**params)
 
-        print request.session.get('state', 'fake')
+        print request.session.get('state', '***')
 
         return HttpResponse(json.dumps({
             'facebook': facebook_auth_url,
             'google': google_auth_url,
             'kaixin001': kaixin001_auth_url,
-            'linkedIn': linkedin_auth_url,
+            'linkedin': linkedin_auth_url,
             'renren': renren_auth_url,
             'twitter': twitter_auth_url,
             'weibo': weibo_auth_url,
@@ -236,7 +236,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
 
 
 def facebookcallback(request):
-    if request.GET.get('state', '') == request.session.get('state', 'fake'):
+    if request.GET.get('state', '') == request.session.get('state', '***'):
         session = facebook.get_auth_session(data={
             'code': request.GET.get('code'),
             'redirect_uri': FACEBOOK_REDIRECT_URI})
@@ -265,7 +265,7 @@ def facebookcallback(request):
 
 # Still have problem
 def googlecallback(request):
-    if request.GET.get('state', '') == request.session.get('state', 'fake'):
+    if request.GET.get('state', '') == request.session.get('state', '***'):
         credentials = google.step2_exchange(request.GET.get('code'))
         access_token = credentials.access_token
 
@@ -290,7 +290,7 @@ def googlecallback(request):
 
 
 def linkedincallback(request):
-    if request.GET.get('state', '') == request.session.get('state', 'fake'):
+    if request.GET.get('state', '') == request.session.get('state', '***'):
         exchange_url = (
             'https://www.linkedin.com/uas/oauth2/accessToken'
             '?grant_type=authorization_code'
@@ -323,7 +323,7 @@ def linkedincallback(request):
 
 
 def kaixin001callback(request):
-    if request.GET.get('state', '') == request.session.get('state', 'fake'):
+    if request.GET.get('state', '') == request.session.get('state', '***'):
         exchange_url = (
             'https://api.kaixin001.com/oauth2/access_token'
             '?grant_type=authorization_code'
@@ -357,7 +357,7 @@ def kaixin001callback(request):
 
 
 def twittercallback(request):
-    if request.GET.get('state', '') == request.session.get('state', 'fake'):
+    if request.GET.get('state', '') == request.session.get('state', '***'):
         verifier = request.GET.get('oauth_verifier')
         try:
             twitter.get_access_token(verifier)
@@ -428,7 +428,7 @@ def renrencallback(request):
 
 
 def weibocallback(request):
-    if request.GET.get('state', '') == request.session.get('state', 'fake'):
+    if request.GET.get('state', '') == request.session.get('state', '***'):
         exchange_url = (
             'https://api.weibo.com/oauth2/access_token'
             '?client_id=1736274547'
