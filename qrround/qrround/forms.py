@@ -76,7 +76,20 @@ class QueryForm(forms.ModelForm):
         initial=True
     )
 
-    backdoor = forms.CharField(required=False)
+    color = forms.CharField(
+        label=_('Color'),
+        widget=forms.TextInput(attrs={
+            'class': 'span2',
+            'value': 'rgb(0, 0, 0)',
+            'readonly': '',
+        }),
+        help_text=_('Darker is better...'),
+    )
+
+    backdoor = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': _('Still in Beta now.')}),
+        required=False,
+    )
 
     class Meta:
         model = Query
@@ -119,5 +132,6 @@ class QueryForm(forms.ModelForm):
     def clean_backdoor(self):
         cleaned_data = super(self.__class__, self).clean()
         if cleaned_data.get('backdoor') != BACKDOOR_KEY:
-            raise forms.ValidationError(_('You cannot use the service now'))
+            raise forms.ValidationError(
+                _('Sorry, our service is not available now'))
         return cleaned_data
