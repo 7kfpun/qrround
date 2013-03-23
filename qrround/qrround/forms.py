@@ -88,9 +88,9 @@ class QueryForm(forms.ModelForm):
         widget=forms.RadioSelect, choices=ERROR_CORRECT, required=True)
 
     accept = forms.NullBooleanField(
-        label=_('Accept'),
+        label=_('I have read and accept'),
         widget=forms.CheckboxInput,
-        help_text=mark_safe(_('I have read and accept <a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>')),  # noqa
+        help_text=mark_safe(_('<a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>')),  # noqa
     )
 
     color = forms.CharField(

@@ -26,7 +26,7 @@ class PilImage(qrcode.image.base.BaseImage):
     def __init__(self, border, width, box_size, users=[], options={}):
         global START_TIME
         START_TIME = time()
-        logger.info('START TIME: %.4f', START_TIME)
+        logger.info('START TIME: %.4f' % START_TIME)
 
         if Image is None and ImageDraw is None:
             raise NotImplementedError("PIL not available")

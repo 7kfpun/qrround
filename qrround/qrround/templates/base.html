@@ -23,6 +23,7 @@
     <!-- <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.css" /> -->
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/colorpicker.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-image-gallery.min.css" />
+
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/styles.css" />
     {% endcompress %}
 
@@ -93,25 +94,23 @@
     <!-- Javascript CDN -->
     <!--
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
     <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
      -->
 
+    {% compress js %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/json2.js"></script>
-
-    {% compress js %}
+    <!-- <script type="text/javascript" src="{{ STATIC_URL }}js/json2.js"></script> -->
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/ajax_csrf.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/load-image.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-image-gallery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-colorpicker.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/scripts.js"></script>
 
+    <script type="text/javascript" src="{{ STATIC_URL }}js/scripts.js"></script>
     {% endcompress %}
 
-    <script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-image-gallery.min.js"></script>
 
     <!--
     <script src="https://apis.google.com/js/plus.js" />
