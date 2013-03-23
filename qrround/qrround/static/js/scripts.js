@@ -184,3 +184,6 @@ $('#import').on("click", function() {
 
 ///////////////// Color picker ///////////////////
 $('#colorpicker').colorpicker();
+
+
+/////////////////// Posting //////////////////////

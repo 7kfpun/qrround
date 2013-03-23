@@ -18,10 +18,11 @@ import os
 from ratelimit.decorators import ratelimit
 import re
 import requests
-from settings.settings import MEDIA_ROOT
+from settings.settings import MEDIA_ROOT, PROJECT_NAME_TEST  # TODOPROJECT_NAME
 #import StringIO
 from time import time
 import tweepy
+from urllib import urlencode
 
 import qrcode
 from .channels import *  # noqa
@@ -41,6 +42,8 @@ logger = logging.getLogger(__name__)
 
 
 def login(request):
+    if request.method == 'pOST':
+        pass
     return render(request, 'login.html')
 
 
@@ -125,6 +128,25 @@ def index(request):
     })
 
 
+def postfacebookphotos(request):
+    post_id = []
+    for client in request.session.get('facebook', []):
+        user = UserClient.objects.filter(client=client)[0]
+        url = 'https://graph.facebook.com/%s/feed' % user.client.split('#')[1]
+        data = {
+            'access_token': user.access_token,
+            'message': PROJECT_NAME_TEST,
+            'caption': PROJECT_NAME_TEST,
+            'type': 'photo',
+            'picture': 'http://img.photobucket.com/albums/v317/phillycrazy/blog/ZhangXuan.jpg',  # user.profile_picture_url,  # noqa
+            'link': 'http://img.photobucket.com/albums/v317/phillycrazy/blog/ZhangXuan.jpg',  # user.profile_picture_url,  # noqa
+        }
+        r = requests.post(url, urlencode(data))
+        post_id.append(r.json()['id'])
+
+    return HttpResponse(' - '.join(post_id))
+
+
 @ratelimit(rate='20/m')
 def getauthurls(request):
     if getattr(request, 'limited', False):
@@ -160,7 +182,7 @@ def getauthurls(request):
 
         # linkedin
         params = {
-            'scope': 'r_basicprofile r_emailaddress r_network',
+            'scope': 'r_basicprofile r_emailaddress r_network rw_nus',
             'response_type': 'code',
             'state': state,
             'redirect_uri': LINKEDIN_REDIRECT_URI,
@@ -310,10 +332,13 @@ def linkedincallback(request):
         )
         me = requests.get(me_url).json()
 
-        friends_url = (
-            'https://api.linkedin.com/v1/people/~/connections'
-            '?oauth2_access_token=' + access_token + '&format=json')
-        friends = requests.get(friends_url).json()['values']
+        try:
+            friends_url = (
+                'https://api.linkedin.com/v1/people/~/connections'
+                '?oauth2_access_token=' + access_token + '&format=json')
+            friends = requests.get(friends_url).json()['values']
+        except KeyError:
+            friends = []
 
         client_id = 'linkedin#' + str(me['id'])
         return store_session(request, 'linkedin', client_id,

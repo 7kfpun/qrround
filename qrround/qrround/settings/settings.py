@@ -7,6 +7,7 @@ import djcelery
 
 PROJECT_ROOT = op.abspath(op.dirname(op.dirname(__file__)))
 PROJECT_NAME = op.basename(PROJECT_ROOT)
+PROJECT_NAME_TEST = 'Testing'
 
 ENVIRONMENT_NAME = 'core'
 

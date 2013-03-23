@@ -8,6 +8,24 @@ from captcha.fields import ReCaptchaField
 BACKDOOR_KEY = 'kkk'
 
 
+class LoginForm(forms.Form):
+    name = forms.CharField(
+        label=u'Your name',
+        max_length=100,
+        widget=forms.TextInput,
+        help_text=_('Your name'),
+        required=True,
+    )
+
+    password = forms.CharField(
+        label=u'Your password',
+        max_length=100,
+        widget=forms.TextInput,
+        help_text=_('Your password'),
+        required=True,
+    )
+
+
 class ContactForm(forms.Form):
     name = forms.CharField(
         label=u'Your name',
@@ -69,10 +87,10 @@ class QueryForm(forms.ModelForm):
         widget=forms.CheckboxInput,
         help_text=mark_safe(_('I have read and accept <a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>')),  # noqa
     )
-    auto_post = forms.NullBooleanField(
-        label=_('Auto post'),
+
+    auto_post_facebook = forms.NullBooleanField(
+        label=_('Post the code to your Facebook'),
         widget=forms.CheckboxInput,
-        help_text=_('Post the code to your wall/stream/board'),
         initial=True
     )
 
