@@ -77,7 +77,7 @@ def getgallery(request):
                    </a>
                  </li>
                  {% endfor %}
-               </ul>''').render({'qrcodes': QRCode.objects.filter(query__user__client__in=all_clients).order_by('-pk')[:16]})  # noqa
+               </ul>''').render({'qrcodes': QRCode.objects.filter(query__user__client__in=all_clients).order_by('-pk')[:12]})  # noqa
     )
 
 
@@ -556,6 +556,7 @@ def getfriendsrequest(request):
                 html += client_id \
                     + '\n' + json.dumps(data['user']) + ' has ' \
                     + str(len(data['friends'])) + '\n\n'
+                logger.info('Finished get friends: %s' % html)
         return HttpResponse(html)
 
 
