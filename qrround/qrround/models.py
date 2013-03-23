@@ -155,9 +155,9 @@ class QRCode(models.Model):
 
     photo_thumbnail = ImageSpecField(
         image_field='photo',
-        processors=[ResizeToFit(960, 960)],
-        format='PNG',
-        options={'quality': 90},
+        processors=[ResizeToFit(90, 90)],
+        format='JPEG',
+        options={'quality': 60},
     )
 
     def __unicode__(self):
