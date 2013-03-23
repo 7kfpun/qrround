@@ -18,8 +18,16 @@
   <br />
           
   <div class="well">
-    <p><i class="icon-th-large"></i> Options <i class="icon-th-large"></i></p>
     <br />
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+          <ul class="nav nav-tabs center">
+            <li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-align-justify"></i> Options</a></li>
+            <li><a href="#tab2" data-toggle="tab"><i class="icon-folder-close"></i> History</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+
+
     <div class="tabbable tabs-left">
       <ul class="nav nav-tabs">
         <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
@@ -66,6 +74,24 @@
         </div>
       </div>
     </div>
+
+            </div>
+
+            <div class="tab-pane" id="tab2">
+
+
+
+<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+
+
+
+            </div>
+          </div>
+        </div>
+
+        
+
+
   </div>
 
 </form>

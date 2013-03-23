@@ -36,6 +36,9 @@ function getqrcode(el) {
         );
         $('#getqrcode_button').button('complete');
         notify('success', 'Try more one?');
+
+        // Append to gallery
+        
       },
       error: function (request, status, error) {
         // alert(request.responseText);
@@ -45,6 +48,18 @@ function getqrcode(el) {
     });
   }
 }
+
+
+/////////////////// Gallery //////////////////////
+setTimeout(function(){
+  $.ajax({
+    type: "GET",
+    url: "/getgallery",
+    success: function(gallery) {
+      $('#gallery').empty().append(gallery);
+    }
+  });
+}, 2000);
 
 
 ///////////////////// Alert /////////////////////
@@ -184,15 +199,3 @@ $('#import').on("click", function() {
 
 ///////////////// Color picker ///////////////////
 $('#colorpicker').colorpicker();
-
-
-/////////////////// Gallery //////////////////////
-setTimeout(function(){
-  $.ajax({
-    type: "GET",
-    url: "/getgallery",
-    success: function(gallery) {
-      $('#gallery').empty().append(gallery);
-    }
-  });
-}, 2000);
