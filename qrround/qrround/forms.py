@@ -28,25 +28,30 @@ class LoginForm(forms.Form):
 
 class ContactForm(forms.Form):
     name = forms.CharField(
-        label=u'Your name',
+        label=_('Name'),
         max_length=100,
-        widget=forms.TextInput,
-        help_text=_('Your name'),
+        widget=forms.TextInput(attrs={'placeholder': _('Your name is...')}),
         required=True,
     )
 
     email = forms.EmailField(
-        label=u'Your E-mail',
+        label=_('E-mail'),
         max_length=200,
-        widget=forms.TextInput,
-        help_text=_('Your E-mail'),
+        widget=forms.TextInput(attrs={'placeholder': _('Your E-mail is...')}),
+        required=True,
+    )
+
+    topic_choice = forms.CharField(
+        label=_('Topic'),
+        max_length=200,
+        widget=forms.TextInput(attrs={'placeholder': _('Your topic is...')}),
         required=True,
     )
 
     message = forms.CharField(
-        label=u'Your message',
-        widget=forms.Textarea,
-        help_text=_('Leave your message here...'),
+        label=_('Message'),
+        widget=forms.Textarea(attrs={
+            'placeholder': _('And leave your message here...')}),
         required=True,
     )
 
