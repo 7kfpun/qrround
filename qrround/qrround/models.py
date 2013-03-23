@@ -129,7 +129,6 @@ class Query(models.Model):
 
 # CustomStorage
 class CustomStorage(FileSystemStorage):
-
     def _open(self, name, mode='rb'):
         return File(open(self.path(name), mode))
 
@@ -140,9 +139,6 @@ class CustomStorage(FileSystemStorage):
         return name.replace('_1', '').replace('_2', '').replace('_3', '')
 
 
-def get_available_name(self, name):
-    return name
-
 custom_store = CustomStorage()
 # EndCustomStorage
 
@@ -152,15 +148,16 @@ class QRCode(models.Model):
 
     photo = models.ImageField(
         max_length=255,
-        storage=custom_store,
+        # storage=custom_store,  for renaming
         upload_to='qrcode',
         blank=True
     )
+
     photo_thumbnail = ImageSpecField(
         image_field='photo',
-        processors=[ResizeToFit(480, 480)],
-        format='JPEG',
-        options={'quality': 60}
+        processors=[ResizeToFit(960, 960)],
+        format='PNG',
+        options={'quality': 90},
     )
 
     def __unicode__(self):

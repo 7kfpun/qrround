@@ -24,8 +24,8 @@
       <ul class="nav nav-tabs">
         <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
         <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
-        <li class=""><a href="#lC" data-toggle="tab">{{ form.color.label_tag }}</a></li>
-        <li class=""><a href="#lD" data-toggle="tab">{{ form.auto_post.label_tag }}</a></li>
+        <li class=""><a href="#lC" data-toggle="tab">{% trans "Color & style "%}</a></li>
+        <li class=""><a href="#lD" data-toggle="tab">{{ form.auto_post_facebook.label_tag }}</a></li>
       </ul>
 
       <div class="tab-content options">
@@ -54,10 +54,15 @@
             <span class="add-on"><i style="background-color: rgb(255, 255, 255);"></i></span>
           </div>
           <p>{{ form.color.help_text }}</p>
+          <p>
+						{% for choice in form.style %}
+							<div class="span1">{{ choice }}</div>
+						{% endfor %}
+          </p>
         </div>
         <div class="tab-pane" id="lD">
           <p>Show off to your friends!!</p>
-          <label>{{ form.auto_post }} {{ form.auto_post.help_text }}</label>
+          <label>{{ form.auto_post_facebook }} {{ form.auto_post_facebook.help_text }}</label>
         </div>
       </div>
     </div>

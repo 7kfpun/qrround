@@ -54,6 +54,11 @@ class ContactForm(forms.Form):
 
 
 class QueryForm(forms.ModelForm):
+    backdoor = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': _('Still in Beta now.')}),
+        required=False,
+    )
+
     CHANNEL_CHOICES = (
         ('', '<< Empty >>',),
     )
@@ -88,12 +93,6 @@ class QueryForm(forms.ModelForm):
         help_text=mark_safe(_('I have read and accept <a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>')),  # noqa
     )
 
-    auto_post_facebook = forms.NullBooleanField(
-        label=_('Post the code to your Facebook'),
-        widget=forms.CheckboxInput,
-        initial=True
-    )
-
     color = forms.CharField(
         label=_('Color'),
         widget=forms.TextInput(attrs={
@@ -104,9 +103,26 @@ class QueryForm(forms.ModelForm):
         help_text=_('Darker is better...'),
     )
 
-    backdoor = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder': _('Still in Beta now.')}),
-        required=False,
+    auto_post_facebook = forms.NullBooleanField(
+        label=_('Auto post'),
+        widget=forms.CheckboxInput,
+        initial=True,
+        help_text=_('Post the code to your Facebook'),
+    )
+
+    STYLE_CHOICES = (
+        ('0', '0',),
+        ('1', '1',),
+        ('2', '2',),
+        ('3', '3',),
+    )
+    style = forms.ChoiceField(
+        label=_('Auto post'),
+        widget=forms.RadioSelect,
+        choices=STYLE_CHOICES,
+        required=True,
+        initial='0',
+        help_text=_('Set your style here...(more to come)'),
     )
 
     class Meta:
