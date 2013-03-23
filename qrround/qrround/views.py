@@ -122,33 +122,30 @@ def index(request):
         'form': QueryForm(session=request.session),
     })
     """
-    all_clients = request.session.get('facebook', []) \
-        + request.session.get('google', []) \
-        + request.session.get('linkedin', []) \
-        + request.session.get('kaixin001', [])
 
     return render(request, 'index.html', {
         'form': QueryForm(session=request.session),
         'contact_form': ContactForm(),
-        'qrcodes': QRCode.objects.filter(
-            query__user__client__in=all_clients)
+        # 'qrcodes': QRCode.objects.filter(
+        #     query__user__client__in=all_clients)
     })
 
 
 def getgallery(request):
-    all_clients = request.session.get('facebook', []) \
-        + request.session.get('google', []) \
-        + request.session.get('linkedin', []) \
-        + request.session.get('kaixin001', [])
+    all_clients = [client for channel in channels
+                   for client in request.session.get(channel, [])]
 
     return HttpResponse(
         Template(
-            '{% for qrcode in qrcodes %}'
-            '<div class="gallery-item" data-href="{{ qrcode.photo.url }}" title="{{ qrcode.query.text }}">{{ qrcode.query.text }}</div>'  # noqa
-            '{% endfor %}').render({
-                'qrcodes': QRCode.objects.filter(
-                    query__user__client__in=all_clients)
-            })
+            '''<ul class="thumbnails" class="span2">
+                 {% for qrcode in qrcodes %}
+                 <li>
+                   <a href="{{ qrcode.photo.url }}" title="{{ qrcode.query.text }}" class="thumbnail" data-gallery="gallery">  # noqa
+                     <img src="{{ qrcode.photo_thumbnail.url }}">
+                   </a>
+                 </li>
+                 {% endfor %}
+               </ul>''').render({'qrcodes': QRCode.objects.filter(query__user__client__in=all_clients)})  # noqa
     )
 
 

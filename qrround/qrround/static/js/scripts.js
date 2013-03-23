@@ -186,4 +186,13 @@ $('#import').on("click", function() {
 $('#colorpicker').colorpicker();
 
 
-/////////////////// Posting //////////////////////
+/////////////////// Gallery //////////////////////
+setTimeout(function(){
+  $.ajax({
+    type: "GET",
+    url: "/getgallery",
+    success: function(gallery) {
+      $('#gallery').empty().append(gallery);
+    }
+  });
+}, 2000);
