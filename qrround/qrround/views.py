@@ -135,6 +135,23 @@ def index(request):
     })
 
 
+def getgallery(request):
+    all_clients = request.session.get('facebook', []) \
+        + request.session.get('google', []) \
+        + request.session.get('linkedin', []) \
+        + request.session.get('kaixin001', [])
+
+    return HttpResponse(
+        Template(
+            '{% for qrcode in qrcodes %}'
+            '<div class="gallery-item" data-href="{{ qrcode.photo.url }}" title="{{ qrcode.query.text }}">{{ qrcode.query.text }}</div>'  # noqa
+            '{% endfor %}').render({
+                'qrcodes': QRCode.objects.filter(
+                    query__user__client__in=all_clients)
+            })
+    )
+
+
 def postfacebookphotos(request):
     post_id = []
     for client in request.session.get('facebook', []):
@@ -220,8 +237,6 @@ def getauthurls(request):
             'grant_type': 'authorization_code',
         }
         weibo_auth_url = weibo.get_authorize_url(**params)
-
-        print request.session.get('state', '***')
 
         return HttpResponse(json.dumps({
             'facebook': facebook_auth_url,
@@ -576,8 +591,9 @@ def getqrcode(request):
             photo.save()
 
             return HttpResponse(
-                Template('<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
-                         'width="480" height="480" />').render(photo=photo)
+                Template(
+                    '<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
+                    'width="480" height="480" />').render(photo=photo)
             )
 
 #            return HttpResponse('<img src="/media/qrcode/%s" '

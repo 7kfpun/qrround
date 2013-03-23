@@ -77,25 +77,22 @@
         {% block content %}{% endblock %}
       </div>
 
-<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-    <a href="/media/qrcode/572c1f2ab144957c_1.png" title="123" data-gallery="gallery">123</a>
-    <a href="/media/qrcode/073b13b814ea5517_1.png" title="456" data-gallery="gallery">456</a>
-    <a href="/media/qrcode/1e135d59dfa0d9a3_1.png" title="789" data-gallery="gallery">789</a>
-</div>
-
-<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" data-selector="div.gallery-item">
-  {% for qrcode in qrcodes %}
-    <div class="gallery-item" data-href="{{ qrcode.photo.url }}" title="{{ qrcode.query.text }}">{{ qrcode.query.text }}</div>
-  {% endfor %}
-</div>
+      <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+        <ul class="thumbnails" class="span2">
+          {% for qrcode in qrcodes %}
+          <li>
+            <a href="{{ qrcode.photo.url }}" title="{{ qrcode.query.text }}" class="thumbnail" data-gallery="gallery">
+              <img src="{{ qrcode.photo_thumbnail.url }}">
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
 
       <div id="content">
         <hr>
         {% include "clients.html" %}
       </div>
-
-
-
 
       <hr>
 
