@@ -77,7 +77,7 @@ def getgallery(request):
                    </a>
                  </li>
                  {% endfor %}
-               </ul>''').render({'qrcodes': QRCode.objects.filter(query__user__client__in=all_clients)})  # noqa
+               </ul>''').render({'qrcodes': QRCode.objects.filter(query__user__client__in=all_clients).order_by('-pk')[:16]})  # noqa
     )
 
 
@@ -105,8 +105,9 @@ def getauthurls(request):
     if getattr(request, 'limited', False):
         # Reach rate limit
         return HttpResponseBadRequest(
-            _('Was_limited: we are poor, cannot afford server cost. '
-              'Donate some and we can buy more server time'))
+            _('We are poor, cannot afford too much server cost. '
+              'Donate us so that we can buy more server time<br />'
+              'Try agains after seconds please...'))
 
     elif True:  # and request.is_ajax():
         state = request.session['state'] = str(time())

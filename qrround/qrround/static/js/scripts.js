@@ -35,10 +35,18 @@ function getqrcode(el) {
             data
         );
         $('#getqrcode_button').button('complete');
-        notify('success', 'Try more one?');
+        var number = Math.floor(Math.random() * 6);
+        var sentence;
+        if(number === 0) { sentence = 'Try more one?' }
+        else if(number === 1) { sentence = 'Step farther to make QR code more readable!' }
+        else if(number === 2) { sentence = 'Look beautiful?' }
+        else if(number === 3) { sentence = 'Love it?' }
+        else if(number === 4) { sentence = 'Share it!!!' }
+        else if(number === 5) { sentence = 'Where is your girlfriend?' }
+        notify('success', sentence );
 
         // Append to gallery
-        
+
       },
       error: function (request, status, error) {
         // alert(request.responseText);

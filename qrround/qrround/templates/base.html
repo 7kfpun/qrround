@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load cache %}
 
-{# % cache 600 index_head % #}
+{# % cache 600 base_head % #}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
@@ -73,13 +73,7 @@
         <p class="lead">{% trans 'Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.' %}</p>
         <a class="btn btn-large btn-success" data-loading-text="Loading...">{% trans 'Sign up today' %}</a>
 
-        <p id="qrcode"></p>
-
         {% block content %}{% endblock %}
-      </div>
-
-      
-
       </div>
 
       <div id="content">
@@ -89,7 +83,7 @@
 
       <hr>
 
-{# % cache 600 index_footer % #}
+{# % cache 600 base_footer % #}
       <div class="footer">
         <p>&copy; KFPUN 2013</p>
       </div> <!-- /container -->
