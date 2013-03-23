@@ -40,6 +40,15 @@ li {
     width: 100px;
 }
 
+.nav-tabs.center > li, .nav-pills > li {
+    float:none;
+    display:inline-block;
+}
+
+.nav-tabs.center {
+    text-align:center;
+}
+
 /* Supporting marketing content */
 .marketing {
   margin: 60px 0;

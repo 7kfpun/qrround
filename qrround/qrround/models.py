@@ -143,7 +143,7 @@ custom_store = CustomStorage()
 # EndCustomStorage
 
 
-class QRCode(models.Model):
+class QRCode(caching.base.CachingMixin, models.Model):
     query = models.ForeignKey(Query)
 
     photo = models.ImageField(
@@ -155,10 +155,12 @@ class QRCode(models.Model):
 
     photo_thumbnail = ImageSpecField(
         image_field='photo',
-        processors=[ResizeToFit(90, 90)],
+        processors=[ResizeToFit(100, 100)],
         format='JPEG',
         options={'quality': 60},
     )
+
+    objects = caching.base.CachingManager()
 
     def __unicode__(self):
         return self.query.text
