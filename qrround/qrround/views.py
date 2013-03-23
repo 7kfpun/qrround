@@ -122,9 +122,16 @@ def index(request):
         'form': QueryForm(session=request.session),
     })
     """
+    all_clients = request.session.get('facebook', []) \
+        + request.session.get('google', []) \
+        + request.session.get('linkedin', []) \
+        + request.session.get('kaixin001', [])
+
     return render(request, 'index.html', {
         'form': QueryForm(session=request.session),
         'contact_form': ContactForm(),
+        'qrcodes': QRCode.objects.filter(
+            query__user__client__in=all_clients)
     })
 
 
@@ -535,7 +542,8 @@ def getqrcode(request):
         options['color'] = tuple(map(
             lambda x: int(x),
             re.findall(r'\b\d+\b', form.data.get('color', 'rgb(0, 0, 0)'))))
-        print options['color']
+        options['style'] = form.data.get('style', '0')
+
         try:
             qr = qrcode.QRCode(
                 version=None,
@@ -552,7 +560,10 @@ def getqrcode(request):
             filename = unique_generator() + '.png'
             img.save(os.path.join(MEDIA_ROOT + '/qrcode', filename))
 
-            query = Query(text=text)
+            query = Query(
+                text=text,
+                user=UserClient.objects.get(client=channel_choice[0])
+            )
             query.save()
 
             photo = QRCode(
