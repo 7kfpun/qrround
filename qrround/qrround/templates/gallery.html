@@ -1,0 +1,11 @@
+<ul class="thumbnails">
+ {% for qrcode in qrcodes %}
+ <li class="span2">
+   <a href="{{ qrcode.photo.url }}"
+   title="{{ qrcode.query.text }}"
+   class="thumbnail" data-gallery="gallery">
+     <img src="{{ qrcode.photo.url }}">
+   </a>
+ </li>
+ {% endfor %}
+</ul>
