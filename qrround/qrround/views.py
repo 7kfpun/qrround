@@ -42,7 +42,7 @@ logger = logging.getLogger(__name__)
 
 
 def login(request):
-    if request.method == 'pOST':
+    if request.method == 'POST':
         pass
     return render(request, 'login.html')
 
@@ -295,9 +295,9 @@ def kaixin001callback(request):
             'https://api.kaixin001.com/oauth2/access_token'
             '?grant_type=authorization_code'
             '&code=' + request.GET.get('code')
-            + '&client_id=1214876808351987b5b2f5659b72f67c'
-            '&client_secret=bf2726ad4eb6dc8e3c41fa6f9edf8ab3'
-            '&redirect_uri=http://127.0.0.1:8001/kaixin001_callback'
+            + '&client_id=' + KAIXIN001_CLIENT_ID
+            + '&client_secret=' + KAIXIN001_CLIENT_SECRET
+            + '&redirect_uri=' + KAIXIN001_REDIRECT_URI
         )
         r = requests.get(exchange_url)
         access_token = r.json()['access_token']
@@ -398,11 +398,11 @@ def weibocallback(request):
     if request.GET.get('state', '') == request.session.get('state', '***'):
         exchange_url = (
             'https://api.weibo.com/oauth2/access_token'
-            '?client_id=1736274547'
-            '&client_secret=f6f8fa98288e0cb75d9fe291f14c33eb'
-            '&grant_type=authorization_code'
+            '?client_id=' + WEIBO_CLIENT_ID
+            + '&client_secret=' + WEIBO_CLIENT_SECRET
+            + '&grant_type=authorization_code'
             '&code=' + request.GET.get('code')
-            + '&redirect_uri=http://127.0.0.1:8001/weibo_callback'
+            + '&redirect_uri=' + WEIBO_REDIRECT_URI
         )
         r = requests.post(exchange_url)
         access_token = r.json()['access_token']
@@ -410,7 +410,7 @@ def weibocallback(request):
 
         me_url = (
             'https://api.weibo.com/2/users/show.json'
-            '?uid=3216837074' + uid
+            '?uid=' + uid
             + '&access_token=' + access_token
         )
         me = requests.get(me_url).json()

@@ -160,7 +160,7 @@ class QRCode(caching.base.CachingMixin, models.Model):
         options={'quality': 60},
     )
 
-    objects = caching.base.CachingManager()
+    # objects = caching.base.CachingManager()
 
     def __unicode__(self):
         return self.query.text
@@ -168,6 +168,10 @@ class QRCode(caching.base.CachingMixin, models.Model):
     @property
     def text(self):
         return self.query.text
+
+    def save(self, *args, **kwargs):
+        # TODO: add save thumbnail manually
+        super(self.__class__, self).save(*args, **kwargs)
 
 
 class CachedImage(caching.base.CachingMixin, models.Model):
@@ -186,7 +190,7 @@ class CachedImage(caching.base.CachingMixin, models.Model):
         options={'quality': 60}
     )
 
-    # objects = caching.base.CachingManager()
+    objects = caching.base.CachingManager()
 
     def cache_and_save(self):
         """Store image locally if we have a URL"""
