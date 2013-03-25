@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load cache %}
 
-{% cache 600 policy %}
+{# % cache 600 policy % #}
 <!-- Policy Modal -->
 <div id="policy_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
@@ -116,7 +116,7 @@
   <div class="modal-body">
     <form class="form-horizontal" action="/sendMassage/" method="POST">
       <div class="control-group">
-        <label class="control-label" for="inputName">Name</label>
+        <label class="control-label" for="inputName">{{ contact_form.name.label_tag }}</label>
         <div class="controls">
           <div class="input-prepend">
             <span class="add-on"><i class="icon-user"></i></span>
@@ -125,7 +125,7 @@
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="inputEmail">Email</label>
+        <label class="control-label" for="inputEmail">{{ contact_form.email.label_tag }}</label>
         <div class="controls">
           <div class="input-prepend">
             <span class="add-on"><i class="icon-envelope"></i></span>
@@ -134,12 +134,21 @@
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="inputMessage">Message</label>
+        <label class="control-label" for="inputTopic">{{ contact_form.topic.label_tag }}</label>
+        <div class="controls">
+          <div class="input-prepend">
+            <span class="add-on"><i class="icon-th-list"></i></span>
+            {{ contact_form.topic | safe }}
+          </div>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="inputMessage">{{ contact_form.message.label_tag }}</label>
         <div class="controls">
           {{ contact_form.message | safe }}
         </div>
       </div>
-      <div class="control-group">
+      <div class="control-group offset1">
         {{ contact_form.captcha | safe }}
       </div>
     </form>
@@ -183,7 +192,7 @@
     <a class="btn modal-download" target="_blank"><i class="icon-download"></i> Download</a>
   </div>
 </div>
-{% endcache %}
+{# % endcache % #}
 
 
 <!-- Import Modal -->
