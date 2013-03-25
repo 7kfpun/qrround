@@ -53,6 +53,7 @@ def index(request):
 #    all_clients = [client for channel in channels
 #                   for client in request.session.get(channel, [])]
 #    print all_clients
+
     return render(request, 'index.html', {
         'form': QueryForm(session=request.session),
         'contact_form': ContactForm(),
@@ -64,21 +65,9 @@ def index(request):
 def getgallery(request):
     all_clients = [client for channel in channels
                    for client in request.session.get(channel, [])]
-
-    return HttpResponse(
-        Template(
-            '''<ul class="thumbnails">
-                 {% for qrcode in qrcodes %}
-                 <li class="span2">
-                   <a href="{{ qrcode.photo.url }}"
-                   title="{{ qrcode.query.text }}"
-                   class="thumbnail" data-gallery="gallery">
-                     <img src="{{ qrcode.photo_thumbnail.url }}">
-                   </a>
-                 </li>
-                 {% endfor %}
-               </ul>''').render({'qrcodes': QRCode.objects.filter(query__user__client__in=all_clients).order_by('-pk')[:12]})  # noqa
-    )
+    return render(request, 'gallery.html', {
+        'qrcodes': QRCode.objects.filter(
+            query__user__client__in=all_clients).order_by('-pk')[:12]})
 
 
 def postfacebookphotos(request):
@@ -235,7 +224,7 @@ def facebookcallback(request):
                              access_token, me, friends)
 
     else:
-        return HttpResponse('CSFS?')
+        return HttpResponse('CSRF?')
 
 
 # Still have problem
@@ -261,7 +250,7 @@ def googlecallback(request):
                              access_token, me, friends)
 
     else:
-        return HttpResponse('CSFS?')
+        return HttpResponse('CSRF?')
 
 
 def linkedincallback(request):
@@ -297,7 +286,7 @@ def linkedincallback(request):
                              access_token, me, friends)
 
     else:
-        return HttpResponse('CSFS?')
+        return HttpResponse('CSRF?')
 
 
 def kaixin001callback(request):
@@ -331,7 +320,7 @@ def kaixin001callback(request):
                              access_token, me, friends)
 
     else:
-        return HttpResponse('CSFS?')
+        return HttpResponse('CSRF?')
 
 
 def twittercallback(request):
@@ -381,7 +370,7 @@ def twittercallback(request):
                              data['user'], data['friends'])
 
     else:
-        return HttpResponse('CSFS?')
+        return HttpResponse('CSRF?')
 
 
 # Still have problem
@@ -439,7 +428,7 @@ def weibocallback(request):
                              access_token, me, friends)
 
     else:
-        return HttpResponse('CSFS?')
+        return HttpResponse('CSRF?')
 
 
 def oauth2callback(request):
