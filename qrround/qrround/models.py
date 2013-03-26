@@ -61,6 +61,8 @@ class UserClient(AbstractBaseUser):
     friends = JSONField(blank=True, null=True)
 
     access_token = models.CharField(max_length=255, blank=True, null=True)
+    album_id = models.CharField(max_length=255, blank=True, null=True)
+
     USERNAME_FIELD = 'client'
 
     def __unicode__(self):
