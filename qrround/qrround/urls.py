@@ -13,6 +13,9 @@ urlpatterns = patterns(
     url(r'^getauthurls$', 'getauthurls', name='getauthurls'),
     url(r'^getqrcode$', 'getqrcode', name='getqrcode'),
     url(r'getfriends$', 'getfriendsrequest', name='getfriendsrequest'),
+    url(r'getgallery$', 'getgallery', name='getgallery'),
+
+    url(r'postfacebookphotos', 'postfacebookphotos', name='postfacebookphotos'),  # noqa
 
     # Callback
     url(r'^oauth2callback$', 'oauth2callback', name='oauth2callback'),
@@ -28,7 +31,7 @@ urlpatterns = patterns(
     # url(r'^js/*', ),
 
     # Uncomment the next line to enable the admin:
-    url(r'^login/$', 'login', name='login'),
+    url(r'^accounts/login/$', 'login', name='login'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^rosetta/', include('rosetta.urls')),
 

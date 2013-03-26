@@ -8,7 +8,7 @@ from captcha.fields import ReCaptchaField
 BACKDOOR_KEY = 'kkk'
 
 
-class ContactForm(forms.Form):
+class LoginForm(forms.Form):
     name = forms.CharField(
         label=u'Your name',
         max_length=100,
@@ -17,18 +17,41 @@ class ContactForm(forms.Form):
         required=True,
     )
 
-    email = forms.EmailField(
-        label=u'Your E-mail',
-        max_length=200,
+    password = forms.CharField(
+        label=u'Your password',
+        max_length=100,
         widget=forms.TextInput,
-        help_text=_('Your E-mail'),
+        help_text=_('Your password'),
+        required=True,
+    )
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(
+        label=_('Name'),
+        max_length=100,
+        widget=forms.TextInput(attrs={'placeholder': _('Your name is...')}),
+        required=True,
+    )
+
+    email = forms.EmailField(
+        label=_('E-mail'),
+        max_length=200,
+        widget=forms.TextInput(attrs={'placeholder': _('Your E-mail is...')}),
+        required=True,
+    )
+
+    topic = forms.CharField(
+        label=_('Topic'),
+        max_length=200,
+        widget=forms.TextInput(attrs={'placeholder': _('Your topic is...')}),
         required=True,
     )
 
     message = forms.CharField(
-        label=u'Your message',
-        widget=forms.Textarea,
-        help_text=_('Leave your message here...'),
+        label=_('Message'),
+        widget=forms.Textarea(attrs={
+            'placeholder': _('And leave your message here...')}),
         required=True,
     )
 
@@ -36,6 +59,11 @@ class ContactForm(forms.Form):
 
 
 class QueryForm(forms.ModelForm):
+    backdoor = forms.CharField(
+        widget=forms.TextInput(attrs={'placeholder': _('Still in Beta now.')}),
+        required=False,
+    )
+
     CHANNEL_CHOICES = (
         ('', '<< Empty >>',),
     )
@@ -65,15 +93,9 @@ class QueryForm(forms.ModelForm):
         widget=forms.RadioSelect, choices=ERROR_CORRECT, required=True)
 
     accept = forms.NullBooleanField(
-        label=_('Accept'),
+        label=_('I have read and accept'),
         widget=forms.CheckboxInput,
-        help_text=mark_safe(_('I have read and accept <a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>')),  # noqa
-    )
-    auto_post = forms.NullBooleanField(
-        label=_('Auto post'),
-        widget=forms.CheckboxInput,
-        help_text=_('Post the code to your wall/stream/board'),
-        initial=True
+        help_text=mark_safe(_('<a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>')),  # noqa
     )
 
     color = forms.CharField(
@@ -86,9 +108,26 @@ class QueryForm(forms.ModelForm):
         help_text=_('Darker is better...'),
     )
 
-    backdoor = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder': _('Still in Beta now.')}),
-        required=False,
+    auto_post_facebook = forms.NullBooleanField(
+        label=_('Auto post'),
+        widget=forms.CheckboxInput,
+        initial=True,
+        help_text=_('Post the code to your Facebook'),
+    )
+
+    STYLE_CHOICES = (
+        ('0', '0',),
+        ('1', '1',),
+        ('2', '2',),
+        ('3', '3',),
+    )
+    style = forms.ChoiceField(
+        label=_('Auto post'),
+        widget=forms.RadioSelect,
+        choices=STYLE_CHOICES,
+        required=True,
+        initial='0',
+        help_text=_('Set your style here...(more to come)'),
     )
 
     class Meta:

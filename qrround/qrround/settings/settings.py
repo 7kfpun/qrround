@@ -7,6 +7,7 @@ import djcelery
 
 PROJECT_ROOT = op.abspath(op.dirname(op.dirname(__file__)))
 PROJECT_NAME = op.basename(PROJECT_ROOT)
+PROJECT_NAME_TEST = 'Testing'
 
 ENVIRONMENT_NAME = 'core'
 
@@ -15,7 +16,7 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
-COMPRESS_ENABLED = False  # True  # Opposite with DEBUG
+COMPRESS_ENABLED = True  # True  # Opposite with DEBUG
 
 RATELIMIT_ENABLE = True
 

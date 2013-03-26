@@ -26,7 +26,7 @@ class PilImage(qrcode.image.base.BaseImage):
     def __init__(self, border, width, box_size, users=[], options={}):
         global START_TIME
         START_TIME = time()
-        logger.info('START TIME: %.4f', START_TIME)
+        logger.info('START TIME: %.4f' % START_TIME)
 
         if Image is None and ImageDraw is None:
             raise NotImplementedError("PIL not available")
@@ -85,7 +85,6 @@ class PilImage(qrcode.image.base.BaseImage):
             border = Image.open('qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
             self._img.paste(border, (x, y), mask=border)
 
-            
         elif False:
             self._img.paste(Image.open(image.photo.path).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
@@ -109,32 +108,31 @@ class PilImage(qrcode.image.base.BaseImage):
         y = (row + self.border) * self.box_size
 
         image = choice(self._all_cached_images)
+        style = self.options.get('style', '1')
 
-        if False:
+        if style == '0':
             self._img.paste(Image.open(image.photo.path).point(lambda p: p * 0.9).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
-            
-            
-            
-        elif False:
+
+        elif style == '1':
             self._img.paste(Image.open(image.photo.path).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
 
             border = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
             self._img.paste(border, (x, y), mask=border)
 
-        elif False:
+        elif style == '2':
             try:
                 bord = self.bord
             except:
-                bord = self.bord = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border9.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
+                bord = self.bord = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border1.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
 
             self._img.paste(Image.open(image.photo.path).point(lambda p: p * 0.7).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
 
             self._img.paste(bord, (x, y), mask=bord)
 
-        elif True:
+        elif style == '3':
             try:
                 highlight = self.highlight
                 mask = self.mask

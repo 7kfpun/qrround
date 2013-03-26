@@ -1,67 +1,101 @@
 {% extends "base.html" %}
 {% load i18n %}
+{% load cache %}
 
 {% block content %}
-
+<p id="qrcode"></p>
 <div id="alerts"></div>
 
 <form action="/getqrcode" method="post" onsubmit="return false">
-  <!-- <input name="text" class="span5" id="dgetqrcode_input" type="text" placeholder="Input your data"> -->
   {{ form.backdoor }}
   <div class="btn-group">
-  {{ form.text }}
-    <button class="btn" id="import_button" type="button"><abbr title="HyperText Markup Language">Import</abbr></button>
-    <button class="btn" id="getqrcode_button" type="button" data-loading-text="Loading..." data-complete-text="Complete!">Have fun!</button>
+    {{ form.text }}
+    <button class="btn" id="import_button" type="button"><abbr title="HyperText Markup Language">{% trans 'Import' %}</abbr></button>
+    <button class="btn" id="getqrcode_button" type="button" data-loading-text="{% trans 'Loading...' %}" data-complete-text="{% trans 'Complete!' %}">{% trans 'Have fun!' %}</button>
+  </div>
+  <div class="row nowidth">
+    <div class="span1 offset2 nowidth">{{ form.accept }}</div>
+    <div class="span4 nowidth">{{ form.accept.label_tag }}</div>
+    <div class="span6 nowidth">{{ form.accept.help_text }}</div>
   </div>
   <br />
-  <label>{{ form.accept }} {{ form.accept.help_text }}</label>
-  <br />
-          
+
+{% cache 600 index_head %}
   <div class="well">
-    <p><i class="icon-th-large"></i> Options <i class="icon-th-large"></i></p>
-    <br />
-    <div class="tabbable tabs-left">
-      <ul class="nav nav-tabs">
-        <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
-        <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
-        <li class=""><a href="#lC" data-toggle="tab">{{ form.color.label_tag }}</a></li>
-        <li class=""><a href="#lD" data-toggle="tab">{{ form.auto_post.label_tag }}</a></li>
+    <div class="tabbable">
+      <ul class="nav nav-tabs center">
+        <li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-edit"></i> {% trans 'Options' %}</a></li>
+        <li><a href="#tab2" data-toggle="tab"><i class="icon-folder-close"></i> {% trans 'History' %}</a></li>
       </ul>
 
-      <div class="tab-content options">
-        <div class="tab-pane active" id="lA">
-          {% if form.fields.channel_choice.choices|length %}
-            <div class="alert alert-info">
-              <button type="button" class="close" data-dismiss="alert">×</button>
-              <strong>Info!</strong> You can import more accounts.
+      <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+          <div class="tabbable tabs-left">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
+              <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
+              <li class=""><a href="#lC" data-toggle="tab">{% trans "Color & style "%}</a></li>
+              <li class=""><a href="#lD" data-toggle="tab">{{ form.auto_post_facebook.label_tag }}</a></li>
+            </ul>
+
+            <div class="tab-content options">
+{% endcache %}
+
+              <div class="tab-pane active" id="lA">
+                {% if form.fields.channel_choice.choices|length %}
+                  <div class="alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {% trans '<strong>Info!</strong> You can import more accounts.' %}
+                  </div>
+                  {{ form.channel_choice }}
+                {% else %}
+                  <div class="alert alert-block">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    {% trans '<strong>Info!</strong> Import your account first!!' %}
+                  </div>
+                {% endif %}
+              </div>
+
+{% cache 600 index_footer %}
+              <div class="tab-pane" id="lB">
+                <p>{% trans 'The higher error correct, the more readable code.' %}</p>
+                {{form.error_correct_choice }}
+              </div>
+
+              <div class="tab-pane" id="lC">
+                <p>{% trans 'Select your theme color here!!' %}</p>
+                <div class="input-append color" data-color="rgb(0, 0, 0)" data-color-format="rgb" id="colorpicker">
+                  {{ form.color }}
+                  <span class="add-on"><i style="background-color: rgb(255, 255, 255);"></i></span>
+                </div>
+                <p>{{ form.color.help_text }}</p>
+                <p>
+                  {% for choice in form.style %}
+                    <div class="span1">{{ choice }}</div>
+                  {% endfor %}
+                </p>
+              </div>
+
+              <div class="tab-pane" id="lD">
+                <p>{% trans 'Show off to your friends!!' %}</p>
+                <label>{{ form.auto_post_facebook }} {{ form.auto_post_facebook.help_text }}</label>
+              </div>
+
             </div>
-            {{ form.channel_choice }}
-          {% else %}
-            <div class="alert alert-block">
-              <button type="button" class="close" data-dismiss="alert">×</button>
-              <strong>Info!</strong> Import your account first!!
-            </div>
-          {% endif %}
-        </div>
-        <div class="tab-pane" id="lB">
-          <p>The higher error correct, the m</p>
-          {{form.error_correct_choice }}
-        </div>
-        <div class="tab-pane" id="lC">
-          <p>Select your theme color here!!</p>
-          <div class="input-append color" data-color="rgb(0, 0, 0)" data-color-format="rgb" id="colorpicker">
-            {{ form.color }}
-            <span class="add-on"><i style="background-color: rgb(255, 255, 255);"></i></span>
           </div>
-          <p>{{ form.color.help_text }}</p>
         </div>
-        <div class="tab-pane" id="lD">
-          <p>Show off to your friends!!</p>
-          <label>{{ form.auto_post }} {{ form.auto_post.help_text }}</label>
+
+        <div class="tab-pane" id="tab2">
+          <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {% trans '<strong>Info!</strong> Only latest 12 codes are displayed' %}.
+          </div>
+          <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></div>
         </div>
+
       </div>
     </div>
   </div>
-
 </form>
+{% endcache %}
 {% endblock %}

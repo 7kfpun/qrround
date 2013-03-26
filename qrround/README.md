@@ -57,3 +57,17 @@ http://nadiana.com/pil-tutorial-how-create-button-generator
 bootstrap-wysihtml5 is a javascript plugin that makes it easy to create simple, beautiful wysiwyg editors with the help of wysihtml5 and Twitter Bootstrap
 
 http://jhollingworth.github.com/bootstrap-wysihtml5/
+
+=============================
+
+Google Plus doesn't have writing API
+
+LinkedIn share api needs SSL
+<error>
+  <status>401</status>
+  <timestamp>1364015237010</timestamp>
+  <request-id>66O3VPS5UG</request-id>
+  <error-code>0</error-code>
+  <message>ssl required</message>
+</error>
+http://blog.thewebcafes.com/post/2874607539/php-step-by-step-oauth-for-dummies-based-on-linkedin
