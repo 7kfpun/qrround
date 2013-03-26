@@ -99,7 +99,7 @@ def getauthurls(request):
               'Try agains after seconds please...'))
 
     elif True:  # and request.is_ajax():
-        state = request.session['state'] = str(time())
+        state = request.session['state'] = str(time())[:-3]
 
         # facebook
         params = {
@@ -584,6 +584,11 @@ def getfriends(data, cache_image=False):
         last_name = ''
         username = data['user']['username']
 
+    elif channel == 'weibo':
+        first_name = ''
+        last_name = ''
+        username = data['user']['screen_name']
+
     userclient, created = UserClient.objects.get_or_create(
         client=channel + '#' + channel_id,
     )
@@ -602,7 +607,7 @@ def getfriends(data, cache_image=False):
         profile_picture_url = data['user'].get('pictureUrl', None)
     elif channel == 'kaixin001':
         profile_picture_url = data['user'].get('logo50', None)
-    elif channel == 'twitter':
+    elif channel == 'twitter' or channel == 'weibo':
         profile_picture_url = data['user']['profile_image_url']
     else:
         profile_picture_url = None
@@ -629,7 +634,7 @@ def getfriends(data, cache_image=False):
                 profile_picture_url = frd.get('pictureUrl', None)
             elif channel == 'kaixin001':
                 profile_picture_url = frd.get('logo50', None)
-            elif channel == 'twitter':
+            elif channel == 'twitter' or channel == 'weibo':
                 profile_picture_url = None
                 # TODO: complicated get
             else:

@@ -41,7 +41,7 @@ class ContactForm(forms.Form):
         required=True,
     )
 
-    topic_choice = forms.CharField(
+    topic = forms.CharField(
         label=_('Topic'),
         max_length=200,
         widget=forms.TextInput(attrs={'placeholder': _('Your topic is...')}),
