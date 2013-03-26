@@ -235,7 +235,6 @@ INSTALLED_APPS += (
     'south',
     'imagekit',
     'rosetta',
-    # 'sorl.thumbnail',
 
     # Qrround
     'qrround',
