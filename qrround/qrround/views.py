@@ -71,9 +71,10 @@ def getgallery(request):
 
 
 def postfacebookphotos(request):
-    post_id = []
+    posts = []
     for client in request.session.get('facebook', []):
-        user = UserClient.objects.filter(client=client)[0]
+        user = UserClient.objects.get(client=client)
+        """ # Share to feed
         url = 'https://graph.facebook.com/%s/feed' % user.client.split('#')[1]
         data = {
             'access_token': user.access_token,
@@ -84,9 +85,35 @@ def postfacebookphotos(request):
             'link': 'http://img.photobucket.com/albums/v317/phillycrazy/blog/ZhangXuan.jpg',  # user.profile_picture_url,  # noqa
         }
         r = requests.post(url, urlencode(data))
-        post_id.append(r.json()['id'])
+        posts.append(r.json()['id'])
+        """
 
-    return HttpResponse(' - '.join(post_id))
+        if not user.album_id:
+            url = 'https://graph.facebook.com/%s/albums' \
+                % user.client.split('#')[1]
+            data = {
+                'access_token': user.access_token,
+                'name': PROJECT_NAME_TEST,
+                'message': PROJECT_NAME_TEST,
+            }
+            r = requests.post(url, urlencode(data))
+            album_id = r.json()['id']
+            user.album_id = r.json()['id']
+            user.save()
+        else:
+            album_id = user.album_id
+
+        url = 'https://graph.facebook.com/%s/photos' % album_id
+        data = {
+            'access_token': user.access_token,
+            'message': PROJECT_NAME_TEST,
+        }
+        r = requests.post(
+            url, data=data,
+            files={'source': open('ZhangXuan.jpg', 'rb')})
+        posts.append(r.json())
+
+    return HttpResponse('\n'.join(post_id))
 
 
 @ratelimit(rate='20/m')
@@ -103,7 +130,7 @@ def getauthurls(request):
 
         # facebook
         params = {
-            'scope': 'read_stream,publish_actions',
+            'scope': 'read_stream,publish_actions,publish_stream,user_photos',
             'response_type': 'code',
             'state': state,
             'redirect_uri': FACEBOOK_REDIRECT_URI,
@@ -116,7 +143,7 @@ def getauthurls(request):
 
         # kaixin001
         params = {
-            'scope': 'basic',
+            'scope': 'basic upload_photo',
             'response_type': 'code',
             'state': state,
             'redirect_uri': KAIXIN001_REDIRECT_URI,
