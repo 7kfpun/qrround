@@ -11,7 +11,7 @@ from qrround.models import (
 
 
 class UserClientAdmin(admin.ModelAdmin):
-    list_display = ('client', 'access_token',
+    list_display = ('client', 'access_token', 'album_id',
                     'is_active', 'is_superuser', 'is_admin',
                     'last_login', 'date_joined',
                     'username', 'first_name', 'last_name', 'email',

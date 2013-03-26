@@ -16,6 +16,7 @@ urlpatterns = patterns(
     url(r'getgallery$', 'getgallery', name='getgallery'),
 
     url(r'postfacebookphotos', 'postfacebookphotos', name='postfacebookphotos'),  # noqa
+    url(r'postkaixin001photos', 'postkaixin001photos', name='postkaixin001photos'),  # noqa
 
     # Callback
     url(r'^facebook_callback$', 'facebookcallback', name='facebookcallback'),  # noqa
