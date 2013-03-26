@@ -226,7 +226,7 @@ def getauthurls(request):
         }
         weibo_auth_url = weibo.get_authorize_url(**params)
 
-        return HttpResponse(json.dumps({
+        return render(request, 'auth_urls.html', {
             'facebook': facebook_auth_url,
             'google': google_auth_url,
             'kaixin001': kaixin001_auth_url,
@@ -234,7 +234,7 @@ def getauthurls(request):
             'renren': renren_auth_url,
             'twitter': twitter_auth_url,
             'weibo': weibo_auth_url,
-        }), mimetype="application/json")
+        })
 
 
 def store_session(request, channel, client_id, access_token, me, friends):
