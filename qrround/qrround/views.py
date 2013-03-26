@@ -88,7 +88,9 @@ def postfacebookphotos(request):
         posts.append(r.json()['id'])
         """
 
-        if not user.album_id:
+        if user.album_id:
+            album_id = user.album_id
+        else:
             url = 'https://graph.facebook.com/%s/albums' \
                 % user.client.split('#')[1]
             data = {
@@ -100,8 +102,6 @@ def postfacebookphotos(request):
             album_id = r.json()['id']
             user.album_id = r.json()['id']
             user.save()
-        else:
-            album_id = user.album_id
 
         url = 'https://graph.facebook.com/%s/photos' % album_id
         data = {
@@ -111,9 +111,51 @@ def postfacebookphotos(request):
         r = requests.post(
             url, data=data,
             files={'source': open('ZhangXuan.jpg', 'rb')})
-        posts.append(r.json())
+        posts.append(r.text)
 
-    return HttpResponse('\n'.join(post_id))
+#     Refresh token
+#     https://graph.facebook.com/oauth/access_token?
+#     client_id=APP_ID&
+#     client_secret=APP_SECRET&
+#     grant_type=fb_exchange_token&
+#     fb_exchange_token=EXISTING_ACCESS_TOKEN
+
+    return HttpResponse('\n'.join(posts))
+
+
+# ssl connection needed
+def postkaixin001photos(request):
+    posts = []
+    for client in request.session.get('kaixin001', []):
+        user = UserClient.objects.get(client=client)
+
+        if user.album_id:
+            album_id = user.album_id
+        else:
+            url = 'https://api.kaixin001.com/album/create.json'
+            data = {
+                'access_token': user.access_token,
+                'title': PROJECT_NAME_TEST,
+                'description': PROJECT_NAME_TEST,
+            }
+            r = requests.post(url, urlencode(data))
+            return HttpResponse(r.text)
+            album_id = r.json()['albumid']
+            user.album_id = r.json()['albumid']
+            user.save()
+
+        url = 'https://api.kaixin001.com/photo/upload.json'
+        data = {
+            'access_token': user.access_token,
+            'albumid': album_id,
+            'title': PROJECT_NAME_TEST,
+        }
+        r = requests.post(
+            url, data=data,
+            files={'pic': open('ZhangXuan.jpg', 'rb')})
+        posts.append(r.text)
+
+    return HttpResponse('\n'.join(posts))
 
 
 @ratelimit(rate='20/m')
@@ -143,7 +185,7 @@ def getauthurls(request):
 
         # kaixin001
         params = {
-            'scope': 'basic upload_photo',
+            'scope': 'create_album',
             'response_type': 'code',
             'state': state,
             'redirect_uri': KAIXIN001_REDIRECT_URI,
