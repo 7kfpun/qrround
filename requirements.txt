@@ -24,7 +24,6 @@ pika==0.9.12
 rauth==0.5.1
 requests==1.1.0
 redis==2.7.2
-# sorl-thumbnail==11.12
 
 # Clients
 oauth2client==1.1
