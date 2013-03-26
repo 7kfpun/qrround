@@ -18,11 +18,10 @@ urlpatterns = patterns(
     url(r'postfacebookphotos', 'postfacebookphotos', name='postfacebookphotos'),  # noqa
 
     # Callback
-    url(r'^oauth2callback$', 'oauth2callback', name='oauth2callback'),
     url(r'^facebook_callback$', 'facebookcallback', name='facebookcallback'),  # noqa
     url(r'^google_callback$', 'googlecallback', name='googlecallback'),
-    url(r'^linkedin_callback$', 'linkedincallback', name='linkedincallback'),  # noqa
     url(r'^kaixin001_callback$', 'kaixin001callback', name='kaixin001callback'),  # noqa
+    url(r'^linkedin_callback$', 'linkedincallback', name='linkedincallback'),  # noqa
     url(r'^twitter_callback$', 'twittercallback', name='twittercallback'),
     url(r'^renren_callback$', 'renrencallback', name='renrencallback'),
     url(r'^weibo_callback$', 'weibocallback', name='weibocallback'),
