@@ -19,13 +19,13 @@ USE_REDIS = False
 if USE_REDIS:
     CACHES = {
         'default': {
-        'BACKEND': 'redis_cache.cache.RedisCache',
-        'LOCATION': env['DOTCLOUD_CACHE_REDIS_HOST']+':'+env['DOTCLOUD_CACHE_REDIS_PORT'],  # noqa
-        'OPTIONS': {
-            'DB': 1,
-            'PASSWORD': env['DOTCLOUD_CACHE_REDIS_PASSWORD'],
-            'PARSER_CLASS': 'redis.connection.HiredisParser'
-        },
+            'BACKEND': 'redis_cache.cache.RedisCache',
+            'LOCATION': env['DOTCLOUD_CACHE_REDIS_HOST']+':'+env['DOTCLOUD_CACHE_REDIS_PORT'],  # noqa
+            'OPTIONS': {
+                'DB': 1,
+                'PASSWORD': env['DOTCLOUD_CACHE_REDIS_PASSWORD'],
+                'PARSER_CLASS': 'redis.connection.HiredisParser'
+            },
         },
     }
 
@@ -34,22 +34,22 @@ if USE_REDIS:
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-#MEDIA_ROOT = '/home/dotcloud/data/media/'
+MEDIA_ROOT = '/home/dotcloud/data/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-#MEDIA_URL = '/media/'
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-#STATIC_ROOT = '/home/dotcloud/volatile/static/'
+STATIC_ROOT = '/home/dotcloud/volatile/static/'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
-#STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (

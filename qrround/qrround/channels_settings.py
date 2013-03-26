@@ -38,9 +38,9 @@ else:
     LINKEDIN_CLIENT_SECRET = 'hJ8GiEDxcLZnVkUS'
     LINKEDIN_REDIRECT_URI = 'http://qrround-710kfpun.dotcloud.com/linkedin_callback'
 
-    KAIXIN001_CLIENT_ID = ''
-    KAIXIN001_CLIENT_SECRET = ''
-    KAIXIN001_REDIRECT_URI = ''
+    KAIXIN001_CLIENT_ID = '1214876808351987b5b2f5659b72f67c'
+    KAIXIN001_CLIENT_SECRET = 'bf2726ad4eb6dc8e3c41fa6f9edf8ab3'
+    KAIXIN001_REDIRECT_URI = 'http://qrround-710kfpun.dotcloud.com/kaixin001_callback'
 
     WEIBO_CLIENT_ID = '1349178671'
     WEIBO_CLIENT_SECRET = 'e631a9f6eb562c6a9761431d74346c8d'
