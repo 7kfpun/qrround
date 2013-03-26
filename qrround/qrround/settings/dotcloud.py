@@ -19,13 +19,13 @@ USE_REDIS = False
 if USE_REDIS:
     CACHES = {
         'default': {
-	    'BACKEND': 'redis_cache.cache.RedisCache',
-	    'LOCATION': env['DOTCLOUD_CACHE_REDIS_HOST']+':'+env['DOTCLOUD_CACHE_REDIS_PORT'],  # noqa
-	    'OPTIONS': {
-	        'DB': 1,
-	        'PASSWORD': env['DOTCLOUD_CACHE_REDIS_PASSWORD'],
-	        'PARSER_CLASS': 'redis.connection.HiredisParser'
-	    },
+            'BACKEND': 'redis_cache.cache.RedisCache',
+            'LOCATION': env['DOTCLOUD_CACHE_REDIS_HOST']+':'+env['DOTCLOUD_CACHE_REDIS_PORT'],  # noqa
+            'OPTIONS': {
+                'DB': 1,
+                'PASSWORD': env['DOTCLOUD_CACHE_REDIS_PASSWORD'],
+                'PARSER_CLASS': 'redis.connection.HiredisParser'
+            },
         },
     }
 

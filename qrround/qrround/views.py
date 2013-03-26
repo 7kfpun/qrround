@@ -42,7 +42,7 @@ logger = logging.getLogger(__name__)
 
 
 def login(request):
-    if request.method == 'pOST':
+    if request.method == 'POST':
         pass
     return render(request, 'login.html')
 
@@ -53,6 +53,7 @@ def index(request):
 #    all_clients = [client for channel in channels
 #                   for client in request.session.get(channel, [])]
 #    print all_clients
+
     return render(request, 'index.html', {
         'form': QueryForm(session=request.session),
         'contact_form': ContactForm(),
@@ -64,21 +65,9 @@ def index(request):
 def getgallery(request):
     all_clients = [client for channel in channels
                    for client in request.session.get(channel, [])]
-
-    return HttpResponse(
-        Template(
-            '''<ul class="thumbnails">
-                 {% for qrcode in qrcodes %}
-                 <li class="span2">
-                   <a href="{{ qrcode.photo.url }}"
-                   title="{{ qrcode.query.text }}"
-                   class="thumbnail" data-gallery="gallery">
-                     <img src="{{ qrcode.photo_thumbnail.url }}">
-                   </a>
-                 </li>
-                 {% endfor %}
-               </ul>''').render({'qrcodes': QRCode.objects.filter(query__user__client__in=all_clients).order_by('-pk')[:12]})  # noqa
-    )
+    return render(request, 'gallery.html', {
+        'qrcodes': QRCode.objects.filter(
+            query__user__client__in=all_clients).order_by('-pk')[:12]})
 
 
 def postfacebookphotos(request):
@@ -235,7 +224,7 @@ def facebookcallback(request):
                              access_token, me, friends)
 
     else:
-        return HttpResponse('CSFS?')
+        return HttpResponse('CSRF?')
 
 
 # Still have problem
@@ -261,7 +250,7 @@ def googlecallback(request):
                              access_token, me, friends)
 
     else:
-        return HttpResponse('CSFS?')
+        return HttpResponse('CSRF?')
 
 
 def linkedincallback(request):
@@ -297,7 +286,7 @@ def linkedincallback(request):
                              access_token, me, friends)
 
     else:
-        return HttpResponse('CSFS?')
+        return HttpResponse('CSRF?')
 
 
 def kaixin001callback(request):
@@ -306,9 +295,9 @@ def kaixin001callback(request):
             'https://api.kaixin001.com/oauth2/access_token'
             '?grant_type=authorization_code'
             '&code=' + request.GET.get('code')
-            + '&client_id=1214876808351987b5b2f5659b72f67c'
-            '&client_secret=bf2726ad4eb6dc8e3c41fa6f9edf8ab3'
-            '&redirect_uri=http://127.0.0.1:8001/kaixin001_callback'
+            + '&client_id=' + KAIXIN001_CLIENT_ID
+            + '&client_secret=' + KAIXIN001_CLIENT_SECRET
+            + '&redirect_uri=' + KAIXIN001_REDIRECT_URI
         )
         r = requests.get(exchange_url)
         access_token = r.json()['access_token']
@@ -331,7 +320,7 @@ def kaixin001callback(request):
                              access_token, me, friends)
 
     else:
-        return HttpResponse('CSFS?')
+        return HttpResponse('CSRF?')
 
 
 def twittercallback(request):
@@ -381,7 +370,7 @@ def twittercallback(request):
                              data['user'], data['friends'])
 
     else:
-        return HttpResponse('CSFS?')
+        return HttpResponse('CSRF?')
 
 
 # Still have problem
@@ -409,11 +398,11 @@ def weibocallback(request):
     if request.GET.get('state', '') == request.session.get('state', '***'):
         exchange_url = (
             'https://api.weibo.com/oauth2/access_token'
-            '?client_id=1736274547'
-            '&client_secret=f6f8fa98288e0cb75d9fe291f14c33eb'
-            '&grant_type=authorization_code'
+            '?client_id=' + WEIBO_CLIENT_ID
+            + '&client_secret=' + WEIBO_CLIENT_SECRET
+            + '&grant_type=authorization_code'
             '&code=' + request.GET.get('code')
-            + '&redirect_uri=http://127.0.0.1:8001/weibo_callback'
+            + '&redirect_uri=' + WEIBO_REDIRECT_URI
         )
         r = requests.post(exchange_url)
         access_token = r.json()['access_token']
@@ -421,7 +410,7 @@ def weibocallback(request):
 
         me_url = (
             'https://api.weibo.com/2/users/show.json'
-            '?uid=3216837074' + uid
+            '?uid=' + uid
             + '&access_token=' + access_token
         )
         me = requests.get(me_url).json()
@@ -439,7 +428,7 @@ def weibocallback(request):
                              access_token, me, friends)
 
     else:
-        return HttpResponse('CSFS?')
+        return HttpResponse('CSRF?')
 
 
 def oauth2callback(request):
@@ -645,7 +634,9 @@ def getfriends(data, cache_image=False):
                 profile_picture_url = frd.get('pictureUrl', None)
             elif channel == 'kaixin001':
                 profile_picture_url = frd.get('logo50', None)
-            elif channel == 'twitter' or channel == 'weibo':
+            elif channel == 'weibo':
+                profile_picture_url = frd.get('profile_image_url', None)
+            elif channel == 'twitter':
                 profile_picture_url = None
                 # TODO: complicated get
             else:
