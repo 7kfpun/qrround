@@ -253,6 +253,40 @@ def googlecallback(request):
         return HttpResponse('CSRF?')
 
 
+def kaixin001callback(request):
+    if request.GET.get('state', '') == request.session.get('state', '***'):
+        exchange_url = (
+            'https://api.kaixin001.com/oauth2/access_token'
+            '?grant_type=authorization_code'
+            '&code=' + request.GET.get('code')
+            + '&client_id=' + KAIXIN001_CLIENT_ID
+            + '&client_secret=' + KAIXIN001_CLIENT_SECRET
+            + '&redirect_uri=' + KAIXIN001_REDIRECT_URI
+        )
+        r = requests.get(exchange_url)
+        access_token = r.json()['access_token']
+
+        me_url = (
+            'https://api.kaixin001.com/users/me.json'
+            '?access_token=' + access_token
+        )
+        me = requests.get(me_url).json()
+
+        friends_url = (
+            'https://api.kaixin001.com/friends/me.json'
+            '?num=50'
+            '&access_token=' + access_token
+        )
+        friends = requests.get(friends_url).json()['users']
+
+        client_id = 'kaixin001#' + str(me['uid'])
+        return store_session(request, 'kaixin001', client_id,
+                             access_token, me, friends)
+
+    else:
+        return HttpResponse('CSRF?')
+
+
 def linkedincallback(request):
     if request.GET.get('state', '') == request.session.get('state', '***'):
         exchange_url = (
@@ -283,40 +317,6 @@ def linkedincallback(request):
 
         client_id = 'linkedin#' + str(me['id'])
         return store_session(request, 'linkedin', client_id,
-                             access_token, me, friends)
-
-    else:
-        return HttpResponse('CSRF?')
-
-
-def kaixin001callback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
-        exchange_url = (
-            'https://api.kaixin001.com/oauth2/access_token'
-            '?grant_type=authorization_code'
-            '&code=' + request.GET.get('code')
-            + '&client_id=' + KAIXIN001_CLIENT_ID
-            + '&client_secret=' + KAIXIN001_CLIENT_SECRET
-            + '&redirect_uri=' + KAIXIN001_REDIRECT_URI
-        )
-        r = requests.get(exchange_url)
-        access_token = r.json()['access_token']
-
-        me_url = (
-            'https://api.kaixin001.com/users/me.json'
-            '?access_token=' + access_token
-        )
-        me = requests.get(me_url).json()
-
-        friends_url = (
-            'https://api.kaixin001.com/friends/me.json'
-            '?num=50'
-            '&access_token=' + access_token
-        )
-        friends = requests.get(friends_url).json()['users']
-
-        client_id = 'kaixin001#' + str(me['uid'])
-        return store_session(request, 'kaixin001', client_id,
                              access_token, me, friends)
 
     else:
@@ -379,10 +379,10 @@ def renrencallback(request):
         'https://graph.renren.com/oauth/authorize'
         '?response_type=code'
         '&code=' + request.GET.get('code')
-        + '&redirect_uri=http://127.0.0.1:8001/renren_callback'
-        '&client_id=229108'
-        '&client_secret=8815838e95504011a18673ea9f37f3b4'
-        '&scope=read_user_album+read_user_feed'
+        + '&redirect_uri=' + RENREN_REDIRECT_URI
+        + '&client_id=' + RENREN_CLIENT_ID
+        + '&client_secret=' + RENREN_CLIENT_SECRET
+        + '&scope=read_user_album+read_user_feed'
     )
 
     r = requests.post(exchange_url)
@@ -429,10 +429,6 @@ def weibocallback(request):
 
     else:
         return HttpResponse('CSRF?')
-
-
-def oauth2callback(request):
-    return HttpResponse(request.GET.get('code'))
 
 
 def close_window(request, is_reload=False):
