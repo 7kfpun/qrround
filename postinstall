@@ -4,4 +4,4 @@ python qrround/reinstall.py --settings=qrround.settings.dotcloud
 # python mkadmin.py
 mkdir -p /home/dotcloud/data/media /home/dotcloud/volatile/static
 python qrround/manage.py collectstatic --noinput --settings=qrround.settings.dotcloud
-mkdir -p /home/dotcloud/current/qrround/qrround/media/qrcode
+mkdir -p /home/dotcloud/current/qrround/qrround/media/qrcode /home/dotcloud/current/qrround/qrround/media/cache/qrcode

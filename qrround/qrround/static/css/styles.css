@@ -32,12 +32,26 @@ body {
   padding: 14px 24px;
 }
 
+.nowidth {
+  width: auto;
+  margin: 1 auto;
+}
+
 li {
   list-style-type: none;
 }
 
 .importButton {
-    width: 100px;
+   width: 100px;
+}
+
+.nav-tabs.center > li, .nav-pills > li {
+   float:none;
+   display:inline-block;
+}
+
+.nav-tabs.center {
+   text-align:center;
 }
 
 /* Supporting marketing content */

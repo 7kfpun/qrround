@@ -18,10 +18,11 @@ import os
 from ratelimit.decorators import ratelimit
 import re
 import requests
-from settings.settings import MEDIA_ROOT
+from settings.settings import MEDIA_ROOT, PROJECT_NAME_TEST  # TODOPROJECT_NAME
 #import StringIO
 from time import time
 import tweepy
+from urllib import urlencode
 
 import qrcode
 from .channels import *  # noqa
@@ -41,88 +42,62 @@ logger = logging.getLogger(__name__)
 
 
 def login(request):
+    if request.method == 'pOST':
+        pass
     return render(request, 'login.html')
 
 
 def index(request):
     print 'LANGUAGE_CODE LANGUAGE_CODE', request.LANGUAGE_CODE
 
-    """
-    state = request.session['state'] = str(time())
-
-    # facebook
-    params = {
-        'scope': 'read_stream,publish_actions',
-        'response_type': 'code',
-        'state': state,
-        'redirect_uri': FACEBOOK_REDIRECT_URI,
-    }
-    facebook_auth_url = facebook.get_authorize_url(**params)
-
-    # google
-    google.params.update({'state': state})
-    google_auth_url = google.step1_get_authorize_url()
-
-    # kaixin001
-    params = {
-        'scope': 'basic',
-        'response_type': 'code',
-        'state': state,
-        'redirect_uri': KAIXIN001_REDIRECT_URI,
-    }
-    kaixin001_auth_url = kaixin001.get_authorize_url(**params)
-
-    # linkedin
-    params = {
-        'scope': 'r_basicprofile r_emailaddress r_network',
-        'response_type': 'code',
-        'state': state,
-        'redirect_uri': LINKEDIN_REDIRECT_URI,
-    }
-    linkedin_auth_url = linkedin.get_authorize_url(**params)
-
-    # renren
-    params = {
-        'response_type': 'code',
-        'state': state,
-        'redirect_uri': RENREN_REDIRECT_URI,
-    }
-    renren_auth_url = renren.get_authorize_url(**params)
-
-    try:
-        twitter.callback = "%(redirect_url)s?state=%(state)s" \
-            % {'redirect_url': RENREN_REDIRECT_URI, 'state': state}
-        twitter_auth_url = twitter.get_authorization_url()
-    except tweepy.TweepError:
-        twitter_auth_url = None
-        logger.error('Error! Failed to get access token.')
-
-    # weibo
-    params = {
-        'scope': 'email,direct_messages_write,friendships_groups_read',
-        'state': state,
-        'redirect_uri': WEIBO_REDIRECT_URI,
-        'grant_type': 'authorization_code',
-    }
-    weibo_auth_url = weibo.get_authorize_url(**params)
-
-    return render(request, 'index.html', {
-        'auth_urls': {
-            'facebook': facebook_auth_url,
-            'google': google_auth_url,
-            'kaixin001': kaixin001_auth_url,
-            'linkedin': linkedin_auth_url,
-            'renren': renren_auth_url,
-            'twitter': twitter_auth_url,
-            'weibo': weibo_auth_url,
-        },
-        'form': QueryForm(session=request.session),
-    })
-    """
+#    all_clients = [client for channel in channels
+#                   for client in request.session.get(channel, [])]
+#    print all_clients
     return render(request, 'index.html', {
         'form': QueryForm(session=request.session),
         'contact_form': ContactForm(),
+        # 'qrcodes': QRCode.objects.filter(
+        #     query__user__client__in=all_clients)
     })
+
+
+def getgallery(request):
+    all_clients = [client for channel in channels
+                   for client in request.session.get(channel, [])]
+
+    return HttpResponse(
+        Template(
+            '''<ul class="thumbnails">
+                 {% for qrcode in qrcodes %}
+                 <li class="span2">
+                   <a href="{{ qrcode.photo.url }}"
+                   title="{{ qrcode.query.text }}"
+                   class="thumbnail" data-gallery="gallery">
+                     <img src="{{ qrcode.photo_thumbnail.url }}">
+                   </a>
+                 </li>
+                 {% endfor %}
+               </ul>''').render({'qrcodes': QRCode.objects.filter(query__user__client__in=all_clients).order_by('-pk')[:12]})  # noqa
+    )
+
+
+def postfacebookphotos(request):
+    post_id = []
+    for client in request.session.get('facebook', []):
+        user = UserClient.objects.filter(client=client)[0]
+        url = 'https://graph.facebook.com/%s/feed' % user.client.split('#')[1]
+        data = {
+            'access_token': user.access_token,
+            'message': PROJECT_NAME_TEST,
+            'caption': PROJECT_NAME_TEST,
+            'type': 'photo',
+            'picture': 'http://img.photobucket.com/albums/v317/phillycrazy/blog/ZhangXuan.jpg',  # user.profile_picture_url,  # noqa
+            'link': 'http://img.photobucket.com/albums/v317/phillycrazy/blog/ZhangXuan.jpg',  # user.profile_picture_url,  # noqa
+        }
+        r = requests.post(url, urlencode(data))
+        post_id.append(r.json()['id'])
+
+    return HttpResponse(' - '.join(post_id))
 
 
 @ratelimit(rate='20/m')
@@ -130,11 +105,12 @@ def getauthurls(request):
     if getattr(request, 'limited', False):
         # Reach rate limit
         return HttpResponseBadRequest(
-            _('Was_limited: we are poor, cannot afford server cost. '
-              'Donate some and we can buy more server time'))
+            _('We are poor, cannot afford too much server cost. '
+              'Donate us so that we can buy more server time<br />'
+              'Try agains after seconds please...'))
 
     elif True:  # and request.is_ajax():
-        state = request.session['state'] = str(time())
+        state = request.session['state'] = str(time())[:-3]
 
         # facebook
         params = {
@@ -160,7 +136,7 @@ def getauthurls(request):
 
         # linkedin
         params = {
-            'scope': 'r_basicprofile r_emailaddress r_network',
+            'scope': 'r_basicprofile r_emailaddress r_network rw_nus',
             'response_type': 'code',
             'state': state,
             'redirect_uri': LINKEDIN_REDIRECT_URI,
@@ -191,8 +167,6 @@ def getauthurls(request):
             'grant_type': 'authorization_code',
         }
         weibo_auth_url = weibo.get_authorize_url(**params)
-
-        print request.session.get('state', '***')
 
         return HttpResponse(json.dumps({
             'facebook': facebook_auth_url,
@@ -310,10 +284,13 @@ def linkedincallback(request):
         )
         me = requests.get(me_url).json()
 
-        friends_url = (
-            'https://api.linkedin.com/v1/people/~/connections'
-            '?oauth2_access_token=' + access_token + '&format=json')
-        friends = requests.get(friends_url).json()['values']
+        try:
+            friends_url = (
+                'https://api.linkedin.com/v1/people/~/connections'
+                '?oauth2_access_token=' + access_token + '&format=json')
+            friends = requests.get(friends_url).json()['values']
+        except KeyError:
+            friends = []
 
         client_id = 'linkedin#' + str(me['id'])
         return store_session(request, 'linkedin', client_id,
@@ -510,7 +487,8 @@ def getqrcode(request):
         options['color'] = tuple(map(
             lambda x: int(x),
             re.findall(r'\b\d+\b', form.data.get('color', 'rgb(0, 0, 0)'))))
-        print options['color']
+        options['style'] = form.data.get('style', '0')
+
         try:
             qr = qrcode.QRCode(
                 version=None,
@@ -527,7 +505,10 @@ def getqrcode(request):
             filename = unique_generator() + '.png'
             img.save(os.path.join(MEDIA_ROOT + '/qrcode', filename))
 
-            query = Query(text=text)
+            query = Query(
+                text=text,
+                user=UserClient.objects.get(client=channel_choice[0])
+            )
             query.save()
 
             photo = QRCode(
@@ -540,8 +521,9 @@ def getqrcode(request):
             photo.save()
 
             return HttpResponse(
-                Template('<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
-                         'width="480" height="480" />').render(photo=photo)
+                Template(
+                    '<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
+                    'width="480" height="480" />').render(photo=photo)
             )
 
 #            return HttpResponse('<img src="/media/qrcode/%s" '
@@ -574,6 +556,7 @@ def getfriendsrequest(request):
                 html += client_id \
                     + '\n' + json.dumps(data['user']) + ' has ' \
                     + str(len(data['friends'])) + '\n\n'
+                logger.info('Finished get friends: %s' % html)
         return HttpResponse(html)
 
 
@@ -612,6 +595,11 @@ def getfriends(data, cache_image=False):
         last_name = ''
         username = data['user']['username']
 
+    elif channel == 'weibo':
+        first_name = ''
+        last_name = ''
+        username = data['user']['screen_name']
+
     userclient, created = UserClient.objects.get_or_create(
         client=channel + '#' + channel_id,
     )
@@ -630,7 +618,7 @@ def getfriends(data, cache_image=False):
         profile_picture_url = data['user'].get('pictureUrl', None)
     elif channel == 'kaixin001':
         profile_picture_url = data['user'].get('logo50', None)
-    elif channel == 'twitter':
+    elif channel == 'twitter' or channel == 'weibo':
         profile_picture_url = data['user']['profile_image_url']
     else:
         profile_picture_url = None
@@ -657,7 +645,7 @@ def getfriends(data, cache_image=False):
                 profile_picture_url = frd.get('pictureUrl', None)
             elif channel == 'kaixin001':
                 profile_picture_url = frd.get('logo50', None)
-            elif channel == 'twitter':
+            elif channel == 'twitter' or channel == 'weibo':
                 profile_picture_url = None
                 # TODO: complicated get
             else:
