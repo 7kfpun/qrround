@@ -634,7 +634,9 @@ def getfriends(data, cache_image=False):
                 profile_picture_url = frd.get('pictureUrl', None)
             elif channel == 'kaixin001':
                 profile_picture_url = frd.get('logo50', None)
-            elif channel == 'twitter' or channel == 'weibo':
+            elif channel == 'weibo':
+                profile_picture_url = frd.get('profile_image_url', None)
+            elif channel == 'twitter':
                 profile_picture_url = None
                 # TODO: complicated get
             else:
