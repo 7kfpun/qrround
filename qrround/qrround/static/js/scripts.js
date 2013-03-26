@@ -109,7 +109,6 @@ $('#id_accept').change(function() {
 });
 
 
-
 ///////////////// Get auth urls ///////////////////
 var channels = []
 setTimeout(function(){
@@ -117,16 +116,7 @@ setTimeout(function(){
     type: "GET",
     url: "/getauthurls",
     success: function(authurls) {
-      $('#auth_url').empty();
-      $.each( authurls, function( channel, url ) {
-        console.log( channel + ": " + url );
-        channels.push(channel);  // Get all channels here
-        $('#auth_url').append(
-          '<p> \
-            <a class="btn importButton" onclick=popitup("' + url + '")>' + channel.toUpperCase() + '</a> \
-            Import your friends here! \
-          <p>');
-      });
+      $('#auth_url').empty().append(authurls);
       setDetectCookies();
     }
   });
