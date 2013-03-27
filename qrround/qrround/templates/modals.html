@@ -115,6 +115,7 @@
   </div>
   <div class="modal-body">
     <form class="form-horizontal" action="/sendMassage/" method="POST">
+      <div class="alerts"></div>
       <div class="control-group">
         <label class="control-label" for="inputName">{{ contact_form.name.label_tag }}</label>
         <div class="controls">
@@ -155,7 +156,7 @@
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">{% trans 'Close' %}</button>
-    <button class="btn btn-primary">{% trans 'Save changes' %}</button>
+    <button id="send_contact" class="btn btn-primary">{% trans 'Save changes' %}</button>
   </div>
 </div>
 

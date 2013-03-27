@@ -20,7 +20,7 @@
   </div>
   <br />
 
-{% cache 600 index_head %}
+{# % cache 600 index_head % #}
   <div class="well">
     <div class="tabbable">
       <ul class="nav nav-tabs center">
@@ -39,7 +39,7 @@
             </ul>
 
             <div class="tab-content options">
-{% endcache %}
+{# % endcache % #}
 
               <div class="tab-pane active" id="lA">
                 {% if form.fields.channel_choice.choices|length %}
@@ -56,7 +56,7 @@
                 {% endif %}
               </div>
 
-{% cache 600 index_footer %}
+{# % cache 600 index_footer % #}
               <div class="tab-pane" id="lB">
                 <p>{% trans 'The higher error correct, the more readable code.' %}</p>
                 {{form.error_correct_choice }}
@@ -97,5 +97,5 @@
     </div>
   </div>
 </form>
-{% endcache %}
+{# % endcache % #}
 {% endblock %}

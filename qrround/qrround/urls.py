@@ -27,8 +27,7 @@ urlpatterns = patterns(
     url(r'^renren_callback$', 'renrencallback', name='renrencallback'),
     url(r'^weibo_callback$', 'weibocallback', name='weibocallback'),
 
-    # Static files
-    # url(r'^js/*', ),
+    url(r'sendcontact$', 'sendcontact', name='sendcontact'),
 
     # Uncomment the next line to enable the admin:
     url(r'^accounts/login/$', 'login', name='login'),
