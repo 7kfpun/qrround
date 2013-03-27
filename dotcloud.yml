@@ -6,3 +6,5 @@ db:
   type: mysql
 cache:
   type: redis
+workers:
+    type: python-worker
