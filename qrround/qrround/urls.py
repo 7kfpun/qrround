@@ -43,6 +43,8 @@ urlpatterns = patterns(
     url(r'^close_window_reload$', 'close_window', {
         'is_reload': True}, name='close_window_reload'),
 
+    url(r'testtasks$', 'testtasks', name='testtasks'),
+
     # the rest is above
     url(r'^i18n/', include('django.conf.urls.i18n')),
 )

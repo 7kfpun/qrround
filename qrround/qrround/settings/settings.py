@@ -241,13 +241,20 @@ INSTALLED_APPS += (
 )
 
 # Celery
-djcelery.setup_loader()
-CELERY_ENABLED = True
-CELERYD_PREFETCH_MULTIPLIER = 1
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_DISABLE_RATE_LIMITS = True
 BROKER_URL = 'amqp://nyezagug:DSBH7ibcP4BeNVfObtTj4hgDvlM6LQgT@tiger.cloudamqp.com/nyezagug'  # noqa
+BROKER_URL = 'amqp://tiyleaba:nGub3yv4ik7VYrOqut1IIoaNHgwhEUfU@bunny.cloudamqp.com/tiyleaba'
+REDIS_PORT=37993
+REDIS_HOST = "redisdb-710kfpun.dotcloud.com"
+REDIS_DB = 0
+REDIS_CONNECT_RETRY = True
+CELERY_SEND_EVENTS=True
+CELERY_RESULT_BACKEND='redis'
+CELERY_TASK_RESULT_EXPIRES =  10
+CELERYBEAT_SCHEDULER="djcelery.schedulers.DatabaseScheduler"
+
+
+djcelery.setup_loader()
+
 INSTALLED_APPS += ('djcelery',)
 CELERY_IMPORTS = ("qrround.views", )
 

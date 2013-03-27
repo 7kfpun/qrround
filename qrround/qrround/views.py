@@ -261,7 +261,8 @@ def store_session(request, channel, client_id, access_token, me, friends):
         'friends': friends,
     }
 
-    getfriends(data, cache_image=False)
+    # getfriendstask(data, cache_image=False)
+    task = getfriendstask.apply_async([data, True])
 
     request.session[client_id] = data
     if channel in request.session:
@@ -272,12 +273,15 @@ def store_session(request, channel, client_id, access_token, me, friends):
     else:
         request.session[channel] = [client_id]
 
+    '''
     response = redirect('/close_window')
 
     response = HttpResponse(json.dumps(data))  # block and see return data  TODO remove it  # noqa
 
     response.set_cookie(channel, time())
     return response
+    '''
+    return HttpResponse(str(task) + '\n' + json.dumps(data))
 
 
 def facebookcallback(request):
@@ -613,7 +617,7 @@ def getfriendsrequest(request):
         html = ''
         for client_id in request.session.get(request.POST['import'], []):
             data = request.session.pop(client_id)
-            getfriends(data, True)
+            getfriendstask(data, True)
 
             html += client_id \
                 + '\n' + json.dumps(data['user']) + ' has ' \
@@ -622,12 +626,8 @@ def getfriendsrequest(request):
         return HttpResponse(html)
 
 
-@task(ignore_result=True)
-def getfriendstask(data):
-    getfriends(data, True)
-
-
-def getfriends(data, cache_image=False):
+@task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
+def getfriendstask(data, cache_image=False):
     channel = data['meta']['channel']
     channel_id = str(data['user'].get('id', None)
                      or data['user'].get('uid', None))
@@ -724,6 +724,13 @@ def getfriends(data, cache_image=False):
                 cachedimage.cache_and_save()
 
 
-@task(ignore_result=True)
+def testtasks(request):
+    x = int(request.GET.get('x', '1'))
+    y = int(request.GET.get('y', '2'))
+    t = add.apply_async([x, y])
+    return HttpResponse(t.get())
+
+
+@task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
 def add(x, y):
     return x + y

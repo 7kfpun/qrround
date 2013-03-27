@@ -155,6 +155,13 @@ class QRCode(caching.base.CachingMixin, models.Model):
         blank=True
     )
 
+    photo_jpg = ImageSpecField(
+        image_field='photo',
+        processors=[ResizeToFit(640, 640)],
+        format='JPEG',
+        options={'quality': 90},
+    )
+
     photo_thumbnail = ImageSpecField(
         image_field='photo',
         processors=[ResizeToFit(100, 100)],

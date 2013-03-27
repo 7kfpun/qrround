@@ -15,12 +15,12 @@ DATABASES = {
     }
 }
 
-USE_REDIS = False
+USE_REDIS = True
 if USE_REDIS:
     CACHES = {
         'default': {
             'BACKEND': 'redis_cache.cache.RedisCache',
-            'LOCATION': env['DOTCLOUD_CACHE_REDIS_HOST']+':'+env['DOTCLOUD_CACHE_REDIS_PORT'],  # noqa
+            'LOCATION': env['DOTCLOUD_CACHE_REDIS_HOST']+':'+env['DOTCLOUD_CACHE_REDIS_PORT'],
             'OPTIONS': {
                 'DB': 1,
                 'PASSWORD': env['DOTCLOUD_CACHE_REDIS_PASSWORD'],
@@ -30,31 +30,15 @@ if USE_REDIS:
     }
 
     # we also are going to use redis for our session cache as well.
-    SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+    # SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/home/media/media.lawrence.com/media/"
+# media settings
 MEDIA_ROOT = '/home/dotcloud/data/media/'
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 MEDIA_URL = '/media/'
 
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
+# static settings
 STATIC_ROOT = '/home/dotcloud/volatile/static/'
-
-# URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
-
-# Additional locations of static files
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static/'),
-)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
