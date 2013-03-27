@@ -15,7 +15,7 @@ DATABASES = {
     }
 }
 
-USE_REDIS = True
+USE_REDIS = False
 if USE_REDIS:
     CACHES = {
         'default': {
@@ -31,6 +31,9 @@ if USE_REDIS:
 
     # we also are going to use redis for our session cache as well.
     # SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+BROKER_URL = 'amqp://nyezagug:DSBH7ibcP4BeNVfObtTj4hgDvlM6LQgT@tiger.cloudamqp.com/nyezagug'  # noqa
+BROKER_URL = 'amqp://tiyleaba:nGub3yv4ik7VYrOqut1IIoaNHgwhEUfU@bunny.cloudamqp.com/tiyleaba'
 
 # media settings
 MEDIA_ROOT = '/home/dotcloud/data/media/'

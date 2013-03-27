@@ -627,6 +627,7 @@ def getfriendsrequest(request):
 
 
 @task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
+@transaction.commit_on_success
 def getfriendstask(data, cache_image=False):
     channel = data['meta']['channel']
     channel_id = str(data['user'].get('id', None)

@@ -8,13 +8,13 @@ setup_django_celery() {
     cat > $HOME/current/supervisord.conf << EOF
 [program:djcelery]
 directory = $HOME/current/
-command = python qrround/manage.py celeryd -E -l info -c 2
+command = python qrround/manage.py celeryd -E -l info -c 1 --settings=qrround.settings.dotcloud
 stderr_logfile = /var/log/supervisor/%(program_name)s_error.log
 stdout_logfile = /var/log/supervisor/%(program_name)s.log
 
 [program:celerycam]
 directory = $HOME/current/
-command = python qrround/manage.py celerycam
+command = python qrround/manage.py celerycam --settings=qrround.settings.dotcloud
 stderr_logfile = /var/log/supervisor/%(program_name)s_error.log
 stdout_logfile = /var/log/supervisor/%(program_name)s.log
 EOF
@@ -23,7 +23,7 @@ EOF
 if [ `dotcloud_get_env SERVICE_NAME` = workers ] ; then
     setup_django_celery
 
-elif [ `dotcloud_get_env SERVICE_NAME` = workers ] ; then
+elif [ `dotcloud_get_env SERVICE_NAME` = www ] ; then
     # python createdb.py
     python qrround/reinstall.py --settings=qrround.settings.dotcloud
     # python mkadmin.py

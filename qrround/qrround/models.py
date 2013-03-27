@@ -199,7 +199,7 @@ class CachedImage(caching.base.CachingMixin, models.Model):
         options={'quality': 60}
     )
 
-    objects = caching.base.CachingManager()
+    # objects = caching.base.CachingManager()
 
     def cache_and_save(self):
         """Store image locally if we have a URL"""
