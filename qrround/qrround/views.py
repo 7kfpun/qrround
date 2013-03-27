@@ -30,11 +30,12 @@ from .channels_settings import *  # noqa
 from .forms import ContactForm, QueryForm
 from .helpers import unique_generator
 from .models import (
-    UserClient,
-    # Friend,
-    QRCode,
-    Query,
     CachedImage,
+    Contact,
+    # Friend,
+    UserClient,
+    Query,
+    QRCode,
 )
 
 
@@ -60,6 +61,24 @@ def index(request):
         # 'qrcodes': QRCode.objects.filter(
         #     query__user__client__in=all_clients)
     })
+
+
+def sendcontact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            contact = Contact(
+                name=form.cleaned_data['name'],
+                email=form.cleaned_data['email'],
+                topic=form.cleaned_data['topic'],
+                message=form.cleaned_data['message'],
+            )
+            contact.save()
+            return HttpResponse('{"success": 1}')
+        else:
+            return HttpResponseBadRequest(json.dumps(form.errors))
+    else:
+        return redirect('/')
 
 
 def getgallery(request):

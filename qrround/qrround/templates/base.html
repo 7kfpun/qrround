@@ -25,8 +25,8 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-image-gallery.min.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
 
-    {% endcompress %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/styles.css" />
+    {% endcompress %}
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -45,7 +45,7 @@
 
   </head>
   <body>{% csrf_token %}
-    <div class="container-narrow">
+    <div class="container-narrow ">
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">{% trans 'Home' %}</a></li>
