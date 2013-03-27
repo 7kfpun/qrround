@@ -109,20 +109,6 @@ $('#id_accept').change(function() {
 });
 
 
-///////////////// Get auth urls ///////////////////
-var channels = []
-setTimeout(function(){
-  $.ajax({
-    type: "GET",
-    url: "/getauthurls",
-    success: function(authurls) {
-      $('#auth_url').empty().append(authurls);
-      setDetectCookies();
-    }
-  });
-}, 600);
-
-
 ///////////////////// Detect cookies change /////////////////////
 function setDetectCookies() {
   var cookieRegistry = [];
@@ -140,11 +126,9 @@ function setDetectCookies() {
     }, 200);
   }
 
-
   $(channels).each(function(i, channel) {
-    console.log(channel)
+    console.log('detect', channel);
     $.cookie(channel, 0, { path: '/' });
-
     // bind the listener
     listenCookieChange(channel, function() {
       $.ajax({
@@ -158,6 +142,20 @@ function setDetectCookies() {
     });
   });
 }
+
+
+///////////////// Get auth urls ///////////////////
+var channels = ['facebook', 'google', 'kaixin001', 'linkedin', 'weibo']
+setTimeout(function(){
+  $.ajax({
+    type: "GET",
+    url: "/getauthurls",
+    success: function(authurls) {
+      $('#auth_url').empty().append(authurls);
+      setDetectCookies();
+    }
+  });
+}, 600);
 
 
 ///////////////////// Initialize Model /////////////////////
