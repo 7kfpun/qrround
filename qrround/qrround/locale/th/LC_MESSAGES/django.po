@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-23 10:36+0800\n"
+"POT-Creation-Date: 2013-03-27 12:33+0800\n"
 "PO-Revision-Date: 2013-03-20 23:54-0600\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Translated-Using: django-rosetta 0.7.1\n"
 
-#: forms.py:16 forms.py:33
+#: forms.py:16
 msgid "Your name"
 msgstr ""
 
@@ -25,162 +25,422 @@ msgstr ""
 msgid "Your password"
 msgstr ""
 
-#: forms.py:41
-msgid "Your E-mail"
+#: forms.py:31
+msgid "Name"
 msgstr ""
 
-#: forms.py:48
-msgid "Leave your message here..."
+#: forms.py:33
+msgid "Your name is..."
 msgstr ""
 
-#: forms.py:60
+#: forms.py:38
+msgid "E-mail"
+msgstr ""
+
+#: forms.py:40
+msgid "Your E-mail is..."
+msgstr ""
+
+#: forms.py:45
+msgid "Topic"
+msgstr ""
+
+#: forms.py:47
+msgid "Your topic is..."
+msgstr ""
+
+#: forms.py:52
+msgid "Message"
+msgstr ""
+
+#: forms.py:54
+msgid "And leave your message here..."
+msgstr ""
+
+#: forms.py:63
+msgid "Still in Beta now."
+msgstr ""
+
+#: forms.py:71
 msgid "Channel choice"
 msgstr ""
 
-#: forms.py:68
+#: forms.py:79
 #, python-format
 msgid "Low 7 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr ""
 
-#: forms.py:71
+#: forms.py:82
 #, python-format
 msgid "Medium 15 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr ""
 
-#: forms.py:74
+#: forms.py:85
 #, python-format
 msgid "Quartile 25 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr ""
 
-#: forms.py:77
+#: forms.py:88
 #, python-format
 msgid "High 30 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr ""
 
-#: forms.py:81
+#: forms.py:92
 msgid "Error correct choice"
 msgstr ""
 
-#: forms.py:85
-msgid "Accept"
+#: forms.py:96
+msgid "I have read and accept"
 msgstr ""
 
-#: forms.py:87
+#: forms.py:98
 msgid ""
-"I have read and accept <a id=\"policy_modal_link\" type=\"button\">Privacy "
-"Policy and Terms of Service</a>"
+"<a id=\"policy_modal_link\" type=\"button\">Privacy Policy and Terms of "
+"Service</a>"
 msgstr ""
 
-#: forms.py:90
-msgid "Auto post"
-msgstr ""
-
-#: forms.py:92
-msgid "Post the code to your wall/stream/board"
-msgstr ""
-
-#: forms.py:97
+#: forms.py:102
 msgid "Color"
 msgstr ""
 
-#: forms.py:103
+#: forms.py:108
 msgid "Darker is better..."
 msgstr ""
 
-#: forms.py:107
-msgid "Still in Beta now."
+#: forms.py:112 forms.py:125
+msgid "Auto post"
 msgstr ""
 
-#: forms.py:119
+#: forms.py:115
+msgid "Post the code to your Facebook"
+msgstr ""
+
+#: forms.py:130
+msgid "Set your style here...(more to come)"
+msgstr ""
+
+#: forms.py:141
 msgid "Input your data"
 msgstr ""
 
-#: forms.py:140
+#: forms.py:162
 msgid "Text is too long"
 msgstr ""
 
-#: forms.py:146
+#: forms.py:168
 msgid "You should accept our policy"
 msgstr ""
 
-#: forms.py:153
+#: forms.py:175
 msgid "Sorry, our service is not available now"
 msgstr ""
 
-#: views.py:135 views.py:498 views.py:565
+#: views.py:185
+msgid ""
+"We are poor, cannot afford too much server cost. Donate us so that we can "
+"buy more server time<br />Try agains after seconds please..."
+msgstr ""
+
+#: views.py:546 views.py:618
 msgid ""
 "Was_limited: we are poor, cannot afford server cost. Donate some and we can "
 "buy more server time"
 msgstr ""
 
-#: settings/settings.py:94
+#: settings/settings.py:95
 msgid "English"
 msgstr ""
 
-#: settings/settings.py:95
+#: settings/settings.py:96
 msgid "繁體中文"
 msgstr ""
 
-#: settings/settings.py:96
+#: settings/settings.py:97
 msgid "简体中文"
 msgstr ""
 
-#: settings/settings.py:97
+#: settings/settings.py:98
 msgid "ภาษาไทย"
 msgstr ""
 
-#: settings/settings.py:98
+#: settings/settings.py:99
 msgid "日本語"
 msgstr ""
 
-#: templates/base.html:8
+#: templates/auth_urls.html:5 templates/auth_urls.html.py:9
+#: templates/auth_urls.html:13 templates/auth_urls.html.py:17
+msgid "Import your friends"
+msgstr ""
+
+#: templates/base.html:9
 msgid "QR"
 msgstr ""
 
-#: templates/base.html:46
+#: templates/base.html:51
 msgid "Home"
 msgstr ""
 
-#: templates/base.html:47 templates/modals.html:69
+#: templates/base.html:52 templates/modals.html:168
 msgid "About"
 msgstr ""
 
-#: templates/base.html:48 templates/modals.html:25
+#: templates/base.html:53 templates/modals.html:114
 msgid "Contact"
 msgstr ""
 
-#: templates/base.html:52
+#: templates/base.html:57
 msgid "Language"
 msgstr ""
 
-#: templates/base.html:65
+#: templates/base.html:70
 msgid "Project name"
 msgstr "ภาษาไทย"
 
-#: templates/base.html:71
+#: templates/base.html:77
 msgid "It is Super<br />Awesome!"
 msgstr ""
 
-#: templates/base.html:72
+#: templates/base.html:78
 msgid ""
 "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, "
 "tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa "
 "justo sit amet risus."
 msgstr ""
 
-#: templates/base.html:73
+#: templates/base.html:79
 msgid "Sign up today"
 msgstr ""
 
-#: templates/modals.html:7
-msgid "Policy"
+#: templates/index.html:13 templates/modals.html:224
+msgid "Import"
 msgstr ""
 
-#: templates/modals.html:10 templates/modals.html.py:72
+#: templates/index.html:14
+msgid "Loading..."
+msgstr ""
+
+#: templates/index.html:14
+msgid "Complete!"
+msgstr ""
+
+#: templates/index.html:14
+msgid "Have fun!"
+msgstr ""
+
+#: templates/index.html:27
+msgid "Options"
+msgstr ""
+
+#: templates/index.html:28
+msgid "History"
+msgstr ""
+
+#: templates/index.html:37
+msgid "Color & style "
+msgstr ""
+
+#: templates/index.html:48
+msgid "<strong>Info!</strong> You can import more accounts."
+msgstr ""
+
+#: templates/index.html:54
+msgid "<strong>Info!</strong> Import your account first!!"
+msgstr ""
+
+#: templates/index.html:61
+msgid "The higher error correct, the more readable code."
+msgstr ""
+
+#: templates/index.html:66
+msgid "Select your theme color here!!"
+msgstr ""
+
+#: templates/index.html:80
+msgid "Show off to your friends!!"
+msgstr ""
+
+#: templates/index.html:91
+msgid "<strong>Info!</strong> Only latest 12 codes are displayed"
+msgstr ""
+
+#: templates/modals.html:9
+msgid "Web Site Terms and Conditions of Use"
+msgstr ""
+
+#: templates/modals.html:12
+msgid ""
+"\n"
+"    <h4>1. Terms</h4>\n"
+"    <p>\n"
+"      By accessing this web site, you are agreeing to be bound by these \n"
+"      web site Terms and Conditions of Use, all applicable laws and "
+"regulations, \n"
+"      and agree that you are responsible for compliance with any applicable "
+"local \n"
+"      laws. If you do not agree with any of these terms, you are prohibited "
+"from \n"
+"      using or accessing this site. The materials contained in this web site "
+"are \n"
+"      protected by applicable copyright and trade mark law.\n"
+"    </p>\n"
+"    <h4>2. Use License</h4>\n"
+"    <ol type=\"a\">\n"
+"      <li>\n"
+"        Permission is granted to temporarily download one copy of the "
+"materials \n"
+"        (information or software) on &&&&&&&&&&&'s web site for personal, \n"
+"        non-commercial transitory viewing only. This is the grant of a "
+"license, \n"
+"        not a transfer of title, and under this license you may not:      \n"
+"        <ol type=\"i\">\n"
+"          <li>modify or copy the materials;</li>\n"
+"          <li>use the materials for any commercial purpose, or for any "
+"public display (commercial or non-commercial);</li>\n"
+"          <li>attempt to decompile or reverse engineer any software "
+"contained on &&&&&&&&&&&'s web site;</li>\n"
+"          <li>remove any copyright or other proprietary notations from the "
+"materials; or</li>\n"
+"          <li>transfer the materials to another person or \"mirror\" the "
+"materials on any other server.</li>\n"
+"        </ol>\n"
+"      </li>\n"
+"      <li>\n"
+"        This license shall automatically terminate if you violate any of "
+"these restrictions and may be terminated by &&&&&&&&&&& at any time. Upon "
+"terminating your viewing of these materials or upon the termination of this "
+"license, you must destroy any downloaded materials in your possession "
+"whether in electronic or printed format.\n"
+"      </li>\n"
+"    </ol>\n"
+"    <h4>3. Disclaimer</h4>\n"
+"    <ol type=\"a\">\n"
+"      <li>\n"
+"        The materials on &&&&&&&&&&&'s web site are provided \"as is\". "
+"&&&&&&&&&&& makes no warranties, expressed or implied, and hereby disclaims "
+"and negates all other warranties, including without limitation, implied "
+"warranties or conditions of merchantability, fitness for a particular "
+"purpose, or non-infringement of intellectual property or other violation of "
+"rights. Further, &&&&&&&&&&& does not warrant or make any representations "
+"concerning the accuracy, likely results, or reliability of the use of the "
+"materials on its Internet web site or otherwise relating to such materials "
+"or on any sites linked to this site.\n"
+"      </li>\n"
+"    </ol>\n"
+"    <h4>4. Limitations</h4>\n"
+"    <p>\n"
+"      In no event shall &&&&&&&&&&& or its suppliers be liable for any "
+"damages (including, without limitation, damages for loss of data or profit, "
+"or due to business interruption,) arising out of the use or inability to use "
+"the materials on &&&&&&&&&&&'s Internet site, even if &&&&&&&&&&& or a "
+"&&&&&&&&&&& authorized representative has been notified orally or in writing "
+"of the possibility of such damage. Because some jurisdictions do not allow "
+"limitations on implied warranties, or limitations of liability for "
+"consequential or incidental damages, these limitations may not apply to "
+"you.\n"
+"    </p>\n"
+"    <h4>5. Revisions and Errata</h4>\n"
+"    <p>\n"
+"      The materials appearing on &&&&&&&&&&&'s web site could include "
+"technical, typographical, or photographic errors. &&&&&&&&&&& does not "
+"warrant that any of the materials on its web site are accurate, complete, or "
+"current. &&&&&&&&&&& may make changes to the materials contained on its web "
+"site at any time without notice. &&&&&&&&&&& does not, however, make any "
+"commitment to update the materials.\n"
+"    </p>\n"
+"    <h4>6. Links</h4>\n"
+"    <p>\n"
+"      &&&&&&&&&&& has not reviewed all of the sites linked to its Internet "
+"web site and is not responsible for the contents of any such linked site. "
+"The inclusion of any link does not imply endorsement by &&&&&&&&&&& of the "
+"site. Use of any such linked web site is at the user's own risk.\n"
+"    </p>\n"
+"    <h4>7. Site Terms of Use Modifications</h4>\n"
+"    <p>\n"
+"      &&&&&&&&&&& may revise these terms of use for its web site at any time "
+"without notice. By using this web site you are agreeing to be bound by the "
+"then current version of these Terms and Conditions of Use.\n"
+"    </p>\n"
+"    <h4>8. Governing Law</h4>\n"
+"    <p>\n"
+"      Any claim relating to &&&&&&&&&&&'s web site shall be governed by the "
+"laws of the State of HHHHHHHHHH without regard to its conflict of law "
+"provisions.\n"
+"    </p>\n"
+"    <p>\n"
+"      General Terms and Conditions applicable to Use of a Web Site.\n"
+"    </p>\n"
+"\n"
+"    <h3>Privacy Policy</h3>\n"
+"    <p>\n"
+"      Your privacy is very important to us. Accordingly, we have developed "
+"this Policy in order for you to understand how we collect, use, communicate "
+"and disclose and make use of personal information. The following outlines "
+"our privacy policy.\n"
+"    </p>\n"
+"    <ul>\n"
+"      <li>\n"
+"        Before or at the time of collecting personal information, we will "
+"identify the purposes for which information is being collected.\n"
+"      </li>\n"
+"      <li>\n"
+"        We will collect and use of personal information solely with the "
+"objective of fulfilling those purposes specified by us and for other "
+"compatible purposes, unless we obtain the consent of the individual "
+"concerned or as required by law.\t\t\n"
+"      </li>\n"
+"      <li>\n"
+"        We will only retain personal information as long as necessary for "
+"the fulfillment of those purposes. \n"
+"      </li>\n"
+"      <li>\n"
+"        We will collect personal information by lawful and fair means and, "
+"where appropriate, with the knowledge or consent of the individual "
+"concerned. \n"
+"      </li>\n"
+"      <li>\n"
+"        Personal data should be relevant to the purposes for which it is to "
+"be used, and, to the extent necessary for those purposes, should be "
+"accurate, complete, and up-to-date. \n"
+"      </li>\n"
+"      <li>\n"
+"        We will protect personal information by reasonable security "
+"safeguards against loss or theft, as well as unauthorized access, "
+"disclosure, copying, use or modification.\n"
+"      </li>\n"
+"      <li>\n"
+"        We will make readily available to customers information about our "
+"policies and practices relating to the management of personal information. \n"
+"      </li>\n"
+"    </ul>\n"
+"    <p>\n"
+"      We are committed to conducting our business in accordance with these "
+"principles in order to ensure that the confidentiality of personal "
+"information is protected and maintained. \n"
+"    </p>\n"
+"    "
+msgstr ""
+
+#: templates/modals.html:104 templates/modals.html.py:176
+msgid "Close"
+msgstr ""
+
+#: templates/modals.html:105
+msgid "Save changes"
+msgstr ""
+
+#: templates/modals.html:158 templates/modals.html.py:223
+msgid "Cancel"
+msgstr ""
+
+#: templates/modals.html:159
+msgid "Sent"
+msgstr ""
+
+#: templates/modals.html:171
 msgid "About this website privacy policy"
 msgstr ""
 
-#: templates/modals.html:11 templates/modals.html.py:73
+#: templates/modals.html:172
 msgid ""
 "This is a model website privacy policy. It is written in plain language that "
 "is visitor-friendly. We have provided a large menu of paragraphs so that you "
@@ -188,7 +448,7 @@ msgid ""
 "and website."
 msgstr ""
 
-#: templates/modals.html:12 templates/modals.html.py:74
+#: templates/modals.html:173
 msgid ""
 "Although this document cannot magically absolve you from the risk of data "
 "mismanagement, it is a giant first step. Informing your visitors and "
@@ -200,30 +460,16 @@ msgid ""
 "in using your services or buying from you."
 msgstr ""
 
-#: templates/modals.html:15 templates/modals.html.py:59
-#: templates/modals.html:77 templates/modals.html.py:108
-msgid "Close"
-msgstr ""
-
-#: templates/modals.html:16 templates/modals.html.py:60
-#: templates/modals.html:78
-msgid "Save changes"
-msgstr ""
-
-#: templates/modals.html:87
+#: templates/modals.html:202
 msgid "Import your account here!!"
 msgstr ""
 
-#: templates/modals.html:93
+#: templates/modals.html:208
 msgid ""
 "<strong>Oops!!</strong> something wrong with the site. Try reloading please "
 "or report us and we will fix it soon"
 msgstr ""
 
-#: templates/modals.html:107
+#: templates/modals.html:222
 msgid "Logout all"
-msgstr ""
-
-#: templates/modals.html:109
-msgid "Import"
 msgstr ""
