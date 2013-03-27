@@ -18,8 +18,7 @@ import os
 from ratelimit.decorators import ratelimit
 import re
 import requests
-from settings.settings import MEDIA_ROOT, PROJECT_NAME_TEST  # TODOPROJECT_NAME
-#import StringIO
+from settings.settings import MEDIA_ROOT, PROJECT_NAME_TEST  # TODO: real NAME
 from time import time
 import tweepy
 from urllib import urlencode
@@ -32,12 +31,10 @@ from .helpers import unique_generator
 from .models import (
     CachedImage,
     Contact,
-    # Friend,
     UserClient,
     Query,
     QRCode,
 )
-
 
 logger = logging.getLogger(__name__)
 
@@ -49,17 +46,13 @@ def login(request):
 
 
 def index(request):
-    print 'LANGUAGE_CODE LANGUAGE_CODE', request.LANGUAGE_CODE
-
-#    all_clients = [client for channel in channels
-#                   for client in request.session.get(channel, [])]
-#    print all_clients
+    get = request.GET.get('get', '')
 
     return render(request, 'index.html', {
+        'qrcode': QRCode.objects.get(
+            photo__contains='/%s.' % get) if get else '',
         'form': QueryForm(session=request.session),
         'contact_form': ContactForm(),
-        # 'qrcodes': QRCode.objects.filter(
-        #     query__user__client__in=all_clients)
     })
 
 
@@ -595,12 +588,9 @@ def getqrcode(request):
 
             return HttpResponse(
                 Template(
-                    '<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
+                    '<img src="{{ MEDIA_URL }}{{ photo.photo_jpg.url }}" '
                     'width="480" height="480" />').render(photo=photo)
             )
-
-#            return HttpResponse('<img src="/media/qrcode/%s" '
-#                                'width="480" height="480" />' % filename)
 
         except IndexError, e:
             return HttpResponse(e)
@@ -621,15 +611,14 @@ def getfriendsrequest(request):
     elif request.method == 'POST' and request.is_ajax() \
             and 'import' in request.POST:
         html = ''
-        for client_id in request.session[request.POST['import']]:
-            if client_id in request.session:
-                data = request.session.pop(client_id)
-                getfriends(data, True)
+        for client_id in request.session.get(request.POST['import'], []):
+            data = request.session.pop(client_id)
+            getfriends(data, True)
 
-                html += client_id \
-                    + '\n' + json.dumps(data['user']) + ' has ' \
-                    + str(len(data['friends'])) + '\n\n'
-                logger.info('Finished get friends: %s' % html)
+            html += client_id \
+                + '\n' + json.dumps(data['user']) + ' has ' \
+                + str(len(data['friends'])) + '\n\n'
+            logger.info('Finished get friends: %s' % html)
         return HttpResponse(html)
 
 
