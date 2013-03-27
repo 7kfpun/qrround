@@ -606,7 +606,7 @@ def getqrcode(request):
             return HttpResponse(e)
 
 
-@ratelimit(rate='20/m')
+@ratelimit(rate='60/m')
 @transaction.commit_on_success
 def getfriendsrequest(request):
     if request.method == 'GET':
