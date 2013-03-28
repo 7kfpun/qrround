@@ -1,8 +1,9 @@
 import json
-import os
 from settings import *  # noqa
 with open('/home/dotcloud/environment.json') as f:
     env = json.load(f)
+
+SITE_URL = 'http://qrround-710kfpun.dotcloud.com'
 
 DATABASES = {
     'default': {
@@ -20,7 +21,7 @@ if USE_REDIS:
     CACHES = {
         'default': {
             'BACKEND': 'redis_cache.cache.RedisCache',
-            'LOCATION': env['DOTCLOUD_CACHE_REDIS_HOST']+':'+env['DOTCLOUD_CACHE_REDIS_PORT'],
+            'LOCATION': env['DOTCLOUD_CACHE_REDIS_HOST']+':'+env['DOTCLOUD_CACHE_REDIS_PORT'],  # noqa
             'OPTIONS': {
                 'DB': 1,
                 'PASSWORD': env['DOTCLOUD_CACHE_REDIS_PASSWORD'],
@@ -33,7 +34,7 @@ if USE_REDIS:
     # SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 BROKER_URL = 'amqp://nyezagug:DSBH7ibcP4BeNVfObtTj4hgDvlM6LQgT@tiger.cloudamqp.com/nyezagug'  # noqa
-BROKER_URL = 'amqp://tiyleaba:nGub3yv4ik7VYrOqut1IIoaNHgwhEUfU@bunny.cloudamqp.com/tiyleaba'
+# BROKER_URL = 'amqp://tiyleaba:nGub3yv4ik7VYrOqut1IIoaNHgwhEUfU@bunny.cloudamqp.com/tiyleaba'  # noqa
 
 # media settings
 MEDIA_ROOT = '/home/dotcloud/data/media/'

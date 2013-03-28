@@ -108,7 +108,7 @@ $('#id_accept').change(function() {
     console.log($('#id_accept').is(':checked'));
 });
 
-
+/*
 ///////////////////// Detect cookies change /////////////////////
 function setDetectCookies() {
   var cookieRegistry = [];
@@ -142,7 +142,7 @@ function setDetectCookies() {
     });
   });
 }
-
+*/
 
 ///////////////// Get auth urls ///////////////////
 var channels = ['facebook', 'google', 'kaixin001', 'linkedin', 'weibo']
@@ -198,6 +198,7 @@ $("#import_button").on("click", function() {
 $('#import').on("click", function() {
   location.reload();
   console.log("Import");
+  /*
   $(channels).each(function(i, channel) {
     console.log(channel)
 
@@ -210,6 +211,7 @@ $('#import').on("click", function() {
       }
     });
   });
+  */
 });
 
 
