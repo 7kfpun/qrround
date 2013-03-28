@@ -18,7 +18,7 @@ import os
 from ratelimit.decorators import ratelimit
 import re
 import requests
-from settings.settings import MEDIA_ROOT, PROJECT_NAME_TEST  # TODO: real NAME
+from settings.s3 import MEDIA_ROOT, PROJECT_NAME_TEST  # TODO: real NAME
 from time import time
 import tweepy
 from urllib import urlencode
@@ -592,7 +592,7 @@ def getqrcode(request):
 
             return HttpResponse(
                 Template(
-                    '<img src="{{ MEDIA_URL }}{{ photo.photo_jpg.url }}" '
+                    '<img src="{{ MEDIA_URL }}{{ photo.photo }}" '
                     'width="480" height="480" />').render(photo=photo)
             )
 

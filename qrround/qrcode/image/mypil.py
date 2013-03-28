@@ -111,11 +111,13 @@ class PilImage(qrcode.image.base.BaseImage):
         style = self.options.get('style', '1')
 
         if style == '0':
-            self._img.paste(Image.open(image.photo.path).point(lambda p: p * 0.9).resize(
-                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+            image = CachedImage.objects.all()[44]
+            self._img.paste(Image.open(image.photo), (x, y))
+            # self._img.paste(Image.open(image.photo.seek(0)).point(lambda p: p * 0.9).resize(
+            #     (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
 
         elif style == '1':
-            self._img.paste(Image.open(image.photo.path).resize(
+            self._img.paste(Image.open(image.photo).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
 
             border = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')

@@ -242,7 +242,7 @@ INSTALLED_APPS += (
 
 # Celery
 BROKER_URL = 'amqp://nyezagug:DSBH7ibcP4BeNVfObtTj4hgDvlM6LQgT@tiger.cloudamqp.com/nyezagug'  # noqa
-BROKER_URL = 'amqp://tiyleaba:nGub3yv4ik7VYrOqut1IIoaNHgwhEUfU@bunny.cloudamqp.com/tiyleaba'
+# BROKER_URL = 'amqp://tiyleaba:nGub3yv4ik7VYrOqut1IIoaNHgwhEUfU@bunny.cloudamqp.com/tiyleaba'
 REDIS_PORT=37993
 REDIS_HOST = "redisdb-710kfpun.dotcloud.com"
 REDIS_DB = 0
