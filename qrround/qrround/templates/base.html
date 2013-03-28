@@ -23,13 +23,17 @@
     <!-- <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.css" /> -->
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/colorpicker.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-image-gallery.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
 
-    {% endcompress %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/styles.css" />
+    {% endcompress %}
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="{{ STATIC_URL }}js/html5shiv.js"></script>
+    <![endif]-->
+    <!--[if IE 7]>
+      <link rel="stylesheet" href="{{ STATIC_URL }}css/font-awesome-ie7.min.css">
     <![endif]-->
 
     <!-- Fav and touch icons -->
@@ -41,7 +45,7 @@
 
   </head>
   <body>{% csrf_token %}
-    <div class="container-narrow">
+    <div class="container-narrow ">
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">{% trans 'Home' %}</a></li>
@@ -71,7 +75,7 @@
         
       <div class="jumbotron">
         <h1>{% trans 'It is Super<br />Awesome!' %}</h1>
-        <p class="lead">{% trans 'Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.' %}</p>
+        <p class="lead">{% trans 'ทุกสิ่งทุกอย่างมีเลิกลา มันเป็นไปตามกาลเวลา<br />มีพลัดมีพรากมีจากไป คงต้องยอมทำใจ<br />คงต้องยอมเสียใจ อย่าขวางชะตานั้น<br />ปล่อยมันให้เป็นไป ชีวิตที่มีไม่คิดเสียดาย<br />จะยังไงไม่ยอมเสียเธอ' %}</p>
         <a class="btn btn-large btn-success" data-loading-text="Loading...">{% trans 'Sign up today' %}</a>
 
         {% block content %}{% endblock %}
@@ -111,6 +115,9 @@
     {% endcompress %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/scripts.js"></script>
 
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "cfddd865-c6d4-4924-81c6-b281c63d80f3", doNotHash: true, doNotCopy: true, hashAddressBar: false});</script>
 
     <!--
     <script src="https://apis.google.com/js/plus.js" />

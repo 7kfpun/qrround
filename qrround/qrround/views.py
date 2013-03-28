@@ -30,11 +30,12 @@ from .channels_settings import *  # noqa
 from .forms import ContactForm, QueryForm
 from .helpers import unique_generator
 from .models import (
-    UserClient,
-    # Friend,
-    QRCode,
-    Query,
     CachedImage,
+    Contact,
+    # Friend,
+    UserClient,
+    Query,
+    QRCode,
 )
 
 
@@ -62,6 +63,24 @@ def index(request):
     })
 
 
+def sendcontact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            contact = Contact(
+                name=form.cleaned_data['name'],
+                email=form.cleaned_data['email'],
+                topic=form.cleaned_data['topic'],
+                message=form.cleaned_data['message'],
+            )
+            contact.save()
+            return HttpResponse('{"success": 1}')
+        else:
+            return HttpResponseBadRequest(json.dumps(form.errors))
+    else:
+        return redirect('/')
+
+
 def getgallery(request):
     all_clients = [client for channel in channels
                    for client in request.session.get(channel, [])]
@@ -71,9 +90,10 @@ def getgallery(request):
 
 
 def postfacebookphotos(request):
-    post_id = []
+    posts = []
     for client in request.session.get('facebook', []):
-        user = UserClient.objects.filter(client=client)[0]
+        user = UserClient.objects.get(client=client)
+        """ # Share to feed
         url = 'https://graph.facebook.com/%s/feed' % user.client.split('#')[1]
         data = {
             'access_token': user.access_token,
@@ -84,9 +104,77 @@ def postfacebookphotos(request):
             'link': 'http://img.photobucket.com/albums/v317/phillycrazy/blog/ZhangXuan.jpg',  # user.profile_picture_url,  # noqa
         }
         r = requests.post(url, urlencode(data))
-        post_id.append(r.json()['id'])
+        posts.append(r.json()['id'])
+        """
 
-    return HttpResponse(' - '.join(post_id))
+        if user.album_id:
+            album_id = user.album_id
+        else:
+            url = 'https://graph.facebook.com/%s/albums' \
+                % user.client.split('#')[1]
+            data = {
+                'access_token': user.access_token,
+                'name': PROJECT_NAME_TEST,
+                'message': PROJECT_NAME_TEST,
+            }
+            r = requests.post(url, urlencode(data))
+            album_id = r.json()['id']
+            user.album_id = r.json()['id']
+            user.save()
+
+        url = 'https://graph.facebook.com/%s/photos' % album_id
+        data = {
+            'access_token': user.access_token,
+            'message': PROJECT_NAME_TEST,
+        }
+        r = requests.post(
+            url, data=data,
+            files={'source': open('ZhangXuan.jpg', 'rb')})
+        posts.append(r.text)
+
+#     Refresh token
+#     https://graph.facebook.com/oauth/access_token?
+#     client_id=APP_ID&
+#     client_secret=APP_SECRET&
+#     grant_type=fb_exchange_token&
+#     fb_exchange_token=EXISTING_ACCESS_TOKEN
+
+    return HttpResponse('\n'.join(posts))
+
+
+# ssl connection needed
+def postkaixin001photos(request):
+    posts = []
+    for client in request.session.get('kaixin001', []):
+        user = UserClient.objects.get(client=client)
+
+        if user.album_id:
+            album_id = user.album_id
+        else:
+            url = 'https://api.kaixin001.com/album/create.json'
+            data = {
+                'access_token': user.access_token,
+                'title': PROJECT_NAME_TEST,
+                'description': PROJECT_NAME_TEST,
+            }
+            r = requests.post(url, urlencode(data))
+            return HttpResponse(r.text)
+            album_id = r.json()['albumid']
+            user.album_id = r.json()['albumid']
+            user.save()
+
+        url = 'https://api.kaixin001.com/photo/upload.json'
+        data = {
+            'access_token': user.access_token,
+            'albumid': album_id,
+            'title': PROJECT_NAME_TEST,
+        }
+        r = requests.post(
+            url, data=data,
+            files={'pic': open('ZhangXuan.jpg', 'rb')})
+        posts.append(r.text)
+
+    return HttpResponse('\n'.join(posts))
 
 
 @ratelimit(rate='20/m')
@@ -103,7 +191,7 @@ def getauthurls(request):
 
         # facebook
         params = {
-            'scope': 'read_stream,publish_actions',
+            'scope': 'read_stream,publish_actions,publish_stream,user_photos',
             'response_type': 'code',
             'state': state,
             'redirect_uri': FACEBOOK_REDIRECT_URI,
@@ -116,7 +204,7 @@ def getauthurls(request):
 
         # kaixin001
         params = {
-            'scope': 'basic',
+            'scope': 'create_album',
             'response_type': 'code',
             'state': state,
             'redirect_uri': KAIXIN001_REDIRECT_URI,
@@ -157,7 +245,7 @@ def getauthurls(request):
         }
         weibo_auth_url = weibo.get_authorize_url(**params)
 
-        return HttpResponse(json.dumps({
+        return render(request, 'auth_urls.html', {
             'facebook': facebook_auth_url,
             'google': google_auth_url,
             'kaixin001': kaixin001_auth_url,
@@ -165,7 +253,7 @@ def getauthurls(request):
             'renren': renren_auth_url,
             'twitter': twitter_auth_url,
             'weibo': weibo_auth_url,
-        }), mimetype="application/json")
+        })
 
 
 def store_session(request, channel, client_id, access_token, me, friends):
@@ -253,6 +341,40 @@ def googlecallback(request):
         return HttpResponse('CSRF?')
 
 
+def kaixin001callback(request):
+    if request.GET.get('state', '') == request.session.get('state', '***'):
+        exchange_url = (
+            'https://api.kaixin001.com/oauth2/access_token'
+            '?grant_type=authorization_code'
+            '&code=' + request.GET.get('code')
+            + '&client_id=' + KAIXIN001_CLIENT_ID
+            + '&client_secret=' + KAIXIN001_CLIENT_SECRET
+            + '&redirect_uri=' + KAIXIN001_REDIRECT_URI
+        )
+        r = requests.get(exchange_url)
+        access_token = r.json()['access_token']
+
+        me_url = (
+            'https://api.kaixin001.com/users/me.json'
+            '?access_token=' + access_token
+        )
+        me = requests.get(me_url).json()
+
+        friends_url = (
+            'https://api.kaixin001.com/friends/me.json'
+            '?num=50'
+            '&access_token=' + access_token
+        )
+        friends = requests.get(friends_url).json()['users']
+
+        client_id = 'kaixin001#' + str(me['uid'])
+        return store_session(request, 'kaixin001', client_id,
+                             access_token, me, friends)
+
+    else:
+        return HttpResponse('CSRF?')
+
+
 def linkedincallback(request):
     if request.GET.get('state', '') == request.session.get('state', '***'):
         exchange_url = (
@@ -283,40 +405,6 @@ def linkedincallback(request):
 
         client_id = 'linkedin#' + str(me['id'])
         return store_session(request, 'linkedin', client_id,
-                             access_token, me, friends)
-
-    else:
-        return HttpResponse('CSRF?')
-
-
-def kaixin001callback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
-        exchange_url = (
-            'https://api.kaixin001.com/oauth2/access_token'
-            '?grant_type=authorization_code'
-            '&code=' + request.GET.get('code')
-            + '&client_id=' + KAIXIN001_CLIENT_ID
-            + '&client_secret=' + KAIXIN001_CLIENT_SECRET
-            + '&redirect_uri=' + KAIXIN001_REDIRECT_URI
-        )
-        r = requests.get(exchange_url)
-        access_token = r.json()['access_token']
-
-        me_url = (
-            'https://api.kaixin001.com/users/me.json'
-            '?access_token=' + access_token
-        )
-        me = requests.get(me_url).json()
-
-        friends_url = (
-            'https://api.kaixin001.com/friends/me.json'
-            '?num=50'
-            '&access_token=' + access_token
-        )
-        friends = requests.get(friends_url).json()['users']
-
-        client_id = 'kaixin001#' + str(me['uid'])
-        return store_session(request, 'kaixin001', client_id,
                              access_token, me, friends)
 
     else:
@@ -379,10 +467,10 @@ def renrencallback(request):
         'https://graph.renren.com/oauth/authorize'
         '?response_type=code'
         '&code=' + request.GET.get('code')
-        + '&redirect_uri=http://127.0.0.1:8001/renren_callback'
-        '&client_id=229108'
-        '&client_secret=8815838e95504011a18673ea9f37f3b4'
-        '&scope=read_user_album+read_user_feed'
+        + '&redirect_uri=' + RENREN_REDIRECT_URI
+        + '&client_id=' + RENREN_CLIENT_ID
+        + '&client_secret=' + RENREN_CLIENT_SECRET
+        + '&scope=read_user_album+read_user_feed'
     )
 
     r = requests.post(exchange_url)
@@ -429,10 +517,6 @@ def weibocallback(request):
 
     else:
         return HttpResponse('CSRF?')
-
-
-def oauth2callback(request):
-    return HttpResponse(request.GET.get('code'))
 
 
 def close_window(request, is_reload=False):
@@ -522,7 +606,7 @@ def getqrcode(request):
             return HttpResponse(e)
 
 
-@ratelimit(rate='20/m')
+@ratelimit(rate='60/m')
 @transaction.commit_on_success
 def getfriendsrequest(request):
     if request.method == 'GET':

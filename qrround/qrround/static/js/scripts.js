@@ -22,7 +22,7 @@ function getqrcode(el) {
   console.log(form.serialize());
 
   if (form.find('input.span5').val() === "") {
-    notify('failure', 'Input some text first');
+    notify('#alerts', 'failure', 'Input some text first');
   } else {
     $('#getqrcode_button').button('loading');
     $.ajax({
@@ -43,14 +43,14 @@ function getqrcode(el) {
         else if(number === 3) { sentence = 'Love it?' }
         else if(number === 4) { sentence = 'Share it!!!' }
         else if(number === 5) { sentence = 'Where is your girlfriend?' }
-        notify('success', sentence );
+        notify('#alerts', 'success', sentence );
 
         // Append to gallery
 
       },
       error: function (request, status, error) {
         // alert(request.responseText);
-        notify('failure', request.responseText);
+        notify('#alerts', 'failure', request.responseText);
         $('#getqrcode_button').button('reset');
       },
     });
@@ -71,8 +71,8 @@ setTimeout(function(){
 
 
 ///////////////////// Alert /////////////////////
-function notify(notify_type, msg) {
-  var alerts = $('#alerts');
+function notify(location, notify_type, msg) {
+  var alerts = $(location);
   if (notify_type == 'success') {
     alerts.empty().append('<div class="alert alert-success fade in"> \
       <button type="button" class="close" data-dismiss="alert">×</button> \
@@ -109,30 +109,6 @@ $('#id_accept').change(function() {
 });
 
 
-
-///////////////// Get auth urls ///////////////////
-var channels = []
-setTimeout(function(){
-  $.ajax({
-    type: "GET",
-    url: "/getauthurls",
-    success: function(authurls) {
-      $('#auth_url').empty();
-      $.each( authurls, function( channel, url ) {
-        console.log( channel + ": " + url );
-        channels.push(channel);  // Get all channels here
-        $('#auth_url').append(
-          '<p> \
-            <a class="btn importButton" onclick=popitup("' + url + '")>' + channel.toUpperCase() + '</a> \
-            Import your friends here! \
-          <p>');
-      });
-      setDetectCookies();
-    }
-  });
-}, 600);
-
-
 ///////////////////// Detect cookies change /////////////////////
 function setDetectCookies() {
   var cookieRegistry = [];
@@ -150,11 +126,9 @@ function setDetectCookies() {
     }, 200);
   }
 
-
   $(channels).each(function(i, channel) {
-    console.log(channel)
+    console.log('detect', channel);
     $.cookie(channel, 0, { path: '/' });
-
     // bind the listener
     listenCookieChange(channel, function() {
       $.ajax({
@@ -170,6 +144,20 @@ function setDetectCookies() {
 }
 
 
+///////////////// Get auth urls ///////////////////
+var channels = ['facebook', 'google', 'kaixin001', 'linkedin', 'weibo']
+setTimeout(function(){
+  $.ajax({
+    type: "GET",
+    url: "/getauthurls",
+    success: function(authurls) {
+      $('#auth_url').empty().append(authurls);
+      setDetectCookies();
+    }
+  });
+}, 600);
+
+
 ///////////////////// Initialize Model /////////////////////
 $("#policy_modal_link").on("click", function() {
     $('#policy_modal').modal('show');
@@ -177,6 +165,26 @@ $("#policy_modal_link").on("click", function() {
 
 $("#contact_modal_link").on("click", function() {
     $('#contact_modal').modal('show');
+});
+
+$('#send_contact').on("click", function() {
+  console.log("Send contact");
+
+  $.ajax({
+    type: "POST",
+    url: "/sendcontact",
+    data: $('#contact_modal form').serialize(),
+    success: function(data) {
+      console.log("Received: " + $('#contact_modal form').serialize());
+      $('#contact_modal').modal('hide');
+      $('#contact_modal form').find("input[type=text], textarea").val("");
+      Recaptcha.reload();
+    },
+    error: function (request, status, error) {
+      console.log("Received: " + request.responseText);
+      notify('#contact_modal form .alerts', 'failure', request.responseText);
+    },
+  });
 });
 
 $("#about_modal_link").on("click", function() {

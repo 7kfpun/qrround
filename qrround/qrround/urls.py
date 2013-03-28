@@ -16,19 +16,18 @@ urlpatterns = patterns(
     url(r'getgallery$', 'getgallery', name='getgallery'),
 
     url(r'postfacebookphotos', 'postfacebookphotos', name='postfacebookphotos'),  # noqa
+    url(r'postkaixin001photos', 'postkaixin001photos', name='postkaixin001photos'),  # noqa
 
     # Callback
-    url(r'^oauth2callback$', 'oauth2callback', name='oauth2callback'),
     url(r'^facebook_callback$', 'facebookcallback', name='facebookcallback'),  # noqa
     url(r'^google_callback$', 'googlecallback', name='googlecallback'),
-    url(r'^linkedin_callback$', 'linkedincallback', name='linkedincallback'),  # noqa
     url(r'^kaixin001_callback$', 'kaixin001callback', name='kaixin001callback'),  # noqa
+    url(r'^linkedin_callback$', 'linkedincallback', name='linkedincallback'),  # noqa
     url(r'^twitter_callback$', 'twittercallback', name='twittercallback'),
     url(r'^renren_callback$', 'renrencallback', name='renrencallback'),
     url(r'^weibo_callback$', 'weibocallback', name='weibocallback'),
 
-    # Static files
-    # url(r'^js/*', ),
+    url(r'sendcontact$', 'sendcontact', name='sendcontact'),
 
     # Uncomment the next line to enable the admin:
     url(r'^accounts/login/$', 'login', name='login'),

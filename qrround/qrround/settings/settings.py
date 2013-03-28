@@ -16,7 +16,7 @@ TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
-COMPRESS_ENABLED = True  # True  # Opposite with DEBUG
+COMPRESS_ENABLED = False  # True  # Opposite with DEBUG
 
 RATELIMIT_ENABLE = True
 
@@ -131,7 +131,7 @@ MEDIA_URL = 'media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = op.join(PROJECT_ROOT, 'qrround/static')
+STATIC_ROOT = 'static'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -235,7 +235,6 @@ INSTALLED_APPS += (
     'south',
     'imagekit',
     'rosetta',
-    # 'sorl.thumbnail',
 
     # Qrround
     'qrround',

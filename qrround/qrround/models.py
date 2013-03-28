@@ -7,7 +7,7 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
 from jsonfield import JSONField
 import os
-from settings.settings import MEDIA_ROOT
+# from settings.settings import MEDIA_ROOT
 import urllib
 import caching.base
 
@@ -61,6 +61,8 @@ class UserClient(AbstractBaseUser):
     friends = JSONField(blank=True, null=True)
 
     access_token = models.CharField(max_length=255, blank=True, null=True)
+    album_id = models.CharField(max_length=255, blank=True, null=True)
+
     USERNAME_FIELD = 'client'
 
     def __unicode__(self):
@@ -206,28 +208,11 @@ class CachedImage(caching.base.CachingMixin, models.Model):
         return self.url
 
 
-class TestQuery(models.Model):
-    FRESHMAN = 'FR'
-    SOPHOMORE = 'SO'
-    JUNIOR = 'JR'
-    SENIOR = 'SR'
-    YEAR_IN_SCHOOL_CHOICES = (
-        (FRESHMAN, 'Freshman'),
-        (SOPHOMORE, 'Sophomore'),
-        (JUNIOR, 'Junior'),
-        (SENIOR, 'Senior'),
-    )
-
-    query = models.CharField(max_length=200)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-    test_field = models.CharField(max_length=200)
-    year_in_school = models.CharField(max_length=2,
-                                      choices=YEAR_IN_SCHOOL_CHOICES,
-                                      default=FRESHMAN)
-    colour = models.CharField(max_length=10)
-    photo = models.ImageField(upload_to='/'.join([MEDIA_ROOT, 'phtotos']),
-                              blank=True)
+class Contact(models.Model):
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    topic = models.CharField(max_length=200)
+    message = models.TextField()
 
     def __unicode__(self):
-        return self.query
+        return self.email + ': ' + self.topic
