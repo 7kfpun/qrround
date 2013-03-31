@@ -1,7 +1,7 @@
 <ul class="thumbnails">
  {% for qrcode in qrcodes %}
  <li class="span2">
-   <a href="{{ qrcode.photo.url }}"
+   <a href="{{ qrcode.photo_jpg.url }}"
    title="{{ qrcode.query.text }}"
    class="thumbnail" data-gallery="gallery">
      <img src="{{ qrcode.photo_thumbnail.url }}">

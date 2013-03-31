@@ -1,9 +1,12 @@
 function popitup(url) {
-  newwindow=window.open(url,'name','height=500,width=500');
+  newwindow = window.open(url, 'name', 'height=500,width=500');
   if (window.focus) {newwindow.focus()}
   return false;
 }
 
+$('.nav-tabs > li > a').hover( function(){
+  $(this).tab('show');
+});
 
 ///////////////////// QR code /////////////////////
 // Send qrcode request
@@ -31,10 +34,10 @@ function getqrcode(el) {
       data: form.serialize(),
       success: function(data) {
         console.log(data);
-        $('#qrcode').empty().append(
-            data
-        );
+        $('#qrcode').empty().append(data);
+
         $('#getqrcode_button').button('complete');
+
         var number = Math.floor(Math.random() * 6);
         var sentence;
         if(number === 0) { sentence = 'Try more one?' }
@@ -43,10 +46,19 @@ function getqrcode(el) {
         else if(number === 3) { sentence = 'Love it?' }
         else if(number === 4) { sentence = 'Share it!!!' }
         else if(number === 5) { sentence = 'Where is your girlfriend?' }
+
         notify('#alerts', 'success', sentence );
 
         // Append to gallery
+        var new_qrcode_src = $('#qrcode img').attr('src');
+        $('#gallery ul').prepend('<li class="span2"> \
+           <a href="' + new_qrcode_src + '" title="kkk" class="thumbnail" data-gallery="gallery"> \
+             <img src="' + new_qrcode_src + '" width="100" height="100"> \
+           </a> \
+         </li>');
 
+        // Change meta for ShareThis
+        changeMeta(new_qrcode_src);
       },
       error: function (request, status, error) {
         // alert(request.responseText);
@@ -57,6 +69,12 @@ function getqrcode(el) {
   }
 }
 
+function changeMeta(new_qrcode_src) {
+    console.log('Changing meta tags');
+    $('meta[property="og:url"]').attr("content", new_qrcode_src);  // window.location.href + "?" + filename);
+    $('meta[property="og:image"]').attr("content", new_qrcode_src);
+    $('meta[property="og:description"]').attr("content", new_qrcode_src);  // filename);
+}
 
 /////////////////// Gallery //////////////////////
 setTimeout(function(){
@@ -152,7 +170,7 @@ setTimeout(function(){
     url: "/getauthurls",
     success: function(authurls) {
       $('#auth_url').empty().append(authurls);
-      setDetectCookies();
+      // setDetectCookies();
     }
   });
 }, 600);

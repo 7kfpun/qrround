@@ -56,7 +56,6 @@
                 {% endif %}
               </div>
 
-{# % cache 600 index_footer % #}
               <div class="tab-pane" id="lB">
                 <p>{% trans 'The higher error correct, the more readable code.' %}</p>
                 {{form.error_correct_choice }}
@@ -81,6 +80,7 @@
                 <label>{{ form.auto_post_facebook }} {{ form.auto_post_facebook.help_text }}</label>
               </div>
 
+{# % cache 600 index_footer % #}
             </div>
           </div>
         </div>

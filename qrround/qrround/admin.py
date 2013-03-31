@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from qrround.models import (
+from imagekit.admin import AdminThumbnail
+from .models import (
     CachedImage,
     Contact,
     Friend,
@@ -13,6 +14,7 @@ from qrround.models import (
 
 class CachedImageAdmin(admin.ModelAdmin):
     list_display = ('url', 'photo', 'photo_thumbnail',)
+    photo_thumbnail = AdminThumbnail(image_field='photo')
 
 
 class ContactAdmin(admin.ModelAdmin):
@@ -42,6 +44,7 @@ class QueryProfileAdmin(admin.ModelAdmin):
 
 class QRCodeAdmin(admin.ModelAdmin):
     list_display = ('text', 'photo', 'photo_thumbnail',)
+    photo_thumbnail = AdminThumbnail(image_field='photo_thumbnail')
 
 
 admin.site.register(CachedImage, CachedImageAdmin)

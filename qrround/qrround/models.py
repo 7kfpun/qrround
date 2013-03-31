@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.core.files import File
-from django.core.files.storage import FileSystemStorage
 from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
@@ -129,22 +128,6 @@ class Query(models.Model):
         return self.user.client
 
 
-# CustomStorage
-class CustomStorage(FileSystemStorage):
-    def _open(self, name, mode='rb'):
-        return File(open(self.path(name), mode))
-
-    def _save(self, name, content):
-        # here, you should implement how the file is to be saved
-        # like on other machines or something, and return the name of the file.
-        # In our case, we just return the name, and disable any kind of save
-        return name.replace('_1', '').replace('_2', '').replace('_3', '')
-
-
-custom_store = CustomStorage()
-# EndCustomStorage
-
-
 class QRCode(caching.base.CachingMixin, models.Model):
     query = models.ForeignKey(Query)
 
@@ -155,18 +138,24 @@ class QRCode(caching.base.CachingMixin, models.Model):
         blank=True
     )
 
+# photo = ProcessedImageField(
+#         max_length=255,
+#         upload_to='qrcode',
+#         format='JPEG',
+#         options={'quality': 70})
+
     photo_jpg = ImageSpecField(
         image_field='photo',
         processors=[ResizeToFit(640, 640)],
         format='JPEG',
-        options={'quality': 90},
+        options={'quality': 70},
     )
 
     photo_thumbnail = ImageSpecField(
         image_field='photo',
         processors=[ResizeToFit(100, 100)],
         format='JPEG',
-        options={'quality': 60},
+        options={'quality': 40},
     )
 
     # objects = caching.base.CachingManager()

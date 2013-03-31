@@ -223,13 +223,13 @@ def getauthurls(request):
         }
         renren_auth_url = renren.get_authorize_url(**params)
 
-        try:
-            twitter.callback = "%(redirect_url)s?state=%(state)s" \
-                % {'redirect_url': RENREN_REDIRECT_URI, 'state': state}
-            twitter_auth_url = twitter.get_authorization_url()
-        except tweepy.TweepError:
-            twitter_auth_url = None
-            logger.error('Error! Failed to get access token.')
+#         try:
+#             twitter.callback = "%(redirect_url)s?state=%(state)s" \
+#                 % {'redirect_url': RENREN_REDIRECT_URI, 'state': state}
+#             twitter_auth_url = twitter.get_authorization_url()
+#         except tweepy.TweepError:
+#             twitter_auth_url = None
+#             logger.error('Error! Failed to get access token.')
 
         # weibo
         params = {
@@ -246,7 +246,7 @@ def getauthurls(request):
             'kaixin001': kaixin001_auth_url,
             'linkedin': linkedin_auth_url,
             'renren': renren_auth_url,
-            'twitter': twitter_auth_url,
+            # 'twitter': twitter_auth_url,
             'weibo': weibo_auth_url,
         })
 
@@ -267,31 +267,37 @@ def store_session(request, channel, client_id, access_token, me, friends):
         first_name = data['user']['first_name']
         last_name = data['user']['last_name']
         username = data['user']['username']
+        url = data['user']['profile_url'].replace('www.', '')
 
     elif channel == 'google':
         first_name = data['user']['name']['givenName']
         last_name = data['user']['name']['familyName']
         username = data['user']['displayName']
+        url = data['user']['url']
 
     elif channel == 'linkedin':
         first_name = data['user']['firstName']
         last_name = data['user']['lastName']
         username = first_name + ' ' + last_name
+        url = 'https://linkedin.com/e/fpf/' + str(data['user']['id'])
 
     elif channel == 'kaixin001':
         first_name = ''
         last_name = ''
         username = data['user']['name']
+        url = 'http://kaixin001.com/home/?uid=' + str(data['user']['uid'])
 
     elif channel == 'twitter':
         first_name = ''
         last_name = ''
         username = data['user']['username']
+        url = ''
 
     elif channel == 'weibo':
         first_name = ''
         last_name = ''
         username = data['user']['screen_name']
+        url = ''
 
     logger.info('> Start create: ' + client_id)
     # Store user
@@ -304,6 +310,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
     userclient.last_name = last_name
     userclient.friends = data['friends']
     userclient.access_token = data['meta']['access_token']
+    userclient.url = url
 
     if channel == 'facebook':
         profile_picture_url = data['user'].get('pic_square', None)
@@ -335,7 +342,8 @@ def store_session(request, channel, client_id, access_token, me, friends):
 
     # Async task for getting caced images for friends
     task = callgetfriends.apply_async([client_id])
-    return HttpResponse(str(task) + '\n' + json.dumps(data))
+    data['meta']['task'] = str(task)
+    return HttpResponse(json.dumps(data))
 
     # response = redirect('close_window_reload')
     # response.delete_cookie('user_location')
