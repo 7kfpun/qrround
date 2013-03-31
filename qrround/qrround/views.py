@@ -19,8 +19,7 @@ import os
 from ratelimit.decorators import ratelimit
 import re
 import requests
-from settings.settings import MEDIA_ROOT, PROJECT_NAME_TEST, SITE_URL  # TODO: real NAME
-from settings.dotcloud import SITE_URL
+from settings.settings import MEDIA_ROOT, PROJECT_NAME_TEST  # TODO: real NAME
 from time import time
 import tweepy
 from urllib import urlencode
@@ -294,10 +293,12 @@ def store_session(request, channel, client_id, access_token, me, friends):
         last_name = ''
         username = data['user']['screen_name']
 
+    logger.info('> Start create: ' + client_id)
     # Store user
     userclient, created = UserClient.objects.get_or_create(
         client=client_id,
     )
+    logger.info('> Created: ' + client_id)
     userclient.username = username
     userclient.first_name = first_name
     userclient.last_name = last_name
@@ -321,6 +322,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
     userclient.profile_picture_url = profile_picture_url
     userclient.save()
 
+    logger.info('> Saved and start saving session: ' + client_id)
     # Session store --> login
     if channel in request.session:
         tmp = request.session[channel]
@@ -329,10 +331,10 @@ def store_session(request, channel, client_id, access_token, me, friends):
         request.session[channel] = tmp
     else:
         request.session[channel] = [client_id]
+    logger.info('> Call get frds: ' + client_id)
 
     # Async task for getting caced images for friends
     task = callgetfriends.apply_async([client_id])
-
     return HttpResponse(str(task) + '\n' + json.dumps(data))
 
     # response = redirect('close_window_reload')
@@ -407,6 +409,7 @@ def kaixin001callback(request):
         r = requests.get(exchange_url)
         try:
             access_token = r.json()['access_token']
+            logger.info('> access_token: ' + access_token)
 
             me_url = (
                 'https://api.kaixin001.com/users/me.json'
@@ -422,10 +425,11 @@ def kaixin001callback(request):
             friends = requests.get(friends_url).json()['users']
 
             client_id = 'kaixin001#' + str(me['uid'])
+            logger.info('> store_session: ' + client_id)
             return store_session(request, 'kaixin001', client_id,
                                  access_token, me, friends)
         except KeyError, e:
-            return HttpResponse(r.text)
+            return HttpResponse(str(e) + r.text)
 
     else:
         return HttpResponse('CSRF?')
@@ -464,7 +468,7 @@ def linkedincallback(request):
             return store_session(request, 'linkedin', client_id,
                                  access_token, me, friends)
         except KeyError, e:
-            return HttpResponse(r.text)
+            return HttpResponse(str(e) + r.text)
 
     else:
         return HttpResponse('CSRF?')
@@ -679,26 +683,29 @@ def getfriendsrequest(request):
         client_id = request.POST['import']
         friends_data = UserClient.objects.get(client=client_id).friends
 
+        print '>>>>>>>>>>>>>', client_id
+
         getfriendstask(client_id, True)
-        html = client_id \
-            + '\n has ' \
-            + str(len(friends_data)) + '\n\n'
+
+        html = client_id + ' has v ' + str(len(friends_data)) + '\n'
         logger.info('Finished get friends: %s' % html)
         return HttpResponse(html)
 
 
 @task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
 def callgetfriends(import_=None):
-    r = requests.post('%s/getfriends' % SITE_URL,
+    r = requests.post('%sgetfriends' % SITE_URL,
                       data={'import': import_})
-    print r.text[:500]
+    print r.text[:7000]
 
 
-@task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
+# @task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
 @transaction.commit_on_success
 def getfriendstask(client_id, cache_image=False):
     userclient = UserClient.objects.get(client=client_id)
     channel = userclient.client.split('#')[0]
+
+    print '>>>>>>>>>>>>>', client_id, channel
 
     if userclient.profile_picture_url:
         cachedimage, created = CachedImage.objects.get_or_create(
@@ -713,6 +720,8 @@ def getfriendstask(client_id, cache_image=False):
 
         # Caching friend's profile picture
         for frd in UserClient.objects.get(client=client_id).friends:
+            logger.info(frd)
+
             if channel == 'facebook':
                 profile_picture_url = frd.get('pic_square', None)
             elif channel == 'google':
@@ -737,6 +746,8 @@ def getfriendstask(client_id, cache_image=False):
                 # cachedimage = CachedImage(url=url)
                 cachedimage.user = userclient
                 cachedimage.cache_and_save()
+
+    return 'Succesfull'
 
 
 def testtasks(request):

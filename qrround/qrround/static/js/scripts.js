@@ -84,9 +84,9 @@ function notify(location, notify_type, msg) {
       <strong>Alert!</strong> ' + msg + '</div>');
   }
   alerts.fadeIn('fast');
-  setTimeout(function() {
-    alerts.fadeOut();
-  }, 5000);
+//  setTimeout(function() {
+//    alerts.fadeOut();
+//  }, 5000);
 }
 
 
