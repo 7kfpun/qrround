@@ -152,6 +152,7 @@ if ( $.cookie('helptip2') != 'false' ) {
   });
 }
 
+initialHelptip0();
 function initialHelptip0() {
   console.log($.cookie('helptip0'));
   if ( $.cookie('helptip0') != 'false' && $.cookie('helptip2') == 'false' ) {
@@ -166,6 +167,7 @@ function initialHelptip0() {
   }
 }
 
+initialHelptip1();
 function initialHelptip1() {
   console.log($.cookie('helptip1'));
   if ( $.cookie('helptip1') != 'false' && $.cookie('helptip0') == 'false' ) {

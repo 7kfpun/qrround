@@ -174,7 +174,7 @@ class QueryForm(forms.ModelForm):
     def clean_accept(self):
         cleaned_data = super(self.__class__, self).clean()
         if not cleaned_data.get('accept'):
-            raise forms.ValidationError(_('You should accept our policy'))
+            raise forms.ValidationError(_('You should accept our Privacy Policy and Terms of Service'))  # noqa
         return cleaned_data
 
     def clean_backdoor(self):
