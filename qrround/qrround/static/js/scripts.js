@@ -1,16 +1,16 @@
 function popitup(url) {
   newwindow = window.open(url, 'name', 'height=500,width=500');
-  if (window.focus) {newwindow.focus()}
+  if (window.focus) {newwindow.focus(); }
   return false;
 }
 
-$('.nav-tabs > li > a').hover( function(){
+$('.nav-tabs > li > a').hover(function() {
   $(this).tab('show');
 });
 
 ///////////////////// QR code /////////////////////
 // Send qrcode request
-$('#getqrcode_input').keydown(function (e){
+$('#getqrcode_input').keydown(function (e) {
   if(e.keyCode == 13){
       getqrcode(this);
   }
@@ -33,35 +33,25 @@ function getqrcode(el) {
       url: form.attr('action'),
       data: form.serialize(),
       success: function(data) {
-        console.log(data);
-        $('#qrcode').empty().append(data);
 
+        console.log(data);
+
+        $('#qrcode').empty().append($(data['html']).hide().fadeIn('1000'));
         $('#getqrcode_button').button('complete');
 
-        var number = Math.floor(Math.random() * 6);
-        var sentence;
-        if(number === 0) { sentence = 'Try more one?' }
-        else if(number === 1) { sentence = 'Step farther to make QR code more readable!' }
-        else if(number === 2) { sentence = 'Look beautiful?' }
-        else if(number === 3) { sentence = 'Love it?' }
-        else if(number === 4) { sentence = 'Share it!!!' }
-        else if(number === 5) { sentence = 'Where is your girlfriend?' }
-
-        notify('#alerts', 'success', sentence );
+        notify('#alerts', 'success', data['notice'] );
 
         // Append to gallery
         var new_qrcode_src = $('#qrcode img').attr('src');
         $('#gallery ul').prepend('<li class="span2"> \
-           <a href="' + new_qrcode_src + '" title="kkk" class="thumbnail" data-gallery="gallery"> \
+           <a href="' + new_qrcode_src + '" title="' + data['text'] + '" class="thumbnail" data-gallery="gallery"> \
              <img src="' + new_qrcode_src + '" width="100" height="100"> \
            </a> \
          </li>');
 
-        // Change meta for ShareThis
-        changeMeta(new_qrcode_src);
+        $('#sharethis').empty().load('http://127.0.0.1:8001/getsharethis/');
       },
       error: function (request, status, error) {
-        // alert(request.responseText);
         notify('#alerts', 'failure', request.responseText);
         $('#getqrcode_button').button('reset');
       },
@@ -69,12 +59,12 @@ function getqrcode(el) {
   }
 }
 
-function changeMeta(new_qrcode_src) {
-    console.log('Changing meta tags');
-    $('meta[property="og:url"]').attr("content", new_qrcode_src);  // window.location.href + "?" + filename);
-    $('meta[property="og:image"]').attr("content", new_qrcode_src);
-    $('meta[property="og:description"]').attr("content", new_qrcode_src);  // filename);
-}
+// function changeMeta(new_qrcode_src) {
+//     console.log('Changing meta tags');
+//     $('meta[property="og:url"]').attr("content", new_qrcode_src);  // window.location.href + "?" + filename);
+//     $('meta[property="og:image"]').attr("content", new_qrcode_src);
+//     $('meta[property="og:description"]').attr("content", new_qrcode_src);  // filename);
+// }
 
 /////////////////// Gallery //////////////////////
 setTimeout(function(){
@@ -82,10 +72,10 @@ setTimeout(function(){
     type: "GET",
     url: "/getgallery",
     success: function(gallery) {
-      $('#gallery').empty().append(gallery);
+      $('#gallery').empty().append($(gallery).hide().fadeIn(2000));
     }
   });
-}, 2000);
+}, 5000);
 
 
 ///////////////////// Alert /////////////////////
@@ -126,41 +116,6 @@ $('#id_accept').change(function() {
     console.log($('#id_accept').is(':checked'));
 });
 
-/*
-///////////////////// Detect cookies change /////////////////////
-function setDetectCookies() {
-  var cookieRegistry = [];
-  function listenCookieChange(cookieName, callback) {
-    setInterval(function() {
-      if (cookieRegistry[cookieName]) {
-        if ($.cookie(cookieName) != cookieRegistry[cookieName]) {
-          // update registry so we dont get triggered again
-          cookieRegistry[cookieName] = $.cookie(cookieName);
-          return callback();
-        }
-      } else {
-        cookieRegistry[cookieName] = $.cookie(cookieName);
-      }
-    }, 200);
-  }
-
-  $(channels).each(function(i, channel) {
-    console.log('detect', channel);
-    $.cookie(channel, 0, { path: '/' });
-    // bind the listener
-    listenCookieChange(channel, function() {
-      $.ajax({
-        type: "POST",
-        url: "/getfriends",
-        data: { import: channel },
-        success: function(data) {
-          console.log("Received: " + data);
-        }
-      });
-    });
-  });
-}
-*/
 
 ///////////////// Get auth urls ///////////////////
 var channels = ['facebook', 'google', 'kaixin001', 'linkedin', 'weibo']
@@ -216,20 +171,6 @@ $("#import_button").on("click", function() {
 $('#import').on("click", function() {
   location.reload();
   console.log("Import");
-  /*
-  $(channels).each(function(i, channel) {
-    console.log(channel)
-
-    $.ajax({
-      type: "POST",
-      url: "/getfriends",
-      data: { import: channel },
-      success: function(data) {
-        console.log("Received: " + data);
-      }
-    });
-  });
-  */
 });
 
 

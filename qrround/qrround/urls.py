@@ -10,10 +10,11 @@ admin.autodiscover()
 urlpatterns = patterns(
     'qrround.views',
 
-    url(r'^getauthurls$', 'getauthurls', name='getauthurls'),
-    url(r'^getqrcode$', 'getqrcode', name='getqrcode'),
-    url(r'getfriends$', 'getfriendsrequest', name='getfriendsrequest'),
-    url(r'getgallery$', 'getgallery', name='getgallery'),
+    url(r'^getsharethis/$', 'getsharethis', name='getsharethis'),
+    url(r'^getauthurls/$', 'getauthurls', name='getauthurls'),
+    url(r'^getqrcode/$', 'getqrcode', name='getqrcode'),
+    url(r'getfriends/$', 'getfriendsrequest', name='getfriendsrequest'),
+    url(r'getgallery/$', 'getgallery', name='getgallery'),
 
     url(r'postfacebookphotos', 'postfacebookphotos', name='postfacebookphotos'),  # noqa
     url(r'postkaixin001photos', 'postkaixin001photos', name='postkaixin001photos'),  # noqa

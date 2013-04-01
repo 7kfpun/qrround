@@ -16,6 +16,7 @@ from jinja2 import Template
 import json
 import logging
 import os
+from random import choice
 from ratelimit.decorators import ratelimit
 import re
 import requests
@@ -50,12 +51,20 @@ def login(request):
 def index(request):
     get = request.GET.get('get', '')
 
+    try:
+        qr = QRCode.objects.get(photo__contains='/%s.' % get)
+    except:
+        qr = ''
+
     return render(request, 'index.html', {
-        'qrcode': QRCode.objects.get(
-            photo__contains='/%s.' % get) if get else '',
+        'qrcode': qr,
         'form': QueryForm(session=request.session),
         'contact_form': ContactForm(),
     })
+
+
+def getsharethis(request):
+    return render(request, 'sharethis.html')
 
 
 def sendcontact(request):
@@ -279,7 +288,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
         first_name = data['user']['firstName']
         last_name = data['user']['lastName']
         username = first_name + ' ' + last_name
-        url = 'https://linkedin.com/e/fpf/' + str(data['user']['id'])
+        url = 'http://linkedin.com/e/fpf/' + str(data['user']['id'])
 
     elif channel == 'kaixin001':
         first_name = ''
@@ -664,14 +673,25 @@ def getqrcode(request):
             )
             photo.save()
 
-            return HttpResponse(
-                Template(
-                    '<img src="{{ MEDIA_URL }}{{ photo.photo_jpg.url }}" '
-                    'width="480" height="480" />').render(photo=photo)
-            )
+            data = {}
+            data['text'] = text
+            data['html'] = Template(
+                '<div class="thumbnail">'
+                '<img src="{{ MEDIA_URL }}{{ photo.photo_jpg.url }}" '
+                'width="480" height="480" /></div>').render(photo=photo)
+            data['notice'] = choice([
+                str(_('Try more one?')),
+                str(_('Step farther to make QR code more readable!')),
+                str(_('Look beautiful?')),
+                str(_('Love it?')),
+                str(_('Share it!!!')),
+                str(_('Where is your girlfriend?')),
+            ])
+
+            return HttpResponse(json.dumps(data), mimetype='application/json')
 
         except IndexError, e:
-            return HttpResponse(e)
+            return HttpResponseBadRequest(e)
 
 
 @csrf_exempt
@@ -702,7 +722,7 @@ def getfriendsrequest(request):
 
 @task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
 def callgetfriends(import_=None):
-    r = requests.post('%sgetfriends' % SITE_URL,
+    r = requests.post('%sgetfriends/' % SITE_URL,
                       data={'import': import_})
     print r.text[:7000]
 

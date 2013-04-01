@@ -114,10 +114,10 @@ class QueryForm(forms.ModelForm):
     )
 
     auto_post_facebook = forms.NullBooleanField(
-        label=_('Auto post'),
+        label=_('Auto facebook post'),
         widget=forms.CheckboxInput,
         initial=True,
-        help_text=_('Post the code to your Facebook'),
+        help_text=_('Auto post the code to your Facebook'),
     )
 
     STYLE_CHOICES = (
