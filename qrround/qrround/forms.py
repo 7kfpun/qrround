@@ -70,7 +70,7 @@ class QueryForm(forms.ModelForm):
     )
 
     CHANNEL_CHOICES = (
-        ('', '<< Empty >>',),
+        ('0', '<< Empty >>',),
     )
     channel_choice = forms.MultipleChoiceField(
         label=_('Channel choice'),
@@ -117,7 +117,7 @@ class QueryForm(forms.ModelForm):
         label=_('Auto facebook post'),
         widget=forms.CheckboxInput,
         initial=True,
-        help_text=_('Auto post the code to your Facebook'),
+        help_text=_('Auto post the code to your Facebook wall (only when you have a Facebook account)'),  # noqa
     )
 
     STYLE_CHOICES = (
