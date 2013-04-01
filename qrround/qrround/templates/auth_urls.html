@@ -1,22 +1,28 @@
 {% load i18n %}
 
-<p>
-  <a class="btn importButton" onclick=popitup("{{ facebook }}")><i class="icon-facebook icon-spin"></i> Facebook</a>
-  {% trans 'Import your friends' %}
-<p>
-<p>
-  <a class="btn importButton" onclick=popitup("{{ google }}")><i class="icon-google-plus"></i> Google Plus</a>
-  {% trans 'Import your friends' %}
-<p>
-<p>
-  <a class="btn importButton" onclick=popitup("{{ kaixin001 }}")><i class="icon-repeat"></i> Kaixin001</a>
-  {% trans 'Import your friends' %}
-<p>
-<p>
-  <a class="btn importButton" onclick=popitup("{{ linkedin }}")><i class="icon-linkedin"></i> LinkedIn</a>
-  {% trans 'Import your friends' %}
-<p>
-<p>
-  <a class="btn importButton" onclick=popitup("{{ weibo }}")><i class="icon-linkedin"></i> Weibo</a>
-  {% trans 'Import your friends' %}
-<p>
+<div class="span2">
+  <a class="btn importButton" onclick=popitup("{{ facebook }}")>
+    <img src="{{ STATIC_URL }}ico/facebook.png" height="58" width="58" /> {% trans 'Import your friends from <strong>Facebook</strong>' %}
+  </a>
+</div>
+<div class="span2">
+  <a class="btn importButton" onclick=popitup("{{ google }}")>
+    <img src="{{ STATIC_URL }}ico/google.png" height="58" width="58" /> {% trans 'Import your friends from <strong>Google Plus</strong>' %}
+  </a>
+</div>
+<div class="span2">
+  <a class="btn importButton" onclick=popitup("{{ linkedin }}")>
+    <img src="{{ STATIC_URL }}ico/linkedin.png" height="58" width="58" /> {% trans 'Import your friends from <strong>LinkedIn</strong>' %}
+  </a>
+</div>
+<br /><br /><br /><br /><br /><br /><br />
+<div class="span2">
+  <a class="btn importButton" onclick=popitup("{{ kaixin001 }}")>
+    <img src="{{ STATIC_URL }}ico/kaixin001.png" height="58" width="58" /> {% trans 'Import your friends from <strong>Kaixin001</strong>' %}
+  </a>
+</div>
+<div class="span2">
+  <a class="btn importButton" onclick=popitup("{{ weibo }}")>
+    <img src="{{ STATIC_URL }}ico/weibo.png" height="58" width="58" /> {% trans 'Import your friends from <strong>Sina Weibo</strong>' %}
+  </a>
+</div>

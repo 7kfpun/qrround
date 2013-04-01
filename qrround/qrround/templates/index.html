@@ -11,7 +11,7 @@
   <div class="btn-group">
     {{ form.text }}
     <button class="btn" id="import_button" type="button"><abbr title="HyperText Markup Language">{% trans 'Import' %}</abbr></button>
-    <button class="btn" id="getqrcode_button" type="button" data-loading-text="{% trans 'Loading...' %}" data-complete-text="{% trans 'Complete!' %}">{% trans 'Have fun!' %}</button>
+    <button class="btn btn-primary" id="getqrcode_button" type="button" data-loading-text="{% trans 'Loading...' %}" data-complete-text="{% trans 'Complete!' %}">{% trans 'Have fun!' %}</button>
   </div>
   <div class="row nowidth">
     <div class="span1 offset2 nowidth">{{ form.accept }}</div>
@@ -78,14 +78,16 @@
               <div class="tab-pane" id="lD">
                 <p>{% trans 'Show off to your friends!!' %}</p>
                 <label>{{ form.auto_post_facebook }} {{ form.auto_post_facebook.help_text }}</label>
+                <br />
+                <p>{% trans 'Or share it to ...' %}</p>
 								<div id="sharethis">
-									<span class='st_sharethis_vcount' displayText='ShareThis'></span>
-									<span class='st_facebook_vcount' displayText='Facebook'></span>
-									<span class='st_googleplus_vcount' displayText='Google +'></span>
-									<span class='st_linkedin_vcount' displayText='LinkedIn'></span>
-									<span class='st_twitter_vcount' displayText='Tweet'></span>
-									<span class='st_sina_vcount' displayText='Sina'></span>
-									<span class='st_email_vcount' displayText='Email'></span>
+									<span class='st_sharethis_large' displayText='ShareThis'></span>
+									<span class='st_facebook_large' displayText='Facebook'></span>
+									<span class='st_googleplus_large' displayText='Google +'></span>
+									<span class='st_linkedin_large' displayText='LinkedIn'></span>
+									<span class='st_twitter_large' displayText='Tweet'></span>
+									<span class='st_sina_large' displayText='Sina'></span>
+									<span class='st_email_large' displayText='Email'></span>
 								</div>
               </div>
 

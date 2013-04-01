@@ -688,6 +688,10 @@ def getqrcode(request):
                 'Where is your girlfriend?',
             ])
 
+            if form.data['auto_post_facebook']:
+                # task = autopostfacebook.apply_async([client_id])
+                pass
+
             return HttpResponse(json.dumps(data), mimetype='application/json')
 
         except IndexError, e:

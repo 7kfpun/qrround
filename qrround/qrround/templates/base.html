@@ -12,12 +12,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-<meta property="og:title" content="QRROUND" />
-<meta property="og:type" content="1234567890" />
-<meta property="og:url" content="http://sharethis.com" />
-<meta property="og:image" content="http://sharethis.com/images/logo.jpg" />
-<meta property="og:description" content="Sharing is great!" />
-<meta property="og:site_name" content="ShareThis" />
+    <meta property="og:title" content="Test" />
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{{ STATIC_URL }}ico/favicon.ico" />
+    <meta property="og:description" content="Sharing is great!" />
+    <meta property="og:site_name" content="TestThis" />
 
     <!-- CSS CDN -->
     <!--
@@ -74,7 +73,7 @@
             </li>
           </li>
         </ul>
-        <h3 class="muted">{% trans 'Project name' %}</h3>
+        <h3 class="muted"><img src="{{ STATIC_URL }}ico/favicon.ico" height="38" width="38" />{% trans 'Project name' %}</h3>
       </div>
 
       <hr>
@@ -84,13 +83,11 @@
         <h1>{% trans 'It is Super<br />Awesome!' %}</h1>
         <p class="lead">{% trans 'ทุกสิ่งทุกอย่างมีเลิกลา มันเป็นไปตามกาลเวลา<br />มีพลัดมีพรากมีจากไป คงต้องยอมทำใจ<br />คงต้องยอมเสียใจ อย่าขวางชะตานั้น<br />ปล่อยมันให้เป็นไป ชีวิตที่มีไม่คิดเสียดาย<br />จะยังไงไม่ยอมเสียเธอ' %}</p>
         <!-- Friend QR analyzes your Facebook profile and creates a unique collage of your friends such that your best friends have the biggest pictures. Find out who is on your Friend Matrix! -->
-        <a class="btn btn-large btn-success" data-loading-text="Loading...">{% trans 'Sign up today' %}</a>
 
         {% block content %}{% endblock %}
       </div>
 
       <div id="content">
-        <hr>
         {% include "clients.html" %}
       </div>
 
@@ -98,7 +95,7 @@
 
 {# % cache 600 base_footer % #}
       <div class="footer">
-        <p>&copy; KFPUN 2013</p>
+        <p>&copy; 2013 - {% now "Y" %} KFPUN, All Rights Reserved.</p>
       </div> <!-- /container -->
 
     {% include "modals.html" %}
@@ -108,7 +105,7 @@
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
-     -->
+    -->
 
     {% compress js %}
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.min.js"></script>
