@@ -63,8 +63,8 @@ function changeMeta(st_url, st_image) {
   $('span[class^="st_"]').html(''); // Empty span contents
   $('span[class^="st_"]').attr('st_processed', null); // Reset ST plugin
   
-  $('span[class^="st_"]').attr('st_url', window.location.origin + '/' + st_url);
-  $('span[class^="st_"]').attr('st_image', window.location.origin + '/' + st_url);
+  $('span[class^="st_"]').attr('st_url', window.location.href + '/' + st_url);
+  $('span[class^="st_"]').attr('st_image', window.location.href + '/' + st_url);
   stButtons.makeButtons(); 
 }
 // function changeMeta(new_qrcode_src) {
@@ -139,7 +139,44 @@ setTimeout(function(){
 }, 600);
 
 
-///////////////////// Initialize Model /////////////////////
+///////////////////// Initialize Tooltip and Model /////////////////////
+console.log($.cookie('helptip2'));
+if ( $.cookie('helptip2') != 'false' ) {
+  $($('[data-toggle="popover"]')[2]).popover('show');
+
+  $('.popover button,#id_accept').click(function() {
+    $($('[data-toggle="popover"]')[2]).popover('destroy');
+    $.cookie('helptip2', 'false');
+
+    initialHelptip0();
+  });
+}
+
+function initialHelptip0() {
+  console.log($.cookie('helptip0'));
+  if ( $.cookie('helptip0') != 'false' && $.cookie('helptip2') == 'false' ) {
+    $($('[data-toggle="popover"]')[0]).popover('show');
+
+    $('.popover button,#import_button').click(function() {
+      $($('[data-toggle="popover"]')[0]).popover('destroy');
+      $.cookie('helptip0', 'false');
+
+      initialHelptip1();
+    });
+  }
+}
+
+function initialHelptip1() {
+  console.log($.cookie('helptip1'));
+  if ( $.cookie('helptip1') != 'false' && $.cookie('helptip0') == 'false' ) {
+    $($('[data-toggle="popover"]')[1]).popover('show');
+    $('.popover button,#getqrcode_button').click(function() {
+      $($('[data-toggle="popover"]')[1]).popover('destroy');
+      $.cookie('helptip1', 'false');
+    });
+  }
+}
+
 $("#policy_modal_link").on("click", function() {
     $('#policy_modal').modal('show');
 });

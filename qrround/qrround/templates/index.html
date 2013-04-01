@@ -10,11 +10,11 @@
   {{ form.backdoor }}
   <div class="btn-group">
     {{ form.text }}
-    <button class="btn" id="import_button" type="button"><abbr title="HyperText Markup Language">{% trans 'Import' %}</abbr></button>
-    <button class="btn btn-primary" id="getqrcode_button" type="button" data-loading-text="{% trans 'Loading...' %}" data-complete-text="{% trans 'Complete!' %}">{% trans 'Have fun!' %}</button>
+    <button class="btn" id="import_button" type="button" data-toggle="popover" data-html="true" data-placement="top" data-content="{% trans 'Import your social account' %}" data-original-title="{% trans 'Second step' %} <button type='button' class='close'>×</button>">{% trans 'Import' %}</button>
+    <button class="btn btn-primary" id="getqrcode_button" type="button" data-toggle="popover" data-html="true" data-placement="top" data-content="{% trans 'Get your cool QR code!' %}" data-original-title="{% trans 'Third step' %} <button type='button' class='close'>×</button>">{% trans 'Have fun!' %}</button>
   </div>
   <div class="row nowidth">
-    <div class="span1 offset2 nowidth">{{ form.accept }}</div>
+    <div class="span1 offset2 nowidth" data-toggle="popover" data-html="true" data-placement="bottom" data-content="{% trans 'Read and accept our Privacy Policy and Terms of Service' %}" data-original-title="{% trans 'First step' %} <button type='button' class='close'>×</button>">{{ form.accept }}</div>
     <div class="span4 nowidth">{{ form.accept.label_tag }}</div>
     <div class="span6 nowidth">{{ form.accept.help_text }}</div>
   </div>
