@@ -306,7 +306,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
         first_name = ''
         last_name = ''
         username = data['user']['screen_name']
-        url = ''
+        url = 'http://weibo.com/u/' + str(data['user']['idstr'])
 
     logger.info('> Start create: ' + client_id)
     # Store user
