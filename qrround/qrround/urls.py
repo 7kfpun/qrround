@@ -10,10 +10,11 @@ admin.autodiscover()
 urlpatterns = patterns(
     'qrround.views',
 
-    url(r'^getauthurls$', 'getauthurls', name='getauthurls'),
-    url(r'^getqrcode$', 'getqrcode', name='getqrcode'),
-    url(r'getfriends$', 'getfriendsrequest', name='getfriendsrequest'),
-    url(r'getgallery$', 'getgallery', name='getgallery'),
+    url(r'^getsharethis/$', 'getsharethis', name='getsharethis'),
+    url(r'^getauthurls/$', 'getauthurls', name='getauthurls'),
+    url(r'^getqrcode/$', 'getqrcode', name='getqrcode'),
+    url(r'getfriends/$', 'getfriendsrequest', name='getfriendsrequest'),
+    url(r'getgallery/$', 'getgallery', name='getgallery'),
 
     url(r'postfacebookphotos', 'postfacebookphotos', name='postfacebookphotos'),  # noqa
     url(r'postkaixin001photos', 'postkaixin001photos', name='postkaixin001photos'),  # noqa
@@ -42,6 +43,8 @@ urlpatterns = patterns(
     url(r'^close_window$', 'close_window', name='close_window'),
     url(r'^close_window_reload$', 'close_window', {
         'is_reload': True}, name='close_window_reload'),
+
+    url(r'testtasks$', 'testtasks', name='testtasks'),
 
     # the rest is above
     url(r'^i18n/', include('django.conf.urls.i18n')),

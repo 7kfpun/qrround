@@ -1,9 +1,14 @@
+from captcha.fields import ReCaptchaField
 from django import forms
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
+from random import choice
+
 from .channels import channels
-from .models import Query
-from captcha.fields import ReCaptchaField
+from .models import (
+    Query,
+    UserClient,
+)
 
 BACKDOOR_KEY = 'kkk'
 
@@ -65,7 +70,7 @@ class QueryForm(forms.ModelForm):
     )
 
     CHANNEL_CHOICES = (
-        ('', '<< Empty >>',),
+        ('0', '<< Empty >>',),
     )
     channel_choice = forms.MultipleChoiceField(
         label=_('Channel choice'),
@@ -109,10 +114,10 @@ class QueryForm(forms.ModelForm):
     )
 
     auto_post_facebook = forms.NullBooleanField(
-        label=_('Auto post'),
+        label=_('Auto facebook post'),
         widget=forms.CheckboxInput,
         initial=True,
-        help_text=_('Post the code to your Facebook'),
+        help_text=_('Auto post the code to your Facebook wall (only when you have a Facebook account)'),  # noqa
     )
 
     STYLE_CHOICES = (
@@ -153,8 +158,12 @@ class QueryForm(forms.ModelForm):
             (client, channel) for channel in channels if channel in session
             for client in session[channel]
         ]
-        self.fields['channel_choice'].initial = (
-            choice[0] for choice in self.fields['channel_choice'].choices)
+        if self.fields['channel_choice'].choices:
+            self.fields['text'].initial = UserClient.objects.get(
+                client=choice(self.fields['channel_choice'].choices)[0]).url  # noqa
+
+            self.fields['channel_choice'].initial = (
+                choice[0] for choice in self.fields['channel_choice'].choices)
 
     def clean_text(self):
         cleaned_data = super(self.__class__, self).clean()

@@ -11,15 +11,16 @@ from django.shortcuts import redirect, render   # , get_object_or_404
 # from django.template import Context, Template
 from django.utils.translation import ugettext_lazy as _
 # from django.views.decorators.cache import cache_page
+from django.views.decorators.csrf import csrf_exempt
 from jinja2 import Template
 import json
 import logging
 import os
+from random import choice
 from ratelimit.decorators import ratelimit
 import re
 import requests
-from settings.settings import MEDIA_ROOT, PROJECT_NAME_TEST  # TODOPROJECT_NAME
-#import StringIO
+from settings.settings import MEDIA_ROOT, PROJECT_NAME_TEST  # TODO: real NAME
 from time import time
 import tweepy
 from urllib import urlencode
@@ -32,7 +33,6 @@ from .helpers import unique_generator
 from .models import (
     CachedImage,
     Contact,
-    # Friend,
     UserClient,
     Query,
     QRCode,
@@ -49,18 +49,22 @@ def login(request):
 
 
 def index(request):
-    print 'LANGUAGE_CODE LANGUAGE_CODE', request.LANGUAGE_CODE
+    get = request.GET.get('get', '')
 
-#    all_clients = [client for channel in channels
-#                   for client in request.session.get(channel, [])]
-#    print all_clients
+    try:
+        qr = QRCode.objects.get(photo__contains='/%s.' % get)
+    except:
+        qr = ''
 
     return render(request, 'index.html', {
+        'qrcode': qr,
         'form': QueryForm(session=request.session),
         'contact_form': ContactForm(),
-        # 'qrcodes': QRCode.objects.filter(
-        #     query__user__client__in=all_clients)
     })
+
+
+def getsharethis(request):
+    return render(request, 'sharethis.html')
 
 
 def sendcontact(request):
@@ -177,7 +181,7 @@ def postkaixin001photos(request):
     return HttpResponse('\n'.join(posts))
 
 
-@ratelimit(rate='20/m')
+@ratelimit(rate='40/m')
 def getauthurls(request):
     if getattr(request, 'limited', False):
         # Reach rate limit
@@ -228,13 +232,13 @@ def getauthurls(request):
         }
         renren_auth_url = renren.get_authorize_url(**params)
 
-        try:
-            twitter.callback = "%(redirect_url)s?state=%(state)s" \
-                % {'redirect_url': RENREN_REDIRECT_URI, 'state': state}
-            twitter_auth_url = twitter.get_authorization_url()
-        except tweepy.TweepError:
-            twitter_auth_url = None
-            logger.error('Error! Failed to get access token.')
+#         try:
+#             twitter.callback = "%(redirect_url)s?state=%(state)s" \
+#                 % {'redirect_url': RENREN_REDIRECT_URI, 'state': state}
+#             twitter_auth_url = twitter.get_authorization_url()
+#         except tweepy.TweepError:
+#             twitter_auth_url = None
+#             logger.error('Error! Failed to get access token.')
 
         # weibo
         params = {
@@ -251,7 +255,7 @@ def getauthurls(request):
             'kaixin001': kaixin001_auth_url,
             'linkedin': linkedin_auth_url,
             'renren': renren_auth_url,
-            'twitter': twitter_auth_url,
+            # 'twitter': twitter_auth_url,
             'weibo': weibo_auth_url,
         })
 
@@ -268,9 +272,74 @@ def store_session(request, channel, client_id, access_token, me, friends):
         'friends': friends,
     }
 
-    getfriends(data, cache_image=False)
+    if channel == 'facebook':
+        first_name = data['user']['first_name']
+        last_name = data['user']['last_name']
+        username = data['user']['username']
+        url = data['user']['profile_url'].replace('www.', '')
 
-    request.session[client_id] = data
+    elif channel == 'google':
+        first_name = data['user']['name']['givenName']
+        last_name = data['user']['name']['familyName']
+        username = data['user']['displayName']
+        url = data['user']['url']
+
+    elif channel == 'linkedin':
+        first_name = data['user']['firstName']
+        last_name = data['user']['lastName']
+        username = first_name + ' ' + last_name
+        url = 'http://linkedin.com/e/fpf/' + str(data['user']['id'])
+
+    elif channel == 'kaixin001':
+        first_name = ''
+        last_name = ''
+        username = data['user']['name']
+        url = 'http://kaixin001.com/home/?uid=' + str(data['user']['uid'])
+
+    elif channel == 'twitter':
+        first_name = ''
+        last_name = ''
+        username = data['user']['username']
+        url = ''
+
+    elif channel == 'weibo':
+        first_name = ''
+        last_name = ''
+        username = data['user']['screen_name']
+        url = ''
+
+    logger.info('> Start create: ' + client_id)
+    # Store user
+    userclient, created = UserClient.objects.get_or_create(
+        client=client_id,
+    )
+    logger.info('> Created: ' + client_id)
+    userclient.username = username
+    userclient.first_name = first_name
+    userclient.last_name = last_name
+    userclient.friends = data['friends']
+    userclient.access_token = data['meta']['access_token']
+    userclient.url = url
+
+    if channel == 'facebook':
+        profile_picture_url = data['user'].get('pic_square', None)
+    elif channel == 'google':
+        profile_picture_url = data['user']['image']['url'] \
+            if 'image' in data['user'] else None
+    elif channel == 'linkedin':
+        profile_picture_url = data['user'].get('pictureUrl', None)
+    elif channel == 'kaixin001':
+        profile_picture_url = data['user'].get('logo50', None)
+    elif channel == 'twitter' or channel == 'weibo':
+        profile_picture_url = data['user']['profile_image_url']
+    else:
+        profile_picture_url = None
+
+    userclient.profile_picture_url = profile_picture_url
+    userclient.save()
+
+    logger.info('> Saved and start saving session: ' + client_id)
+    # Session store --> login
     if channel in request.session:
         tmp = request.session[channel]
         if client_id not in tmp:
@@ -278,13 +347,16 @@ def store_session(request, channel, client_id, access_token, me, friends):
         request.session[channel] = tmp
     else:
         request.session[channel] = [client_id]
+    logger.info('> Call get frds: ' + client_id)
 
-    response = redirect('/close_window')
+    # Async task for getting caced images for friends
+    task = callgetfriends.apply_async([client_id])
+    data['meta']['task'] = str(task)
+    return HttpResponse(json.dumps(data))
 
-    response = HttpResponse(json.dumps(data))  # block and see return data  TODO remove it  # noqa
-
-    response.set_cookie(channel, time())
-    return response
+    # response = redirect('close_window_reload')
+    # response.delete_cookie('user_location')
+    # return response
 
 
 def facebookcallback(request):
@@ -352,24 +424,29 @@ def kaixin001callback(request):
             + '&redirect_uri=' + KAIXIN001_REDIRECT_URI
         )
         r = requests.get(exchange_url)
-        access_token = r.json()['access_token']
+        try:
+            access_token = r.json()['access_token']
+            logger.info('> access_token: ' + access_token)
 
-        me_url = (
-            'https://api.kaixin001.com/users/me.json'
-            '?access_token=' + access_token
-        )
-        me = requests.get(me_url).json()
+            me_url = (
+                'https://api.kaixin001.com/users/me.json'
+                '?access_token=' + access_token
+            )
+            me = requests.get(me_url).json()
 
-        friends_url = (
-            'https://api.kaixin001.com/friends/me.json'
-            '?num=50'
-            '&access_token=' + access_token
-        )
-        friends = requests.get(friends_url).json()['users']
+            friends_url = (
+                'https://api.kaixin001.com/friends/me.json'
+                '?num=50'
+                '&access_token=' + access_token
+            )
+            friends = requests.get(friends_url).json()['users']
 
-        client_id = 'kaixin001#' + str(me['uid'])
-        return store_session(request, 'kaixin001', client_id,
-                             access_token, me, friends)
+            client_id = 'kaixin001#' + str(me['uid'])
+            logger.info('> store_session: ' + client_id)
+            return store_session(request, 'kaixin001', client_id,
+                                 access_token, me, friends)
+        except KeyError, e:
+            return HttpResponse(str(e) + r.text)
 
     else:
         return HttpResponse('CSRF?')
@@ -386,26 +463,29 @@ def linkedincallback(request):
             + '&client_secret=' + LINKEDIN_CLIENT_SECRET + ''
         )
         r = requests.post(exchange_url)
-        access_token = r.json()['access_token']
-
-        me_url = (
-            'https://api.linkedin.com/v1/people/~'
-            ':(id,first-name,last-name,headline,picture-url)'
-            '?oauth2_access_token=' + access_token + '&format=json'
-        )
-        me = requests.get(me_url).json()
-
         try:
-            friends_url = (
-                'https://api.linkedin.com/v1/people/~/connections'
-                '?oauth2_access_token=' + access_token + '&format=json')
-            friends = requests.get(friends_url).json()['values']
-        except KeyError:
-            friends = []
+            access_token = r.json()['access_token']
 
-        client_id = 'linkedin#' + str(me['id'])
-        return store_session(request, 'linkedin', client_id,
-                             access_token, me, friends)
+            me_url = (
+                'https://api.linkedin.com/v1/people/~'
+                ':(id,first-name,last-name,headline,picture-url)'
+                '?oauth2_access_token=' + access_token + '&format=json'
+            )
+            me = requests.get(me_url).json()
+
+            try:
+                friends_url = (
+                    'https://api.linkedin.com/v1/people/~/connections'
+                    '?oauth2_access_token=' + access_token + '&format=json')
+                friends = requests.get(friends_url).json()['values']
+            except KeyError:
+                friends = []
+
+            client_id = 'linkedin#' + str(me['id'])
+            return store_session(request, 'linkedin', client_id,
+                                 access_token, me, friends)
+        except KeyError, e:
+            return HttpResponse(str(e) + r.text)
 
     else:
         return HttpResponse('CSRF?')
@@ -593,20 +673,32 @@ def getqrcode(request):
             )
             photo.save()
 
-            return HttpResponse(
-                Template(
-                    '<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
-                    'width="480" height="480" />').render(photo=photo)
-            )
+            data = {}
+            data['text'] = text
+            data['html'] = Template(
+                '<div class="thumbnail">'
+                '<img src="{{ MEDIA_URL }}{{ photo.photo_jpg.url }}" '
+                'width="480" height="480" /></div>').render(photo=photo)
+            data['notice'] = choice([
+                'Try more one?',
+                'Step farther to make QR code more readable!',
+                'Look beautiful?',
+                'Love it?',
+                'Share it!!!',
+                'Where is your girlfriend?',
+            ])
 
-#            return HttpResponse('<img src="/media/qrcode/%s" '
-#                                'width="480" height="480" />' % filename)
+            if form.data['auto_post_facebook']:
+                # task = autopostfacebook.apply_async([client_id])
+                pass
+
+            return HttpResponse(json.dumps(data), mimetype='application/json')
 
         except IndexError, e:
-            return HttpResponse(e)
+            return HttpResponseBadRequest(e)
 
 
-@ratelimit(rate='60/m')
+@csrf_exempt
 @transaction.commit_on_success
 def getfriendsrequest(request):
     if request.method == 'GET':
@@ -618,97 +710,50 @@ def getfriendsrequest(request):
             _('Was_limited: we are poor, cannot afford server cost. '
               'Donate some and we can buy more server time'))
 
-    elif request.method == 'POST' and request.is_ajax() \
-            and 'import' in request.POST:
-        html = ''
-        for client_id in request.session[request.POST['import']]:
-            if client_id in request.session:
-                data = request.session.pop(client_id)
-                getfriends(data, True)
+    # and request.is_ajax()
+    elif request.method == 'POST' and 'import' in request.POST:
+        client_id = request.POST['import']
+        friends_data = UserClient.objects.get(client=client_id).friends
 
-                html += client_id \
-                    + '\n' + json.dumps(data['user']) + ' has ' \
-                    + str(len(data['friends'])) + '\n\n'
-                logger.info('Finished get friends: %s' % html)
+        print '>>>>>>>>>>>>>', client_id
+
+        getfriendstask(client_id, True)
+
+        html = client_id + ' has v ' + str(len(friends_data)) + '\n'
+        logger.info('Finished get friends: %s' % html)
         return HttpResponse(html)
 
 
-@task(ignore_result=True)
-def getfriendstask(data):
-    getfriends(data, True)
+@task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
+def callgetfriends(import_=None):
+    r = requests.post('%sgetfriends/' % SITE_URL,
+                      data={'import': import_})
+    print r.text[:7000]
 
 
-def getfriends(data, cache_image=False):
-    channel = data['meta']['channel']
-    channel_id = str(data['user'].get('id', None)
-                     or data['user'].get('uid', None))
+# @task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
+@transaction.commit_on_success
+def getfriendstask(client_id, cache_image=False):
+    userclient = UserClient.objects.get(client=client_id)
+    channel = userclient.client.split('#')[0]
 
-    if channel == 'facebook':
-        first_name = data['user']['first_name']
-        last_name = data['user']['last_name']
-        username = data['user']['username']
+    print '>>>>>>>>>>>>>', client_id, channel
 
-    elif channel == 'google':
-        first_name = data['user']['name']['givenName']
-        last_name = data['user']['name']['familyName']
-        username = data['user']['displayName']
-
-    elif channel == 'linkedin':
-        first_name = data['user']['firstName']
-        last_name = data['user']['lastName']
-        username = first_name + ' ' + last_name
-
-    elif channel == 'kaixin001':
-        first_name = ''
-        last_name = ''
-        username = data['user']['name']
-
-    elif channel == 'twitter':
-        first_name = ''
-        last_name = ''
-        username = data['user']['username']
-
-    elif channel == 'weibo':
-        first_name = ''
-        last_name = ''
-        username = data['user']['screen_name']
-
-    userclient, created = UserClient.objects.get_or_create(
-        client=channel + '#' + channel_id,
-    )
-    userclient.username = username
-    userclient.first_name = first_name
-    userclient.last_name = last_name
-    userclient.friends = data['friends']
-    userclient.access_token = data['meta']['access_token']
-
-    if channel == 'facebook':
-        profile_picture_url = data['user'].get('pic_square', None)
-    elif channel == 'google':
-        profile_picture_url = data['user']['image']['url'] \
-            if 'image' in data['user'] else None
-    elif channel == 'linkedin':
-        profile_picture_url = data['user'].get('pictureUrl', None)
-    elif channel == 'kaixin001':
-        profile_picture_url = data['user'].get('logo50', None)
-    elif channel == 'twitter' or channel == 'weibo':
-        profile_picture_url = data['user']['profile_image_url']
-    else:
-        profile_picture_url = None
-
-    userclient.profile_picture_url = profile_picture_url
-    userclient.save()
+    if userclient.profile_picture_url:
+        cachedimage, created = CachedImage.objects.get_or_create(
+            user=userclient,
+            url=userclient.profile_picture_url
+        )
+        cachedimage.cache_and_save()
 
     if cache_image:
-        if profile_picture_url:
-            cachedimage, created = CachedImage.objects.get_or_create(
-                url=profile_picture_url)
-            cachedimage.cache_and_save()
+        frd_cachedimage = userclient.cachedimage_set.values_list(
+            'url', flat=True)
 
-        frd_cachedimage = userclient.cachedimage_set.values_list('url',
-                                                                 flat=True)
         # Caching friend's profile picture
-        for frd in data['friends']:
+        for frd in UserClient.objects.get(client=client_id).friends:
+            logger.info(frd)
+
             if channel == 'facebook':
                 profile_picture_url = frd.get('pic_square', None)
             elif channel == 'google':
@@ -734,7 +779,16 @@ def getfriends(data, cache_image=False):
                 cachedimage.user = userclient
                 cachedimage.cache_and_save()
 
+    return 'Succesfull'
 
-@task(ignore_result=True)
+
+def testtasks(request):
+    x = int(request.GET.get('x', '1'))
+    y = int(request.GET.get('y', '2'))
+    t = add.apply_async([x, y])
+    return HttpResponse(t.get())
+
+
+@task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
 def add(x, y):
     return x + y

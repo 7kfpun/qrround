@@ -3,15 +3,15 @@
 {% load cache %}
 
 {% block content %}
-<p id="qrcode"></p>
+<p id="qrcode">{% if qrcode %}<img src="{{ MEDIA_URL }}{{ qrcode.photo.url }}" width="480" height="480" />{% endif %}</p>
 <div id="alerts"></div>
 
-<form action="/getqrcode" method="post" onsubmit="return false">
+<form action="/getqrcode/" method="post" onsubmit="return false">
   {{ form.backdoor }}
   <div class="btn-group">
     {{ form.text }}
     <button class="btn" id="import_button" type="button"><abbr title="HyperText Markup Language">{% trans 'Import' %}</abbr></button>
-    <button class="btn" id="getqrcode_button" type="button" data-loading-text="{% trans 'Loading...' %}" data-complete-text="{% trans 'Complete!' %}">{% trans 'Have fun!' %}</button>
+    <button class="btn btn-primary" id="getqrcode_button" type="button" data-loading-text="{% trans 'Loading...' %}" data-complete-text="{% trans 'Complete!' %}">{% trans 'Have fun!' %}</button>
   </div>
   <div class="row nowidth">
     <div class="span1 offset2 nowidth">{{ form.accept }}</div>
@@ -35,7 +35,7 @@
               <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
               <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
               <li class=""><a href="#lC" data-toggle="tab">{% trans "Color & style "%}</a></li>
-              <li class=""><a href="#lD" data-toggle="tab">{{ form.auto_post_facebook.label_tag }}</a></li>
+              <li class=""><a href="#lD" data-toggle="tab">{% trans "Share it" %}</a></li>
             </ul>
 
             <div class="tab-content options">
@@ -56,7 +56,6 @@
                 {% endif %}
               </div>
 
-{# % cache 600 index_footer % #}
               <div class="tab-pane" id="lB">
                 <p>{% trans 'The higher error correct, the more readable code.' %}</p>
                 {{form.error_correct_choice }}
@@ -79,8 +78,20 @@
               <div class="tab-pane" id="lD">
                 <p>{% trans 'Show off to your friends!!' %}</p>
                 <label>{{ form.auto_post_facebook }} {{ form.auto_post_facebook.help_text }}</label>
+                <br />
+                <p>{% trans 'Or share it to ...' %}</p>
+								<div id="sharethis">
+									<span class='st_sharethis_large' displayText='ShareThis'></span>
+									<span class='st_facebook_large' displayText='Facebook'></span>
+									<span class='st_googleplus_large' displayText='Google +'></span>
+									<span class='st_linkedin_large' displayText='LinkedIn'></span>
+									<span class='st_twitter_large' displayText='Tweet'></span>
+									<span class='st_sina_large' displayText='Sina'></span>
+									<span class='st_email_large' displayText='Email'></span>
+								</div>
               </div>
 
+{# % cache 600 index_footer % #}
             </div>
           </div>
         </div>
@@ -90,7 +101,11 @@
             <button type="button" class="close" data-dismiss="alert">×</button>
             {% trans '<strong>Info!</strong> Only latest 12 codes are displayed' %}.
           </div>
-          <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery"></div>
+          <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+						<div class="well well-transparent lead">
+							<i class="icon-spinner icon-spin icon-2x pull-left"></i> {% trans 'Gallery is loading...' %}
+						</div>
+          </div>
         </div>
 
       </div>

@@ -1,8 +1,9 @@
 import json
-import os
-from settings import *  # noqa
 with open('/home/dotcloud/environment.json') as f:
     env = json.load(f)
+
+DEBUG = False
+ALLOWED_HOSTS = ['qrround-710kfpun.dotcloud.com']
 
 DATABASES = {
     'default': {
@@ -30,31 +31,20 @@ if USE_REDIS:
     }
 
     # we also are going to use redis for our session cache as well.
-    SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
+    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/home/media/media.lawrence.com/media/"
+# BROKER_URL = 'amqp://nyezagug:DSBH7ibcP4BeNVfObtTj4hgDvlM6LQgT@tiger.cloudamqp.com/nyezagug'  # noqa
+BROKER_URL = 'amqp://tiyleaba:nGub3yv4ik7VYrOqut1IIoaNHgwhEUfU@bunny.cloudamqp.com/tiyleaba'  # noqa
+# BROKER_URL = 'amqp://cmvunnej:gGXlI_n5rh6FE-Nsd6ILNru2loUAT0-F@tiger.cloudamqp.com/cmvunnej'  # noqa
+BROKER_URL = 'amqp://guest:guest@ec2-54-245-77-103.us-west-2.compute.amazonaws.com:5672'  # noqa
+
+# media settings
 MEDIA_ROOT = '/home/dotcloud/data/media/'
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 MEDIA_URL = '/media/'
 
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
+# static settings
 STATIC_ROOT = '/home/dotcloud/volatile/static/'
-
-# URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
-
-# Additional locations of static files
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static/'),
-)
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

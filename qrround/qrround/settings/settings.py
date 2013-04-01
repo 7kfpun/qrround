@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 # Django settings for qrround project.
-from os import path as op  # , walk, listdir
+from os import path as op, environ  # , walk, listdir
 import logging
 import djcelery
 
+
+SITE_ID = 1
 
 PROJECT_ROOT = op.abspath(op.dirname(op.dirname(__file__)))
 PROJECT_NAME = op.basename(PROJECT_ROOT)
@@ -12,9 +14,9 @@ PROJECT_NAME_TEST = 'Testing'
 ENVIRONMENT_NAME = 'core'
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+# TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = []
 
 COMPRESS_ENABLED = False  # True  # Opposite with DEBUG
 
@@ -71,25 +73,13 @@ CACHE_BACKEND = 'caching.backends.locmem://'
 
 SESSION_COOKIE_AGE = 1209600  # 2 weeks in default
 
-# Hosts/domain names that are valid for this site; required if DEBUG is False
-# See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
-
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
-
-# Language code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en'
-
-SITE_ID = 1
-
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
+TIME_ZONE = 'America/Chicago'
+LANGUAGE_CODE = 'en'
 USE_I18N = True
+USE_L10N = True
+USE_TZ = True
 gettext_noop = lambda s: s
 LANGUAGES = (
     ('en', gettext_noop(u'English')),
@@ -109,40 +99,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages"
-)
-
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale.
-USE_L10N = True
-
-# If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
-
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/var/www/example.com/media/"
-MEDIA_ROOT = op.join(PROJECT_ROOT, 'media')
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-# Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = 'media/'
-
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/var/www/example.com/static/"
-STATIC_ROOT = 'static'
-
-# URL prefix for static files.
-# Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = '/static/'
-
-# Additional locations of static files
-STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    op.join(PROJECT_ROOT, "static"),
 )
 
 # List of finder classes that know how to find static files in
@@ -186,14 +142,17 @@ ROOT_URLCONF = 'qrround.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'qrround.wsgi.application'
 
+MEDIA_ROOT = op.join(PROJECT_ROOT, 'media')
+MEDIA_URL = 'media/'
+STATIC_ROOT = 'static'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    op.join(PROJECT_ROOT, "static"),
+)
 FIXTURE_DIRS = (
     op.join(PROJECT_ROOT, 'fixtures/'),
 )
-
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".  # noqa
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
     op.join(PROJECT_ROOT, 'templates/'),
 )
 #for directory_name in walk(PROJECT_ROOT).next()[1]:
@@ -201,7 +160,6 @@ TEMPLATE_DIRS = (
 #    directory_path = op.join(PROJECT_ROOT, directory_name)
 #    if 'templates' in listdir(directory_path):
 #        TEMPLATE_DIRS += (op.join(directory_path, 'templates'),)
-
 
 INSTALLED_APPS = (
     'redis_cache',
@@ -241,13 +199,23 @@ INSTALLED_APPS += (
 )
 
 # Celery
+# BROKER_URL = 'amqp://nyezagug:DSBH7ibcP4BeNVfObtTj4hgDvlM6LQgT@tiger.cloudamqp.com/nyezagug'  # noqa
+# BROKER_URL = 'amqp://tiyleaba:nGub3yv4ik7VYrOqut1IIoaNHgwhEUfU@bunny.cloudamqp.com/tiyleaba'  # noqa
+# BROKER_URL = 'amqp://cmvunnej:gGXlI_n5rh6FE-Nsd6ILNru2loUAT0-F@tiger.cloudamqp.com/cmvunnej'  # noqa
+# BROKER_URL = 'amqp://guest:guest@ec2-54-245-77-103.us-west-2.compute.amazonaws.com:5672'  # noqa
+BROKER_URL = 'amqp://guest:guest@127.0.0.1:5672'
+
+REDIS_PORT = 37993
+REDIS_HOST = "redisdb-710kfpun.dotcloud.com"
+REDIS_DB = 0
+REDIS_CONNECT_RETRY = True
+CELERY_SEND_EVENTS = True
+CELERY_RESULT_BACKEND = 'redis'
+CELERY_TASK_RESULT_EXPIRES = 10
+CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
+
 djcelery.setup_loader()
-CELERY_ENABLED = True
-CELERYD_PREFETCH_MULTIPLIER = 1
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_DISABLE_RATE_LIMITS = True
-BROKER_URL = 'amqp://nyezagug:DSBH7ibcP4BeNVfObtTj4hgDvlM6LQgT@tiger.cloudamqp.com/nyezagug'  # noqa
+
 INSTALLED_APPS += ('djcelery',)
 CELERY_IMPORTS = ("qrround.views", )
 
@@ -297,3 +265,7 @@ logging.basicConfig(
     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
     datefmt='%d.%m %H:%M:%S',
 )
+
+# Override by dotcloud settings
+if 'dotcloud' in environ.get('PYTHONPATH', ''):
+    from dotcloud import *  # noqa
