@@ -34,7 +34,7 @@ function getqrcode(el) {
       data: form.serialize(),
       success: function(data) {
 
-        console.log(data);
+        console.log(data['notice']);
 
         $('#qrcode').empty().append($(data['html']).hide().fadeIn('1000'));
         $('#getqrcode_button').button('complete');
@@ -49,7 +49,7 @@ function getqrcode(el) {
            </a> \
          </li>');
 
-        $('#sharethis').empty().load('http://127.0.0.1:8001/getsharethis/');
+        changeMeta(new_qrcode_src, new_qrcode_src);
       },
       error: function (request, status, error) {
         notify('#alerts', 'failure', request.responseText);
@@ -59,6 +59,14 @@ function getqrcode(el) {
   }
 }
 
+function changeMeta(st_url, st_image) {
+  $('span[class^="st_"]').html(''); // Empty span contents
+  $('span[class^="st_"]').attr('st_processed', null); // Reset ST plugin
+  
+  $('span[class^="st_"]').attr('st_url', window.location.origin + '/' + st_url);
+  $('span[class^="st_"]').attr('st_image', window.location.origin + '/' + st_url);
+  stButtons.makeButtons(); 
+}
 // function changeMeta(new_qrcode_src) {
 //     console.log('Changing meta tags');
 //     $('meta[property="og:url"]').attr("content", new_qrcode_src);  // window.location.href + "?" + filename);

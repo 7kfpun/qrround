@@ -680,12 +680,12 @@ def getqrcode(request):
                 '<img src="{{ MEDIA_URL }}{{ photo.photo_jpg.url }}" '
                 'width="480" height="480" /></div>').render(photo=photo)
             data['notice'] = choice([
-                str(_('Try more one?')),
-                str(_('Step farther to make QR code more readable!')),
-                str(_('Look beautiful?')),
-                str(_('Love it?')),
-                str(_('Share it!!!')),
-                str(_('Where is your girlfriend?')),
+                'Try more one?',
+                'Step farther to make QR code more readable!',
+                'Look beautiful?',
+                'Love it?',
+                'Share it!!!',
+                'Where is your girlfriend?',
             ])
 
             return HttpResponse(json.dumps(data), mimetype='application/json')

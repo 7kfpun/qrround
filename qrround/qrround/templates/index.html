@@ -35,7 +35,7 @@
               <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
               <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
               <li class=""><a href="#lC" data-toggle="tab">{% trans "Color & style "%}</a></li>
-              <li class=""><a href="#lD" data-toggle="tab">{% trans "Post it" %}</a></li>
+              <li class=""><a href="#lD" data-toggle="tab">{% trans "Share it" %}</a></li>
             </ul>
 
             <div class="tab-content options">
@@ -76,9 +76,17 @@
               </div>
 
               <div class="tab-pane" id="lD">
-								<div id="sharethis"></div>
                 <p>{% trans 'Show off to your friends!!' %}</p>
                 <label>{{ form.auto_post_facebook }} {{ form.auto_post_facebook.help_text }}</label>
+								<div id="sharethis">
+									<span class='st_sharethis_vcount' displayText='ShareThis'></span>
+									<span class='st_facebook_vcount' displayText='Facebook'></span>
+									<span class='st_googleplus_vcount' displayText='Google +'></span>
+									<span class='st_linkedin_vcount' displayText='LinkedIn'></span>
+									<span class='st_twitter_vcount' displayText='Tweet'></span>
+									<span class='st_sina_vcount' displayText='Sina'></span>
+									<span class='st_email_vcount' displayText='Email'></span>
+								</div>
               </div>
 
 {# % cache 600 index_footer % #}
