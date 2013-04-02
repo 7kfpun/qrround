@@ -49,10 +49,9 @@ def login(request):
 
 
 def index(request):
-    get = request.GET.get('get', '')
-
     try:
-        qr = QRCode.objects.get(photo__contains='/%s.' % get)
+        qr = QRCode.objects.get(
+            photo__contains='/%s.' % request.GET.get('q', ''))
     except:
         qr = ''
 
@@ -688,9 +687,12 @@ def getqrcode(request):
                 'Where is your girlfriend?',
             ])
 
-            if form.data['auto_post_facebook']:
-                # task = autopostfacebook.apply_async([client_id])
-                pass
+            if form.data['auto_post_facebook'] and \
+                    request.session.get('facebook', None):
+                data['task'] = []
+                for client_id in request.session.get('facebook', None):
+                    task = autopostfacebook.apply_async([client_id, photo])
+                    data['task'].append(str(task))
 
             return HttpResponse(json.dumps(data), mimetype='application/json')
 
@@ -715,7 +717,7 @@ def getfriendsrequest(request):
         client_id = request.POST['import']
         friends_data = UserClient.objects.get(client=client_id).friends
 
-        print '>>>>>>>>>>>>>', client_id
+        print '>>>>>', client_id
 
         getfriendstask(client_id, True)
 
@@ -737,7 +739,7 @@ def getfriendstask(client_id, cache_image=False):
     userclient = UserClient.objects.get(client=client_id)
     channel = userclient.client.split('#')[0]
 
-    print '>>>>>>>>>>>>>', client_id, channel
+    print '>>>', client_id, channel
 
     if userclient.profile_picture_url:
         cachedimage, created = CachedImage.objects.get_or_create(
@@ -780,6 +782,36 @@ def getfriendstask(client_id, cache_image=False):
                 cachedimage.cache_and_save()
 
     return 'Succesfull'
+
+
+@task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
+def autopostfacebook(client, photo):
+    user = UserClient.objects.get(client=client)
+
+    if user.album_id:
+        album_id = user.album_id
+    else:
+        url = 'https://graph.facebook.com/%s/albums' \
+            % user.client.split('#')[1]
+        data = {
+            'access_token': user.access_token,
+            'name': PROJECT_NAME_TEST,
+            'message': PROJECT_NAME_TEST,
+        }
+        r = requests.post(url, urlencode(data))
+        album_id = r.json()['id']
+        user.album_id = r.json()['id']
+        user.save()
+
+    url = 'https://graph.facebook.com/%s/photos' % album_id
+    data = {
+        'access_token': user.access_token,
+        'message': PROJECT_NAME_TEST,
+    }
+    r = requests.post(
+        url, data=data,
+        files={'source': open(photo.photo.path, 'rb')})
+    logger.info('Finished posting to fb: %s' % r.text)
 
 
 def testtasks(request):

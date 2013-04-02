@@ -114,7 +114,7 @@ class Query(models.Model):
     user = models.ForeignKey(UserClient, blank=True, null=True)
 
     text = models.TextField(blank=True, null=True)
-    created_time = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     # Options
     colour = models.CharField(max_length=10, default='#000000',
@@ -196,6 +196,7 @@ class Contact(models.Model):
     email = models.EmailField()
     topic = models.CharField(max_length=200)
     message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return self.email + ': ' + self.topic
