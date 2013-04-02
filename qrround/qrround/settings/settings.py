@@ -18,7 +18,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-COMPRESS_ENABLED = False  # True  # Opposite with DEBUG
+# COMPRESS_ENABLED = False  # True  # Opposite with DEBUG
 
 RATELIMIT_ENABLE = True
 
@@ -143,7 +143,7 @@ ROOT_URLCONF = 'qrround.urls'
 WSGI_APPLICATION = 'qrround.wsgi.application'
 
 MEDIA_ROOT = op.join(PROJECT_ROOT, 'media')
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (

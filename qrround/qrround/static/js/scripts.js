@@ -66,16 +66,11 @@ function changeMeta(st_url, st_image) {
   $('span[class^="st_"]').html(''); // Empty span contents
   $('span[class^="st_"]').attr('st_processed', null); // Reset ST plugin
   
-  $('span[class^="st_"]').attr('st_url', window.location.href + '/' + st_url);
-  $('span[class^="st_"]').attr('st_image', window.location.href + '/' + st_url);
+  $('span[class^="st_"]').attr('st_url', 'http://' + window.location.host + st_url);
+  $('span[class^="st_"]').attr('st_image', 'http://' + window.location.host + st_url);
   stButtons.makeButtons(); 
 }
-// function changeMeta(new_qrcode_src) {
-//     console.log('Changing meta tags');
-//     $('meta[property="og:url"]').attr("content", new_qrcode_src);  // window.location.href + "?" + filename);
-//     $('meta[property="og:image"]').attr("content", new_qrcode_src);
-//     $('meta[property="og:description"]').attr("content", new_qrcode_src);  // filename);
-// }
+
 
 /////////////////// Gallery //////////////////////
 setTimeout(function(){
@@ -123,7 +118,7 @@ $('#logout').on("click", function() {
 ///////////// Remember accept checkbox state ///////////////////
 $('#id_accept').attr('checked', $.cookie('id_accept') && $.cookie('id_accept') == "true");
 $('#id_accept').change(function() {
-    $.cookie('id_accept', $('#id_accept').is(':checked'));
+    $.cookie('id_accept', $('#id_accept').is(':checked'), 1);
     console.log($('#id_accept').is(':checked'));
 });
 
