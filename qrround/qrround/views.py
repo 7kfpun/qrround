@@ -677,7 +677,7 @@ def getqrcode(request):
             data['text'] = text
             data['html'] = Template(
                 '<div class="thumbnail">'
-                '<img src="{{ MEDIA_URL }}{{ photo.photo_jpg.url }}" '
+                '<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
                 'width="480" height="480" /></div>').render(photo=photo)
             data['notice'] = choice([
                 'Try more one?',

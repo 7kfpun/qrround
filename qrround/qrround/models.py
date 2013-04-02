@@ -2,7 +2,7 @@
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.core.files import File
 from django.db import models
-from imagekit.models import ImageSpecField
+from imagekit.models import ImageSpecField, ProcessedImageField
 from imagekit.processors import ResizeToFit
 from jsonfield import JSONField
 import os
@@ -131,25 +131,12 @@ class Query(models.Model):
 class QRCode(caching.base.CachingMixin, models.Model):
     query = models.ForeignKey(Query)
 
-    photo = models.ImageField(
+    photo = ProcessedImageField(
         max_length=255,
-        # storage=custom_store,  for renaming
         upload_to='qrcode',
-        blank=True
-    )
-
-# photo = ProcessedImageField(
-#         max_length=255,
-#         upload_to='qrcode',
-#         format='JPEG',
-#         options={'quality': 70})
-
-    photo_jpg = ImageSpecField(
-        image_field='photo',
-        processors=[ResizeToFit(640, 640)],
+        processors=[ResizeToFit(960, 960)],
         format='JPEG',
-        options={'quality': 70},
-    )
+        options={'quality': 70})
 
     photo_thumbnail = ImageSpecField(
         image_field='photo',

@@ -37,9 +37,12 @@ function getqrcode(el) {
         console.log(data['notice']);
 
         $('#qrcode').empty().append($(data['html']).hide().fadeIn('1000'));
-        $('#getqrcode_button').button('complete');
-
         notify('#alerts', 'success', data['notice'] );
+
+        $('#getqrcode_button').button('complete');
+        setTimeout(function(){
+        $('#getqrcode_button').button('reset');
+        }, 5000);
 
         // Append to gallery
         var new_qrcode_src = $('#qrcode img').attr('src');
