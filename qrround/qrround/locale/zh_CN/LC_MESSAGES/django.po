@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-03 11:15+0800\n"
-"PO-Revision-Date: 2013-04-02 23:24-0600\n"
+"POT-Creation-Date: 2013-04-03 16:11+0800\n"
+"PO-Revision-Date: 2013-04-03 03:13-0600\n"
 "Last-Translator: None None <None>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,131 +17,136 @@ msgstr ""
 "Language: \n"
 "X-Translated-Using: django-rosetta 0.7.1\n"
 
-#: forms.py:21
+#: forms.py:24
 msgid "Your name"
 msgstr "姓名"
 
-#: forms.py:29
+#: forms.py:32
 msgid "Your password"
 msgstr "密码"
 
-#: forms.py:36
+#: forms.py:39
 msgid "Name"
 msgstr "姓名"
 
-#: forms.py:38
+#: forms.py:41
 msgid "Your name is..."
 msgstr "姓名是..."
 
-#: forms.py:43
+#: forms.py:46
 msgid "E-mail"
 msgstr "电邮"
 
-#: forms.py:45
+#: forms.py:48
 msgid "Your E-mail is..."
 msgstr "电邮是..."
 
-#: forms.py:50
+#: forms.py:53
 msgid "Topic"
 msgstr "主题"
 
-#: forms.py:52
+#: forms.py:55
 msgid "Your topic is..."
 msgstr "主题是..."
 
-#: forms.py:57
+#: forms.py:60
 msgid "Message"
 msgstr "讯息"
 
-#: forms.py:59
+#: forms.py:62
 msgid "And leave your message here..."
 msgstr "在此留下信息..."
 
-#: forms.py:68
+#: forms.py:71
 msgid "Still in Beta now."
 msgstr "在测试中..."
 
-#: forms.py:76
+#: forms.py:79
 msgid "Channel choice"
 msgstr "社交帐户"
 
-#: forms.py:84
-#, python-format
-msgid "Low 7 %(PERCENT_SIGN)s of codewords can be restored)"
-msgstr "低 低于 7 %(PERCENT_SIGN)s 的损坏可被恢复"
+#: forms.py:86
+msgid "Low (7 &#37; of codewords can be restored)"
+msgstr "低 （低于 7 &#37; 的损坏可被讀取）"
 
 #: forms.py:87
-#, python-format
-msgid "Medium 15 %(PERCENT_SIGN)s of codewords can be restored)"
-msgstr "中 低于 15 %(PERCENT_SIGN)s 的损坏可被恢复"
+msgid "Medium (15 &#37; of codewords can be restored)"
+msgstr "中 （低于 15 &#37; 的损坏可被讀取"
 
-#: forms.py:90
-#, python-format
-msgid "Quartile 25 %(PERCENT_SIGN)s of codewords can be restored)"
-msgstr "高 低于 25 %(PERCENT_SIGN)s 的损坏可被恢复"
+#: forms.py:88
+msgid "Quartile (25 &#37; of codewords can be restored)"
+msgstr "高 （低于 25 &#37; 的损坏可被讀取）"
 
-#: forms.py:93
-#, python-format
-msgid "High 30 %(PERCENT_SIGN)s of codewords can be restored)"
-msgstr "很高 低于 30 %(PERCENT_SIGN)s 的损坏可被恢复"
+#: forms.py:89
+msgid "High (30 &#37; of codewords can be restored)"
+msgstr "很高 （低于 30 &#37; 的损坏可被讀取）"
 
-#: forms.py:97
+#: forms.py:92
 msgid "Error correct choice"
 msgstr "可恢复程度"
 
-#: forms.py:101
+#: forms.py:96
 msgid "I have read and accept"
 msgstr "我已阅读并接受此"
 
-#: forms.py:103
+#: forms.py:98
 msgid ""
 "<a id=\"policy_modal_link\" type=\"button\">Privacy Policy and Terms of "
 "Service</a>"
-msgstr "<a id=\"policy_modal_link\" type=\"button\">隐私及服务条款</a>"
+msgstr "<a id=\"policy_modal_link\" type=\"button\">隐私权保护及网站使用政策</a>"
 
-#: forms.py:107
+#: forms.py:102
 msgid "Color"
 msgstr "顏色"
 
-#: forms.py:113
+#: forms.py:108
 msgid "Darker is better..."
 msgstr "深一点的颜色比较好"
 
-#: forms.py:117
+#: forms.py:112
 msgid "Auto facebook post"
 msgstr "自动分析到脸书上"
 
-#: forms.py:120
+#: forms.py:115
 msgid ""
 "Auto post the code to your Facebook wall (only when you have a Facebook "
 "account)"
 msgstr "自动分析到脸书上 （仅限已登录脸书帐户）"
 
-#: forms.py:130
+#: forms.py:125
 msgid "Auto post"
 msgstr "自动分享"
 
-#: forms.py:135
+#: forms.py:130
 msgid "Set your style here...(more to come)"
 msgstr "选择风格（陆续加入中）"
 
-#: forms.py:146
+#: forms.py:141
 msgid "Input your data"
 msgstr "写入信息"
 
-#: forms.py:171
+#: forms.py:156
+#, python-format
+msgid ""
+" <img src=\"%(profile_picture_url)s\" height=\"50\" width=\"50\" /> "
+"%(username)s from %(channel)s"
+msgstr ""
+"<img src=\"%(profile_picture_url)s\" height=\"50\" width=\"50\" /> 至 "
+"%(channel)s 的 %(username)s"
+
+#: forms.py:176
 msgid "Text is too long"
 msgstr "文字太长了啦~~~"
 
-#: forms.py:177
+#: forms.py:182
 msgid "You should accept our Privacy Policy and Terms of Service"
-msgstr "你必须接受网站条款"
+msgstr "你必须接受隐私权保护及网站使用政策"
 
-#: forms.py:184
+#: forms.py:189
 msgid "Sorry, our service is not available now"
 msgstr "对不起，我们的服务还未开放"
 
-#: views.py:614 views.py:701
+#: views.py:614
 msgid ""
 "Was_limited: we are poor, cannot afford server cost. Donate some and we can "
 "buy more server time"
@@ -226,6 +231,10 @@ msgid ""
 "ชีวิตที่มีไม่คิดเสียดาย<br />จะยังไงไม่ยอมเสียเธอ"
 msgstr ""
 
+#: templates/base.html:98
+msgid "All Rights Reserved."
+msgstr "保留所有的权利"
+
 #: templates/index.html:13
 msgid "Import your social account"
 msgstr "汇入社交网路帐户"
@@ -240,7 +249,7 @@ msgstr "汇入"
 
 #: templates/index.html:14
 msgid "Get your cool QR code!"
-msgstr ""
+msgstr "可以开始了！！"
 
 #: templates/index.html:14
 msgid "Last step"
@@ -252,7 +261,7 @@ msgstr "开始"
 
 #: templates/index.html:17
 msgid "Read and accept our Privacy Policy and Terms of Service"
-msgstr "请阅读并接受网路条款"
+msgstr "请阅读并接受本网站隐私权保护及网站使用政策"
 
 #: templates/index.html:17
 msgid "First step"
@@ -284,7 +293,7 @@ msgstr "<strong>提示：</strong> 请先汇入帐户"
 
 #: templates/index.html:60
 msgid "The higher error correct, the more readable code."
-msgstr ""
+msgstr "越高可恢复程度，越易于读取"
 
 #: templates/index.html:65
 msgid "Select your theme color here!!"
@@ -296,19 +305,19 @@ msgstr "向朋友们炫耀吧！！"
 
 #: templates/index.html:82
 msgid "Or share it to ..."
-msgstr ""
+msgstr "或分享至..."
 
 #: templates/index.html:102
 msgid "<strong>Info!</strong> Only latest 12 codes are displayed"
-msgstr ""
+msgstr "<strong>提示：</strong> 只显示最近12副"
 
 #: templates/index.html:106
 msgid "Gallery is loading..."
-msgstr ""
+msgstr "正在载入..."
 
 #: templates/modals.html:9
 msgid "Web Site Terms and Conditions of Use"
-msgstr ""
+msgstr "网站使用政策"
 
 #: templates/modals.html:12
 msgid ""
@@ -418,7 +427,7 @@ msgstr "发送"
 
 #: templates/modals.html:170
 msgid "About this website privacy policy"
-msgstr ""
+msgstr "关于隐私权保护"
 
 #: templates/modals.html:171
 msgid ""
@@ -448,14 +457,20 @@ msgstr "汇入帐户"
 msgid ""
 "<strong>Oops!!</strong> something wrong with the site. Try reloading please "
 "or report us and we will fix it soon"
-msgstr ""
+msgstr "<strong>噢噢!!</strong> 请重新载入，或还是见到此信息，请通知我们"
 
 #: templates/modals.html:221
 msgid "Logout all"
 msgstr "全部登出"
 
 #~ msgid "Privacy Policy and Terms of Service"
-#~ msgstr "我同意并接受此协议条款"
+#~ msgstr "隐私权保护及网站使用政策"
+
+#~ msgid "Quartile (25 %(percent_sign)s of codewords can be restored)"
+#~ msgstr "高 低于 25 %(percent_sign)s 的损坏可被恢复"
+
+#~ msgid "High (30 %(percent_sign)s of codewords can be restored)"
+#~ msgstr "很高 低于 30 %(percent_sign)s 的损坏可被恢复"
 
 #~ msgid "Post the code to your Facebook"
 #~ msgstr "让朋友们也看看我的作品!!"

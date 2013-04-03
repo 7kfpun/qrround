@@ -52,7 +52,7 @@ function getqrcode(el) {
            </a> \
          </li>');
 
-        changeMeta(new_qrcode_src, new_qrcode_src);
+        changeMeta(new_qrcode_src, data['filename']);
       },
       error: function (request, status, error) {
         notify('#alerts', 'failure', request.responseText);
@@ -62,12 +62,12 @@ function getqrcode(el) {
   }
 }
 
-function changeMeta(st_url, st_image) {
+function changeMeta(st_url, filename) {
   $('span[class^="st_"]').html(''); // Empty span contents
   $('span[class^="st_"]').attr('st_processed', null); // Reset ST plugin
   
   $('span[class^="st_"]').attr('st_url', 'http://' + window.location.host + st_url);
-  $('span[class^="st_"]').attr('st_image', 'http://' + window.location.host + st_url);
+  $('span[class^="st_"]').attr('st_image', 'http://' + window.location.host + '?qr=' + filename);
   stButtons.makeButtons(); 
 }
 

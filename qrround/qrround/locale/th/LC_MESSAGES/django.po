@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-03 11:15+0800\n"
+"POT-Creation-Date: 2013-04-03 16:11+0800\n"
 "PO-Revision-Date: 2013-03-20 23:54-0600\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,131 +17,134 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Translated-Using: django-rosetta 0.7.1\n"
 
-#: forms.py:21
+#: forms.py:24
 msgid "Your name"
 msgstr ""
 
-#: forms.py:29
+#: forms.py:32
 msgid "Your password"
 msgstr ""
 
-#: forms.py:36
+#: forms.py:39
 msgid "Name"
 msgstr ""
 
-#: forms.py:38
+#: forms.py:41
 msgid "Your name is..."
 msgstr ""
 
-#: forms.py:43
+#: forms.py:46
 msgid "E-mail"
 msgstr ""
 
-#: forms.py:45
+#: forms.py:48
 msgid "Your E-mail is..."
 msgstr ""
 
-#: forms.py:50
+#: forms.py:53
 msgid "Topic"
 msgstr ""
 
-#: forms.py:52
+#: forms.py:55
 msgid "Your topic is..."
 msgstr ""
 
-#: forms.py:57
+#: forms.py:60
 msgid "Message"
 msgstr ""
 
-#: forms.py:59
+#: forms.py:62
 msgid "And leave your message here..."
 msgstr ""
 
-#: forms.py:68
+#: forms.py:71
 msgid "Still in Beta now."
 msgstr ""
 
-#: forms.py:76
+#: forms.py:79
 msgid "Channel choice"
 msgstr ""
 
-#: forms.py:84
-#, python-format
-msgid "Low 7 %(PERCENT_SIGN)s of codewords can be restored)"
+#: forms.py:86
+msgid "Low (7 &#37; of codewords can be restored)"
 msgstr ""
 
 #: forms.py:87
-#, python-format
-msgid "Medium 15 %(PERCENT_SIGN)s of codewords can be restored)"
+msgid "Medium (15 &#37; of codewords can be restored)"
 msgstr ""
 
-#: forms.py:90
-#, python-format
-msgid "Quartile 25 %(PERCENT_SIGN)s of codewords can be restored)"
+#: forms.py:88
+msgid "Quartile (25 &#37; of codewords can be restored)"
 msgstr ""
 
-#: forms.py:93
-#, python-format
-msgid "High 30 %(PERCENT_SIGN)s of codewords can be restored)"
+#: forms.py:89
+msgid "High (30 &#37; of codewords can be restored)"
 msgstr ""
 
-#: forms.py:97
+#: forms.py:92
 msgid "Error correct choice"
 msgstr ""
 
-#: forms.py:101
+#: forms.py:96
 msgid "I have read and accept"
 msgstr ""
 
-#: forms.py:103
+#: forms.py:98
 msgid ""
 "<a id=\"policy_modal_link\" type=\"button\">Privacy Policy and Terms of "
 "Service</a>"
 msgstr ""
 
-#: forms.py:107
+#: forms.py:102
 msgid "Color"
 msgstr ""
 
-#: forms.py:113
+#: forms.py:108
 msgid "Darker is better..."
 msgstr ""
 
-#: forms.py:117
+#: forms.py:112
 msgid "Auto facebook post"
 msgstr ""
 
-#: forms.py:120
+#: forms.py:115
 msgid ""
 "Auto post the code to your Facebook wall (only when you have a Facebook "
 "account)"
 msgstr ""
 
-#: forms.py:130
+#: forms.py:125
 msgid "Auto post"
 msgstr ""
 
-#: forms.py:135
+#: forms.py:130
 msgid "Set your style here...(more to come)"
 msgstr ""
 
-#: forms.py:146
+#: forms.py:141
 msgid "Input your data"
 msgstr ""
 
-#: forms.py:171
+#: forms.py:156
+#, python-format
+msgid ""
+" <img src=\"%(profile_picture_url)s\" height=\"50\" width=\"50\" /> "
+"%(username)s from %(channel)s"
+msgstr ""
+
+#: forms.py:176
 msgid "Text is too long"
 msgstr ""
 
-#: forms.py:177
+#: forms.py:182
 msgid "You should accept our Privacy Policy and Terms of Service"
 msgstr ""
 
-#: forms.py:184
+#: forms.py:189
 msgid "Sorry, our service is not available now"
 msgstr ""
 
-#: views.py:614 views.py:701
+#: views.py:614
 msgid ""
 "Was_limited: we are poor, cannot afford server cost. Donate some and we can "
 "buy more server time"
@@ -224,6 +227,10 @@ msgid ""
 "ทุกสิ่งทุกอย่างมีเลิกลา มันเป็นไปตามกาลเวลา<br />มีพลัดมีพรากมีจากไป คงต้องยอมทำใจ<br /"
 ">คงต้องยอมเสียใจ อย่าขวางชะตานั้น<br />ปล่อยมันให้เป็นไป ชีวิตที่มีไม่คิดเสียดาย<br /"
 ">จะยังไงไม่ยอมเสียเธอ"
+msgstr ""
+
+#: templates/base.html:98
+msgid "All Rights Reserved."
 msgstr ""
 
 #: templates/index.html:13

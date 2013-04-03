@@ -1,8 +1,11 @@
 from captcha.fields import ReCaptchaField
 from django import forms
+from django.utils import six  # Python 3 compatibility
+from django.utils.functional import lazy
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from random import choice
+mark_safe_lazy = lazy(mark_safe, six.text_type)
 
 from .channels import channels
 from .models import (
@@ -80,18 +83,10 @@ class QueryForm(forms.ModelForm):
     )
 
     ERROR_CORRECT = (
-        ('ERROR_CORRECT_L',
-            _('Low 7 %(PERCENT_SIGN)s of codewords can be restored)')
-            % {'PERCENT_SIGN': '%'}),
-        ('ERROR_CORRECT_M',
-            _('Medium 15 %(PERCENT_SIGN)s of codewords can be restored)')
-            % {'PERCENT_SIGN': '%'}),
-        ('ERROR_CORRECT_Q',
-            _('Quartile 25 %(PERCENT_SIGN)s of codewords can be restored)')
-            % {'PERCENT_SIGN': '%'}),
-        ('ERROR_CORRECT_H',
-            _('High 30 %(PERCENT_SIGN)s of codewords can be restored)')
-            % {'PERCENT_SIGN': '%'}),
+        ('ERROR_CORRECT_L', mark_safe_lazy(_('Low (7 &#37; of codewords can be restored)'))),  # noqa
+        ('ERROR_CORRECT_M', mark_safe_lazy(_('Medium (15 &#37; of codewords can be restored)'))),  # noqa
+        ('ERROR_CORRECT_Q', mark_safe_lazy(_('Quartile (25 &#37; of codewords can be restored)'))),  # noqa
+        ('ERROR_CORRECT_H', mark_safe_lazy(_('High (30 &#37; of codewords can be restored)'))),  # noqa
     )
     error_correct_choice = forms.ChoiceField(
         label=_('Error correct choice'),
@@ -100,7 +95,7 @@ class QueryForm(forms.ModelForm):
     accept = forms.NullBooleanField(
         label=_('I have read and accept'),
         widget=forms.CheckboxInput,
-        help_text=mark_safe(_('<a id="policy_modal_link" type="button">Privacy Policy and Terms of Service</a>')),  # noqa
+        help_text=_('Privacy Policy and Terms of Service'),  # noqa
     )
 
     color = forms.CharField(
@@ -154,10 +149,20 @@ class QueryForm(forms.ModelForm):
         self.fields['text'].max_length = 2000
         self.fields['error_correct_choice'].initial = 'ERROR_CORRECT_M'
 
-        self.fields['channel_choice'].choices = [
-            (client, channel) for channel in channels if channel in session
+        self.fields['channel_choice'].choices = (
+            (
+                client,
+                mark_safe_lazy(
+                    _(' <img src="%(profile_picture_url)s" height="50" width="50" /> %(username)s from %(channel)s') % {  # noqa
+                        'profile_picture_url': UserClient.objects.get(client=client).profile_picture_url,  # noqa
+                        'username': UserClient.objects.get(client=client).username,  # noqa
+                        'channel': channel.capitalize(),
+                    }
+                )
+            )
+            for channel in channels if channel in session
             for client in session[channel]
-        ]
+        )
         if self.fields['channel_choice'].choices:
             self.fields['text'].initial = UserClient.objects.get(
                 client=choice(self.fields['channel_choice'].choices)[0]).url  # noqa

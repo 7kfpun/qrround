@@ -49,11 +49,11 @@ def login(request):
 
 
 def index(request):
-    qr = ''
-    if request.GET.get('q', ''):
+    qr = request.GET.get('qr', '')
+    if qr:
         try:
             qr = QRCode.objects.get(
-                photo__contains='/%s.' % request.GET.get('q', ''))
+                photo__contains='/%s.' % qr.split('.')[0])
         except:
             qr = ''
 
@@ -662,6 +662,7 @@ def getqrcode(request):
 
             data = {}
             data['text'] = text
+            data['filename'] = filename
             data['html'] = Template(
                 '<div class="thumbnail">'
                 '<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
