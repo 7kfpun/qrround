@@ -145,7 +145,7 @@ class QueryForm(forms.ModelForm):
         super(self.__class__, self).__init__(*args, **kwargs)
 
         self.fields['text'].required = True
-        self.fields['text'].max_length = 2000
+        self.fields['text'].max_length = 255
         self.fields['error_correct_choice'].initial = 'ERROR_CORRECT_M'
 
         self.fields['channel_choice'].choices = (
@@ -171,7 +171,7 @@ class QueryForm(forms.ModelForm):
 
     def clean_text(self):
         cleaned_data = super(self.__class__, self).clean()
-        if len(cleaned_data.get('text')) > 1000:
+        if len(cleaned_data.get('text')) > self.fields['text'].max_length:
             raise forms.ValidationError(_('Text is too long'))
         return cleaned_data
 

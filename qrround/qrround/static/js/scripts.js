@@ -217,6 +217,12 @@ $('#import').on("click", function() {
   console.log("Import");
 });
 
+$("#getqrcode_input").charCount({
+    allowed: 255,		
+    warning: 50,
+    counterText: 'Characters left: '	
+});
 
+$('#getqrcode_input').limit('140','#charsLeft');
 ///////////////// Color picker ///////////////////
 $('#colorpicker').colorpicker();
