@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-03 16:11+0800\n"
+"POT-Creation-Date: 2013-04-03 16:46+0800\n"
 "PO-Revision-Date: 2013-03-20 23:56-0600\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,9 +91,7 @@ msgid "I have read and accept"
 msgstr ""
 
 #: forms.py:98
-msgid ""
-"<a id=\"policy_modal_link\" type=\"button\">Privacy Policy and Terms of "
-"Service</a>"
+msgid "Privacy Policy and Terms of Service"
 msgstr ""
 
 #: forms.py:102
@@ -123,7 +121,7 @@ msgid "Set your style here...(more to come)"
 msgstr ""
 
 #: forms.py:141
-msgid "Input your data"
+msgid "Input your data..."
 msgstr ""
 
 #: forms.py:156
@@ -252,6 +250,14 @@ msgstr ""
 
 #: templates/index.html:14
 msgid "Last step"
+msgstr ""
+
+#: templates/index.html:14
+msgid "Loading..."
+msgstr ""
+
+#: templates/index.html:14
+msgid "Complete!"
 msgstr ""
 
 #: templates/index.html:14

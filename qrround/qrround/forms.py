@@ -138,7 +138,7 @@ class QueryForm(forms.ModelForm):
                 'id': 'getqrcode_input',
                 'autofocus': 'autofocus',
                 'class': 'span5',
-                'placeholder': _('Input your data')}),
+                'placeholder': _('Input your data...')}),
         }
 
     def __init__(self, *args, **kwargs):
