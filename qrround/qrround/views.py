@@ -49,21 +49,18 @@ def login(request):
 
 
 def index(request):
-    try:
-        qr = QRCode.objects.get(
-            photo__contains='/%s.' % request.GET.get('q', ''))
-    except:
-        qr = ''
+    if request.GET.get('q', ''):
+        try:
+            qr = QRCode.objects.get(
+                photo__contains='/%s.' % request.GET.get('q', ''))
+        except:
+            qr = ''
 
     return render(request, 'index.html', {
         'qrcode': qr,
         'form': QueryForm(session=request.session),
         'contact_form': ContactForm(),
     })
-
-
-def getsharethis(request):
-    return render(request, 'sharethis.html')
 
 
 def sendcontact(request):

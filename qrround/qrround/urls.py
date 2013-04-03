@@ -10,7 +10,6 @@ admin.autodiscover()
 urlpatterns = patterns(
     'qrround.views',
 
-    url(r'^getsharethis/$', 'getsharethis', name='getsharethis'),
     url(r'^getauthurls/$', 'getauthurls', name='getauthurls'),
     url(r'^getqrcode/$', 'getqrcode', name='getqrcode'),
     url(r'getfriends/$', 'getfriendsrequest', name='getfriendsrequest'),
