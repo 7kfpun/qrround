@@ -129,7 +129,6 @@ $('#id_accept').change(function() {
 
 
 ///////////////// Get auth urls ///////////////////
-var channels = ['facebook', 'google', 'kaixin001', 'linkedin', 'weibo']
 setTimeout(function(){
   $.ajax({
     type: "GET",
@@ -139,7 +138,7 @@ setTimeout(function(){
       // setDetectCookies();
     }
   });
-}, 600);
+}, 400);
 
 
 ///////////////////// Initialize Tooltip and Model /////////////////////

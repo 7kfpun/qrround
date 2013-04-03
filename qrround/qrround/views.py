@@ -49,6 +49,7 @@ def login(request):
 
 
 def index(request):
+    qr = ''
     if request.GET.get('q', ''):
         try:
             qr = QRCode.objects.get(
@@ -84,9 +85,12 @@ def sendcontact(request):
 def getgallery(request):
     all_clients = [client for channel in channels
                    for client in request.session.get(channel, [])]
-    return render(request, 'gallery.html', {
-        'qrcodes': QRCode.objects.filter(
-            query__user__client__in=all_clients).order_by('-pk')[:12]})
+    if all_clients:
+        return render(request, 'gallery.html', {
+            'qrcodes': QRCode.objects.filter(
+                query__user__client__in=all_clients).order_by('-pk')[:12]})
+    else:
+        return HttpResponse('')
 
 
 def postfacebookphotos(request):
@@ -177,16 +181,8 @@ def postkaixin001photos(request):
     return HttpResponse('\n'.join(posts))
 
 
-@ratelimit(rate='40/m')
 def getauthurls(request):
-    if getattr(request, 'limited', False):
-        # Reach rate limit
-        return HttpResponseBadRequest(
-            _('We are poor, cannot afford too much server cost. '
-              'Donate us so that we can buy more server time<br />'
-              'Try agains after seconds please...'))
-
-    elif True:  # and request.is_ajax():
+    if request.is_ajax():
         state = request.session['state'] = str(time())[:-3]
 
         # facebook
@@ -350,13 +346,11 @@ def store_session(request, channel, client_id, access_token, me, friends):
     data['meta']['task'] = str(task)
     return HttpResponse(json.dumps(data))
 
-    # response = redirect('close_window_reload')
-    # response.delete_cookie('user_location')
-    # return response
+    # return redirect('close_window')
 
 
 def facebookcallback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
+    if request.GET.get('state', ''):  # == request.session.get('state', '***'):
         session = facebook.get_auth_session(data={
             'code': request.GET.get('code'),
             'redirect_uri': FACEBOOK_REDIRECT_URI})
@@ -385,7 +379,7 @@ def facebookcallback(request):
 
 # Still have problem
 def googlecallback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
+    if request.GET.get('state', ''):  # == request.session.get('state', '***'):
         credentials = google.step2_exchange(request.GET.get('code'))
         access_token = credentials.access_token
 
@@ -410,7 +404,7 @@ def googlecallback(request):
 
 
 def kaixin001callback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
+    if request.GET.get('state', ''):  # == request.session.get('state', '***'):
         exchange_url = (
             'https://api.kaixin001.com/oauth2/access_token'
             '?grant_type=authorization_code'
@@ -449,7 +443,7 @@ def kaixin001callback(request):
 
 
 def linkedincallback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
+    if request.GET.get('state', ''):  # == request.session.get('state', '***'):
         exchange_url = (
             'https://www.linkedin.com/uas/oauth2/accessToken'
             '?grant_type=authorization_code'
@@ -488,7 +482,7 @@ def linkedincallback(request):
 
 
 def twittercallback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
+    if request.GET.get('state', ''):  # == request.session.get('state', '***'):
         verifier = request.GET.get('oauth_verifier')
         try:
             twitter.get_access_token(verifier)
@@ -559,7 +553,7 @@ def renrencallback(request):
 
 
 def weibocallback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
+    if request.GET.get('state', ''):  # == request.session.get('state', '***'):
         exchange_url = (
             'https://api.weibo.com/oauth2/access_token'
             '?client_id=' + WEIBO_CLIENT_ID
@@ -606,9 +600,7 @@ def close_window(request, is_reload=False):
 
 def logout_user(request):
     logout(request)
-    response = redirect('close_window_reload')
-    response.delete_cookie('user_location')
-    return response
+    return redirect('close_window_reload')
 
 
 @ratelimit(rate='20/m')
@@ -617,13 +609,11 @@ def getqrcode(request):
         return HttpResponseBadRequest('Noooone')
 
     elif getattr(request, 'limited', False):
-        # Reach rate limit
         return HttpResponseBadRequest(
             _('Was_limited: we are poor, cannot afford server cost. '
               'Donate some and we can buy more server time'))
 
     elif request.method == 'POST' and request.is_ajax():
-
         form = QueryForm(request.POST, session=request.session)
         if not form.is_valid():
             return HttpResponseBadRequest(json.dumps(form.errors))
