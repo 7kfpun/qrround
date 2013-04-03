@@ -8,6 +8,8 @@ $('.nav-tabs > li > a').hover(function() {
   $(this).tab('show');
 });
 
+$('span[class^="st_"]').attr('st_image', 'http://' + window.location.host + '/static/ico/favicon.ico');
+
 ///////////////////// QR code /////////////////////
 // Send qrcode request
 $('#getqrcode_input').keydown(function (e) {
