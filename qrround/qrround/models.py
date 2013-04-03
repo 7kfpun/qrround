@@ -134,7 +134,7 @@ class QRCode(caching.base.CachingMixin, models.Model):
     photo = ProcessedImageField(
         max_length=255,
         upload_to='qrcode',
-        processors=[ResizeToFit(960, 960)],
+        processors=[ResizeToFit(1500, 1500)],
         format='JPEG',
         options={'quality': 70})
 
@@ -142,7 +142,7 @@ class QRCode(caching.base.CachingMixin, models.Model):
         image_field='photo',
         processors=[ResizeToFit(100, 100)],
         format='JPEG',
-        options={'quality': 40},
+        options={'quality': 30},
     )
 
     # objects = caching.base.CachingManager()

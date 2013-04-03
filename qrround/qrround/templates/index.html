@@ -3,7 +3,13 @@
 {% load cache %}
 
 {% block content %}
-<p id="qrcode">{% if qrcode %}<img src="{{ MEDIA_URL }}{{ qrcode.photo.url }}" width="480" height="480" />{% endif %}</p>
+<p id="qrcode">
+	{% if qrcode %}
+		<div class="thumbnail">
+			<img src="{{ MEDIA_URL }}{{ qrcode.photo.url }}" width="520" height="520" />
+		</div>
+	{% endif %}
+</p>
 <div id="alerts"></div>
 
 <form action="/getqrcode/" method="post" onsubmit="return false">

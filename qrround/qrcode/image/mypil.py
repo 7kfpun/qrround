@@ -36,19 +36,25 @@ class PilImage(qrcode.image.base.BaseImage):
         self._idr = ImageDraw.Draw(self._img)
 
         if users:
-            self._all_cached_images = CachedImage.objects.filter(user__client__in=users)
+            # self._all_cached_images = CachedImage.objects.filter(user__client__in=users)
+
+            self._all_cached_images = [
+                Image.open(cached_img.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS)
+                for cached_img in CachedImage.objects.filter(user__client__in=users)
+            ]
+
         else:
             self._all_cached_images = CachedImage.objects.all()
 
         self.options = options
 
         if not self._all_cached_images:
-            profile_image = choice(['a.gif', 'b.gif'])
+            profile_image = choice(['a.gif', 'b.gif', 'c.gif'])
             self._all_cached_images = [
                 Image.open(PROJECT_ROOT + '/../qrcode/image/profile_picture/%s' % profile_image).resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS),
             ]
-
+                
     def drawrect(self, row, col):
         x = (col + self.border) * self.box_size
         y = (row + self.border) * self.box_size
@@ -93,15 +99,17 @@ class PilImage(qrcode.image.base.BaseImage):
         y = (row + self.border) * self.box_size
 
         image = choice(self._all_cached_images)
-        style = self.options.get('style', '1')
+        style = self.options.get('style', '0')
 
         if style == '0':
-            self._img.paste(Image.open(image.photo.path).resize(
-                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+            # self._img.paste(Image.open(image.photo.path).resize(
+            #     (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+            self._img.paste(image, (x, y))
 
         elif style == '1':
-            self._img.paste(Image.open(image.photo.path).resize(
-                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+            # self._img.paste(Image.open(image.photo.path).resize(
+            #     (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+            self._img.paste(image, (x, y))
 
             border = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
             self._img.paste(border, (x, y), mask=border)
@@ -112,8 +120,9 @@ class PilImage(qrcode.image.base.BaseImage):
             except:
                 bord = self.bord = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border1.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
 
-            self._img.paste(Image.open(image.photo.path).resize(
-                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+            # self._img.paste(Image.open(image.photo.path).resize(
+            #     (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+            self._img.paste(image, (x, y))
 
             self._img.paste(bord, (x, y), mask=bord)
 
@@ -127,8 +136,10 @@ class PilImage(qrcode.image.base.BaseImage):
                 mask = self.mask = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round-mask.png').resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS)
 
-            icon = Image.open(image.photo.path).resize(
-                (self.box_size, self.box_size), Image.ANTIALIAS)
+            # icon = Image.open(image.photo.path).resize(
+            #     (self.box_size, self.box_size), Image.ANTIALIAS)
+            self._img.paste(image, (x, y))
+
             button = Image.new('RGBA', mask.size)
 
             # Resize Icon

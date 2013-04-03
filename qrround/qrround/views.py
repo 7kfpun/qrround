@@ -667,7 +667,7 @@ def getqrcode(request):
             data['html'] = Template(
                 '<div class="thumbnail">'
                 '<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
-                'width="620" height="620" /></div>').render(photo=photo)
+                'width="520" height="520" /></div>').render(photo=photo)
             data['notice'] = choice([
                 'Try more one?',
                 'Step farther to make QR code more readable!',

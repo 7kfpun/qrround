@@ -4,9 +4,9 @@ function popitup(url) {
   return false;
 }
 
-$('.nav-tabs > li > a').hover(function() {
-  $(this).tab('show');
-});
+// $('.nav-tabs > li > a').hover(function() {
+//   $(this).tab('show');
+// });
 
 $('span[class^="st_"]').attr('st_image', 'http://' + window.location.host + '/static/ico/favicon.ico');
 
@@ -68,8 +68,8 @@ function changeMeta(st_url, filename) {
   $('span[class^="st_"]').html(''); // Empty span contents
   $('span[class^="st_"]').attr('st_processed', null); // Reset ST plugin
   
-  $('span[class^="st_"]').attr('st_url', 'http://' + window.location.host + st_url);
-  $('span[class^="st_"]').attr('st_image', 'http://' + window.location.host + '?qr=' + filename);
+  // $('span[class^="st_"]').attr('st_url', 'http://' + window.location.host + st_url);
+  $('span[class^="st_"]').attr('st_image', 'http://' + window.location.host + st_url);
   stButtons.makeButtons(); 
 }
 
@@ -100,9 +100,6 @@ function notify(location, notify_type, msg) {
       <strong>Alert!</strong> ' + msg + '</div>');
   }
   alerts.fadeIn('fast');
-//  setTimeout(function() {
-//    alerts.fadeOut();
-//  }, 5000);
 }
 
 
@@ -139,7 +136,7 @@ setTimeout(function(){
 
 
 ///////////////////// Initialize Tooltip and Model /////////////////////
-console.log($.cookie('helptip2'));
+console.log('helptip2', $.cookie('helptip2'));
 if ( $.cookie('helptip2') != 'false' ) {
   $($('[data-toggle="popover"]')[2]).popover('show');
 
@@ -153,7 +150,7 @@ if ( $.cookie('helptip2') != 'false' ) {
 
 initialHelptip0();
 function initialHelptip0() {
-  console.log($.cookie('helptip0'));
+  console.log('helptip0', $.cookie('helptip0'));
   if ( $.cookie('helptip0') != 'false' && $.cookie('helptip2') == 'false' ) {
     $($('[data-toggle="popover"]')[0]).popover('show');
 
@@ -168,7 +165,7 @@ function initialHelptip0() {
 
 initialHelptip1();
 function initialHelptip1() {
-  console.log($.cookie('helptip1'));
+  console.log('helptip1', $.cookie('helptip1'));
   if ( $.cookie('helptip1') != 'false' && $.cookie('helptip0') == 'false' ) {
     $($('[data-toggle="popover"]')[1]).popover('show');
     $('.popover button,#getqrcode_button').click(function() {
@@ -202,6 +199,7 @@ $('#send_contact').on("click", function() {
     error: function (request, status, error) {
       console.log("Received: " + request.responseText);
       notify('#contact_modal form .alerts', 'failure', request.responseText);
+      $('#contact_modal form .alerts')[0].scrollIntoView();
     },
   });
 });
