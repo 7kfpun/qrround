@@ -40,6 +40,7 @@ from .models import (
 
 
 logger = logging.getLogger(__name__)
+MAX_FRIENDS = 300
 
 
 def login(request):
@@ -690,7 +691,6 @@ def getqrcode(request):
 
 
 @csrf_exempt
-@transaction.commit_on_success
 def getfriendsrequest(request):
     if request.method == 'POST' and 'import' in request.POST:
         client_id = request.POST['import']
@@ -711,8 +711,8 @@ def callgetfriends(import_=None):
     print r.text[:7000]
 
 
-# @task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
-@transaction.commit_on_success
+# @transaction.commit_on_success
+@transaction.commit_manually
 def getfriendstask(client_id, cache_image=False):
     userclient = UserClient.objects.get(client=client_id)
     channel = userclient.client.split('#')[0]
@@ -725,13 +725,14 @@ def getfriendstask(client_id, cache_image=False):
             url=userclient.profile_picture_url
         )
         cachedimage.cache_and_save()
+        transaction.commit()
 
     if cache_image:
         frd_cachedimage = userclient.cachedimage_set.values_list(
             'url', flat=True)
 
         # Caching friend's profile picture
-        for frd in UserClient.objects.get(client=client_id).friends:
+        for count, frd in enumerate(UserClient.objects.get(client=client_id).friends[:MAX_FRIENDS]):  # noqa
             logger.info(frd)
 
             if channel == 'facebook':
@@ -758,6 +759,11 @@ def getfriendstask(client_id, cache_image=False):
                 # cachedimage = CachedImage(url=url)
                 cachedimage.user = userclient
                 cachedimage.cache_and_save()
+
+            if count == 3 or count % 35 == 0:
+                transaction.commit()
+
+        transaction.commit()
 
     return 'Succesfull'
 

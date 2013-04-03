@@ -10,8 +10,6 @@ except ImportError:
     import Image
     import ImageDraw
 import qrcode.image.base
-#from StringIO import StringIO
-#import urllib
 import ImageOps
 from time import time
 import logging
@@ -35,11 +33,7 @@ class PilImage(qrcode.image.base.BaseImage):
 
         pixelsize = (self.width + self.border * 2) * self.box_size
         self._img = Image.new("RGBA", (pixelsize, pixelsize), "white")
-        # self._img = Image.new("1", (pixelsize, pixelsize), "white")
         self._idr = ImageDraw.Draw(self._img)
-
-        # url = "https://secure.gravatar.com/avatar/988f8daaaf0155e5536fbb2d7efe0d0f?s=420&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"  # noqa
-        # self._image = Image.open(StringIO(urllib.urlopen(url).read()))
 
         if users:
             self._all_cached_images = CachedImage.objects.filter(user__client__in=users)
@@ -49,18 +43,9 @@ class PilImage(qrcode.image.base.BaseImage):
         self.options = options
 
         if not self._all_cached_images:
+            profile_image = choice(['a.gif', 'b.gif'])
             self._all_cached_images = [
-                Image.open("qrround/media/a.png").resize(
-                    (self.box_size, self.box_size), Image.ANTIALIAS),
-                Image.open("qrround/media/b.png").resize(
-                    (self.box_size, self.box_size), Image.ANTIALIAS),
-                Image.open("qrround/media/c.png").resize(
-                    (self.box_size, self.box_size), Image.ANTIALIAS),
-                Image.open("qrround/media/d.png").resize(
-                    (self.box_size, self.box_size), Image.ANTIALIAS),
-                Image.open("qrround/media/e.png").resize(
-                    (self.box_size, self.box_size), Image.ANTIALIAS),
-                Image.open("qrround/media/f.png").resize(
+                Image.open("qrcode/image/profile_picture/%s" % profile_image).resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS),
             ]
 
@@ -111,23 +96,23 @@ class PilImage(qrcode.image.base.BaseImage):
         style = self.options.get('style', '1')
 
         if style == '0':
-            self._img.paste(Image.open(image.photo.path).point(lambda p: p * 0.9).resize(
+            self._img.paste(Image.open(image.photo.path).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
 
         elif style == '1':
             self._img.paste(Image.open(image.photo.path).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
 
-            border = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
+            border = Image.open('qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
             self._img.paste(border, (x, y), mask=border)
 
         elif style == '2':
             try:
                 bord = self.bord
             except:
-                bord = self.bord = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border1.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
+                bord = self.bord = Image.open('qrcode/image/resources/border1.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
 
-            self._img.paste(Image.open(image.photo.path).point(lambda p: p * 0.7).resize(
+            self._img.paste(Image.open(image.photo.path).resize(
                 (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
 
             self._img.paste(bord, (x, y), mask=bord)
@@ -137,9 +122,9 @@ class PilImage(qrcode.image.base.BaseImage):
                 highlight = self.highlight
                 mask = self.mask
             except:
-                highlight = self.highlight = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round.png').resize(
+                highlight = self.highlight = Image.open('qrcode/image/resources/round.png').resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS)
-                mask = self.mask = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round-mask.png').resize(
+                mask = self.mask = Image.open('qrcode/image/resources/round-mask.png').resize(
                     (self.box_size, self.box_size), Image.ANTIALIAS)
 
             icon = Image.open(image.photo.path).resize(
