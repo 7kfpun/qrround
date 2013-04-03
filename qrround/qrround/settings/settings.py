@@ -18,7 +18,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-COMPRESS_ENABLED = False  # True  # Opposite with DEBUG
+# COMPRESS_ENABLED = False  # True  # Opposite with DEBUG
 
 RATELIMIT_ENABLE = True
 
@@ -88,8 +88,10 @@ LANGUAGES = (
     ('th', gettext_noop(u'ภาษาไทย')),
     ('ja', gettext_noop(u'日本語')),
 )
-
 ROSETTA_STORAGE_CLASS = 'rosetta.storage.CacheRosettaStorage'
+ROSETTA_MESSAGES_PER_PAGE = 50
+if DEBUG:
+    ROSETTA_WSGI_AUTO_RELOAD = True
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
@@ -143,7 +145,7 @@ ROOT_URLCONF = 'qrround.urls'
 WSGI_APPLICATION = 'qrround.wsgi.application'
 
 MEDIA_ROOT = op.join(PROJECT_ROOT, 'media')
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (

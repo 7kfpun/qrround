@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-27 12:33+0800\n"
+"POT-Creation-Date: 2013-04-03 11:15+0800\n"
 "PO-Revision-Date: 2013-03-20 23:54-0600\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,214 +17,245 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Translated-Using: django-rosetta 0.7.1\n"
 
-#: forms.py:16
+#: forms.py:21
 msgid "Your name"
 msgstr ""
 
-#: forms.py:24
+#: forms.py:29
 msgid "Your password"
 msgstr ""
 
-#: forms.py:31
+#: forms.py:36
 msgid "Name"
 msgstr ""
 
-#: forms.py:33
+#: forms.py:38
 msgid "Your name is..."
 msgstr ""
 
-#: forms.py:38
+#: forms.py:43
 msgid "E-mail"
 msgstr ""
 
-#: forms.py:40
+#: forms.py:45
 msgid "Your E-mail is..."
 msgstr ""
 
-#: forms.py:45
+#: forms.py:50
 msgid "Topic"
 msgstr ""
 
-#: forms.py:47
+#: forms.py:52
 msgid "Your topic is..."
 msgstr ""
 
-#: forms.py:52
+#: forms.py:57
 msgid "Message"
 msgstr ""
 
-#: forms.py:54
+#: forms.py:59
 msgid "And leave your message here..."
 msgstr ""
 
-#: forms.py:63
+#: forms.py:68
 msgid "Still in Beta now."
 msgstr ""
 
-#: forms.py:71
+#: forms.py:76
 msgid "Channel choice"
 msgstr ""
 
-#: forms.py:79
+#: forms.py:84
 #, python-format
 msgid "Low 7 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr ""
 
-#: forms.py:82
+#: forms.py:87
 #, python-format
 msgid "Medium 15 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr ""
 
-#: forms.py:85
+#: forms.py:90
 #, python-format
 msgid "Quartile 25 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr ""
 
-#: forms.py:88
+#: forms.py:93
 #, python-format
 msgid "High 30 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr ""
 
-#: forms.py:92
+#: forms.py:97
 msgid "Error correct choice"
 msgstr ""
 
-#: forms.py:96
+#: forms.py:101
 msgid "I have read and accept"
 msgstr ""
 
-#: forms.py:98
+#: forms.py:103
 msgid ""
 "<a id=\"policy_modal_link\" type=\"button\">Privacy Policy and Terms of "
 "Service</a>"
 msgstr ""
 
-#: forms.py:102
+#: forms.py:107
 msgid "Color"
 msgstr ""
 
-#: forms.py:108
+#: forms.py:113
 msgid "Darker is better..."
 msgstr ""
 
-#: forms.py:112 forms.py:125
-msgid "Auto post"
+#: forms.py:117
+msgid "Auto facebook post"
 msgstr ""
 
-#: forms.py:115
-msgid "Post the code to your Facebook"
+#: forms.py:120
+msgid ""
+"Auto post the code to your Facebook wall (only when you have a Facebook "
+"account)"
 msgstr ""
 
 #: forms.py:130
+msgid "Auto post"
+msgstr ""
+
+#: forms.py:135
 msgid "Set your style here...(more to come)"
 msgstr ""
 
-#: forms.py:141
+#: forms.py:146
 msgid "Input your data"
 msgstr ""
 
-#: forms.py:162
+#: forms.py:171
 msgid "Text is too long"
 msgstr ""
 
-#: forms.py:168
-msgid "You should accept our policy"
+#: forms.py:177
+msgid "You should accept our Privacy Policy and Terms of Service"
 msgstr ""
 
-#: forms.py:175
+#: forms.py:184
 msgid "Sorry, our service is not available now"
 msgstr ""
 
-#: views.py:185
-msgid ""
-"We are poor, cannot afford too much server cost. Donate us so that we can "
-"buy more server time<br />Try agains after seconds please..."
-msgstr ""
-
-#: views.py:546 views.py:618
+#: views.py:614 views.py:701
 msgid ""
 "Was_limited: we are poor, cannot afford server cost. Donate some and we can "
 "buy more server time"
 msgstr ""
 
-#: settings/settings.py:95
+#: settings/settings.py:85
 msgid "English"
 msgstr ""
 
-#: settings/settings.py:96
+#: settings/settings.py:86
 msgid "繁體中文"
 msgstr ""
 
-#: settings/settings.py:97
+#: settings/settings.py:87
 msgid "简体中文"
 msgstr ""
 
-#: settings/settings.py:98
+#: settings/settings.py:88
 msgid "ภาษาไทย"
 msgstr ""
 
-#: settings/settings.py:99
+#: settings/settings.py:89
 msgid "日本語"
 msgstr ""
 
-#: templates/auth_urls.html:5 templates/auth_urls.html.py:9
-#: templates/auth_urls.html:13 templates/auth_urls.html.py:17
-msgid "Import your friends"
+#: templates/auth_urls.html:6
+msgid "Import your <strong>Facebook</strong>"
+msgstr ""
+
+#: templates/auth_urls.html:12
+msgid "Import your <strong>Google Plus</strong>"
+msgstr ""
+
+#: templates/auth_urls.html:18
+msgid "Import your <strong>LinkedIn</strong>"
+msgstr ""
+
+#: templates/auth_urls.html:25
+msgid "Import your <strong>Kaixin001</strong>"
+msgstr ""
+
+#: templates/auth_urls.html:31
+msgid "Import your  <strong>Sina Weibo</strong>"
+msgstr ""
+
+#: templates/auth_urls.html:37
+msgid "More to come"
 msgstr ""
 
 #: templates/base.html:9
 msgid "QR"
 msgstr ""
 
-#: templates/base.html:51
+#: templates/base.html:57
 msgid "Home"
 msgstr ""
 
-#: templates/base.html:52 templates/modals.html:168
+#: templates/base.html:58 templates/modals.html:167
 msgid "About"
 msgstr ""
 
-#: templates/base.html:53 templates/modals.html:114
+#: templates/base.html:59 templates/modals.html:113
 msgid "Contact"
 msgstr ""
 
-#: templates/base.html:57
+#: templates/base.html:63
 msgid "Language"
 msgstr ""
 
-#: templates/base.html:70
+#: templates/base.html:76
 msgid "Project name"
 msgstr "ภาษาไทย"
 
-#: templates/base.html:77
+#: templates/base.html:83
 msgid "It is Super<br />Awesome!"
 msgstr ""
 
-#: templates/base.html:78
+#: templates/base.html:84
 msgid ""
-"Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, "
-"tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa "
-"justo sit amet risus."
+"ทุกสิ่งทุกอย่างมีเลิกลา มันเป็นไปตามกาลเวลา<br />มีพลัดมีพรากมีจากไป คงต้องยอมทำใจ<br /"
+">คงต้องยอมเสียใจ อย่าขวางชะตานั้น<br />ปล่อยมันให้เป็นไป ชีวิตที่มีไม่คิดเสียดาย<br /"
+">จะยังไงไม่ยอมเสียเธอ"
 msgstr ""
 
-#: templates/base.html:79
-msgid "Sign up today"
+#: templates/index.html:13
+msgid "Import your social account"
 msgstr ""
 
-#: templates/index.html:13 templates/modals.html:224
+#: templates/index.html:13
+msgid "Second step"
+msgstr ""
+
+#: templates/index.html:13 templates/modals.html:223
 msgid "Import"
 msgstr ""
 
 #: templates/index.html:14
-msgid "Loading..."
+msgid "Get your cool QR code!"
 msgstr ""
 
 #: templates/index.html:14
-msgid "Complete!"
+msgid "Last step"
 msgstr ""
 
 #: templates/index.html:14
 msgid "Have fun!"
+msgstr ""
+
+#: templates/index.html:17
+msgid "Read and accept our Privacy Policy and Terms of Service"
+msgstr ""
+
+#: templates/index.html:17
+msgid "First step"
 msgstr ""
 
 #: templates/index.html:27
@@ -239,6 +270,10 @@ msgstr ""
 msgid "Color & style "
 msgstr ""
 
+#: templates/index.html:38
+msgid "Share it"
+msgstr ""
+
 #: templates/index.html:48
 msgid "<strong>Info!</strong> You can import more accounts."
 msgstr ""
@@ -247,20 +282,28 @@ msgstr ""
 msgid "<strong>Info!</strong> Import your account first!!"
 msgstr ""
 
-#: templates/index.html:61
+#: templates/index.html:60
 msgid "The higher error correct, the more readable code."
 msgstr ""
 
-#: templates/index.html:66
+#: templates/index.html:65
 msgid "Select your theme color here!!"
 msgstr ""
 
-#: templates/index.html:80
+#: templates/index.html:79
 msgid "Show off to your friends!!"
 msgstr ""
 
-#: templates/index.html:91
+#: templates/index.html:82
+msgid "Or share it to ..."
+msgstr ""
+
+#: templates/index.html:102
 msgid "<strong>Info!</strong> Only latest 12 codes are displayed"
+msgstr ""
+
+#: templates/index.html:106
+msgid "Gallery is loading..."
 msgstr ""
 
 #: templates/modals.html:9
@@ -420,27 +463,23 @@ msgid ""
 "    "
 msgstr ""
 
-#: templates/modals.html:104 templates/modals.html.py:176
+#: templates/modals.html:104 templates/modals.html.py:175
 msgid "Close"
 msgstr ""
 
-#: templates/modals.html:105
-msgid "Save changes"
-msgstr ""
-
-#: templates/modals.html:158 templates/modals.html.py:223
+#: templates/modals.html:157 templates/modals.html.py:222
 msgid "Cancel"
 msgstr ""
 
-#: templates/modals.html:159
+#: templates/modals.html:158
 msgid "Sent"
 msgstr ""
 
-#: templates/modals.html:171
+#: templates/modals.html:170
 msgid "About this website privacy policy"
 msgstr ""
 
-#: templates/modals.html:172
+#: templates/modals.html:171
 msgid ""
 "This is a model website privacy policy. It is written in plain language that "
 "is visitor-friendly. We have provided a large menu of paragraphs so that you "
@@ -448,7 +487,7 @@ msgid ""
 "and website."
 msgstr ""
 
-#: templates/modals.html:173
+#: templates/modals.html:172
 msgid ""
 "Although this document cannot magically absolve you from the risk of data "
 "mismanagement, it is a giant first step. Informing your visitors and "
@@ -460,16 +499,16 @@ msgid ""
 "in using your services or buying from you."
 msgstr ""
 
-#: templates/modals.html:202
+#: templates/modals.html:201
 msgid "Import your account here!!"
 msgstr ""
 
-#: templates/modals.html:208
+#: templates/modals.html:207
 msgid ""
 "<strong>Oops!!</strong> something wrong with the site. Try reloading please "
 "or report us and we will fix it soon"
 msgstr ""
 
-#: templates/modals.html:222
+#: templates/modals.html:221
 msgid "Logout all"
 msgstr ""

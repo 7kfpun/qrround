@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-27 12:33+0800\n"
-"PO-Revision-Date: 2013-03-26 23:49-0600\n"
+"POT-Creation-Date: 2013-04-03 11:15+0800\n"
+"PO-Revision-Date: 2013-04-02 23:26-0600\n"
 "Last-Translator: None None <None>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,215 +17,246 @@ msgstr ""
 "Language: \n"
 "X-Translated-Using: django-rosetta 0.7.1\n"
 
-#: forms.py:16
+#: forms.py:21
 msgid "Your name"
 msgstr "姓名"
 
-#: forms.py:24
+#: forms.py:29
 msgid "Your password"
 msgstr "密碼"
 
-#: forms.py:31
+#: forms.py:36
 msgid "Name"
 msgstr "姓名"
 
-#: forms.py:33
+#: forms.py:38
 msgid "Your name is..."
 msgstr "姓名是..."
 
-#: forms.py:38
+#: forms.py:43
 msgid "E-mail"
 msgstr "電郵"
 
-#: forms.py:40
+#: forms.py:45
 msgid "Your E-mail is..."
 msgstr "電郵是..."
 
-#: forms.py:45
+#: forms.py:50
 msgid "Topic"
 msgstr "主題"
 
-#: forms.py:47
+#: forms.py:52
 msgid "Your topic is..."
 msgstr "主題是..."
 
-#: forms.py:52
+#: forms.py:57
 msgid "Message"
 msgstr "訊息"
 
-#: forms.py:54
+#: forms.py:59
 msgid "And leave your message here..."
 msgstr "在此留下訊息..."
 
-#: forms.py:63
+#: forms.py:68
 msgid "Still in Beta now."
 msgstr "還在測試中..."
 
-#: forms.py:71
+#: forms.py:76
 msgid "Channel choice"
-msgstr ""
+msgstr "帳戶"
 
-#: forms.py:79
+#: forms.py:84
 #, python-format
 msgid "Low 7 %(PERCENT_SIGN)s of codewords can be restored)"
-msgstr "低 7 %(PERCENT_SIGN)s 的損壞可被恢復"
+msgstr "低 低於 7 %(PERCENT_SIGN)s 的損壞可被恢復"
 
-#: forms.py:82
+#: forms.py:87
 #, python-format
 msgid "Medium 15 %(PERCENT_SIGN)s of codewords can be restored)"
-msgstr "中 15 %(PERCENT_SIGN)s 的損壞可被恢復"
+msgstr "中 低於 15 %(PERCENT_SIGN)s 的損壞可被恢復"
 
-#: forms.py:85
+#: forms.py:90
 #, python-format
 msgid "Quartile 25 %(PERCENT_SIGN)s of codewords can be restored)"
-msgstr "高 25 %(PERCENT_SIGN)s 的損壞可被恢復"
+msgstr "高 低於 25 %(PERCENT_SIGN)s 的損壞可被恢復"
 
-#: forms.py:88
+#: forms.py:93
 #, python-format
 msgid "High 30 %(PERCENT_SIGN)s of codewords can be restored)"
 msgstr "很高 30 %(PERCENT_SIGN)s 的損壞可被恢復"
 
-#: forms.py:92
+#: forms.py:97
 msgid "Error correct choice"
-msgstr ""
+msgstr "可恢復度"
 
-#: forms.py:96
+#: forms.py:101
 msgid "I have read and accept"
 msgstr "我已經閱讀和同意以下條款"
 
-#: forms.py:98
+#: forms.py:103
 msgid ""
 "<a id=\"policy_modal_link\" type=\"button\">Privacy Policy and Terms of "
 "Service</a>"
 msgstr "<a id=\"policy_modal_link\" type=\"button\">我同意並接受此協議條款</a>"
 
-#: forms.py:102
+#: forms.py:107
 msgid "Color"
 msgstr "顏色"
 
-#: forms.py:108
+#: forms.py:113
 msgid "Darker is better..."
 msgstr "深一點的顏色比較好"
 
-#: forms.py:112 forms.py:125
+#: forms.py:117
+msgid "Auto facebook post"
+msgstr "自動分享到臉書上"
+
+#: forms.py:120
+msgid ""
+"Auto post the code to your Facebook wall (only when you have a Facebook "
+"account)"
+msgstr "自動分享到臉書上 （限已經登陸到臉書帳戶）"
+
+#: forms.py:130
 msgid "Auto post"
 msgstr "自動分享"
 
-#: forms.py:115
-msgid "Post the code to your Facebook"
-msgstr "讓朋友們也看看我的作品！！"
-
-#: forms.py:130
+#: forms.py:135
 msgid "Set your style here...(more to come)"
 msgstr "選擇風格（陸續增加中）"
 
-#: forms.py:141
+#: forms.py:146
 msgid "Input your data"
 msgstr "寫入信息"
 
-#: forms.py:162
+#: forms.py:171
 msgid "Text is too long"
 msgstr "文字太長了"
 
-#: forms.py:168
-msgid "You should accept our policy"
-msgstr "你必須接受我們的條款"
+#: forms.py:177
+msgid "You should accept our Privacy Policy and Terms of Service"
+msgstr "你必須接受我們的政策"
 
-#: forms.py:175
+#: forms.py:184
 msgid "Sorry, our service is not available now"
 msgstr "對不起，我們的服務還未開放"
 
-#: views.py:185
-msgid ""
-"We are poor, cannot afford too much server cost. Donate us so that we can "
-"buy more server time<br />Try agains after seconds please..."
-msgstr ""
-
-#: views.py:546 views.py:618
+#: views.py:614 views.py:701
 msgid ""
 "Was_limited: we are poor, cannot afford server cost. Donate some and we can "
 "buy more server time"
-msgstr ""
+msgstr "超出請求限制： 我們太窮了啦，贊助一下嘛..."
 
-#: settings/settings.py:95
+#: settings/settings.py:85
 msgid "English"
 msgstr ""
 
-#: settings/settings.py:96
+#: settings/settings.py:86
 msgid "繁體中文"
 msgstr ""
 
-#: settings/settings.py:97
+#: settings/settings.py:87
 msgid "简体中文"
 msgstr ""
 
-#: settings/settings.py:98
+#: settings/settings.py:88
 msgid "ภาษาไทย"
 msgstr ""
 
-#: settings/settings.py:99
+#: settings/settings.py:89
 msgid "日本語"
 msgstr ""
 
-#: templates/auth_urls.html:5 templates/auth_urls.html.py:9
-#: templates/auth_urls.html:13 templates/auth_urls.html.py:17
-msgid "Import your friends"
-msgstr "匯入你的朋友吧"
+#: templates/auth_urls.html:6
+msgid "Import your <strong>Facebook</strong>"
+msgstr "匯入你的 <strong>臉書</strong> 朋友"
+
+#: templates/auth_urls.html:12
+msgid "Import your <strong>Google Plus</strong>"
+msgstr "匯入你的 <strong>谷歌</strong> 朋友"
+
+#: templates/auth_urls.html:18
+msgid "Import your <strong>LinkedIn</strong>"
+msgstr "匯入你的 <strong>LinkedIn</strong> 朋友"
+
+#: templates/auth_urls.html:25
+msgid "Import your <strong>Kaixin001</strong>"
+msgstr "匯入你的 <strong>開心網</strong> 朋友"
+
+#: templates/auth_urls.html:31
+msgid "Import your  <strong>Sina Weibo</strong>"
+msgstr "匯入你的 <strong>新浪微博</strong> 朋友"
+
+#: templates/auth_urls.html:37
+msgid "More to come"
+msgstr "更多即将支持"
 
 #: templates/base.html:9
 msgid "QR"
 msgstr ""
 
-#: templates/base.html:51
+#: templates/base.html:57
 msgid "Home"
 msgstr "首頁"
 
-#: templates/base.html:52 templates/modals.html:168
+#: templates/base.html:58 templates/modals.html:167
 msgid "About"
 msgstr "關於"
 
-#: templates/base.html:53 templates/modals.html:114
+#: templates/base.html:59 templates/modals.html:113
 msgid "Contact"
 msgstr "聯絡"
 
-#: templates/base.html:57
+#: templates/base.html:63
 msgid "Language"
 msgstr "語言"
 
-#: templates/base.html:70
+#: templates/base.html:76
 msgid "Project name"
 msgstr "我的名"
 
-#: templates/base.html:77
+#: templates/base.html:83
 msgid "It is Super<br />Awesome!"
 msgstr "超棒的說"
 
-#: templates/base.html:78
+#: templates/base.html:84
 msgid ""
-"Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, "
-"tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa"
-" justo sit amet risus."
+"ทุกสิ่งทุกอย่างมีเลิกลา มันเป็นไปตามกาลเวลา<br />มีพลัดมีพรากมีจากไป "
+"คงต้องยอมทำใจ<br />คงต้องยอมเสียใจ อย่าขวางชะตานั้น<br />ปล่อยมันให้เป็นไป "
+"ชีวิตที่มีไม่คิดเสียดาย<br />จะยังไงไม่ยอมเสียเธอ"
 msgstr ""
 
-#: templates/base.html:79
-msgid "Sign up today"
-msgstr "現在馬上註冊"
+#: templates/index.html:13
+msgid "Import your social account"
+msgstr "在此匯入社交網絡帳號"
 
-#: templates/index.html:13 templates/modals.html:224
+#: templates/index.html:13
+msgid "Second step"
+msgstr "第二步"
+
+#: templates/index.html:13 templates/modals.html:223
 msgid "Import"
 msgstr "匯入"
 
 #: templates/index.html:14
-msgid "Loading..."
-msgstr "等待中..."
+msgid "Get your cool QR code!"
+msgstr "可以開始了！！"
 
 #: templates/index.html:14
-msgid "Complete!"
-msgstr "完成"
+msgid "Last step"
+msgstr "最後一部"
 
 #: templates/index.html:14
 msgid "Have fun!"
-msgstr ""
+msgstr "開始"
+
+#: templates/index.html:17
+msgid "Read and accept our Privacy Policy and Terms of Service"
+msgstr "閱讀並接受此協議條款"
+
+#: templates/index.html:17
+msgid "First step"
+msgstr "第一步"
 
 #: templates/index.html:27
 msgid "Options"
@@ -239,33 +270,45 @@ msgstr "歷史"
 msgid "Color & style "
 msgstr "顏色 & 風格"
 
+#: templates/index.html:38
+msgid "Share it"
+msgstr "分享"
+
 #: templates/index.html:48
 msgid "<strong>Info!</strong> You can import more accounts."
-msgstr "<strong>Info!</strong> 你還可以再匯入其他帳號"
+msgstr "<strong>提示：</strong> 你還可以再匯入其他帳號"
 
 #: templates/index.html:54
 msgid "<strong>Info!</strong> Import your account first!!"
-msgstr "<strong>Info!</strong> 先匯入帳號"
+msgstr "<strong>提示：</strong> 請匯入你的帳號"
 
-#: templates/index.html:61
+#: templates/index.html:60
 msgid "The higher error correct, the more readable code."
-msgstr ""
+msgstr "越高可恢復程度，越易於讀取"
 
-#: templates/index.html:66
+#: templates/index.html:65
 msgid "Select your theme color here!!"
-msgstr ""
+msgstr "選擇你的顏色"
 
-#: templates/index.html:80
+#: templates/index.html:79
 msgid "Show off to your friends!!"
 msgstr "向朋友炫耀吧"
 
-#: templates/index.html:91
+#: templates/index.html:82
+msgid "Or share it to ..."
+msgstr "或分享到..."
+
+#: templates/index.html:102
 msgid "<strong>Info!</strong> Only latest 12 codes are displayed"
-msgstr "只有最近12張顯示"
+msgstr "<strong>提示：</strong> 只顯示最近12張"
+
+#: templates/index.html:106
+msgid "Gallery is loading..."
+msgstr "正在載入..."
 
 #: templates/modals.html:9
 msgid "Web Site Terms and Conditions of Use"
-msgstr ""
+msgstr "網站使用條例"
 
 #: templates/modals.html:12
 msgid ""
@@ -361,27 +404,23 @@ msgid ""
 "    "
 msgstr ""
 
-#: templates/modals.html:104 templates/modals.html.py:176
+#: templates/modals.html:104 templates/modals.html.py:175
 msgid "Close"
 msgstr "關閉"
 
-#: templates/modals.html:105
-msgid "Save changes"
-msgstr "保存"
-
-#: templates/modals.html:158 templates/modals.html.py:223
+#: templates/modals.html:157 templates/modals.html.py:222
 msgid "Cancel"
 msgstr "取消"
 
-#: templates/modals.html:159
+#: templates/modals.html:158
 msgid "Sent"
-msgstr ""
+msgstr "發送"
+
+#: templates/modals.html:170
+msgid "About this website privacy policy"
+msgstr "網站隱私政策"
 
 #: templates/modals.html:171
-msgid "About this website privacy policy"
-msgstr ""
-
-#: templates/modals.html:172
 msgid ""
 "This is a model website privacy policy. It is written in plain language that"
 " is visitor-friendly. We have provided a large menu of paragraphs so that "
@@ -389,7 +428,7 @@ msgid ""
 "business and website."
 msgstr ""
 
-#: templates/modals.html:173
+#: templates/modals.html:172
 msgid ""
 "Although this document cannot magically absolve you from the risk of data "
 "mismanagement, it is a giant first step. Informing your visitors and "
@@ -401,16 +440,34 @@ msgid ""
 " in using your services or buying from you."
 msgstr ""
 
-#: templates/modals.html:202
+#: templates/modals.html:201
 msgid "Import your account here!!"
 msgstr "在此匯入帳號"
 
-#: templates/modals.html:208
+#: templates/modals.html:207
 msgid ""
 "<strong>Oops!!</strong> something wrong with the site. Try reloading please "
 "or report us and we will fix it soon"
 msgstr "<STRONG>哎呀！</ STRONG> 網站有一些錯誤。請嘗試重新載入。或請通知我們，我們會儘快修復它的"
 
-#: templates/modals.html:222
+#: templates/modals.html:221
 msgid "Logout all"
 msgstr "全部登出"
+
+#~ msgid "Privacy Policy and Terms of Service"
+#~ msgstr "<a id=\"policy_modal_link\" type=\"button\">我同意並接受此協議條款</a>"
+
+#~ msgid "Post the code to your Facebook"
+#~ msgstr "讓朋友們也看看我的作品！！"
+
+#~ msgid "Sign up today"
+#~ msgstr "現在馬上註冊"
+
+#~ msgid "Loading..."
+#~ msgstr "等待中..."
+
+#~ msgid "Complete!"
+#~ msgstr "完成"
+
+#~ msgid "Save changes"
+#~ msgstr "保存"
