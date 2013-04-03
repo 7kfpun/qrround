@@ -138,13 +138,13 @@ class PilImage(qrcode.image.base.BaseImage):
 
             # icon = Image.open(image.photo.path).resize(
             #     (self.box_size, self.box_size), Image.ANTIALIAS)
-            self._img.paste(image, (x, y))
+            icon = image
 
             button = Image.new('RGBA', mask.size)
 
             # Resize Icon
             icon = ImageOps.fit(
-              icon, highlight.size, method=Image.ANTIALIAS, centering=(0.5, 0.5)
+                icon, highlight.size, method=Image.ANTIALIAS, centering=(0.5, 0.5)
             )
 
             # Create a helper image that will hold the icon after the reshape
