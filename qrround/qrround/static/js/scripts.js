@@ -10,6 +10,8 @@ function popitup(url) {
 
 $('span[class^="st_"]').attr('st_image', 'http://' + window.location.host + '/static/ico/favicon.ico');
 
+$('.slider').slider('setValue', '0')
+
 ///////////////////// QR code /////////////////////
 // Send qrcode request
 $('#getqrcode_input').keydown(function (e) {
@@ -223,6 +225,5 @@ $("#getqrcode_input").charCount({
     counterText: 'Characters left: '	
 });
 
-$('#getqrcode_input').limit('140','#charsLeft');
 ///////////////// Color picker ///////////////////
 $('#colorpicker').colorpicker();

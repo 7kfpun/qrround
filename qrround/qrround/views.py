@@ -629,6 +629,7 @@ def getqrcode(request):
             lambda x: int(x),
             re.findall(r'\b\d+\b', form.data.get('color', 'rgb(0, 0, 0)'))))
         options['style'] = form.data.get('style', '0')
+        options['darkness'] = form.data.get('darkness', '0')
 
         try:
             qr = qrcode.QRCode(

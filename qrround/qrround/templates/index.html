@@ -74,10 +74,19 @@
                   <span class="add-on"><i style="background-color: rgb(255, 255, 255);"></i></span>
                 </div>
                 <p>{{ form.color.help_text }}</p>
+
                 <p>
+                  <p>{{ form.style.help_text }}</p>
+                  <div class="row">
                   {% for choice in form.style %}
                     <div class="span1">{{ choice }}</div>
                   {% endfor %}
+                  </div>
+                </p>
+
+                <p>
+                  <p>{{ form.darkness.help_text }}</p>
+                  {{ form.darkness }}
                 </p>
               </div>
 
