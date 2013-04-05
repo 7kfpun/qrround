@@ -10,7 +10,6 @@ admin.autodiscover()
 urlpatterns = patterns(
     'qrround.views',
 
-    url(r'^getqrcode/$', 'getqrcode', name='getqrcode'),
     url(r'getfriends/$', 'getfriendsrequest', name='getfriendsrequest'),
     url(r'getgallery/$', 'getgallery', name='getgallery'),
     url(r'autopostfacebook/$', 'autopostfacebook', name='autopostfacebook'),
@@ -54,6 +53,8 @@ urlpatterns += i18n_patterns(
 
     url(r'^$', 'index', name='index'),
     url(r'^getauthurls/$', 'getauthurls', name='getauthurls'),
+    url(r'^getqrcode/$', 'getqrcode', name='getqrcode'),
+    url('^tasks/', include('djcelery.urls')),
 )
 
 if settings.DEBUG:

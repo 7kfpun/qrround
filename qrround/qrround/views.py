@@ -260,6 +260,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
             'method': 'text',
             'channel': channel,
             'access_token': access_token,
+            'no_of_friends': len(friends),
         },
         'user': me,
         'friends': friends,
@@ -303,9 +304,8 @@ def store_session(request, channel, client_id, access_token, me, friends):
 
     logger.info('> Start create: ' + client_id)
     # Store user
-    userclient, created = UserClient.objects.get_or_create(
-        client=client_id,
-    )
+    userclient, created = UserClient.objects.get_or_create(client=client_id)
+
     logger.info('> Created: ' + client_id)
     userclient.username = username
     userclient.first_name = first_name
@@ -352,27 +352,36 @@ def store_session(request, channel, client_id, access_token, me, friends):
 
 def facebookcallback(request):
     if request.GET.get('state', ''):  # == request.session.get('state', '***'):
-        session = facebook.get_auth_session(data={
-            'code': request.GET.get('code'),
-            'redirect_uri': FACEBOOK_REDIRECT_URI})
-        access_token = session.access_token
+        try:
+            session = facebook.get_auth_session(data={
+                'code': request.GET.get('code'),
+                'redirect_uri': FACEBOOK_REDIRECT_URI})
+            access_token = session.access_token
 
-        # me = session.get('me').json()
-        # to get pic_square of me()
-        me = session.get(
-            'fql?q=SELECT uid, first_name, middle_name,'
-            + ' last_name, username, name, pic_square, profile_url'
-            + ' FROM user WHERE uid = me()').json()['data'][0]
+            # me = session.get('me').json()
+            # to get pic_square of me()
+            me = session.get(
+                'fql?q=SELECT uid, first_name, middle_name,'
+                + ' last_name, username, name, pic_square, profile_url'
+                + ' FROM user WHERE uid = me()').json()['data'][0]
 
-        friends = session.get(
-            'fql?q=SELECT uid, first_name, middle_name,'
-            + ' last_name, username, name, pic_square, profile_url'
-            + ' FROM user WHERE uid in (SELECT uid2 FROM friend'
-            + ' WHERE uid1 = me())').json()['data']
+            try:
+                friends = session.get(
+                    'fql?q=SELECT uid, first_name, middle_name,'
+                    + ' last_name, username, name, pic_square, profile_url'
+                    + ' FROM user WHERE uid in (SELECT uid2 FROM friend'
+                    + ' WHERE uid1 = me())').json()['data']
+            except Exception, e:
+                friends = []
+                logger.error(str(e))
 
-        client_id = 'facebook#' + str(me['uid'])
-        return store_session(request, 'facebook', client_id,
-                             access_token, me, friends)
+            client_id = 'facebook#' + str(me['uid'])
+            return store_session(request, 'facebook', client_id,
+                                 access_token, me, friends)
+
+        except Exception, e:
+            logger.error(str(e) + r.text)
+            return HttpResponse(str(e) + r.text)
 
     else:
         return HttpResponse('CSRF?')
@@ -381,24 +390,33 @@ def facebookcallback(request):
 # Still have problem
 def googlecallback(request):
     if request.GET.get('state', ''):  # == request.session.get('state', '***'):
-        credentials = google.step2_exchange(request.GET.get('code'))
-        access_token = credentials.access_token
+        try:
+            credentials = google.step2_exchange(request.GET.get('code'))
+            access_token = credentials.access_token
 
-        me_url = (
-            'https://www.googleapis.com/plus/v1/people/me'
-            '?access_token=' + access_token
-        )
-        me = requests.get(me_url).json()
+            me_url = (
+                'https://www.googleapis.com/plus/v1/people/me'
+                '?access_token=' + access_token
+            )
+            me = requests.get(me_url).json()
 
-        friends_url = (
-            'https://www.googleapis.com/plus/v1/people/me/people/visible'
-            '?access_token=' + access_token
-        )
-        friends = requests.get(friends_url).json()['items']
+            try:
+                friends_url = (
+                    'https://www.googleapis.com/plus/v1/people/me/people/visible'  # noqa
+                    '?access_token=' + access_token
+                )
+                friends = requests.get(friends_url).json()['items']
+            except KeyError, e:
+                friends = []
+                logger.error(str(e))
 
-        client_id = 'google#' + str(me['id'])
-        return store_session(request, 'google', client_id,
-                             access_token, me, friends)
+            client_id = 'google#' + str(me['id'])
+            return store_session(request, 'google', client_id,
+                                 access_token, me, friends)
+
+        except Exception, e:
+            logger.error(str(e) + r.text)
+            return HttpResponse(str(e) + r.text)
 
     else:
         return HttpResponse('CSRF?')
@@ -425,18 +443,24 @@ def kaixin001callback(request):
             )
             me = requests.get(me_url).json()
 
-            friends_url = (
-                'https://api.kaixin001.com/friends/me.json'
-                '?num=50'
-                '&access_token=' + access_token
-            )
-            friends = requests.get(friends_url).json()['users']
+            try:
+                friends_url = (
+                    'https://api.kaixin001.com/friends/me.json'
+                    '?num=50'
+                    '&access_token=' + access_token
+                )
+                friends = requests.get(friends_url).json()['users']
+            except KeyError, e:
+                friends = []
+                logger.error(str(e))
 
             client_id = 'kaixin001#' + str(me['uid'])
             logger.info('> store_session: ' + client_id)
             return store_session(request, 'kaixin001', client_id,
                                  access_token, me, friends)
+
         except KeyError, e:
+            logger.error(str(e) + r.text)
             return HttpResponse(str(e) + r.text)
 
     else:
@@ -469,13 +493,16 @@ def linkedincallback(request):
                     'https://api.linkedin.com/v1/people/~/connections'
                     '?oauth2_access_token=' + access_token + '&format=json')
                 friends = requests.get(friends_url).json()['values']
-            except KeyError:
+            except KeyError, e:
                 friends = []
+                logger.error(str(e))
 
             client_id = 'linkedin#' + str(me['id'])
             return store_session(request, 'linkedin', client_id,
                                  access_token, me, friends)
+
         except KeyError, e:
+            logger.error(str(e) + r.text)
             return HttpResponse(str(e) + r.text)
 
     else:
@@ -564,27 +591,36 @@ def weibocallback(request):
             + '&redirect_uri=' + WEIBO_REDIRECT_URI
         )
         r = requests.post(exchange_url)
-        access_token = r.json()['access_token']
-        uid = str(r.json()['uid'])
+        try:
+            access_token = r.json()['access_token']
+            uid = str(r.json()['uid'])
 
-        me_url = (
-            'https://api.weibo.com/2/users/show.json'
-            '?uid=' + uid
-            + '&access_token=' + access_token
-        )
-        me = requests.get(me_url).json()
+            me_url = (
+                'https://api.weibo.com/2/users/show.json'
+                '?uid=' + uid
+                + '&access_token=' + access_token
+            )
+            me = requests.get(me_url).json()
 
-        friends_url = (
-            'https://api.weibo.com/2/friendships/friends.json'
-            '?uid=' + uid
-            + '&count=200'
-            '&access_token=' + access_token
-        )
-        friends = requests.get(friends_url).json()['users']
+            try:
+                friends_url = (
+                    'https://api.weibo.com/2/friendships/friends.json'
+                    '?uid=' + uid
+                    + '&count=200'
+                    '&access_token=' + access_token
+                )
+                friends = requests.get(friends_url).json()['users']
+            except KeyError, e:
+                friends = []
+                logger.error(str(e))
 
-        client_id = 'weibo#' + uid
-        return store_session(request, 'weibo', client_id,
-                             access_token, me, friends)
+            client_id = 'weibo#' + uid
+            return store_session(request, 'weibo', client_id,
+                                 access_token, me, friends)
+
+        except KeyError, e:
+            logger.error(str(e) + r.text)
+            return HttpResponse(str(e) + r.text)
 
     else:
         return HttpResponse('CSRF?')
@@ -629,6 +665,8 @@ def getqrcode(request):
             lambda x: int(x),
             re.findall(r'\b\d+\b', form.data.get('color', 'rgb(0, 0, 0)'))))
         options['style'] = form.data.get('style', '0')
+        options['darkness'] = form.data.get('darkness', '0')
+
         options['cache'] = form.data.get('cache', None)
 
         try:
@@ -670,13 +708,14 @@ def getqrcode(request):
                 '<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
                 'width="520" height="520" /></div>').render(photo=photo)
             data['notice'] = choice([
-                'Try more one?',
-                'Step farther to make QR code more readable!',
-                'Look beautiful?',
-                'Love it?',
-                'Share it!!!',
-                'Where is your girlfriend?',
-            ])
+                _('Try more one?'),
+                _('Step farther to make QR code more readable!'),
+                _('Look beautiful?'),
+                _('Love it?'),
+                _('Share it!!!'),
+                _('Where is your girlfriend?'),
+            ]).translate(request.LANGUAGE_CODE)
+            print request.LANGUAGE_CODE
 
             if form.data.get('auto_post_facebook', None) and \
                     request.session.get('facebook', None):

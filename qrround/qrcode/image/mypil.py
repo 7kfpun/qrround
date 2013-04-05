@@ -37,22 +37,38 @@ class PilImage(qrcode.image.base.BaseImage):
         self._idr = ImageDraw.Draw(self._img)
 
         if users:
-            # self._all_cached_images = CachedImage.objects.filter(user__client__in=users)
+
+            darkness = options.get('darkness', '0')
+
+            # self._all_cached_images = CachedImage.objects.filter(user__client__in=users)  # noqa
             if options.get('cache', None):
                 print 'With cache'
                 self._all_cached_images = cache.get('+'.join(users))
                 if not self._all_cached_images:
-                    self._all_cached_images = [
-                        Image.open(cached_img.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS)
-                        for cached_img in CachedImage.objects.filter(user__client__in=users)
-                    ]
+                    if darkness != '0':
+                        self._all_cached_images = [
+                            Image.open(cached_img.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS).point(lambda p: p * (1 - int(darkness)/10.0))  # noqa
+                            for cached_img in CachedImage.objects.filter(user__client__in=users)  # noqa
+                        ]
+                    else:
+                        self._all_cached_images = [
+                            Image.open(cached_img.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS)  # noqa
+                            for cached_img in CachedImage.objects.filter(user__client__in=users)  # noqa
+                        ]
                     cache.set('+'.join(users), self._all_cached_images, 60)
             else:
                 print 'No cache'
-                self._all_cached_images = [
-                    Image.open(cached_img.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS)
-                    for cached_img in CachedImage.objects.filter(user__client__in=users)
-                ]
+
+                if darkness != '0':
+                    self._all_cached_images = [
+                        Image.open(cached_img.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS).point(lambda p: p * (1 - int(darkness)/10.0))  # noqa
+                        for cached_img in CachedImage.objects.filter(user__client__in=users)  # noqa
+                    ]
+                else:
+                    self._all_cached_images = [
+                        Image.open(cached_img.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS)  # noqa
+                        for cached_img in CachedImage.objects.filter(user__client__in=users)  # noqa
+                    ]
 
         else:
             self._all_cached_images = CachedImage.objects.all()
@@ -62,48 +78,17 @@ class PilImage(qrcode.image.base.BaseImage):
         if not self._all_cached_images:
             profile_image = choice(['a.gif', 'b.gif', 'c.gif'])
             self._all_cached_images = [
-                Image.open(PROJECT_ROOT + '/../qrcode/image/profile_picture/%s' % profile_image).resize(
+                Image.open(PROJECT_ROOT + '/../qrcode/image/profile_picture/%s' % profile_image).resize(  # noqa
                     (self.box_size, self.box_size), Image.ANTIALIAS),
             ]
-                
+
     def drawrect(self, row, col):
         x = (col + self.border) * self.box_size
         y = (row + self.border) * self.box_size
         box = [(x, y),
                (x + self.box_size - 1,
                 y + self.box_size - 1)]
-        self._idr.rectangle(box, fill=self.options.get('color', None) or "black")
-
-    def pasteempty(self, row, col):
-        x = (col + self.border) * self.box_size
-        y = (row + self.border) * self.box_size
-
-        image = choice(self._all_cached_images)
-
-        if True:
-            self._img.paste(Image.open(image.photo.path).point(lambda p: p * 10).resize(
-                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
-            
-            border = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
-            self._img.paste(border, (x, y), mask=border)
-
-        elif False:
-            self._img.paste(Image.open(image.photo.path).resize(
-                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
-
-            border = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
-            self._img.paste(border, (x, y), mask=border)
-
-        elif True:
-            try:
-                bord_white = self.bord_white
-            except:
-                bord_white = self.bord_white = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border10.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
-
-            self._img.paste(Image.open(image.photo.path).resize(
-                (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
-
-            self._img.paste(bord_white, (x, y), mask=bord_white)
+        self._idr.rectangle(box, fill=self.options.get('color', None) or "black")  # noqa
 
     def pasteimage(self, row, col):
         x = (col + self.border) * self.box_size
@@ -113,26 +98,23 @@ class PilImage(qrcode.image.base.BaseImage):
         style = self.options.get('style', '0')
 
         if style == '0':
-            # self._img.paste(Image.open(image.photo.path).resize(
-            #     (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+            # self._img.paste(Image.open(image.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS), (x, y))  # noqa
             self._img.paste(image, (x, y))
 
         elif style == '1':
-            # self._img.paste(Image.open(image.photo.path).resize(
-            #     (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+            # self._img.paste(Image.open(image.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS), (x, y))  # noqa
             self._img.paste(image, (x, y))
 
-            border = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')
+            border = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border.png').resize((self.box_size, self.box_size), Image.ANTIALIAS).convert('RGBA')  # noqa
             self._img.paste(border, (x, y), mask=border)
 
         elif style == '2':
             try:
                 bord = self.bord
             except:
-                bord = self.bord = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border1.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # .convert('RGBA')
+                bord = self.bord = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/border1.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # noqa
 
-            # self._img.paste(Image.open(image.photo.path).resize(
-            #     (self.box_size, self.box_size), Image.ANTIALIAS), (x, y))
+            # self._img.paste(Image.open(image.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS), (x, y))  # noqa
             self._img.paste(image, (x, y))
 
             self._img.paste(bord, (x, y), mask=bord)
@@ -142,21 +124,16 @@ class PilImage(qrcode.image.base.BaseImage):
                 highlight = self.highlight
                 mask = self.mask
             except:
-                highlight = self.highlight = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round.png').resize(
-                    (self.box_size, self.box_size), Image.ANTIALIAS)
-                mask = self.mask = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round-mask.png').resize(
-                    (self.box_size, self.box_size), Image.ANTIALIAS)
+                highlight = self.highlight = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # noqa
+                mask = self.mask = Image.open(PROJECT_ROOT + '/../qrcode/image/resources/round-mask.png').resize((self.box_size, self.box_size), Image.ANTIALIAS)  # noqa
 
-            # icon = Image.open(image.photo.path).resize(
-            #     (self.box_size, self.box_size), Image.ANTIALIAS)
+            # icon = Image.open(image.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS)  # noqa
             icon = image
 
             button = Image.new('RGBA', mask.size)
 
             # Resize Icon
-            icon = ImageOps.fit(
-                icon, highlight.size, method=Image.ANTIALIAS, centering=(0.5, 0.5)
-            )
+            icon = ImageOps.fit(icon, highlight.size, method=Image.ANTIALIAS, centering=(0.5, 0.5))  # noqa
 
             # Create a helper image that will hold the icon after the reshape
             helper = button.copy()

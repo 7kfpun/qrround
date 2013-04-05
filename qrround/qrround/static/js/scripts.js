@@ -10,6 +10,8 @@ function popitup(url) {
 
 $('span[class^="st_"]').attr('st_image', 'http://' + window.location.host + '/static/ico/favicon.ico');
 
+$('.slider').slider('setValue', '0')
+
 ///////////////////// QR code /////////////////////
 // Send qrcode request
 $('#getqrcode_input').keydown(function (e) {
@@ -32,7 +34,7 @@ function getqrcode(el) {
     $('#getqrcode_button').button('loading');
     $.ajax({
       type: form.attr('method'),
-      url: form.attr('action'),
+      url: window.location.href + form.attr('action'),
       data: form.serialize(),
       success: function(data) {
 

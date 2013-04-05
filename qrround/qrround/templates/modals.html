@@ -167,7 +167,12 @@
     <h3>{% trans 'About' %}</h3>
   </div>
   <div class="modal-body">
-    <p>{% trans 'Qrround gets profile picture of you and your friends from several social network arround the world and generates a cool QR code from the picture. You can get the QR code in many style as you want. Import an account and try it now. And share it with your friends.' %}</p>
+    <p>
+      {% blocktrans %}
+      &&&&&&&&&& gets profile picture of you and your friends from several social network and generates a cool QR code from you and your friends.
+      You can pick the style. Import an account and try it now. Don't forget to share it with your friends.
+      {% endblocktrans%}
+    </p>
   </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">{% trans 'Close' %}</button>

@@ -129,6 +129,12 @@ class QueryForm(forms.ModelForm):
         help_text=_('Set your style here...(more to come)'),
     )
 
+    darkness = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'slider'}),
+        help_text=_('Darker is better...'),
+        initial='0',
+    )
+
     cache = forms.NullBooleanField(
         label=_('Cache'),
         widget=forms.CheckboxInput,
@@ -143,7 +149,8 @@ class QueryForm(forms.ModelForm):
                 'id': 'getqrcode_input',
                 'autofocus': 'autofocus',
                 'class': 'span5',
-                'placeholder': _('Input your data...')}),
+                'placeholder': _('Input your data...'),
+            }),
         }
 
     def __init__(self, *args, **kwargs):
