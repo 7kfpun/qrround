@@ -223,6 +223,5 @@ $("#getqrcode_input").charCount({
     counterText: 'Characters left: '	
 });
 
-$('#getqrcode_input').limit('140','#charsLeft');
 ///////////////// Color picker ///////////////////
 $('#colorpicker').colorpicker();

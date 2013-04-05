@@ -129,6 +129,12 @@ class QueryForm(forms.ModelForm):
         help_text=_('Set your style here...(more to come)'),
     )
 
+    cache = forms.NullBooleanField(
+        label=_('Cache'),
+        widget=forms.CheckboxInput,
+        initial=False,
+    )
+
     class Meta:
         model = Query
         fields = ('user', 'text')

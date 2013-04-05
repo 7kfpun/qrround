@@ -77,23 +77,24 @@
       </div>
 
       <hr>
-{# % endcache % #}
         
       <div class="jumbotron">
         <h1>{% trans 'It is Super<br />Awesome!' %}</h1>
         <p class="lead">{% trans 'ทุกสิ่งทุกอย่างมีเลิกลา มันเป็นไปตามกาลเวลา<br />มีพลัดมีพรากมีจากไป คงต้องยอมทำใจ<br />คงต้องยอมเสียใจ อย่าขวางชะตานั้น<br />ปล่อยมันให้เป็นไป ชีวิตที่มีไม่คิดเสียดาย<br />จะยังไงไม่ยอมเสียเธอ' %}</p>
         <!-- Friend QR analyzes your Facebook profile and creates a unique collage of your friends such that your best friends have the biggest pictures. Find out who is on your Friend Matrix! -->
 
+{# % endcache % #}
+
+        {# Do not cache for this block #}
         {% block content %}{% endblock %}
-      </div>
-
-      <div id="content">
-        {% include "clients.html" %}
-      </div>
-
-      <hr>
 
 {# % cache 600 base_footer % #}
+
+      </div>
+
+      <div id="content"></div>
+      <hr>
+
       <div class="footer">
         <p>&copy; 2013 - {% now "Y" %} KFPUN, {% trans "All Rights Reserved." %}</p>
       </div> <!-- /container -->
@@ -115,11 +116,12 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/ajax_csrf.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/load-image.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-image-gallery.min.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-colorpicker.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/charCount.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-colorpicker.js"></script>
 
     <script type="text/javascript" src="{{ STATIC_URL }}js/scripts.js"></script>
     {% endcompress %}
+
 
     <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>

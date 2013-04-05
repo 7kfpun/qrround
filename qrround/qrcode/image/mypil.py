@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from qrround.settings.settings import PROJECT_ROOT
 from qrround.models import (
     CachedImage,
@@ -37,11 +38,21 @@ class PilImage(qrcode.image.base.BaseImage):
 
         if users:
             # self._all_cached_images = CachedImage.objects.filter(user__client__in=users)
-
-            self._all_cached_images = [
-                Image.open(cached_img.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS)
-                for cached_img in CachedImage.objects.filter(user__client__in=users)
-            ]
+            if options.get('cache', None):
+                print 'With cache'
+                self._all_cached_images = cache.get('+'.join(users))
+                if not self._all_cached_images:
+                    self._all_cached_images = [
+                        Image.open(cached_img.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS)
+                        for cached_img in CachedImage.objects.filter(user__client__in=users)
+                    ]
+                    cache.set('+'.join(users), self._all_cached_images, 60)
+            else:
+                print 'No cache'
+                self._all_cached_images = [
+                    Image.open(cached_img.photo.path).resize((self.box_size, self.box_size), Image.ANTIALIAS)
+                    for cached_img in CachedImage.objects.filter(user__client__in=users)
+                ]
 
         else:
             self._all_cached_images = CachedImage.objects.all()
