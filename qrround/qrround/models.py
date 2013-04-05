@@ -2,7 +2,7 @@
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.core.files import File
 from django.db import models
-from imagekit.models import ImageSpecField
+from imagekit.models import ImageSpecField, ProcessedImageField
 from imagekit.processors import ResizeToFit
 from jsonfield import JSONField
 import os
@@ -114,7 +114,7 @@ class Query(models.Model):
     user = models.ForeignKey(UserClient, blank=True, null=True)
 
     text = models.TextField(blank=True, null=True)
-    created_time = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     # Options
     colour = models.CharField(max_length=10, default='#000000',
@@ -131,31 +131,18 @@ class Query(models.Model):
 class QRCode(caching.base.CachingMixin, models.Model):
     query = models.ForeignKey(Query)
 
-    photo = models.ImageField(
+    photo = ProcessedImageField(
         max_length=255,
-        # storage=custom_store,  for renaming
         upload_to='qrcode',
-        blank=True
-    )
-
-# photo = ProcessedImageField(
-#         max_length=255,
-#         upload_to='qrcode',
-#         format='JPEG',
-#         options={'quality': 70})
-
-    photo_jpg = ImageSpecField(
-        image_field='photo',
-        processors=[ResizeToFit(640, 640)],
+        processors=[ResizeToFit(1500, 1500)],
         format='JPEG',
-        options={'quality': 70},
-    )
+        options={'quality': 70})
 
     photo_thumbnail = ImageSpecField(
         image_field='photo',
         processors=[ResizeToFit(100, 100)],
         format='JPEG',
-        options={'quality': 40},
+        options={'quality': 30},
     )
 
     # objects = caching.base.CachingManager()
@@ -209,6 +196,7 @@ class Contact(models.Model):
     email = models.EmailField()
     topic = models.CharField(max_length=200)
     message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return self.email + ': ' + self.topic

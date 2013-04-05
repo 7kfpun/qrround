@@ -92,3 +92,14 @@ li {
   background-color: #6ABCF2;
   *background-color: #003bb3;
 }
+
+form .counter{
+	position:absolute;
+	right:0;
+	bottom:0;
+  line-height:20%;
+	font-size:12px;
+	color:#ccc;
+}
+form .warning{color:#c09853;}	
+form .exceeded{color:#b94a48;}	

@@ -40,6 +40,7 @@ from .models import (
 
 
 logger = logging.getLogger(__name__)
+MAX_FRIENDS = 300
 
 
 def login(request):
@@ -49,22 +50,19 @@ def login(request):
 
 
 def index(request):
-    get = request.GET.get('get', '')
-
-    try:
-        qr = QRCode.objects.get(photo__contains='/%s.' % get)
-    except:
-        qr = ''
+    qr = request.GET.get('qr', '')
+    if qr:
+        try:
+            qr = QRCode.objects.get(
+                photo__contains='/%s.' % qr.split('.')[0])
+        except:
+            qr = ''
 
     return render(request, 'index.html', {
         'qrcode': qr,
         'form': QueryForm(session=request.session),
         'contact_form': ContactForm(),
     })
-
-
-def getsharethis(request):
-    return render(request, 'sharethis.html')
 
 
 def sendcontact(request):
@@ -88,9 +86,12 @@ def sendcontact(request):
 def getgallery(request):
     all_clients = [client for channel in channels
                    for client in request.session.get(channel, [])]
-    return render(request, 'gallery.html', {
-        'qrcodes': QRCode.objects.filter(
-            query__user__client__in=all_clients).order_by('-pk')[:12]})
+    if all_clients:
+        return render(request, 'gallery.html', {
+            'qrcodes': QRCode.objects.filter(
+                query__user__client__in=all_clients).order_by('-pk')[:12]})
+    else:
+        return HttpResponse('')
 
 
 def postfacebookphotos(request):
@@ -181,16 +182,8 @@ def postkaixin001photos(request):
     return HttpResponse('\n'.join(posts))
 
 
-@ratelimit(rate='40/m')
 def getauthurls(request):
-    if getattr(request, 'limited', False):
-        # Reach rate limit
-        return HttpResponseBadRequest(
-            _('We are poor, cannot afford too much server cost. '
-              'Donate us so that we can buy more server time<br />'
-              'Try agains after seconds please...'))
-
-    elif True:  # and request.is_ajax():
+    if request.is_ajax():
         state = request.session['state'] = str(time())[:-3]
 
         # facebook
@@ -306,7 +299,7 @@ def store_session(request, channel, client_id, access_token, me, friends):
         first_name = ''
         last_name = ''
         username = data['user']['screen_name']
-        url = ''
+        url = 'http://weibo.com/u/' + str(data['user']['idstr'])
 
     logger.info('> Start create: ' + client_id)
     # Store user
@@ -354,13 +347,11 @@ def store_session(request, channel, client_id, access_token, me, friends):
     data['meta']['task'] = str(task)
     return HttpResponse(json.dumps(data))
 
-    # response = redirect('close_window_reload')
-    # response.delete_cookie('user_location')
-    # return response
+    # return redirect('close_window')
 
 
 def facebookcallback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
+    if request.GET.get('state', ''):  # == request.session.get('state', '***'):
         session = facebook.get_auth_session(data={
             'code': request.GET.get('code'),
             'redirect_uri': FACEBOOK_REDIRECT_URI})
@@ -389,7 +380,7 @@ def facebookcallback(request):
 
 # Still have problem
 def googlecallback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
+    if request.GET.get('state', ''):  # == request.session.get('state', '***'):
         credentials = google.step2_exchange(request.GET.get('code'))
         access_token = credentials.access_token
 
@@ -414,7 +405,7 @@ def googlecallback(request):
 
 
 def kaixin001callback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
+    if request.GET.get('state', ''):  # == request.session.get('state', '***'):
         exchange_url = (
             'https://api.kaixin001.com/oauth2/access_token'
             '?grant_type=authorization_code'
@@ -453,7 +444,7 @@ def kaixin001callback(request):
 
 
 def linkedincallback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
+    if request.GET.get('state', ''):  # == request.session.get('state', '***'):
         exchange_url = (
             'https://www.linkedin.com/uas/oauth2/accessToken'
             '?grant_type=authorization_code'
@@ -492,7 +483,7 @@ def linkedincallback(request):
 
 
 def twittercallback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
+    if request.GET.get('state', ''):  # == request.session.get('state', '***'):
         verifier = request.GET.get('oauth_verifier')
         try:
             twitter.get_access_token(verifier)
@@ -563,7 +554,7 @@ def renrencallback(request):
 
 
 def weibocallback(request):
-    if request.GET.get('state', '') == request.session.get('state', '***'):
+    if request.GET.get('state', ''):  # == request.session.get('state', '***'):
         exchange_url = (
             'https://api.weibo.com/oauth2/access_token'
             '?client_id=' + WEIBO_CLIENT_ID
@@ -610,24 +601,21 @@ def close_window(request, is_reload=False):
 
 def logout_user(request):
     logout(request)
-    response = redirect('close_window_reload')
-    response.delete_cookie('user_location')
-    return response
+    return redirect('close_window_reload')
 
 
 @ratelimit(rate='20/m')
 def getqrcode(request):
     if request.method == 'GET':
         return HttpResponseBadRequest('Noooone')
+        # return redirect('/')
 
     elif getattr(request, 'limited', False):
-        # Reach rate limit
         return HttpResponseBadRequest(
             _('Was_limited: we are poor, cannot afford server cost. '
               'Donate some and we can buy more server time'))
 
     elif request.method == 'POST' and request.is_ajax():
-
         form = QueryForm(request.POST, session=request.session)
         if not form.is_valid():
             return HttpResponseBadRequest(json.dumps(form.errors))
@@ -647,7 +635,7 @@ def getqrcode(request):
                 version=None,
                 error_correction=getattr(qrcode.constants, error_correct),
                 box_size=25,
-                border=1,
+                border=2,
                 users=channel_choice,
                 options=options,
             )
@@ -675,10 +663,11 @@ def getqrcode(request):
 
             data = {}
             data['text'] = text
+            data['filename'] = filename
             data['html'] = Template(
                 '<div class="thumbnail">'
-                '<img src="{{ MEDIA_URL }}{{ photo.photo_jpg.url }}" '
-                'width="480" height="480" /></div>').render(photo=photo)
+                '<img src="{{ MEDIA_URL }}{{ photo.photo.url }}" '
+                'width="520" height="520" /></div>').render(photo=photo)
             data['notice'] = choice([
                 'Try more one?',
                 'Step farther to make QR code more readable!',
@@ -688,9 +677,12 @@ def getqrcode(request):
                 'Where is your girlfriend?',
             ])
 
-            if form.data['auto_post_facebook']:
-                # task = autopostfacebook.apply_async([client_id])
-                pass
+            if form.data.get('auto_post_facebook', None) and \
+                    request.session.get('facebook', None):
+                data['task'] = []
+                for client_id in request.session.get('facebook', None):
+                    task = callautopostfacebook.apply_async([client_id, photo])
+                    data['task'].append(str(task))
 
             return HttpResponse(json.dumps(data), mimetype='application/json')
 
@@ -699,23 +691,12 @@ def getqrcode(request):
 
 
 @csrf_exempt
-@transaction.commit_on_success
 def getfriendsrequest(request):
-    if request.method == 'GET':
-        return HttpResponse('Geeeet')
-
-    elif getattr(request, 'limited', False):
-        # Reach rate limit
-        return HttpResponseBadRequest(
-            _('Was_limited: we are poor, cannot afford server cost. '
-              'Donate some and we can buy more server time'))
-
-    # and request.is_ajax()
-    elif request.method == 'POST' and 'import' in request.POST:
+    if request.method == 'POST' and 'import' in request.POST:
         client_id = request.POST['import']
         friends_data = UserClient.objects.get(client=client_id).friends
 
-        print '>>>>>>>>>>>>>', client_id
+        print '>>>>>', client_id
 
         getfriendstask(client_id, True)
 
@@ -726,18 +707,17 @@ def getfriendsrequest(request):
 
 @task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
 def callgetfriends(import_=None):
-    r = requests.post('%sgetfriends/' % SITE_URL,
-                      data={'import': import_})
+    r = requests.post('%sgetfriends/' % SITE_URL, data={'import': import_})
     print r.text[:7000]
 
 
-# @task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
-@transaction.commit_on_success
+# @transaction.commit_on_success
+@transaction.commit_manually
 def getfriendstask(client_id, cache_image=False):
     userclient = UserClient.objects.get(client=client_id)
     channel = userclient.client.split('#')[0]
 
-    print '>>>>>>>>>>>>>', client_id, channel
+    print '>>>', client_id, channel
 
     if userclient.profile_picture_url:
         cachedimage, created = CachedImage.objects.get_or_create(
@@ -745,13 +725,14 @@ def getfriendstask(client_id, cache_image=False):
             url=userclient.profile_picture_url
         )
         cachedimage.cache_and_save()
+        transaction.commit()
 
     if cache_image:
         frd_cachedimage = userclient.cachedimage_set.values_list(
             'url', flat=True)
 
         # Caching friend's profile picture
-        for frd in UserClient.objects.get(client=client_id).friends:
+        for count, frd in enumerate(UserClient.objects.get(client=client_id).friends[:MAX_FRIENDS]):  # noqa
             logger.info(frd)
 
             if channel == 'facebook':
@@ -779,7 +760,61 @@ def getfriendstask(client_id, cache_image=False):
                 cachedimage.user = userclient
                 cachedimage.cache_and_save()
 
+            if count == 3 or count % 35 == 0:
+                transaction.commit()
+
+        transaction.commit()
+
     return 'Succesfull'
+
+
+@task(ignore_result=True, max_retries=3, default_retry_delay=10, priority=5)
+def callautopostfacebook(client, photo):
+    r = requests.post('%sautopostfacebook/' % SITE_URL,
+                      data={'client': client, 'photo_path': photo.photo.path})
+    print r.text[:7000]
+
+
+@csrf_exempt
+def autopostfacebook(request):
+    client = request.POST.get('client', None)
+    photo_path = request.POST.get('photo_path', None)
+
+    if client and photo_path:
+        try:
+            user = UserClient.objects.get(client=client)
+
+            if user.album_id:
+                album_id = user.album_id
+            else:
+                url = 'https://graph.facebook.com/%s/albums' \
+                    % user.client.split('#')[1]
+                data = {
+                    'access_token': user.access_token,
+                    'name': PROJECT_NAME_TEST,
+                    'message': PROJECT_NAME_TEST,
+                }
+                r = requests.post(url, urlencode(data))
+                album_id = r.json()['id']
+                user.album_id = r.json()['id']
+                user.save()
+
+            url = 'https://graph.facebook.com/%s/photos' % album_id
+            data = {
+                'access_token': user.access_token,
+                'message': PROJECT_NAME_TEST,
+            }
+            r = requests.post(
+                url, data=data,
+                files={'source': open(photo_path, 'rb')})
+            logger.info('Finished posting to fb: %s' % r.text)
+
+            return HttpResponse('Successfull auto post: %s' % r.text)
+
+        except Exception, e:
+            return HttpResponseBadRequest(e)
+
+    return HttpResponseBadRequest('Not enough parameter for auto post')
 
 
 def testtasks(request):

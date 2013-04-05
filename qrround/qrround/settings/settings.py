@@ -18,7 +18,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-COMPRESS_ENABLED = False  # True  # Opposite with DEBUG
+# COMPRESS_ENABLED = False  # True  # Opposite with DEBUG
 
 RATELIMIT_ENABLE = True
 
@@ -88,8 +88,10 @@ LANGUAGES = (
     ('th', gettext_noop(u'ภาษาไทย')),
     ('ja', gettext_noop(u'日本語')),
 )
-
 ROSETTA_STORAGE_CLASS = 'rosetta.storage.CacheRosettaStorage'
+ROSETTA_MESSAGES_PER_PAGE = 50
+if DEBUG:
+    ROSETTA_WSGI_AUTO_RELOAD = True
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
@@ -143,7 +145,7 @@ ROOT_URLCONF = 'qrround.urls'
 WSGI_APPLICATION = 'qrround.wsgi.application'
 
 MEDIA_ROOT = op.join(PROJECT_ROOT, 'media')
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
@@ -202,8 +204,8 @@ INSTALLED_APPS += (
 # BROKER_URL = 'amqp://nyezagug:DSBH7ibcP4BeNVfObtTj4hgDvlM6LQgT@tiger.cloudamqp.com/nyezagug'  # noqa
 # BROKER_URL = 'amqp://tiyleaba:nGub3yv4ik7VYrOqut1IIoaNHgwhEUfU@bunny.cloudamqp.com/tiyleaba'  # noqa
 # BROKER_URL = 'amqp://cmvunnej:gGXlI_n5rh6FE-Nsd6ILNru2loUAT0-F@tiger.cloudamqp.com/cmvunnej'  # noqa
-# BROKER_URL = 'amqp://guest:guest@ec2-54-245-77-103.us-west-2.compute.amazonaws.com:5672'  # noqa
 BROKER_URL = 'amqp://guest:guest@127.0.0.1:5672'
+BROKER_URL = 'amqp://guest:guest@ec2-54-245-77-103.us-west-2.compute.amazonaws.com:5672'  # noqa
 
 REDIS_PORT = 37993
 REDIS_HOST = "redisdb-710kfpun.dotcloud.com"

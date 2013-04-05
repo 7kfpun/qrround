@@ -31,7 +31,7 @@ if USE_REDIS:
     }
 
     # we also are going to use redis for our session cache as well.
-    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+    SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 # BROKER_URL = 'amqp://nyezagug:DSBH7ibcP4BeNVfObtTj4hgDvlM6LQgT@tiger.cloudamqp.com/nyezagug'  # noqa
 BROKER_URL = 'amqp://tiyleaba:nGub3yv4ik7VYrOqut1IIoaNHgwhEUfU@bunny.cloudamqp.com/tiyleaba'  # noqa

@@ -2,6 +2,7 @@ bin/
 include/
 lib/
 local/
+qrround/qrround/static/CACHE/
 *.log
 *.pot
 *.pyc

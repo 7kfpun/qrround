@@ -60,7 +60,7 @@
           <li><!-- Language selector -->
             {% get_available_languages as languages %}
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans "Language" %}<b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-globe"></i> {% trans "Language" %}<b class="caret"></b></a>
               <ul class="dropdown-menu pull-right" role="menu">
               {% for lang_code, lang_name in languages %}
                 <li>
@@ -95,7 +95,7 @@
 
 {# % cache 600 base_footer % #}
       <div class="footer">
-        <p>&copy; 2013 - {% now "Y" %} KFPUN, All Rights Reserved.</p>
+        <p>&copy; 2013 - {% now "Y" %} KFPUN, {% trans "All Rights Reserved." %}</p>
       </div> <!-- /container -->
 
     {% include "modals.html" %}
@@ -116,17 +116,12 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/load-image.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-image-gallery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-colorpicker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/charCount.js"></script>
 
     <script type="text/javascript" src="{{ STATIC_URL }}js/scripts.js"></script>
     {% endcompress %}
 
     <script type="text/javascript">var switchTo5x=true;</script>
-
-    <!--
-    <script src="https://apis.google.com/js/plus.js" />
-    <script src="https://apis.google.com/js/client:plus.js" />
-    -->
-
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
     <script type="text/javascript">
       stLight.options({publisher: "cfddd865-c6d4-4924-81c6-b281c63d80f3", doNotHash: true});

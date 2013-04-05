@@ -4,9 +4,11 @@ function popitup(url) {
   return false;
 }
 
-$('.nav-tabs > li > a').hover(function() {
-  $(this).tab('show');
-});
+// $('.nav-tabs > li > a').hover(function() {
+//   $(this).tab('show');
+// });
+
+$('span[class^="st_"]').attr('st_image', 'http://' + window.location.host + '/static/ico/favicon.ico');
 
 ///////////////////// QR code /////////////////////
 // Send qrcode request
@@ -37,9 +39,12 @@ function getqrcode(el) {
         console.log(data['notice']);
 
         $('#qrcode').empty().append($(data['html']).hide().fadeIn('1000'));
-        $('#getqrcode_button').button('complete');
-
         notify('#alerts', 'success', data['notice'] );
+
+        $('#getqrcode_button').button('complete');
+        setTimeout(function(){
+        $('#getqrcode_button').button('reset');
+        }, 5000);
 
         // Append to gallery
         var new_qrcode_src = $('#qrcode img').attr('src');
@@ -49,7 +54,7 @@ function getqrcode(el) {
            </a> \
          </li>');
 
-        changeMeta(new_qrcode_src, new_qrcode_src);
+        changeMeta(new_qrcode_src, data['filename']);
       },
       error: function (request, status, error) {
         notify('#alerts', 'failure', request.responseText);
@@ -59,20 +64,15 @@ function getqrcode(el) {
   }
 }
 
-function changeMeta(st_url, st_image) {
+function changeMeta(st_url, filename) {
   $('span[class^="st_"]').html(''); // Empty span contents
   $('span[class^="st_"]').attr('st_processed', null); // Reset ST plugin
   
-  $('span[class^="st_"]').attr('st_url', window.location.origin + '/' + st_url);
-  $('span[class^="st_"]').attr('st_image', window.location.origin + '/' + st_url);
+  // $('span[class^="st_"]').attr('st_url', 'http://' + window.location.host + st_url);
+  $('span[class^="st_"]').attr('st_image', 'http://' + window.location.host + st_url);
   stButtons.makeButtons(); 
 }
-// function changeMeta(new_qrcode_src) {
-//     console.log('Changing meta tags');
-//     $('meta[property="og:url"]').attr("content", new_qrcode_src);  // window.location.href + "?" + filename);
-//     $('meta[property="og:image"]').attr("content", new_qrcode_src);
-//     $('meta[property="og:description"]').attr("content", new_qrcode_src);  // filename);
-// }
+
 
 /////////////////// Gallery //////////////////////
 setTimeout(function(){
@@ -100,9 +100,6 @@ function notify(location, notify_type, msg) {
       <strong>Alert!</strong> ' + msg + '</div>');
   }
   alerts.fadeIn('fast');
-//  setTimeout(function() {
-//    alerts.fadeOut();
-//  }, 5000);
 }
 
 
@@ -120,26 +117,64 @@ $('#logout').on("click", function() {
 ///////////// Remember accept checkbox state ///////////////////
 $('#id_accept').attr('checked', $.cookie('id_accept') && $.cookie('id_accept') == "true");
 $('#id_accept').change(function() {
-    $.cookie('id_accept', $('#id_accept').is(':checked'));
+    $.cookie('id_accept', $('#id_accept').is(':checked'), 1);
     console.log($('#id_accept').is(':checked'));
 });
 
 
 ///////////////// Get auth urls ///////////////////
-var channels = ['facebook', 'google', 'kaixin001', 'linkedin', 'weibo']
 setTimeout(function(){
   $.ajax({
     type: "GET",
-    url: "/getauthurls",
+    url: window.location.href + "getauthurls",
     success: function(authurls) {
       $('#auth_url').empty().append(authurls);
       // setDetectCookies();
     }
   });
-}, 600);
+}, 400);
 
 
-///////////////////// Initialize Model /////////////////////
+///////////////////// Initialize Tooltip and Model /////////////////////
+console.log('helptip2', $.cookie('helptip2'));
+if ( $.cookie('helptip2') != 'false' ) {
+  $($('[data-toggle="popover"]')[2]).popover('show');
+
+  $('.popover button,#id_accept').click(function() {
+    $($('[data-toggle="popover"]')[2]).popover('destroy');
+    $.cookie('helptip2', 'false');
+
+    initialHelptip0();
+  });
+}
+
+initialHelptip0();
+function initialHelptip0() {
+  console.log('helptip0', $.cookie('helptip0'));
+  if ( $.cookie('helptip0') != 'false' && $.cookie('helptip2') == 'false' ) {
+    $($('[data-toggle="popover"]')[0]).popover('show');
+
+    $('.popover button,#import_button').click(function() {
+      $($('[data-toggle="popover"]')[0]).popover('destroy');
+      $.cookie('helptip0', 'false');
+
+      initialHelptip1();
+    });
+  }
+}
+
+initialHelptip1();
+function initialHelptip1() {
+  console.log('helptip1', $.cookie('helptip1'));
+  if ( $.cookie('helptip1') != 'false' && $.cookie('helptip0') == 'false' ) {
+    $($('[data-toggle="popover"]')[1]).popover('show');
+    $('.popover button,#getqrcode_button').click(function() {
+      $($('[data-toggle="popover"]')[1]).popover('destroy');
+      $.cookie('helptip1', 'false');
+    });
+  }
+}
+
 $("#policy_modal_link").on("click", function() {
     $('#policy_modal').modal('show');
 });
@@ -164,6 +199,7 @@ $('#send_contact').on("click", function() {
     error: function (request, status, error) {
       console.log("Received: " + request.responseText);
       notify('#contact_modal form .alerts', 'failure', request.responseText);
+      $('#contact_modal form .alerts')[0].scrollIntoView();
     },
   });
 });
@@ -181,6 +217,12 @@ $('#import').on("click", function() {
   console.log("Import");
 });
 
+$("#getqrcode_input").charCount({
+    allowed: 255,		
+    warning: 50,
+    counterText: 'Characters left: '	
+});
 
+$('#getqrcode_input').limit('140','#charsLeft');
 ///////////////// Color picker ///////////////////
 $('#colorpicker').colorpicker();

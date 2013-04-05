@@ -18,7 +18,7 @@ class CachedImageAdmin(admin.ModelAdmin):
 
 
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'topic', 'message')
+    list_display = ('name', 'email', 'topic', 'message', 'created_at')
 
 
 class FriendAdmin(admin.ModelAdmin):
@@ -39,7 +39,7 @@ class UserClientAdmin(admin.ModelAdmin):
 
 
 class QueryProfileAdmin(admin.ModelAdmin):
-    list_display = ('text',)
+    list_display = ('text', 'created_at')
 
 
 class QRCodeAdmin(admin.ModelAdmin):
