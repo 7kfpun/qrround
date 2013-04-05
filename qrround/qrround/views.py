@@ -304,9 +304,8 @@ def store_session(request, channel, client_id, access_token, me, friends):
 
     logger.info('> Start create: ' + client_id)
     # Store user
-    userclient, created = UserClient.objects.get_or_create(
-        client=client_id,
-    )
+    userclient, created = UserClient.objects.get_or_create(client=client_id)
+
     logger.info('> Created: ' + client_id)
     userclient.username = username
     userclient.first_name = first_name
@@ -379,7 +378,6 @@ def facebookcallback(request):
             client_id = 'facebook#' + str(me['uid'])
             return store_session(request, 'facebook', client_id,
                                  access_token, me, friends)
-            # return redirect('close_window')
 
         except Exception, e:
             logger.error(str(e) + r.text)
@@ -415,7 +413,6 @@ def googlecallback(request):
             client_id = 'google#' + str(me['id'])
             return store_session(request, 'google', client_id,
                                  access_token, me, friends)
-            # return redirect('close_window')
 
         except Exception, e:
             logger.error(str(e) + r.text)
@@ -461,7 +458,6 @@ def kaixin001callback(request):
             logger.info('> store_session: ' + client_id)
             return store_session(request, 'kaixin001', client_id,
                                  access_token, me, friends)
-            # return redirect('close_window')
 
         except KeyError, e:
             logger.error(str(e) + r.text)
@@ -504,7 +500,6 @@ def linkedincallback(request):
             client_id = 'linkedin#' + str(me['id'])
             return store_session(request, 'linkedin', client_id,
                                  access_token, me, friends)
-            # return redirect('close_window')
 
         except KeyError, e:
             logger.error(str(e) + r.text)
@@ -622,6 +617,7 @@ def weibocallback(request):
             client_id = 'weibo#' + uid
             return store_session(request, 'weibo', client_id,
                                  access_token, me, friends)
+
         except KeyError, e:
             logger.error(str(e) + r.text)
             return HttpResponse(str(e) + r.text)
