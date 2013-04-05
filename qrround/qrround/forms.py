@@ -132,6 +132,7 @@ class QueryForm(forms.ModelForm):
     darkness = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'slider'}),
         help_text=_('Darker is better...'),
+        initial='0',
     )
 
     class Meta:
