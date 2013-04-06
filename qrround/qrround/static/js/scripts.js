@@ -67,6 +67,8 @@ function getqrcode(el) {
 }
 
 function changeMeta(st_url, filename) {
+  console.log('new image for st: http://' + window.location.host + st_url);
+
   $('span[class^="st_"]').html(''); // Empty span contents
   $('span[class^="st_"]').attr('st_processed', null); // Reset ST plugin
   

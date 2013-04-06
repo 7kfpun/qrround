@@ -1,9 +1,6 @@
-{% load compress %}
-{% load i18n %}
-{% load cache %}
+{% load compress %}{% load i18n %}{% load cache %}<!DOCTYPE html>
 
 {# % cache 600 base_head % #}
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
     <title>{% trans 'QR' %}</title>
@@ -98,6 +95,7 @@
 
       <div class="footer">
         <p>&copy; 2013 - {% now "Y" %} KFPUN, {% trans "All Rights Reserved." %}</p>
+        <p><small class="muted">{% trans "We don't know what IE is. Please use other browser for your better life." %}</small></p>
       </div> <!-- /container -->
 
     {% include "modals.html" %}

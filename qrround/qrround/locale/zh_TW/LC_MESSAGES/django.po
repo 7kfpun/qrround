@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-06 00:36+0800\n"
-"PO-Revision-Date: 2013-04-05 11:39-0600\n"
+"POT-Creation-Date: 2013-04-06 13:08+0800\n"
+"PO-Revision-Date: 2013-04-06 00:10-0600\n"
 "Last-Translator: None None <None>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -219,47 +219,52 @@ msgid "Import your  <strong>Sina Weibo</strong>"
 msgstr "匯入你的<br /><strong>新浪微博</strong> 朋友"
 
 #: templates/auth_urls.html:37
-msgid "More to come"
-msgstr "更多即将支持"
+msgid "More to come<br />..."
+msgstr "更多社交網路，即將支持！！"
 
-#: templates/base.html:9
+#: templates/base.html:6
 msgid "QR"
 msgstr ""
 
-#: templates/base.html:58 templates/import.html:44
+#: templates/base.html:55 templates/import.html:44
 msgid "Home"
 msgstr "首頁"
 
-#: templates/base.html:59 templates/modals.html:167
+#: templates/base.html:56 templates/modals.html:167
 msgid "About"
 msgstr "關於"
 
-#: templates/base.html:60 templates/modals.html:113
+#: templates/base.html:57 templates/modals.html:113
 msgid "Contact"
 msgstr "聯絡"
 
-#: templates/base.html:64
+#: templates/base.html:61
 msgid "Language"
 msgstr "語言"
 
-#: templates/base.html:77 templates/import.html:46
+#: templates/base.html:74 templates/import.html:46
 msgid "Project name"
 msgstr "我的名"
 
-#: templates/base.html:83
+#: templates/base.html:80
 msgid "It is Super<br />Awesome!"
 msgstr "超棒的說"
 
-#: templates/base.html:84
+#: templates/base.html:81
 msgid ""
 "ทุกสิ่งทุกอย่างมีเลิกลา มันเป็นไปตามกาลเวลา<br />มีพลัดมีพรากมีจากไป "
 "คงต้องยอมทำใจ<br />คงต้องยอมเสียใจ อย่าขวางชะตานั้น<br />ปล่อยมันให้เป็นไป "
 "ชีวิตที่มีไม่คิดเสียดาย<br />จะยังไงไม่ยอมเสียเธอ"
 msgstr ""
 
-#: templates/base.html:100 templates/import.html:57
+#: templates/base.html:97 templates/import.html:57
 msgid "All Rights Reserved."
 msgstr "保留所有的權利"
+
+#: templates/base.html:98
+msgid ""
+"We don't know what IE is. Please use other browser for your better life."
+msgstr ""
 
 #: templates/import.html:7
 msgid "Importing..."

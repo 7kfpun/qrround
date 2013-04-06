@@ -140,9 +140,9 @@ class QRCode(caching.base.CachingMixin, models.Model):
 
     photo_thumbnail = ImageSpecField(
         image_field='photo',
-        processors=[ResizeToFit(100, 100)],
+        processors=[ResizeToFit(150, 150)],
         format='JPEG',
-        options={'quality': 30},
+        options={'quality': 20},
     )
 
     # objects = caching.base.CachingManager()

@@ -137,8 +137,8 @@ class QueryForm(forms.ModelForm):
 
     cache = forms.NullBooleanField(
         label=_('Cache'),
-        widget=forms.CheckboxInput,
-        initial=False,
+        widget=forms.CheckboxInput(attrs={'class': 'hide'}),
+        initial=True,
     )
 
     class Meta:
