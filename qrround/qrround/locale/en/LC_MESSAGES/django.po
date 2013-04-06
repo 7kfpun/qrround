@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-03 16:46+0800\n"
+"POT-Creation-Date: 2013-04-06 00:36+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -97,7 +97,7 @@ msgstr ""
 msgid "Color"
 msgstr ""
 
-#: forms.py:108
+#: forms.py:108 forms.py:134
 msgid "Darker is better..."
 msgstr ""
 
@@ -111,41 +111,69 @@ msgid ""
 "account)"
 msgstr ""
 
-#: forms.py:125
+#: forms.py:124
 msgid "Auto post"
 msgstr ""
 
-#: forms.py:130
+#: forms.py:129
 msgid "Set your style here...(more to come)"
 msgstr ""
 
-#: forms.py:141
+#: forms.py:139
+msgid "Cache"
+msgstr ""
+
+#: forms.py:152
 msgid "Input your data..."
 msgstr ""
 
-#: forms.py:156
+#: forms.py:168
 #, python-format
 msgid ""
 " <img src=\"%(profile_picture_url)s\" height=\"50\" width=\"50\" /> "
 "%(username)s from %(channel)s"
 msgstr ""
 
-#: forms.py:176
+#: forms.py:188
 msgid "Text is too long"
 msgstr ""
 
-#: forms.py:182
+#: forms.py:194
 msgid "You should accept our Privacy Policy and Terms of Service"
 msgstr ""
 
-#: forms.py:189
+#: forms.py:201
 msgid "Sorry, our service is not available now"
 msgstr ""
 
-#: views.py:614
+#: views.py:651
 msgid ""
 "Was_limited: we are poor, cannot afford server cost. Donate some and we can "
 "buy more server time"
+msgstr ""
+
+#: views.py:711
+msgid "Try more one?"
+msgstr ""
+
+#: views.py:712
+msgid "Step farther to make QR code more readable!"
+msgstr ""
+
+#: views.py:713
+msgid "Look beautiful?"
+msgstr ""
+
+#: views.py:714
+msgid "Love it?"
+msgstr ""
+
+#: views.py:715
+msgid "Share it!!!"
+msgstr ""
+
+#: views.py:716
+msgid "Where is your girlfriend?"
 msgstr ""
 
 #: settings/settings.py:85
@@ -196,23 +224,23 @@ msgstr ""
 msgid "QR"
 msgstr ""
 
-#: templates/base.html:57
+#: templates/base.html:58 templates/import.html:44
 msgid "Home"
 msgstr ""
 
-#: templates/base.html:58 templates/modals.html:167
+#: templates/base.html:59 templates/modals.html:167
 msgid "About"
 msgstr ""
 
-#: templates/base.html:59 templates/modals.html:113
+#: templates/base.html:60 templates/modals.html:113
 msgid "Contact"
 msgstr ""
 
-#: templates/base.html:63
+#: templates/base.html:64
 msgid "Language"
 msgstr ""
 
-#: templates/base.html:76
+#: templates/base.html:77 templates/import.html:46
 msgid "Project name"
 msgstr ""
 
@@ -227,95 +255,99 @@ msgid ""
 ">จะยังไงไม่ยอมเสียเธอ"
 msgstr ""
 
-#: templates/base.html:98
+#: templates/base.html:100 templates/import.html:57
 msgid "All Rights Reserved."
 msgstr ""
 
-#: templates/index.html:13
+#: templates/import.html:7
+msgid "Importing..."
+msgstr ""
+
+#: templates/index.html:19
 msgid "Import your social account"
 msgstr ""
 
-#: templates/index.html:13
+#: templates/index.html:19
 msgid "Second step"
 msgstr ""
 
-#: templates/index.html:13 templates/modals.html:223
+#: templates/index.html:19 templates/modals.html:216
 msgid "Import"
 msgstr ""
 
-#: templates/index.html:14
+#: templates/index.html:20
 msgid "Get your cool QR code!"
 msgstr ""
 
-#: templates/index.html:14
+#: templates/index.html:20
 msgid "Last step"
 msgstr ""
 
-#: templates/index.html:14
+#: templates/index.html:20
 msgid "Loading..."
 msgstr ""
 
-#: templates/index.html:14
+#: templates/index.html:20
 msgid "Complete!"
 msgstr ""
 
-#: templates/index.html:14
+#: templates/index.html:20
 msgid "Have fun!"
 msgstr ""
 
-#: templates/index.html:17
+#: templates/index.html:23
 msgid "Read and accept our Privacy Policy and Terms of Service"
 msgstr ""
 
-#: templates/index.html:17
+#: templates/index.html:23
 msgid "First step"
 msgstr ""
 
-#: templates/index.html:27
+#: templates/index.html:34
 msgid "Options"
 msgstr ""
 
-#: templates/index.html:28
+#: templates/index.html:35
 msgid "History"
 msgstr ""
 
-#: templates/index.html:37
+#: templates/index.html:44
 msgid "Color & style "
 msgstr ""
 
-#: templates/index.html:38
+#: templates/index.html:45
 msgid "Share it"
 msgstr ""
 
-#: templates/index.html:48
+#: templates/index.html:55
 msgid "<strong>Info!</strong> You can import more accounts."
 msgstr ""
 
-#: templates/index.html:54
+#: templates/index.html:61
 msgid "<strong>Info!</strong> Import your account first!!"
 msgstr ""
 
-#: templates/index.html:60
+#: templates/index.html:67
 msgid "The higher error correct, the more readable code."
 msgstr ""
 
-#: templates/index.html:65
+#: templates/index.html:72
 msgid "Select your theme color here!!"
 msgstr ""
 
-#: templates/index.html:79
+#: templates/index.html:95
 msgid "Show off to your friends!!"
 msgstr ""
 
-#: templates/index.html:82
+#: templates/index.html:98
 msgid "Or share it to ..."
 msgstr ""
 
-#: templates/index.html:102
+#: templates/index.html:118
 msgid "<strong>Info!</strong> Only latest 12 codes are displayed"
 msgstr ""
 
-#: templates/index.html:106
+#: templates/index.html:122
 msgid "Gallery is loading..."
 msgstr ""
 
@@ -476,11 +508,11 @@ msgid ""
 "    "
 msgstr ""
 
-#: templates/modals.html:104 templates/modals.html.py:175
+#: templates/modals.html:104 templates/modals.html.py:178
 msgid "Close"
 msgstr ""
 
-#: templates/modals.html:157 templates/modals.html.py:222
+#: templates/modals.html:157 templates/modals.html.py:215
 msgid "Cancel"
 msgstr ""
 
@@ -488,40 +520,26 @@ msgstr ""
 msgid "Sent"
 msgstr ""
 
-#: templates/modals.html:170
-msgid "About this website privacy policy"
-msgstr ""
-
 #: templates/modals.html:171
 msgid ""
-"This is a model website privacy policy. It is written in plain language that "
-"is visitor-friendly. We have provided a large menu of paragraphs so that you "
-"can easily tailor the policy to suit the exact structure of your business "
-"and website."
+"\n"
+"      &&&&&&&&&& gets profile picture of you and your friends from several "
+"social network and generates a cool QR code from you and your friends.\n"
+"      You can pick the style. Import an account and try it now. Don't forget "
+"to share it with your friends.\n"
+"      "
 msgstr ""
 
-#: templates/modals.html:172
-msgid ""
-"Although this document cannot magically absolve you from the risk of data "
-"mismanagement, it is a giant first step. Informing your visitors and "
-"customers (and other parties) about the data you collect about them is a "
-"requirement. A privacy policy is a simple way to comply, but a good privacy "
-"policy goes further. It is prime evidence to everyone with whom you deal "
-"that you take confidentiality seriously. That can help increase the trust "
-"that visitors and customers have in your business and boost their confidence "
-"in using your services or buying from you."
-msgstr ""
-
-#: templates/modals.html:201
+#: templates/modals.html:203
 msgid "Import your account here!!"
 msgstr ""
 
-#: templates/modals.html:207
+#: templates/modals.html:209
 msgid ""
 "<strong>Oops!!</strong> something wrong with the site. Try reloading please "
 "or report us and we will fix it soon"
 msgstr ""
 
-#: templates/modals.html:221
+#: templates/modals.html:214
 msgid "Logout all"
 msgstr ""
