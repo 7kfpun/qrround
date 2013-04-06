@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-06 13:08+0800\n"
+"POT-Creation-Date: 2013-04-06 13:39+0800\n"
 "PO-Revision-Date: 2013-03-20 23:56-0600\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -218,6 +218,7 @@ msgid "Import your  <strong>Sina Weibo</strong>"
 msgstr ""
 
 #: templates/auth_urls.html:37
+msgctxt "channels"
 msgid "More to come<br />..."
 msgstr ""
 
@@ -241,119 +242,124 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: templates/base.html:74 templates/import.html:46
+#: templates/base.html:71
+msgctxt "languages"
+msgid "More to come..."
+msgstr ""
+
+#: templates/base.html:77 templates/import.html:46
 msgid "Project name"
 msgstr "日本語"
 
-#: templates/base.html:80
+#: templates/base.html:83
 msgid "It is Super<br />Awesome!"
 msgstr ""
 
-#: templates/base.html:81
+#: templates/base.html:84
 msgid ""
 "ทุกสิ่งทุกอย่างมีเลิกลา มันเป็นไปตามกาลเวลา<br />มีพลัดมีพรากมีจากไป คงต้องยอมทำใจ<br /"
 ">คงต้องยอมเสียใจ อย่าขวางชะตานั้น<br />ปล่อยมันให้เป็นไป ชีวิตที่มีไม่คิดเสียดาย<br /"
 ">จะยังไงไม่ยอมเสียเธอ"
 msgstr ""
 
-#: templates/base.html:97 templates/import.html:57
+#: templates/base.html:100 templates/import.html:57
 msgid "All Rights Reserved."
 msgstr ""
 
-#: templates/base.html:98
+#: templates/base.html:101
 msgid ""
-"We don't know what IE is. Please use other browser for your better life."
+"We do not know what IE is. Please use other browser for your better life."
 msgstr ""
 
 #: templates/import.html:7
 msgid "Importing..."
 msgstr ""
 
-#: templates/index.html:19
+#: templates/index.html:20
 msgid "Import your social account"
 msgstr ""
 
-#: templates/index.html:19
+#: templates/index.html:20
 msgid "Second step"
 msgstr ""
 
-#: templates/index.html:19 templates/modals.html:216
+#: templates/index.html:20 templates/modals.html:216
 msgid "Import"
 msgstr ""
 
-#: templates/index.html:20
+#: templates/index.html:21
 msgid "Get your cool QR code!"
 msgstr ""
 
-#: templates/index.html:20
+#: templates/index.html:21
 msgid "Last step"
 msgstr ""
 
-#: templates/index.html:20
+#: templates/index.html:21
 msgid "Loading..."
 msgstr ""
 
-#: templates/index.html:20
+#: templates/index.html:21
 msgid "Complete!"
 msgstr ""
 
-#: templates/index.html:20
+#: templates/index.html:21
 msgid "Have fun!"
 msgstr ""
 
-#: templates/index.html:23
+#: templates/index.html:24
 msgid "Read and accept our Privacy Policy and Terms of Service"
 msgstr ""
 
-#: templates/index.html:23
+#: templates/index.html:24
 msgid "First step"
 msgstr ""
 
-#: templates/index.html:34
+#: templates/index.html:35
 msgid "Options"
 msgstr ""
 
-#: templates/index.html:35
+#: templates/index.html:36
 msgid "History"
 msgstr ""
 
-#: templates/index.html:44
+#: templates/index.html:45
 msgid "Color & style "
 msgstr ""
 
-#: templates/index.html:45
+#: templates/index.html:46
 msgid "Share it"
 msgstr ""
 
-#: templates/index.html:55
+#: templates/index.html:56
 msgid "<strong>Info!</strong> You can import more accounts."
 msgstr ""
 
-#: templates/index.html:61
+#: templates/index.html:62
 msgid "<strong>Info!</strong> Import your account first!!"
 msgstr ""
 
-#: templates/index.html:67
+#: templates/index.html:68
 msgid "The higher error correct, the more readable code."
 msgstr ""
 
-#: templates/index.html:72
+#: templates/index.html:73
 msgid "Select your theme color here!!"
 msgstr ""
 
-#: templates/index.html:95
+#: templates/index.html:96
 msgid "Show off to your friends!!"
 msgstr ""
 
-#: templates/index.html:98
+#: templates/index.html:99
 msgid "Or share it to ..."
 msgstr ""
 
-#: templates/index.html:118
+#: templates/index.html:119
 msgid "<strong>Info!</strong> Only latest 12 codes are displayed"
 msgstr ""
 
-#: templates/index.html:122
+#: templates/index.html:123
 msgid "Gallery is loading..."
 msgstr ""
 
