@@ -16,7 +16,6 @@
   {{ form.backdoor }}
   <div class="btn-group">
     {{ form.text }}
-    <span class="counter"></span>
     <button class="btn" id="import_button" type="button" data-toggle="popover" data-html="true" data-placement="top" data-content="{% trans 'Import your social account' %}" data-original-title="{% trans 'Second step' %} <button type='button' class='close'>×</button>">{% trans 'Import' %}</button>
     <button class="btn btn-primary" id="getqrcode_button" type="button" data-toggle="popover" data-html="true" data-placement="top" data-content="{% trans 'Get your cool QR code!' %}" data-original-title="{% trans 'Last step' %} <button type='button' class='close'>×</button>" data-loading-text="<i class='icon-spinner icon-spin'></i> {% trans 'Loading...' %}" data-complete-text="{% trans 'Complete!' %}">{% trans 'Have fun!' %} <i class="icon-qrcode"></i></button>
   </div>

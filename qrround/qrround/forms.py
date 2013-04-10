@@ -148,7 +148,6 @@ class QueryForm(forms.ModelForm):
             'text': forms.TextInput(attrs={
                 'id': 'getqrcode_input',
                 'autofocus': 'autofocus',
-                'length': '10',
                 'class': 'span5',
                 'placeholder': _('Input your data...'),
             }),
