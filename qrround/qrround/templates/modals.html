@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load cache %}
 
-{# % cache 600 policy % #}
+{% cache 600 modals %}
 <!-- Policy Modal -->
 <div id="policy_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
@@ -168,10 +168,7 @@
   </div>
   <div class="modal-body">
     <p>
-      {% blocktrans %}
-      &&&&&&&&&& gets profile picture of you and your friends from several social network and generates a cool QR code from you and your friends.
-      You can pick the style. Import an account and try it now. Don't forget to share it with your friends.
-      {% endblocktrans%}
+      empyt about
     </p>
   </div>
   <div class="modal-footer">
@@ -216,4 +213,4 @@
     <button id="import" class="btn btn-primary">{% trans 'Import' %}</button>
   </div>
 </div>
-{# % endcache % #}
+{% endcache %}

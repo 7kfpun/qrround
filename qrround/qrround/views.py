@@ -49,6 +49,7 @@ def login(request):
     return render(request, 'login.html')
 
 
+@never_cache
 def index(request):
     qr = request.GET.get('qr', '')
     if qr:

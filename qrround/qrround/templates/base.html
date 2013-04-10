@@ -1,6 +1,9 @@
-{% load compress %}{% load i18n %}{% load cache %}<!DOCTYPE html>
+{% load compress %}
+{% load i18n %}
+{% load cache %}
 
-{# % cache 600 base_head % #}
+{% cache 600 base_head %}
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
     <title>{% trans 'QR' %}</title>
@@ -16,17 +19,16 @@
     <meta property="og:site_name" content="TestThis" />
 
     <!-- CSS CDN -->
-    <!--
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
-    -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
 
     <!-- CSS style -->
     {% compress css %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css" /> -->
     <!-- <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.css" /> -->
+    <!-- <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css"> -->
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/colorpicker.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-image-gallery.min.css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/slider.css">
 
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/styles.css" />
@@ -53,7 +55,7 @@
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">{% trans 'Home' %}</a></li>
-          <li><a id="about_modal_link">{% trans 'About' %}</a></li>
+          <!-- <li><a id="about_modal_link">{% trans 'About' %}</a></li> -->
           <li><a id="contact_modal_link">{% trans 'Contact' %}</a></li>
           <li><!-- Language selector -->
             {% get_available_languages as languages %}
@@ -61,11 +63,13 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-globe"></i> {% trans 'Language' %}<b class="caret"></b></a>
               <ul class="dropdown-menu pull-right" role="menu">
               {% for lang_code, lang_name in languages %}
-                <li>
-                {% language lang_code %}
-                  <a href="{% url 'index' %}">{{ lang_code|language_name_local }}</a>
-                {% endlanguage %}
-                </li>
+                {% if forloop.counter <= 3 %}
+                  <li>
+                  {% language lang_code %}
+                    <a href="{% url 'index' %}">{{ lang_code|language_name_local }}</a>
+                  {% endlanguage %}
+                  </li>
+                {% endif %}
               {% endfor %}    
                 <li>
                   <a class="disable"><span class="muted">{% trans 'More to come...' context 'languages' %}</span></a>
@@ -81,16 +85,19 @@
         
       <div class="jumbotron">
         <h1>{% trans 'It is Super<br />Awesome!' %}</h1>
-        <p class="lead">{% trans 'ทุกสิ่งทุกอย่างมีเลิกลา มันเป็นไปตามกาลเวลา<br />มีพลัดมีพรากมีจากไป คงต้องยอมทำใจ<br />คงต้องยอมเสียใจ อย่าขวางชะตานั้น<br />ปล่อยมันให้เป็นไป ชีวิตที่มีไม่คิดเสียดาย<br />จะยังไงไม่ยอมเสียเธอ' %}</p>
+        <p class="lead">
+        {% blocktrans %}
+          &&&&&&&&&& gets profile picture of you and your friends from several social network and generates a cool QR code from you and your friends.
+          You can pick the style. Import an account and try it now. Don't forget to share it with your friends.
+        {% endblocktrans%}
+        </p>
         <!-- Friend QR analyzes your Facebook profile and creates a unique collage of your friends such that your best friends have the biggest pictures. Find out who is on your Friend Matrix! -->
-
-{# % endcache % #}
+{% endcache %}
 
         {# Do not cache for this block #}
         {% block content %}{% endblock %}
 
-{# % cache 600 base_footer % #}
-
+{% cache 600 base_footer %}
       </div>
 
       <div id="content"></div>
@@ -104,15 +111,16 @@
     {% include "modals.html" %}
 
     <!-- Javascript CDN -->
-    <!--
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
-    -->
+    <!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script> -->
+
 
     {% compress js %}
+    <!--
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
+    -->
     <!-- <script type="text/javascript" src="{{ STATIC_URL }}js/json2.js"></script> -->
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/ajax_csrf.js"></script>
@@ -124,7 +132,6 @@
 
     <script type="text/javascript" src="{{ STATIC_URL }}js/scripts.js"></script>
     {% endcompress %}
-
 
     <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
@@ -144,4 +151,4 @@
     </script>
   </body>
 </html>
-{# % endcache % #}
+{% endcache %}
