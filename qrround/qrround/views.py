@@ -10,7 +10,7 @@ from django.http import (
 from django.shortcuts import redirect, render   # , get_object_or_404
 # from django.template import Context, Template
 from django.utils.translation import ugettext_lazy as _
-from django.views.decorators.cache import never_cache  # , cache_page
+# from django.views.decorators.cache import never_cache, cache_page
 from django.views.decorators.csrf import csrf_exempt
 from jinja2 import Template
 import json
@@ -49,7 +49,6 @@ def login(request):
     return render(request, 'login.html')
 
 
-@never_cache
 def index(request):
     qr = request.GET.get('qr', '')
     if qr:
