@@ -1,11 +1,26 @@
 <ul class="thumbnails">
- {% for qrcode in qrcodes %}
- <li class="span2">
-   <a href="{{ qrcode.photo.url }}"
-   title="{{ qrcode.query.text }}"
-   class="thumbnail" data-gallery="gallery">
-     <img src="{{ qrcode.photo_thumbnail.url }}">
-   </a>
- </li>
- {% endfor %}
+  {% for qrcode in qrcodes %}
+  <li class="span2">
+    <a href="{{ qrcode.photo.url }}" title="{{ qrcode.query.text }}" class="thumbnail" data-gallery="gallery">
+      <img src="{{ qrcode.photo_thumbnail.url }}" height="150" width="150">
+    </a>
+  </li>
+  {% endfor %}
 </ul>
+
+{% comment %}
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<ul class="thumbnails">
+  {% for qrcode in qrcodes %}
+  <li class="span2">
+    <a href="{{ qrcode.photo.url }}" title="{{ qrcode.query.text }}" class="thumbnail" data-gallery="gallery">
+      <img src="{{ qrcode.photo_thumbnail.url }}">
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+</body>
+{% endcomment %}

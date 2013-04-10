@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load cache %}
 
-{# % cache 600 base_head % #}
+{% cache 600 base_head %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
@@ -20,16 +20,17 @@
 
     <!-- CSS CDN -->
     <!--
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet" />
     -->
 
     <!-- CSS style -->
     {% compress css %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap.min.css" />
     <!-- <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-responsive.css" /> -->
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/colorpicker.css" />
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/bootstrap-image-gallery.min.css" />
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/slider.css">
 
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/styles.css" />
     {% endcompress %}
@@ -52,70 +53,93 @@
   </head>
   <body>{% csrf_token %}
     <div class="container-narrow ">
+      <!-- Begin BidVertiser code -->
+      <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=525790&bid=1310538" type="text/javascript"></SCRIPT>
+      <noscript><a href="http://www.bidvertiser.com/bdv/BidVertiser/bdv_publisher_toolbar_creator.dbm">custom toolbar</a></noscript>
+      <!-- End BidVertiser code -->
+
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">{% trans 'Home' %}</a></li>
-          <li><a id="about_modal_link">{% trans 'About' %}</a></li>
+          <!-- <li><a id="about_modal_link">{% trans 'About' %}</a></li> -->
           <li><a id="contact_modal_link">{% trans 'Contact' %}</a></li>
           <li><!-- Language selector -->
             {% get_available_languages as languages %}
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-globe"></i> {% trans "Language" %}<b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-globe"></i> {% trans 'Language' %}<b class="caret"></b></a>
               <ul class="dropdown-menu pull-right" role="menu">
               {% for lang_code, lang_name in languages %}
-                <li>
-                {% language lang_code %}
-                  <a href="{% url 'index' %}">{{ lang_code|language_name_local }}</a>
-                {% endlanguage %}
-                </li>
+                {% if forloop.counter <= 3 %}
+                  <li>
+                  {% language lang_code %}
+                    <a href="{% url 'index' %}">{{ lang_code|language_name_local }}</a>
+                  {% endlanguage %}
+                  </li>
+                {% endif %}
               {% endfor %}    
+                <li>
+                  <a class="disable"><span class="muted">{% trans 'More to come...' context 'languages' %}</span></a>
+                </li>
               </ul>
             </li>
           </li>
         </ul>
-        <h3 class="muted"><img src="{{ STATIC_URL }}ico/favicon.ico" height="38" width="38" /> {% trans 'Project name' %}</h3>
+        <h3 class="muted"><img src="{{ STATIC_URL }}ico/favicon.ico" height="38" width="38" /> {% trans 'QRwaa' %}</h3>
       </div>
 
       <hr>
-{# % endcache % #}
         
       <div class="jumbotron">
-        <h1>{% trans 'It is Super<br />Awesome!' %}</h1>
-        <p class="lead">{% trans 'ทุกสิ่งทุกอย่างมีเลิกลา มันเป็นไปตามกาลเวลา<br />มีพลัดมีพรากมีจากไป คงต้องยอมทำใจ<br />คงต้องยอมเสียใจ อย่าขวางชะตานั้น<br />ปล่อยมันให้เป็นไป ชีวิตที่มีไม่คิดเสียดาย<br />จะยังไงไม่ยอมเสียเธอ' %}</p>
+        <h1>{% trans 'Welcome to' %}<br />{% trans 'QRwaa' %}</h1>
+        <p class="lead">
+        <strong>{% trans 'QRwaa' %}</strong>
+        {% blocktrans %}
+          gets profile picture of you and your friends<br />
+          and generates a cool QR code from the pictures.<br />
+          Import an account and try it now!!<br />
+          Don't forget to share it with your friends!!
+        {% endblocktrans%}
+        </p>
         <!-- Friend QR analyzes your Facebook profile and creates a unique collage of your friends such that your best friends have the biggest pictures. Find out who is on your Friend Matrix! -->
+{% endcache %}
 
+        {# Do not cache for this block #}
         {% block content %}{% endblock %}
+
+{% cache 600 base_footer %}
       </div>
 
       <div id="content">
-        {% include "clients.html" %}
+        <!-- Begin BidVertiser code -->
+        <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=525790&bid=1310538" type="text/javascript"></SCRIPT>
+        <!-- End BidVertiser code -->
       </div>
-
       <hr>
 
-{# % cache 600 base_footer % #}
       <div class="footer">
-        <p>&copy; 2013 - {% now "Y" %} KFPUN, {% trans "All Rights Reserved." %}</p>
+        <p>&copy; 2013 - {% now 'Y' %} QRwaa, {% trans 'All Rights Reserved.' %}</p>
+        <p><small class="muted">{% trans "We don't know what IE is. Please use other browser for your better life." %}</small></p>
       </div> <!-- /container -->
 
     {% include "modals.html" %}
 
     <!-- Javascript CDN -->
-    <!--
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script>
-    -->
+    <!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script> -->
 
     {% compress js %}
+    <!--
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap.js"></script>
+    -->
     <!-- <script type="text/javascript" src="{{ STATIC_URL }}js/json2.js"></script> -->
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/ajax_csrf.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/load-image.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-image-gallery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-colorpicker.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/bootstrap-slider.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/charCount.js"></script>
 
     <script type="text/javascript" src="{{ STATIC_URL }}js/scripts.js"></script>
@@ -139,4 +163,4 @@
     </script>
   </body>
 </html>
-{# % endcache % #}
+{% endcache %}

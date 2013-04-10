@@ -40,7 +40,7 @@ class UserClient(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
 
-    client = models.CharField(max_length=200, unique=True, db_index=True,
+    client = models.CharField(db_index=True, max_length=200, unique=True,
                               blank=True, null=True)
 
     username = models.CharField(max_length=200, blank=True, null=True)
@@ -140,9 +140,9 @@ class QRCode(caching.base.CachingMixin, models.Model):
 
     photo_thumbnail = ImageSpecField(
         image_field='photo',
-        processors=[ResizeToFit(100, 100)],
+        processors=[ResizeToFit(150, 150)],
         format='JPEG',
-        options={'quality': 30},
+        options={'quality': 20},
     )
 
     # objects = caching.base.CachingManager()
@@ -162,7 +162,7 @@ class QRCode(caching.base.CachingMixin, models.Model):
 class CachedImage(caching.base.CachingMixin, models.Model):
     user = models.ForeignKey(UserClient, blank=True, null=True)
 
-    url = models.URLField(unique=True, db_index=True)
+    url = models.URLField(db_index=True, unique=True)
     photo = models.ImageField(
         max_length=255,
         upload_to='cachedimages/%Y/%m/%d',

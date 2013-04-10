@@ -2,38 +2,38 @@
 
 <div class="span2">
   <a class="btn importButton" onclick=popitup("{{ facebook }}")>
-    <img src="{{ STATIC_URL }}ico/facebook.png" height="58" width="58" /><br />
+    <img src="{{ STATIC_URL }}ico/facebook.png" height="60" width="60" /><br />
     {% trans 'Import your <strong>Facebook</strong>' %}
   </a>
 </div>
 <div class="span2">
   <a class="btn importButton" onclick=popitup("{{ google }}")>
-    <img src="{{ STATIC_URL }}ico/google.png" height="58" width="58" /><br />
+    <img src="{{ STATIC_URL }}ico/google.png" height="60" width="60" /><br />
     {% trans 'Import your <strong>Google Plus</strong>' %}
   </a>
 </div>
 <div class="span2">
   <a class="btn importButton" onclick=popitup("{{ linkedin }}")>
-    <img src="{{ STATIC_URL }}ico/linkedin.png" height="58" width="58" /><br />
+    <img src="{{ STATIC_URL }}ico/linkedin.png" height="60" width="60" /><br />
     {% trans 'Import your <strong>LinkedIn</strong>' %}
   </a>
 </div>
 <br /><br /><br /><br /><br /><br /><br />
 <div class="span2">
   <a class="btn importButton" onclick=popitup("{{ kaixin001 }}")>
-    <img src="{{ STATIC_URL }}ico/kaixin001.png" height="58" width="58" /><br />
+    <img src="{{ STATIC_URL }}ico/kaixin001.png" height="60" width="60" /><br />
     {% trans 'Import your <strong>Kaixin001</strong>' %}
   </a>
 </div>
 <div class="span2">
   <a class="btn importButton" onclick=popitup("{{ weibo }}")>
-    <img src="{{ STATIC_URL }}ico/weibo.png" height="58" width="58" /><br />
+    <img src="{{ STATIC_URL }}ico/weibo.png" height="60" width="60" /><br />
     {% trans 'Import your  <strong>Sina Weibo</strong>' %}
   </a>
 </div>
 <div class="span2">
   <a class="btn importButton disabled">
-    <img src="{{ STATIC_URL }}ico/plus.png" height="58" width="58" /><br />
-    {% trans 'More to come' %}<br />...
+    <img src="{{ STATIC_URL }}ico/plus.png" height="60" width="60" /><br />
+    {% trans 'More to come<br />...' context 'channels' %}
   </a>
 </div>

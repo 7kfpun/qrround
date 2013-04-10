@@ -10,6 +10,8 @@ function popitup(url) {
 
 $('span[class^="st_"]').attr('st_image', 'http://' + window.location.host + '/static/ico/favicon.ico');
 
+$('.slider').slider('setValue', '0')
+
 ///////////////////// QR code /////////////////////
 // Send qrcode request
 $('#getqrcode_input').keydown(function (e) {
@@ -32,7 +34,7 @@ function getqrcode(el) {
     $('#getqrcode_button').button('loading');
     $.ajax({
       type: form.attr('method'),
-      url: form.attr('action'),
+      url: window.location.href + form.attr('action'),
       data: form.serialize(),
       success: function(data) {
 
@@ -65,6 +67,8 @@ function getqrcode(el) {
 }
 
 function changeMeta(st_url, filename) {
+  console.log('new image for st: http://' + window.location.host + st_url);
+
   $('span[class^="st_"]').html(''); // Empty span contents
   $('span[class^="st_"]').attr('st_processed', null); // Reset ST plugin
   
@@ -223,6 +227,5 @@ $("#getqrcode_input").charCount({
     counterText: 'Characters left: '	
 });
 
-$('#getqrcode_input').limit('140','#charsLeft');
 ///////////////// Color picker ///////////////////
 $('#colorpicker').colorpicker();
