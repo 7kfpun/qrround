@@ -64,10 +64,12 @@ DATABASES = {
 # Caches
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
         'KEY_PREFIX': '_'.join((PROJECT_NAME, ENVIRONMENT_NAME)),
     }
 }
+if DEBUG:
+    CACHES['default']['BACKEND'] = 'django.core.cache.backends.dummy.DummyCache'  # noqa
 
 CACHE_BACKEND = 'caching.backends.locmem://'
 
@@ -90,8 +92,6 @@ LANGUAGES = (
 )
 ROSETTA_STORAGE_CLASS = 'rosetta.storage.CacheRosettaStorage'
 ROSETTA_MESSAGES_PER_PAGE = 50
-if DEBUG:
-    ROSETTA_WSGI_AUTO_RELOAD = True
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
@@ -222,7 +222,7 @@ INSTALLED_APPS += ('djcelery',)
 CELERY_IMPORTS = ("qrround.views", )
 
 # Mail
-EMAIL_HOST_USER = '7kfpun@gmail.com'
+EMAIL_HOST_USER = '710kfpun@gmail.com'
 EMAIL_HOST_PASSWORD = 'blah blah blah'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587

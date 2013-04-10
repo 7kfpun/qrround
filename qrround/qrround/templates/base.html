@@ -52,6 +52,11 @@
   </head>
   <body>{% csrf_token %}
     <div class="container-narrow ">
+      <!-- Begin BidVertiser code -->
+      <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=525790&bid=1310538" type="text/javascript"></SCRIPT>
+      <noscript><a href="http://www.bidvertiser.com/bdv/BidVertiser/bdv_publisher_toolbar_creator.dbm">custom toolbar</a></noscript>
+      <!-- End BidVertiser code -->
+
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
           <li class="active"><a href="#">{% trans 'Home' %}</a></li>
@@ -84,10 +89,11 @@
       <hr>
         
       <div class="jumbotron">
-        <h1>{% trans 'It is Super<br />Awesome!' %}</h1>
+        <h1>{% trans 'Welcome to' %}<br />{% trans 'QRwaa' %}</h1>
         <p class="lead">
+        <strong>{% trans 'QRwaa' %}</strong>
         {% blocktrans %}
-          &&&&&&&&&& gets profile picture of you and your friends from several social network and generates a cool QR code from you and your friends.
+          gets profile picture of you and your friends from several social network and generates a cool QR code from you and your friends.
           You can pick the style. Import an account and try it now. Don't forget to share it with your friends.
         {% endblocktrans%}
         </p>
@@ -104,7 +110,7 @@
       <hr>
 
       <div class="footer">
-        <p>&copy; 2013 - {% now 'Y' %} KFPUN, {% trans 'All Rights Reserved.' %}</p>
+        <p>&copy; 2013 - {% now 'Y' %} QRwaa, {% trans 'All Rights Reserved.' %}</p>
         <p><small class="muted">{% trans "We don't know what IE is. Please use other browser for your better life." %}</small></p>
       </div> <!-- /container -->
 
