@@ -84,7 +84,7 @@
             </li>
           </li>
         </ul>
-        <h3 class="muted"><img src="{{ STATIC_URL }}ico/favicon.ico" height="38" width="38" /> {% trans 'Project name' %}</h3>
+        <h3 class="muted"><img src="{{ STATIC_URL }}ico/favicon.ico" height="38" width="38" /> {% trans 'QRwaa' %}</h3>
       </div>
 
       <hr>
@@ -94,8 +94,10 @@
         <p class="lead">
         <strong>{% trans 'QRwaa' %}</strong>
         {% blocktrans %}
-          gets profile picture of you and your friends from several social network and generates a cool QR code from you and your friends.
-          You can pick the style. Import an account and try it now. Don't forget to share it with your friends.
+          gets profile picture of you and your friends<br />
+          and generates a cool QR code from the pictures.<br />
+          Import an account and try it now!!<br />
+          Don't forget to share it with your friends!!
         {% endblocktrans%}
         </p>
         <!-- Friend QR analyzes your Facebook profile and creates a unique collage of your friends such that your best friends have the biggest pictures. Find out who is on your Friend Matrix! -->
@@ -107,7 +109,11 @@
 {% cache 600 base_footer %}
       </div>
 
-      <div id="content"></div>
+      <div id="content">
+        <!-- Begin BidVertiser code -->
+        <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=525790&bid=1310538" type="text/javascript"></SCRIPT>
+        <!-- End BidVertiser code -->
+      </div>
       <hr>
 
       <div class="footer">
@@ -121,7 +127,6 @@
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
     <!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"></script> -->
-
 
     {% compress js %}
     <!--

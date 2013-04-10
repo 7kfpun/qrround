@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-06 13:39+0800\n"
+"POT-Creation-Date: 2013-04-10 15:32+0800\n"
 "PO-Revision-Date: 2013-03-20 23:56-0600\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -177,23 +177,23 @@ msgstr ""
 msgid "Where is your girlfriend?"
 msgstr ""
 
-#: settings/settings.py:85
+#: settings/settings.py:87
 msgid "English"
 msgstr ""
 
-#: settings/settings.py:86
+#: settings/settings.py:88
 msgid "繁體中文"
 msgstr ""
 
-#: settings/settings.py:87
+#: settings/settings.py:89
 msgid "简体中文"
 msgstr ""
 
-#: settings/settings.py:88
+#: settings/settings.py:90
 msgid "ภาษาไทย"
 msgstr ""
 
-#: settings/settings.py:89
+#: settings/settings.py:91
 msgid "日本語"
 msgstr ""
 
@@ -222,144 +222,151 @@ msgctxt "channels"
 msgid "More to come<br />..."
 msgstr ""
 
-#: templates/base.html:6
+#: templates/base.html:9
 msgid "QR"
 msgstr ""
 
-#: templates/base.html:55 templates/import.html:44
+#: templates/base.html:63 templates/import.html:44
 msgid "Home"
 msgstr ""
 
-#: templates/base.html:56 templates/modals.html:167
+#: templates/base.html:64 templates/modals.html:167
 msgid "About"
 msgstr ""
 
-#: templates/base.html:57 templates/modals.html:113
+#: templates/base.html:65 templates/modals.html:113
 msgid "Contact"
 msgstr ""
 
-#: templates/base.html:61
+#: templates/base.html:69
 msgid "Language"
 msgstr ""
 
-#: templates/base.html:71
+#: templates/base.html:81
 msgctxt "languages"
 msgid "More to come..."
 msgstr ""
 
-#: templates/base.html:77 templates/import.html:46
-msgid "Project name"
-msgstr "日本語"
-
-#: templates/base.html:83
-msgid "It is Super<br />Awesome!"
+#: templates/base.html:87 templates/base.html.py:93 templates/base.html:95
+msgid "QRwaa"
 msgstr ""
 
-#: templates/base.html:84
+#: templates/base.html:93
+msgid "Welcome to"
+msgstr ""
+
+#: templates/base.html:96
 msgid ""
-"ทุกสิ่งทุกอย่างมีเลิกลา มันเป็นไปตามกาลเวลา<br />มีพลัดมีพรากมีจากไป คงต้องยอมทำใจ<br /"
-">คงต้องยอมเสียใจ อย่าขวางชะตานั้น<br />ปล่อยมันให้เป็นไป ชีวิตที่มีไม่คิดเสียดาย<br /"
-">จะยังไงไม่ยอมเสียเธอ"
+"\n"
+"          gets profile picture of you and your friends<br />\n"
+"          and generates a cool QR code from the pictures.<br />\n"
+"          Import an account and try it now!!<br />\n"
+"          Don't forget to share it with your friends!!\n"
+"        "
 msgstr ""
 
-#: templates/base.html:100 templates/import.html:57
+#: templates/base.html:120 templates/import.html:57
 msgid "All Rights Reserved."
 msgstr ""
 
-#: templates/base.html:101
+#: templates/base.html:121
 msgid ""
-"We do not know what IE is. Please use other browser for your better life."
+"We don't know what IE is. Please use other browser for your better life."
 msgstr ""
 
 #: templates/import.html:7
 msgid "Importing..."
 msgstr ""
 
-#: templates/index.html:20
+#: templates/import.html:46
+msgid "Project name"
+msgstr "日本語"
+
+#: templates/index.html:19
 msgid "Import your social account"
 msgstr ""
 
-#: templates/index.html:20
+#: templates/index.html:19
 msgid "Second step"
 msgstr ""
 
-#: templates/index.html:20 templates/modals.html:216
+#: templates/index.html:19 templates/modals.html:213
 msgid "Import"
 msgstr ""
 
-#: templates/index.html:21
+#: templates/index.html:20
 msgid "Get your cool QR code!"
 msgstr ""
 
-#: templates/index.html:21
+#: templates/index.html:20
 msgid "Last step"
 msgstr ""
 
-#: templates/index.html:21
+#: templates/index.html:20
 msgid "Loading..."
 msgstr ""
 
-#: templates/index.html:21
+#: templates/index.html:20
 msgid "Complete!"
 msgstr ""
 
-#: templates/index.html:21
+#: templates/index.html:20
 msgid "Have fun!"
 msgstr ""
 
-#: templates/index.html:24
+#: templates/index.html:23
 msgid "Read and accept our Privacy Policy and Terms of Service"
 msgstr ""
 
-#: templates/index.html:24
+#: templates/index.html:23
 msgid "First step"
 msgstr ""
 
-#: templates/index.html:35
+#: templates/index.html:34
 msgid "Options"
 msgstr ""
 
-#: templates/index.html:36
+#: templates/index.html:35
 msgid "History"
 msgstr ""
 
-#: templates/index.html:45
+#: templates/index.html:44
 msgid "Color & style "
 msgstr ""
 
-#: templates/index.html:46
+#: templates/index.html:45
 msgid "Share it"
 msgstr ""
 
-#: templates/index.html:56
+#: templates/index.html:55
 msgid "<strong>Info!</strong> You can import more accounts."
 msgstr ""
 
-#: templates/index.html:62
+#: templates/index.html:61
 msgid "<strong>Info!</strong> Import your account first!!"
 msgstr ""
 
-#: templates/index.html:68
+#: templates/index.html:67
 msgid "The higher error correct, the more readable code."
 msgstr ""
 
-#: templates/index.html:73
+#: templates/index.html:72
 msgid "Select your theme color here!!"
 msgstr ""
 
-#: templates/index.html:96
+#: templates/index.html:95
 msgid "Show off to your friends!!"
 msgstr ""
 
-#: templates/index.html:99
+#: templates/index.html:98
 msgid "Or share it to ..."
 msgstr ""
 
-#: templates/index.html:119
+#: templates/index.html:118
 msgid "<strong>Info!</strong> Only latest 12 codes are displayed"
 msgstr ""
 
-#: templates/index.html:123
+#: templates/index.html:122
 msgid "Gallery is loading..."
 msgstr ""
 
@@ -388,7 +395,7 @@ msgid ""
 "      <li>\n"
 "        Permission is granted to temporarily download one copy of the "
 "materials \n"
-"        (information or software) on &&&&&&&&&&&'s web site for personal, \n"
+"        (information or software) on QRwaa's web site for personal, \n"
 "        non-commercial transitory viewing only. This is the grant of a "
 "license, \n"
 "        not a transfer of title, and under this license you may not:      \n"
@@ -397,7 +404,7 @@ msgid ""
 "          <li>use the materials for any commercial purpose, or for any "
 "public display (commercial or non-commercial);</li>\n"
 "          <li>attempt to decompile or reverse engineer any software "
-"contained on &&&&&&&&&&&'s web site;</li>\n"
+"contained on QRwaa's web site;</li>\n"
 "          <li>remove any copyright or other proprietary notations from the "
 "materials; or</li>\n"
 "          <li>transfer the materials to another person or \"mirror\" the "
@@ -406,7 +413,7 @@ msgid ""
 "      </li>\n"
 "      <li>\n"
 "        This license shall automatically terminate if you violate any of "
-"these restrictions and may be terminated by &&&&&&&&&&& at any time. Upon "
+"these restrictions and may be terminated by QRwaa at any time. Upon "
 "terminating your viewing of these materials or upon the termination of this "
 "license, you must destroy any downloaded materials in your possession "
 "whether in electronic or printed format.\n"
@@ -415,55 +422,54 @@ msgid ""
 "    <h4>3. Disclaimer</h4>\n"
 "    <ol type=\"a\">\n"
 "      <li>\n"
-"        The materials on &&&&&&&&&&&'s web site are provided \"as is\". "
-"&&&&&&&&&&& makes no warranties, expressed or implied, and hereby disclaims "
-"and negates all other warranties, including without limitation, implied "
-"warranties or conditions of merchantability, fitness for a particular "
-"purpose, or non-infringement of intellectual property or other violation of "
-"rights. Further, &&&&&&&&&&& does not warrant or make any representations "
-"concerning the accuracy, likely results, or reliability of the use of the "
-"materials on its Internet web site or otherwise relating to such materials "
-"or on any sites linked to this site.\n"
+"        The materials on QRwaa's web site are provided \"as is\". QRwaa "
+"makes no warranties, expressed or implied, and hereby disclaims and negates "
+"all other warranties, including without limitation, implied warranties or "
+"conditions of merchantability, fitness for a particular purpose, or non-"
+"infringement of intellectual property or other violation of rights. Further, "
+"QRwaa does not warrant or make any representations concerning the accuracy, "
+"likely results, or reliability of the use of the materials on its Internet "
+"web site or otherwise relating to such materials or on any sites linked to "
+"this site.\n"
 "      </li>\n"
 "    </ol>\n"
 "    <h4>4. Limitations</h4>\n"
 "    <p>\n"
-"      In no event shall &&&&&&&&&&& or its suppliers be liable for any "
-"damages (including, without limitation, damages for loss of data or profit, "
-"or due to business interruption,) arising out of the use or inability to use "
-"the materials on &&&&&&&&&&&'s Internet site, even if &&&&&&&&&&& or a "
-"&&&&&&&&&&& authorized representative has been notified orally or in writing "
-"of the possibility of such damage. Because some jurisdictions do not allow "
-"limitations on implied warranties, or limitations of liability for "
-"consequential or incidental damages, these limitations may not apply to "
-"you.\n"
+"      In no event shall QRwaa or its suppliers be liable for any damages "
+"(including, without limitation, damages for loss of data or profit, or due "
+"to business interruption,) arising out of the use or inability to use the "
+"materials on QRwaa's Internet site, even if QRwaa or a QRwaa authorized "
+"representative has been notified orally or in writing of the possibility of "
+"such damage. Because some jurisdictions do not allow limitations on implied "
+"warranties, or limitations of liability for consequential or incidental "
+"damages, these limitations may not apply to you.\n"
 "    </p>\n"
 "    <h4>5. Revisions and Errata</h4>\n"
 "    <p>\n"
-"      The materials appearing on &&&&&&&&&&&'s web site could include "
-"technical, typographical, or photographic errors. &&&&&&&&&&& does not "
-"warrant that any of the materials on its web site are accurate, complete, or "
-"current. &&&&&&&&&&& may make changes to the materials contained on its web "
-"site at any time without notice. &&&&&&&&&&& does not, however, make any "
-"commitment to update the materials.\n"
+"      The materials appearing on QRwaa's web site could include technical, "
+"typographical, or photographic errors. QRwaa does not warrant that any of "
+"the materials on its web site are accurate, complete, or current. QRwaa may "
+"make changes to the materials contained on its web site at any time without "
+"notice. QRwaa does not, however, make any commitment to update the "
+"materials.\n"
 "    </p>\n"
 "    <h4>6. Links</h4>\n"
 "    <p>\n"
-"      &&&&&&&&&&& has not reviewed all of the sites linked to its Internet "
-"web site and is not responsible for the contents of any such linked site. "
-"The inclusion of any link does not imply endorsement by &&&&&&&&&&& of the "
-"site. Use of any such linked web site is at the user's own risk.\n"
+"      QRwaa has not reviewed all of the sites linked to its Internet web "
+"site and is not responsible for the contents of any such linked site. The "
+"inclusion of any link does not imply endorsement by QRwaa of the site. Use "
+"of any such linked web site is at the user's own risk.\n"
 "    </p>\n"
 "    <h4>7. Site Terms of Use Modifications</h4>\n"
 "    <p>\n"
-"      &&&&&&&&&&& may revise these terms of use for its web site at any time "
+"      QRwaa may revise these terms of use for its web site at any time "
 "without notice. By using this web site you are agreeing to be bound by the "
 "then current version of these Terms and Conditions of Use.\n"
 "    </p>\n"
 "    <h4>8. Governing Law</h4>\n"
 "    <p>\n"
-"      Any claim relating to &&&&&&&&&&&'s web site shall be governed by the "
-"laws of the State of HHHHHHHHHH without regard to its conflict of law "
+"      Any claim relating to QRwaa's web site shall be governed by the laws "
+"of the State of HHHHHHHHHH without regard to its conflict of law "
 "provisions.\n"
 "    </p>\n"
 "    <p>\n"
@@ -513,18 +519,17 @@ msgid ""
 "      </li>\n"
 "    </ul>\n"
 "    <p>\n"
-"      We are committed to conducting our business in accordance with these "
-"principles in order to ensure that the confidentiality of personal "
-"information is protected and maintained. \n"
+"      Any questions about this Privacy Policy should be sent to info@qrwaa."
+"info.\n"
 "    </p>\n"
 "    "
 msgstr ""
 
-#: templates/modals.html:104 templates/modals.html.py:178
+#: templates/modals.html:104 templates/modals.html.py:175
 msgid "Close"
 msgstr ""
 
-#: templates/modals.html:157 templates/modals.html.py:215
+#: templates/modals.html:157 templates/modals.html.py:212
 msgid "Cancel"
 msgstr ""
 
@@ -532,26 +537,16 @@ msgstr ""
 msgid "Sent"
 msgstr ""
 
-#: templates/modals.html:171
-msgid ""
-"\n"
-"      &&&&&&&&&& gets profile picture of you and your friends from several "
-"social network and generates a cool QR code from you and your friends.\n"
-"      You can pick the style. Import an account and try it now. Don't forget "
-"to share it with your friends.\n"
-"      "
-msgstr ""
-
-#: templates/modals.html:203
+#: templates/modals.html:200
 msgid "Import your account here!!"
 msgstr ""
 
-#: templates/modals.html:209
+#: templates/modals.html:206
 msgid ""
 "<strong>Oops!!</strong> something wrong with the site. Try reloading please "
 "or report us and we will fix it soon"
 msgstr ""
 
-#: templates/modals.html:214
+#: templates/modals.html:211
 msgid "Logout all"
 msgstr ""
