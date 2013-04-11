@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load cache %}
 
-{% cache 600 base_head %}
+{% cache 600 base_head_another %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
@@ -88,29 +88,10 @@
       </div>
 
       <hr>
-        
-      <div class="jumbotron">
-        <h1>{% trans 'Welcome to' %}<br />{% trans 'QRwaa' %}</h1>
-        <p class="lead">
-        <strong>{% trans 'QRwaa' %}</strong>
-        {% blocktrans %}
-          gets profile picture of you and your friends<br />
-          and generates a cool QR code from the pictures.<br />
-          Import an account and try it now!!<br />
-          Don't forget to share it with your friends!!
-        {% endblocktrans%}
-        </p>
-        <!-- Friend QR analyzes your Facebook profile and creates a unique collage of your friends such that your best friends have the biggest pictures. Find out who is on your Friend Matrix! -->
 {% endcache %}
 
-        <!-- Begin BidVertiser code -->
-        <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=525790&bid=1310538" type="text/javascript"></SCRIPT>
-        <noscript><a href="http://www.bidvertiser.com/bdv/BidVertiser/bdv_publisher_toolbar_creator.dbm">custom toolbar</a></noscript>
-        <!-- End BidVertiser code -->
-
-        {# Do not cache for this block #}
-        {% block content %}{% endblock %}
-
+      <div class="content">
+        {% include "tos.html" %}
       </div>
 
 {% cache 600 base_footer %}

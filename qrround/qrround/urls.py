@@ -54,6 +54,9 @@ urlpatterns += i18n_patterns(
     url(r'^$', 'index', name='index'),
     url(r'^getauthurls/$', 'getauthurls', name='getauthurls'),
     url(r'^getqrcode/$', 'getqrcode', name='getqrcode'),
+
+    url(r'^tos/$', 'term_of_service', name='term_of_service'),
+
     url('^tasks/', include('djcelery.urls')),
 )
 

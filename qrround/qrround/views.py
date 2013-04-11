@@ -83,6 +83,12 @@ def sendcontact(request):
         return redirect('/')
 
 
+def term_of_service(request):
+    return render(request, 'tos_standalone.html', {
+        'contact_form': ContactForm(),
+    })
+
+
 def getgallery(request):
     all_clients = [client for channel in channels
                    for client in request.session.get(channel, [])]
