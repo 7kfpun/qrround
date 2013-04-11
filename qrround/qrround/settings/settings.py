@@ -202,9 +202,6 @@ INSTALLED_APPS += (
 )
 
 # Celery
-# BROKER_URL = 'amqp://nyezagug:DSBH7ibcP4BeNVfObtTj4hgDvlM6LQgT@tiger.cloudamqp.com/nyezagug'  # noqa
-# BROKER_URL = 'amqp://tiyleaba:nGub3yv4ik7VYrOqut1IIoaNHgwhEUfU@bunny.cloudamqp.com/tiyleaba'  # noqa
-# BROKER_URL = 'amqp://cmvunnej:gGXlI_n5rh6FE-Nsd6ILNru2loUAT0-F@tiger.cloudamqp.com/cmvunnej'  # noqa
 BROKER_URL = 'amqp://guest:guest@127.0.0.1:5672'
 BROKER_URL = 'amqp://guest:guest@ec2-54-245-77-103.us-west-2.compute.amazonaws.com:5672'  # noqa
 
