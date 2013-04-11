@@ -4,37 +4,6 @@
 
 {% block content %}
 {% cache 600 index_head %}
-<div class="masthead">
-  <ul class="nav nav-pills pull-right">
-    <li class="active"><a href="#">{% trans 'Home' %}</a></li>
-    <!-- <li><a id="about_modal_link">{% trans 'About' %}</a></li> -->
-    <li><a id="contact_modal_link">{% trans 'Contact' %}</a></li>
-    <li><!-- Language selector -->
-      {% get_available_languages as languages %}
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-globe"></i> {% trans 'Language' %}<b class="caret"></b></a>
-        <ul class="dropdown-menu pull-right" role="menu">
-        {% for lang_code, lang_name in languages %}
-          {% if forloop.counter <= 3 %}
-            <li>
-            {% language lang_code %}
-              <a href="{% url 'index' %}">{{ lang_code|language_name_local }}</a>
-            {% endlanguage %}
-            </li>
-          {% endif %}
-        {% endfor %}    
-          <li>
-            <a class="disable"><span class="muted">{% trans 'More to come...' context 'languages' %}</span></a>
-          </li>
-        </ul>
-      </li>
-    </li>
-  </ul>
-  <a href="{% url 'index' %}"><h3 class="muted"><img src="{{ STATIC_URL }}ico/favicon.ico" height="38" width="38" /> {% trans 'QRwaa' %}</h3></a>
-</div>
-
-<hr>
-  
 <div class="jumbotron">
   <h1>{% trans 'Welcome to' %}<br />{% trans 'QRwaa' %}</h1>
   <p class="lead">
