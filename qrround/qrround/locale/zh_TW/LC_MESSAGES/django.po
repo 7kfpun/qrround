@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-04-10 15:32+0800\n"
-"PO-Revision-Date: 2013-04-11 05:19-0600\n"
+"PO-Revision-Date: 2013-04-11 05:30-0600\n"
 "Last-Translator: None None <None>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -200,23 +200,23 @@ msgstr ""
 
 #: templates/auth_urls.html:6
 msgid "Import your <strong>Facebook</strong>"
-msgstr "匯入你的<br /><strong>臉書</strong> 朋友"
+msgstr "匯入你<br /><strong>臉書</strong> 朋友"
 
 #: templates/auth_urls.html:12
 msgid "Import your <strong>Google Plus</strong>"
-msgstr "匯入你的<br /><strong>谷歌</strong> 朋友"
+msgstr "匯入你<br /><strong>谷歌</strong> 朋友"
 
 #: templates/auth_urls.html:18
 msgid "Import your <strong>LinkedIn</strong>"
-msgstr "匯入你的<br /><strong>LinkedIn</strong> 朋友"
+msgstr "匯入你<br /><strong>LinkedIn</strong> 朋友"
 
 #: templates/auth_urls.html:25
 msgid "Import your <strong>Kaixin001</strong>"
-msgstr "匯入你的<br /><strong>開心網</strong> 朋友"
+msgstr "匯入你<br /><strong>開心網</strong> 朋友"
 
 #: templates/auth_urls.html:31
 msgid "Import your  <strong>Sina Weibo</strong>"
-msgstr "匯入你的<br /><strong>新浪微博</strong> 朋友"
+msgstr "匯入你<br /><strong>新浪微博</strong> 朋友"
 
 #: templates/auth_urls.html:37
 msgctxt "channels"
