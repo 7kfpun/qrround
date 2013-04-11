@@ -64,12 +64,13 @@ DATABASES = {
 # Caches
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'KEY_PREFIX': '_'.join((PROJECT_NAME, ENVIRONMENT_NAME)),
     }
 }
 if DEBUG:
-    CACHES['default']['BACKEND'] = 'django.core.cache.backends.dummy.DummyCache'  # noqa
+    pass
+    # CACHES['default']['BACKEND'] = 'django.core.cache.backends.dummy.DummyCache'  # noqa
 
 CACHE_BACKEND = 'caching.backends.locmem://'
 
