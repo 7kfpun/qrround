@@ -3,130 +3,180 @@
 {% load cache %}
 
 {% block content %}
-<p id="qrcode">
-  {% if qrcode %}
-    <div class="thumbnail">
-      <img src="{{ MEDIA_URL }}{{ qrcode.photo.url }}" width="520" height="520" />
+{% cache 600 index_head %}
+<div class="masthead">
+  <ul class="nav nav-pills pull-right">
+    <li class="active"><a href="#">{% trans 'Home' %}</a></li>
+    <!-- <li><a id="about_modal_link">{% trans 'About' %}</a></li> -->
+    <li><a id="contact_modal_link">{% trans 'Contact' %}</a></li>
+    <li><!-- Language selector -->
+      {% get_available_languages as languages %}
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-globe"></i> {% trans 'Language' %}<b class="caret"></b></a>
+        <ul class="dropdown-menu pull-right" role="menu">
+        {% for lang_code, lang_name in languages %}
+          {% if forloop.counter <= 3 %}
+            <li>
+            {% language lang_code %}
+              <a href="{% url 'index' %}">{{ lang_code|language_name_local }}</a>
+            {% endlanguage %}
+            </li>
+          {% endif %}
+        {% endfor %}    
+          <li>
+            <a class="disable"><span class="muted">{% trans 'More to come...' context 'languages' %}</span></a>
+          </li>
+        </ul>
+      </li>
+    </li>
+  </ul>
+  <a href="{% url 'index' %}"><h3 class="muted"><img src="{{ STATIC_URL }}ico/favicon.ico" height="38" width="38" /> {% trans 'QRwaa' %}</h3></a>
+</div>
+
+<hr>
+  
+<div class="jumbotron">
+  <h1>{% trans 'Welcome to' %}<br />{% trans 'QRwaa' %}</h1>
+  <p class="lead">
+  <strong>{% trans 'QRwaa' %}</strong>
+  {% blocktrans %}
+    gets profile picture of you and your friends<br />
+    and generates a cool QR code from the pictures.<br />
+    Import an account and try it now!!<br />
+    Don't forget to share it with your friends!!
+  {% endblocktrans%}
+  </p>
+  <!-- Friend QR analyzes your Facebook profile and creates a unique collage of your friends such that your best friends have the biggest pictures. Find out who is on your Friend Matrix! -->
+
+  <!-- Begin BidVertiser code -->
+  <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=525790&bid=1310538" type="text/javascript"></SCRIPT>
+  <noscript><a href="http://www.bidvertiser.com/bdv/BidVertiser/bdv_publisher_toolbar_creator.dbm">custom toolbar</a></noscript>
+  <!-- End BidVertiser code -->
+        
+  <p id="qrcode">
+    {% if qrcode %}
+      <div class="thumbnail">
+        <img src="{{ MEDIA_URL }}{{ qrcode.photo.url }}" width="520" height="520" />
+      </div>
+    {% endif %}
+  </p>
+  <div id="alerts"></div>
+
+  <form action="getqrcode/" method="post" onsubmit="return false">
+    {{ form.backdoor }}
+    <div class="btn-group">
+      {{ form.text }}
+      <button class="btn" id="import_button" type="button" data-toggle="popover" data-html="true" data-placement="top" data-content="{% trans 'Import your social account' %}" data-original-title="{% trans 'Second step' %} <button type='button' class='close'>×</button>">{% trans 'Import' %}</button>
+      <button class="btn btn-primary" id="getqrcode_button" type="button" data-toggle="popover" data-html="true" data-placement="top" data-content="{% trans 'Get your cool QR code!' %}" data-original-title="{% trans 'Last step' %} <button type='button' class='close'>×</button>" data-loading-text="<i class='icon-spinner icon-spin'></i> {% trans 'Loading...' %}" data-complete-text="{% trans 'Complete!' %}">{% trans 'Have fun!' %} <i class="icon-qrcode"></i></button>
     </div>
-  {% endif %}
-</p>
-<div id="alerts"></div>
+    <div class="row nowidth">
+      <div class="span1 offset2 nowidth" data-toggle="popover" data-html="true" data-placement="bottom" data-content="{% trans 'Read and accept our Privacy Policy and Terms of Service' %}" data-original-title="{% trans 'First step' %} <button type='button' class='close'>×</button>">{{ form.accept }}</div>
+      <div class="span4 nowidth">{{ form.accept.label_tag }}</div>
+      <div class="span6 nowidth"><a id="policy_modal_link" type="button">{{ form.accept.help_text }}</a></div>
+      {{ form.cache }}
+    </div>
+    <br />
 
-<form action="getqrcode/" method="post" onsubmit="return false">
-  {{ form.backdoor }}
-  <div class="btn-group">
-    {{ form.text }}
-    <button class="btn" id="import_button" type="button" data-toggle="popover" data-html="true" data-placement="top" data-content="{% trans 'Import your social account' %}" data-original-title="{% trans 'Second step' %} <button type='button' class='close'>×</button>">{% trans 'Import' %}</button>
-    <button class="btn btn-primary" id="getqrcode_button" type="button" data-toggle="popover" data-html="true" data-placement="top" data-content="{% trans 'Get your cool QR code!' %}" data-original-title="{% trans 'Last step' %} <button type='button' class='close'>×</button>" data-loading-text="<i class='icon-spinner icon-spin'></i> {% trans 'Loading...' %}" data-complete-text="{% trans 'Complete!' %}">{% trans 'Have fun!' %} <i class="icon-qrcode"></i></button>
-  </div>
-  <div class="row nowidth">
-    <div class="span1 offset2 nowidth" data-toggle="popover" data-html="true" data-placement="bottom" data-content="{% trans 'Read and accept our Privacy Policy and Terms of Service' %}" data-original-title="{% trans 'First step' %} <button type='button' class='close'>×</button>">{{ form.accept }}</div>
-    <div class="span4 nowidth">{{ form.accept.label_tag }}</div>
-    <div class="span6 nowidth"><a id="policy_modal_link" type="button">{{ form.accept.help_text }}</a></div>
-    {{ form.cache }}
-  </div>
-  <br />
+    <div class="well">
+      <div class="tabbable">
+        <ul class="nav nav-tabs center">
+          <li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-edit"></i> {% trans 'Options' %}</a></li>
+          <li><a href="#tab2" data-toggle="tab"><i class="icon-folder-close"></i> {% trans 'History' %}</a></li>
+        </ul>
 
-{# % cache 600 index_head % #}
-  <div class="well">
-    <div class="tabbable">
-      <ul class="nav nav-tabs center">
-        <li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-edit"></i> {% trans 'Options' %}</a></li>
-        <li><a href="#tab2" data-toggle="tab"><i class="icon-folder-close"></i> {% trans 'History' %}</a></li>
-      </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab1">
+            <div class="tabbable tabs-left">
+              <ul class="nav nav-tabs">
+                <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
+                <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
+                <li class=""><a href="#lC" data-toggle="tab">{% trans "Color & style "%}</a></li>
+                <li class=""><a href="#lD" data-toggle="tab">{% trans "Share it" %}</a></li>
+              </ul>
 
-      <div class="tab-content">
-        <div class="tab-pane active" id="tab1">
-          <div class="tabbable tabs-left">
-            <ul class="nav nav-tabs">
-              <li class="active"><a href="#lA" data-toggle="tab">{{ form.channel_choice.label_tag }}</a></li>
-              <li class=""><a href="#lB" data-toggle="tab">{{ form.error_correct_choice.label_tag }}</a></li>
-              <li class=""><a href="#lC" data-toggle="tab">{% trans "Color & style "%}</a></li>
-              <li class=""><a href="#lD" data-toggle="tab">{% trans "Share it" %}</a></li>
-            </ul>
+              <div class="tab-content options">
+{% endcache %}
 
-            <div class="tab-content options">
-{# % endcache % #}
-
-              <div class="tab-pane active" id="lA">
-                {% if form.fields.channel_choice.choices|length %}
-                  <div class="alert alert-info">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    {% trans '<strong>Info!</strong> You can import more accounts.' %}
-                  </div>
-                  {{ form.channel_choice }}
-                {% else %}
-                  <div class="alert alert-block">
-                    <button type="button" class="close" data-dismiss="alert">×</button>
-                    {% trans '<strong>Info!</strong> Import your account first!!' %}
-                  </div>
-                {% endif %}
-              </div>
-
-              <div class="tab-pane" id="lB">
-                <p>{% trans 'The higher error correct, the more readable code.' %}</p>
-                {{form.error_correct_choice }}
-              </div>
-
-              <div class="tab-pane" id="lC">
-                <p>{% trans 'Select your theme color here!!' %}</p>
-                <div class="input-append color" data-color="rgb(0, 0, 0)" data-color-format="rgb" id="colorpicker">
-                  {{ form.color }}
-                  <span class="add-on"><i style="background-color: rgb(255, 255, 255);"></i></span>
+                <div class="tab-pane active" id="lA">
+                  {% if form.fields.channel_choice.choices|length %}
+                    <div class="alert alert-info">
+                      <button type="button" class="close" data-dismiss="alert">×</button>
+                      {% trans '<strong>Info!</strong> You can import more accounts.' %}
+                    </div>
+                    {{ form.channel_choice }}
+                  {% else %}
+                    <div class="alert alert-block">
+                      <button type="button" class="close" data-dismiss="alert">×</button>
+                      {% trans '<strong>Info!</strong> Import your account first!!' %}
+                    </div>
+                  {% endif %}
                 </div>
-                <p>{{ form.color.help_text }}</p>
 
-                <p>
-                  <p>{{ form.style.help_text }}</p>
-                  <div class="row">
-                  {% for choice in form.style %}
-                    <div class="span1">{{ choice }}</div>
-                  {% endfor %}
-                  </div>
-                </p>
-
-                <p>
-                  <p>{{ form.darkness.help_text }}</p>
-                  {{ form.darkness }}
-                </p>
-              </div>
-
-              <div class="tab-pane" id="lD">
-                <p>{% trans 'Show off to your friends!!' %}</p>
-                <label>{{ form.auto_post_facebook }} {{ form.auto_post_facebook.help_text }}</label>
-                <br />
-                <p>{% trans 'Or share it to ...' %}</p>
-                <div id="sharethis">
-                  <span class='st_sharethis_large' displayText='ShareThis'></span>
-                  <span class='st_facebook_large' displayText='Facebook'></span>
-                  <span class='st_googleplus_large' displayText='Google +'></span>
-                  <span class='st_linkedin_large' displayText='LinkedIn'></span>
-                  <span class='st_twitter_large' displayText='Tweet'></span>
-                  <span class='st_sina_large' displayText='Sina'></span>
-                  <span class='st_email_large' displayText='Email'></span>
+                <div class="tab-pane" id="lB">
+                  <p>{% trans 'The higher error correct, the more readable code.' %}</p>
+                  {{form.error_correct_choice }}
                 </div>
-              </div>
 
-{# % cache 600 index_footer % #}
+                <div class="tab-pane" id="lC">
+                  <p>{% trans 'Select your theme color here!!' %}</p>
+                  <div class="input-append color" data-color="rgb(0, 0, 0)" data-color-format="rgb" id="colorpicker">
+                    {{ form.color }}
+                    <span class="add-on"><i style="background-color: rgb(255, 255, 255);"></i></span>
+                  </div>
+                  <p>{{ form.color.help_text }}</p>
+
+                  <p>
+                    <p>{{ form.style.help_text }}</p>
+                    <div class="row">
+                    {% for choice in form.style %}
+                      <div class="span1">{{ choice }}</div>
+                    {% endfor %}
+                    </div>
+                  </p>
+
+                  <p>
+                    <p>{{ form.darkness.help_text }}</p>
+                    {{ form.darkness }}
+                  </p>
+                </div>
+
+                <div class="tab-pane" id="lD">
+                  <p>{% trans 'Show off to your friends!!' %}</p>
+                  <label>{{ form.auto_post_facebook }} {{ form.auto_post_facebook.help_text }}</label>
+                  <br />
+                  <p>{% trans 'Or share it to ...' %}</p>
+                  <div id="sharethis">
+                    <span class='st_sharethis_large' displayText='ShareThis'></span>
+                    <span class='st_facebook_large' displayText='Facebook'></span>
+                    <span class='st_googleplus_large' displayText='Google +'></span>
+                    <span class='st_linkedin_large' displayText='LinkedIn'></span>
+                    <span class='st_twitter_large' displayText='Tweet'></span>
+                    <span class='st_sina_large' displayText='Sina'></span>
+                    <span class='st_email_large' displayText='Email'></span>
+                  </div>
+                </div>
+
+{% cache 600 index_footer %}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="tab-pane" id="tab2">
-          <div class="alert alert-info">
-            <button type="button" class="close" data-dismiss="alert">×</button>
-            {% trans '<strong>Info!</strong> Only latest 12 codes are displayed' %}.
-          </div>
-          <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
-            <div class="well well-transparent lead">
-              <i class="icon-spinner icon-spin icon-2x pull-left"></i> {% trans 'Gallery is loading...' %}
+          <div class="tab-pane" id="tab2">
+            <div class="alert alert-info">
+              <button type="button" class="close" data-dismiss="alert">×</button>
+              {% trans '<strong>Info!</strong> Only latest 12 codes are displayed' %}.
+            </div>
+            <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery">
+              <div class="well well-transparent lead">
+                <i class="icon-spinner icon-spin icon-2x pull-left"></i> {% trans 'Gallery is loading...' %}
+              </div>
             </div>
           </div>
-        </div>
 
+        </div>
       </div>
     </div>
-  </div>
-</form>
-{# % endcache % #}
+  </form>
+</div>
+{% endcache %}
 {% endblock %}

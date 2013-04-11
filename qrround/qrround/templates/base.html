@@ -57,61 +57,10 @@
       <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=525790&bid=1310538" type="text/javascript"></SCRIPT>
       <noscript><a href="http://www.bidvertiser.com/bdv/BidVertiser/bdv_publisher_toolbar_creator.dbm">custom toolbar</a></noscript>
       <!-- End BidVertiser code -->
-
-      <div class="masthead">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">{% trans 'Home' %}</a></li>
-          <!-- <li><a id="about_modal_link">{% trans 'About' %}</a></li> -->
-          <li><a id="contact_modal_link">{% trans 'Contact' %}</a></li>
-          <li><!-- Language selector -->
-            {% get_available_languages as languages %}
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-globe"></i> {% trans 'Language' %}<b class="caret"></b></a>
-              <ul class="dropdown-menu pull-right" role="menu">
-              {% for lang_code, lang_name in languages %}
-                {% if forloop.counter <= 3 %}
-                  <li>
-                  {% language lang_code %}
-                    <a href="{% url 'index' %}">{{ lang_code|language_name_local }}</a>
-                  {% endlanguage %}
-                  </li>
-                {% endif %}
-              {% endfor %}    
-                <li>
-                  <a class="disable"><span class="muted">{% trans 'More to come...' context 'languages' %}</span></a>
-                </li>
-              </ul>
-            </li>
-          </li>
-        </ul>
-        <a href="{% url 'index' %}"><h3 class="muted"><img src="{{ STATIC_URL }}ico/favicon.ico" height="38" width="38" /> {% trans 'QRwaa' %}</h3></a>
-      </div>
-
-      <hr>
-        
-      <div class="jumbotron">
-        <h1>{% trans 'Welcome to' %}<br />{% trans 'QRwaa' %}</h1>
-        <p class="lead">
-        <strong>{% trans 'QRwaa' %}</strong>
-        {% blocktrans %}
-          gets profile picture of you and your friends<br />
-          and generates a cool QR code from the pictures.<br />
-          Import an account and try it now!!<br />
-          Don't forget to share it with your friends!!
-        {% endblocktrans%}
-        </p>
-        <!-- Friend QR analyzes your Facebook profile and creates a unique collage of your friends such that your best friends have the biggest pictures. Find out who is on your Friend Matrix! -->
 {% endcache %}
 
-        <!-- Begin BidVertiser code -->
-        <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=525790&bid=1310538" type="text/javascript"></SCRIPT>
-        <noscript><a href="http://www.bidvertiser.com/bdv/BidVertiser/bdv_publisher_toolbar_creator.dbm">custom toolbar</a></noscript>
-        <!-- End BidVertiser code -->
-
-        {# Do not cache for this block #}
-        {% block content %}{% endblock %}
-
-      </div>
+      {# Do not cache for this block #}
+      {% block content %}{% endblock %}
 
 {% cache 600 base_footer %}
       <div id="content">
