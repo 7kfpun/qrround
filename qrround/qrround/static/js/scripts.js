@@ -52,7 +52,7 @@ function getqrcode(el) {
         var new_qrcode_src = $('#qrcode img').attr('src');
         $('#gallery ul').prepend('<li class="span2"> \
            <a href="' + new_qrcode_src + '" title="' + data['text'] + '" class="thumbnail" data-gallery="gallery"> \
-             <img src="' + new_qrcode_src + '" width="100" height="100"> \
+             <img src="' + new_qrcode_src + '" width="150" height="150"> \
            </a> \
          </li>');
 

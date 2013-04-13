@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="content span5">
+  <div class="alert alert-info">
+    <strong>{% trans 'Hello' %}, {{ username }}</strong>
+    {% trans 'Log in successfully!!' %} 
+  </div>
+  <img src="{{ STATIC_URL }}ico/success.png" height="240" width="240" />
+</div>
+{% endblock %}

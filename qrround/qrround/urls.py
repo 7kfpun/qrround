@@ -30,7 +30,7 @@ urlpatterns = patterns(
 
     # Uncomment the next line to enable the admin:
     url(r'^accounts/login/$', 'login', name='login'),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^qrfriendsadmin/', include(admin.site.urls)),
     url(r'^rosetta/', include('rosetta.urls')),
 
     url(r'^logout/$', 'logout_user', name='logout'),
@@ -56,6 +56,7 @@ urlpatterns += i18n_patterns(
     url(r'^getqrcode/$', 'getqrcode', name='getqrcode'),
 
     url(r'^tos/$', 'term_of_service', name='term_of_service'),
+    url(r'^success/$', 'success', name='success'),
 
     url('^tasks/', include('djcelery.urls')),
 )

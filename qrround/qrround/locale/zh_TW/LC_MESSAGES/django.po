@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-13 11:50+0800\n"
-"PO-Revision-Date: 2013-04-12 22:52-0600\n"
-"Last-Translator: None None <None>\n"
+"POT-Creation-Date: 2013-04-13 14:15+0800\n"
+"PO-Revision-Date: 2013-04-13 01:16-0600\n"
+"Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,77 +57,77 @@ msgstr "訊息"
 msgid "And leave your message here..."
 msgstr "在此留下訊息..."
 
-#: forms.py:71
-msgid "Still in Beta now."
-msgstr "測試中..."
+#: forms.py:73
+msgid "Pre-release."
+msgstr ""
 
-#: forms.py:80
+#: forms.py:82
 msgid "Channel choice"
 msgstr "帳戶"
 
-#: forms.py:87
+#: forms.py:89
 msgid "Low (7 &#37; of codewords can be restored)"
 msgstr "低 （低於 7 &#37; 的損壞可被讀取）"
 
-#: forms.py:88
+#: forms.py:90
 msgid "Medium (15 &#37; of codewords can be restored)"
 msgstr "中 （低於 15 &#37; 的損壞可被讀取）"
 
-#: forms.py:89
+#: forms.py:91
 msgid "Quartile (25 &#37; of codewords can be restored)"
 msgstr "高（低於 25 &#37; 的損壞可被讀取）"
 
-#: forms.py:90
+#: forms.py:92
 msgid "High (30 &#37; of codewords can be restored)"
 msgstr "很高 （低於 30 &#37; 的損壞可被讀取）"
 
-#: forms.py:93
+#: forms.py:95
 msgid "Error correct choice"
 msgstr "可恢復程度"
 
-#: forms.py:97
+#: forms.py:99
 msgid "I have read and accept"
 msgstr "我已經閱讀並同意本"
 
-#: forms.py:99
+#: forms.py:101
 msgid "Privacy Policy and Terms of Service"
 msgstr "隱私權保護及網站使用政策"
 
-#: forms.py:103
+#: forms.py:105
 msgid "Color"
 msgstr "顏色"
 
-#: forms.py:109 forms.py:135
+#: forms.py:111 forms.py:137
 msgid "Darker is better..."
 msgstr "深一點的顏色比較好"
 
-#: forms.py:113
+#: forms.py:115
 msgid "Auto facebook post"
 msgstr "自動分享到臉書上"
 
-#: forms.py:116
+#: forms.py:118
 msgid ""
 "Auto post the code to your Facebook wall (only when you have a Facebook "
 "account)"
 msgstr "自動分享到臉書上 （限已經登陸到臉書帳戶）"
 
-#: forms.py:125
+#: forms.py:127
 msgid "Auto post"
 msgstr "自動分享"
 
-#: forms.py:130
+#: forms.py:132
 msgid "Set your style here...(more to come)"
 msgstr "選擇風格（陸續增加中）"
 
-#: forms.py:140
+#: forms.py:142
 msgid "Cache"
 msgstr ""
 
-#: forms.py:153
+#: forms.py:155
 msgid "Input your data..."
 msgstr "寫入信息..."
 
-#: forms.py:169
+#: forms.py:171
 #, python-format
 msgid ""
 " <img src=\"%(profile_picture_url)s\" height=\"50\" width=\"50\" /> "
@@ -136,45 +136,45 @@ msgstr ""
 "<img src=\"%(profile_picture_url)s\" height=\"50\" width=\"50\" /> 至 "
 "%(channel)s 的 %(username)s"
 
-#: forms.py:189
+#: forms.py:191
 msgid "Text is too long"
 msgstr "文字太長了"
 
-#: forms.py:195
+#: forms.py:197
 msgid "You should accept our Privacy Policy and Terms of Service"
 msgstr "你必須接受本網站隱私權保護及網站使用政策"
 
-#: forms.py:202
+#: forms.py:204
 msgid "Sorry, our service is not available now"
 msgstr "對不起，我們的服務還未開放"
 
-#: views.py:657
+#: views.py:667
 msgid ""
 "Was_limited: we are poor, cannot afford server cost. Donate some and we can "
 "buy more server time"
 msgstr "超出請求限制： 我們太窮了啦，贊助一下嘛..."
 
-#: views.py:717
+#: views.py:727
 msgid "Try more one?"
 msgstr "再來一張？"
 
-#: views.py:718
+#: views.py:728
 msgid "Step farther to make QR code more readable!"
 msgstr "試試站遠一點，會較易讀取"
 
-#: views.py:719
+#: views.py:729
 msgid "Look beautiful?"
 msgstr "好看嗎？"
 
-#: views.py:720
+#: views.py:730
 msgid "Love it?"
 msgstr "喜歡？"
 
-#: views.py:721
+#: views.py:731
 msgid "Share it!!!"
 msgstr "分享吧！！"
 
-#: views.py:722
+#: views.py:732
 msgid "Where is your girlfriend?"
 msgstr "你女友在哪裡呢？"
 
@@ -223,40 +223,41 @@ msgctxt "channels"
 msgid "More to come<br />..."
 msgstr "更多社交網路，即將支持！！"
 
-#: templates/base.html:9 templates/base.html.py:87
+#: templates/base.html:9 templates/base.html.py:88 templates/index.html:8
+#: templates/index.html.py:10
 msgid "QR friends"
 msgstr "QR 友"
 
-#: templates/base.html:63
+#: templates/base.html:64
 msgid "Home"
 msgstr "首頁"
 
-#: templates/base.html:64 templates/modals.html:78
+#: templates/base.html:65 templates/modals.html:78
 msgid "About"
 msgstr "關於"
 
-#: templates/base.html:65 templates/modals.html:24
+#: templates/base.html:66 templates/modals.html:24
 msgid "Contact"
 msgstr "聯絡"
 
-#: templates/base.html:69
+#: templates/base.html:70
 msgid "Language"
 msgstr "語言"
 
-#: templates/base.html:81
+#: templates/base.html:82
 msgctxt "languages"
 msgid "More to come..."
 msgstr "更多語言，即將支持！！"
 
-#: templates/base.html:104
+#: templates/base.html:105
 msgid "All Rights Reserved."
 msgstr "保留所有的權利"
 
-#: templates/base.html:105
+#: templates/base.html:106
 msgid "ToS and Privacy Policy"
 msgstr ""
 
-#: templates/base.html:106
+#: templates/base.html:107
 msgid ""
 "We don't know what IE is. Please use other browser for your better life."
 msgstr "什麼是IE呀？能吃的嗎？試其他瀏灠器吧..."
@@ -264,10 +265,6 @@ msgstr "什麼是IE呀？能吃的嗎？試其他瀏灠器吧..."
 #: templates/index.html:8
 msgid "Welcome to"
 msgstr "歡迎來到"
-
-#: templates/index.html:8 templates/index.html.py:10
-msgid "QRwaa"
-msgstr "QR 哇"
 
 #: templates/index.html:11
 msgid ""
@@ -394,6 +391,14 @@ msgstr "<STRONG>哎呀！</ STRONG> 網站有一些錯誤。請嘗試重新載�
 msgid "Logout all"
 msgstr "全部登出"
 
+#: templates/success.html:7
+msgid "Hello"
+msgstr "你好"
+
+#: templates/success.html:8
+msgid "Log in successfully!!"
+msgstr "登入成功"
+
 #: templates/tos.html:3
 msgid ""
 "\n"
@@ -450,7 +455,7 @@ msgid ""
 "</p>\n"
 "<h4>8. Governing Law</h4>\n"
 "<p>\n"
-"  Any claim relating to QR friends's web site shall be governed by the laws of the State of HHHHHHHHHH without regard to its conflict of law provisions.\n"
+"  Any claim relating to QR friends's web site shall be governed by the laws of HKSAR without regard to its conflict of law provisions.\n"
 "</p>\n"
 "<p>\n"
 "  General Terms and Conditions applicable to Use of a Web Site.\n"
@@ -487,6 +492,12 @@ msgid ""
 "  Any questions about this Privacy Policy should be sent to info@qrfriends.info.\n"
 "</p>\n"
 msgstr ""
+
+#~ msgid "Still in Beta now."
+#~ msgstr "測試中..."
+
+#~ msgid "QRwaa"
+#~ msgstr "QR 哇"
 
 #~ msgid "Importing..."
 #~ msgstr "匯入..."

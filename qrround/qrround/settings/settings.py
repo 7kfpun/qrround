@@ -70,7 +70,7 @@ CACHES = {
 }
 if DEBUG:
     pass
-    CACHES['default']['BACKEND'] = 'django.core.cache.backends.dummy.DummyCache'  # noqa
+    # CACHES['default']['BACKEND'] = 'django.core.cache.backends.dummy.DummyCache'  # noqa
 
 CACHE_BACKEND = 'caching.backends.locmem://'
 

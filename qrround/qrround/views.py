@@ -89,6 +89,13 @@ def term_of_service(request):
     })
 
 
+def success(request):
+    return render(request, 'success.html', {
+        'contact_form': ContactForm(),
+        'username': request.GET.get('u', ''),
+    })
+
+
 def getgallery(request):
     all_clients = [client for channel in channels
                    for client in request.session.get(channel, [])]
@@ -351,8 +358,11 @@ def store_session(request, channel, client_id, access_token, me, friends):
     # Async task for getting caced images for friends
     task = callgetfriends.apply_async([client_id])
     data['meta']['task'] = str(task)
-    return HttpResponse(json.dumps(data))
+    # return HttpResponse(json.dumps(data))
 
+    response = redirect('success')
+    response['Location'] += '?%s' % urlencode({'u': username.encode('utf-8')})
+    return response
     # return redirect('close_window')
 
 
@@ -421,8 +431,8 @@ def googlecallback(request):
                                  access_token, me, friends)
 
         except Exception, e:
-            logger.error(str(e) + r.text)
-            return HttpResponse(str(e) + r.text)
+            logger.error(str(e))
+            return HttpResponse(str(e))
 
     else:
         return HttpResponse('CSRF?')
@@ -466,8 +476,8 @@ def kaixin001callback(request):
                                  access_token, me, friends)
 
         except KeyError, e:
-            logger.error(str(e) + r.text)
-            return HttpResponse(str(e) + r.text)
+            logger.error(str(e))
+            return HttpResponse(str(e))
 
     else:
         return HttpResponse('CSRF?')
@@ -508,8 +518,8 @@ def linkedincallback(request):
                                  access_token, me, friends)
 
         except KeyError, e:
-            logger.error(str(e) + r.text)
-            return HttpResponse(str(e) + r.text)
+            logger.error(str(e))
+            return HttpResponse(str(e))
 
     else:
         return HttpResponse('CSRF?')
@@ -625,8 +635,8 @@ def weibocallback(request):
                                  access_token, me, friends)
 
         except KeyError, e:
-            logger.error(str(e) + r.text)
-            return HttpResponse(str(e) + r.text)
+            logger.error(str(e))
+            return HttpResponse(str(e))
 
     else:
         return HttpResponse('CSRF?')

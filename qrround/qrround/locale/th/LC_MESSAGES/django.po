@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-13 11:50+0800\n"
+"POT-Creation-Date: 2013-04-13 14:15+0800\n"
 "PO-Revision-Date: 2013-03-20 23:54-0600\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,122 +57,122 @@ msgstr ""
 msgid "And leave your message here..."
 msgstr ""
 
-#: forms.py:71
-msgid "Still in Beta now."
+#: forms.py:73
+msgid "Pre-release."
 msgstr ""
 
-#: forms.py:80
+#: forms.py:82
 msgid "Channel choice"
 msgstr ""
 
-#: forms.py:87
+#: forms.py:89
 msgid "Low (7 &#37; of codewords can be restored)"
 msgstr ""
 
-#: forms.py:88
+#: forms.py:90
 msgid "Medium (15 &#37; of codewords can be restored)"
 msgstr ""
 
-#: forms.py:89
+#: forms.py:91
 msgid "Quartile (25 &#37; of codewords can be restored)"
 msgstr ""
 
-#: forms.py:90
+#: forms.py:92
 msgid "High (30 &#37; of codewords can be restored)"
 msgstr ""
 
-#: forms.py:93
+#: forms.py:95
 msgid "Error correct choice"
 msgstr ""
 
-#: forms.py:97
+#: forms.py:99
 msgid "I have read and accept"
 msgstr ""
 
-#: forms.py:99
+#: forms.py:101
 msgid "Privacy Policy and Terms of Service"
 msgstr ""
 
-#: forms.py:103
+#: forms.py:105
 msgid "Color"
 msgstr ""
 
-#: forms.py:109 forms.py:135
+#: forms.py:111 forms.py:137
 msgid "Darker is better..."
 msgstr ""
 
-#: forms.py:113
+#: forms.py:115
 msgid "Auto facebook post"
 msgstr ""
 
-#: forms.py:116
+#: forms.py:118
 msgid ""
 "Auto post the code to your Facebook wall (only when you have a Facebook "
 "account)"
 msgstr ""
 
-#: forms.py:125
+#: forms.py:127
 msgid "Auto post"
 msgstr ""
 
-#: forms.py:130
+#: forms.py:132
 msgid "Set your style here...(more to come)"
 msgstr ""
 
-#: forms.py:140
+#: forms.py:142
 msgid "Cache"
 msgstr ""
 
-#: forms.py:153
+#: forms.py:155
 msgid "Input your data..."
 msgstr ""
 
-#: forms.py:169
+#: forms.py:171
 #, python-format
 msgid ""
 " <img src=\"%(profile_picture_url)s\" height=\"50\" width=\"50\" /> "
 "%(username)s from %(channel)s"
 msgstr ""
 
-#: forms.py:189
+#: forms.py:191
 msgid "Text is too long"
 msgstr ""
 
-#: forms.py:195
+#: forms.py:197
 msgid "You should accept our Privacy Policy and Terms of Service"
 msgstr ""
 
-#: forms.py:202
+#: forms.py:204
 msgid "Sorry, our service is not available now"
 msgstr ""
 
-#: views.py:657
+#: views.py:667
 msgid ""
 "Was_limited: we are poor, cannot afford server cost. Donate some and we can "
 "buy more server time"
 msgstr ""
 
-#: views.py:717
+#: views.py:727
 msgid "Try more one?"
 msgstr ""
 
-#: views.py:718
+#: views.py:728
 msgid "Step farther to make QR code more readable!"
 msgstr ""
 
-#: views.py:719
+#: views.py:729
 msgid "Look beautiful?"
 msgstr ""
 
-#: views.py:720
+#: views.py:730
 msgid "Love it?"
 msgstr ""
 
-#: views.py:721
+#: views.py:731
 msgid "Share it!!!"
 msgstr ""
 
-#: views.py:722
+#: views.py:732
 msgid "Where is your girlfriend?"
 msgstr ""
 
@@ -221,50 +221,47 @@ msgctxt "channels"
 msgid "More to come<br />..."
 msgstr ""
 
-#: templates/base.html:9 templates/base.html.py:87
+#: templates/base.html:9 templates/base.html.py:88 templates/index.html:8
+#: templates/index.html.py:10
 msgid "QR friends"
 msgstr ""
 
-#: templates/base.html:63
+#: templates/base.html:64
 msgid "Home"
 msgstr ""
 
-#: templates/base.html:64 templates/modals.html:78
+#: templates/base.html:65 templates/modals.html:78
 msgid "About"
 msgstr ""
 
-#: templates/base.html:65 templates/modals.html:24
+#: templates/base.html:66 templates/modals.html:24
 msgid "Contact"
 msgstr ""
 
-#: templates/base.html:69
+#: templates/base.html:70
 msgid "Language"
 msgstr ""
 
-#: templates/base.html:81
+#: templates/base.html:82
 msgctxt "languages"
 msgid "More to come..."
 msgstr ""
 
-#: templates/base.html:104
+#: templates/base.html:105
 msgid "All Rights Reserved."
 msgstr ""
 
-#: templates/base.html:105
+#: templates/base.html:106
 msgid "ToS and Privacy Policy"
 msgstr ""
 
-#: templates/base.html:106
+#: templates/base.html:107
 msgid ""
 "We don't know what IE is. Please use other browser for your better life."
 msgstr ""
 
 #: templates/index.html:8
 msgid "Welcome to"
-msgstr ""
-
-#: templates/index.html:8 templates/index.html.py:10
-msgid "QRwaa"
 msgstr ""
 
 #: templates/index.html:11
@@ -392,6 +389,14 @@ msgstr ""
 msgid "Logout all"
 msgstr ""
 
+#: templates/success.html:7
+msgid "Hello"
+msgstr ""
+
+#: templates/success.html:8
+msgid "Log in successfully!!"
+msgstr ""
+
 #: templates/tos.html:3
 msgid ""
 "\n"
@@ -489,8 +494,7 @@ msgid ""
 "<h4>8. Governing Law</h4>\n"
 "<p>\n"
 "  Any claim relating to QR friends's web site shall be governed by the laws "
-"of the State of HHHHHHHHHH without regard to its conflict of law "
-"provisions.\n"
+"of HKSAR without regard to its conflict of law provisions.\n"
 "</p>\n"
 "<p>\n"
 "  General Terms and Conditions applicable to Use of a Web Site.\n"
