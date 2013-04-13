@@ -13,7 +13,7 @@ from .models import (
     UserClient,
 )
 
-BACKDOOR_KEY = 'kkk'
+BACKDOOR_KEY = 'P4itsNDn'
 
 
 class LoginForm(forms.Form):
@@ -68,8 +68,11 @@ class ContactForm(forms.Form):
 
 class QueryForm(forms.ModelForm):
     backdoor = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder': _('Still in Beta now.')}),
-        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'hide',
+            'placeholder': _('Pre-release.'),
+        }),
+        initial='P4itsNDn',
     )
 
     CHANNEL_CHOICES = (

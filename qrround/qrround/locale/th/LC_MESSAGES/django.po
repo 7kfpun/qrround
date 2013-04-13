@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-10 15:32+0800\n"
+"POT-Creation-Date: 2013-04-13 11:50+0800\n"
 "PO-Revision-Date: 2013-03-20 23:54-0600\n"
 "Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,138 +61,138 @@ msgstr ""
 msgid "Still in Beta now."
 msgstr ""
 
-#: forms.py:79
+#: forms.py:80
 msgid "Channel choice"
 msgstr ""
 
-#: forms.py:86
+#: forms.py:87
 msgid "Low (7 &#37; of codewords can be restored)"
 msgstr ""
 
-#: forms.py:87
+#: forms.py:88
 msgid "Medium (15 &#37; of codewords can be restored)"
 msgstr ""
 
-#: forms.py:88
+#: forms.py:89
 msgid "Quartile (25 &#37; of codewords can be restored)"
 msgstr ""
 
-#: forms.py:89
+#: forms.py:90
 msgid "High (30 &#37; of codewords can be restored)"
 msgstr ""
 
-#: forms.py:92
+#: forms.py:93
 msgid "Error correct choice"
 msgstr ""
 
-#: forms.py:96
+#: forms.py:97
 msgid "I have read and accept"
 msgstr ""
 
-#: forms.py:98
+#: forms.py:99
 msgid "Privacy Policy and Terms of Service"
 msgstr ""
 
-#: forms.py:102
+#: forms.py:103
 msgid "Color"
 msgstr ""
 
-#: forms.py:108 forms.py:134
+#: forms.py:109 forms.py:135
 msgid "Darker is better..."
 msgstr ""
 
-#: forms.py:112
+#: forms.py:113
 msgid "Auto facebook post"
 msgstr ""
 
-#: forms.py:115
+#: forms.py:116
 msgid ""
 "Auto post the code to your Facebook wall (only when you have a Facebook "
 "account)"
 msgstr ""
 
-#: forms.py:124
+#: forms.py:125
 msgid "Auto post"
 msgstr ""
 
-#: forms.py:129
+#: forms.py:130
 msgid "Set your style here...(more to come)"
 msgstr ""
 
-#: forms.py:139
+#: forms.py:140
 msgid "Cache"
 msgstr ""
 
-#: forms.py:152
+#: forms.py:153
 msgid "Input your data..."
 msgstr ""
 
-#: forms.py:168
+#: forms.py:169
 #, python-format
 msgid ""
 " <img src=\"%(profile_picture_url)s\" height=\"50\" width=\"50\" /> "
 "%(username)s from %(channel)s"
 msgstr ""
 
-#: forms.py:188
+#: forms.py:189
 msgid "Text is too long"
 msgstr ""
 
-#: forms.py:194
+#: forms.py:195
 msgid "You should accept our Privacy Policy and Terms of Service"
 msgstr ""
 
-#: forms.py:201
+#: forms.py:202
 msgid "Sorry, our service is not available now"
 msgstr ""
 
-#: views.py:651
+#: views.py:657
 msgid ""
 "Was_limited: we are poor, cannot afford server cost. Donate some and we can "
 "buy more server time"
 msgstr ""
 
-#: views.py:711
+#: views.py:717
 msgid "Try more one?"
 msgstr ""
 
-#: views.py:712
+#: views.py:718
 msgid "Step farther to make QR code more readable!"
 msgstr ""
 
-#: views.py:713
+#: views.py:719
 msgid "Look beautiful?"
 msgstr ""
 
-#: views.py:714
+#: views.py:720
 msgid "Love it?"
 msgstr ""
 
-#: views.py:715
+#: views.py:721
 msgid "Share it!!!"
 msgstr ""
 
-#: views.py:716
+#: views.py:722
 msgid "Where is your girlfriend?"
 msgstr ""
 
-#: settings/settings.py:87
+#: settings/settings.py:88
 msgid "English"
 msgstr ""
 
-#: settings/settings.py:88
+#: settings/settings.py:89
 msgid "繁體中文"
 msgstr ""
 
-#: settings/settings.py:89
+#: settings/settings.py:90
 msgid "简体中文"
 msgstr ""
 
-#: settings/settings.py:90
+#: settings/settings.py:91
 msgid "ภาษาไทย"
 msgstr ""
 
-#: settings/settings.py:91
+#: settings/settings.py:92
 msgid "日本語"
 msgstr ""
 
@@ -221,19 +221,19 @@ msgctxt "channels"
 msgid "More to come<br />..."
 msgstr ""
 
-#: templates/base.html:9
-msgid "QR"
+#: templates/base.html:9 templates/base.html.py:87
+msgid "QR friends"
 msgstr ""
 
-#: templates/base.html:63 templates/import.html:44
+#: templates/base.html:63
 msgid "Home"
 msgstr ""
 
-#: templates/base.html:64 templates/modals.html:167
+#: templates/base.html:64 templates/modals.html:78
 msgid "About"
 msgstr ""
 
-#: templates/base.html:65 templates/modals.html:113
+#: templates/base.html:65 templates/modals.html:24
 msgid "Contact"
 msgstr ""
 
@@ -246,306 +246,302 @@ msgctxt "languages"
 msgid "More to come..."
 msgstr ""
 
-#: templates/base.html:87 templates/base.html.py:93 templates/base.html:95
-msgid "QRwaa"
-msgstr ""
-
-#: templates/base.html:93
-msgid "Welcome to"
-msgstr ""
-
-#: templates/base.html:96
-msgid ""
-"\n"
-"          gets profile picture of you and your friends<br />\n"
-"          and generates a cool QR code from the pictures.<br />\n"
-"          Import an account and try it now!!<br />\n"
-"          Don't forget to share it with your friends!!\n"
-"        "
-msgstr ""
-
-#: templates/base.html:120 templates/import.html:57
+#: templates/base.html:104
 msgid "All Rights Reserved."
 msgstr ""
 
-#: templates/base.html:121
+#: templates/base.html:105
+msgid "ToS and Privacy Policy"
+msgstr ""
+
+#: templates/base.html:106
 msgid ""
 "We don't know what IE is. Please use other browser for your better life."
 msgstr ""
 
-#: templates/import.html:7
-msgid "Importing..."
+#: templates/index.html:8
+msgid "Welcome to"
 msgstr ""
 
-#: templates/import.html:46
-msgid "Project name"
-msgstr "ภาษาไทย"
+#: templates/index.html:8 templates/index.html.py:10
+msgid "QRwaa"
+msgstr ""
 
-#: templates/index.html:19
+#: templates/index.html:11
+msgid ""
+"gets profile picture of you and your friends<br />and generates a cool QR "
+"code from the pictures.<br />Import an account and try it now!!<br />Don't "
+"forget to share it with your friends!!"
+msgstr ""
+
+#: templates/index.html:32
 msgid "Import your social account"
 msgstr ""
 
-#: templates/index.html:19
+#: templates/index.html:32
 msgid "Second step"
 msgstr ""
 
-#: templates/index.html:19 templates/modals.html:213
+#: templates/index.html:32 templates/modals.html:124
 msgid "Import"
 msgstr ""
 
-#: templates/index.html:20
+#: templates/index.html:33
 msgid "Get your cool QR code!"
 msgstr ""
 
-#: templates/index.html:20
+#: templates/index.html:33
 msgid "Last step"
 msgstr ""
 
-#: templates/index.html:20
+#: templates/index.html:33
 msgid "Loading..."
 msgstr ""
 
-#: templates/index.html:20
+#: templates/index.html:33
 msgid "Complete!"
 msgstr ""
 
-#: templates/index.html:20
+#: templates/index.html:33
 msgid "Have fun!"
 msgstr ""
 
-#: templates/index.html:23
+#: templates/index.html:36
 msgid "Read and accept our Privacy Policy and Terms of Service"
 msgstr ""
 
-#: templates/index.html:23
+#: templates/index.html:36
 msgid "First step"
 msgstr ""
 
-#: templates/index.html:34
+#: templates/index.html:46
 msgid "Options"
 msgstr ""
 
-#: templates/index.html:35
+#: templates/index.html:47
 msgid "History"
 msgstr ""
 
-#: templates/index.html:44
+#: templates/index.html:56
 msgid "Color & style "
 msgstr ""
 
-#: templates/index.html:45
+#: templates/index.html:57
 msgid "Share it"
 msgstr ""
 
-#: templates/index.html:55
+#: templates/index.html:67
 msgid "<strong>Info!</strong> You can import more accounts."
 msgstr ""
 
-#: templates/index.html:61
+#: templates/index.html:73
 msgid "<strong>Info!</strong> Import your account first!!"
 msgstr ""
 
-#: templates/index.html:67
+#: templates/index.html:79
 msgid "The higher error correct, the more readable code."
 msgstr ""
 
-#: templates/index.html:72
+#: templates/index.html:84
 msgid "Select your theme color here!!"
 msgstr ""
 
-#: templates/index.html:95
+#: templates/index.html:107
 msgid "Show off to your friends!!"
 msgstr ""
 
-#: templates/index.html:98
+#: templates/index.html:110
 msgid "Or share it to ..."
 msgstr ""
 
-#: templates/index.html:118
+#: templates/index.html:130
 msgid "<strong>Info!</strong> Only latest 12 codes are displayed"
 msgstr ""
 
-#: templates/index.html:122
+#: templates/index.html:134
 msgid "Gallery is loading..."
 msgstr ""
 
 #: templates/modals.html:9
-msgid "Web Site Terms and Conditions of Use"
+msgid "Web Site Terms and Conditions of Use and Privacy Policy"
 msgstr ""
 
-#: templates/modals.html:12
-msgid ""
-"\n"
-"    <h4>1. Terms</h4>\n"
-"    <p>\n"
-"      By accessing this web site, you are agreeing to be bound by these \n"
-"      web site Terms and Conditions of Use, all applicable laws and "
-"regulations, \n"
-"      and agree that you are responsible for compliance with any applicable "
-"local \n"
-"      laws. If you do not agree with any of these terms, you are prohibited "
-"from \n"
-"      using or accessing this site. The materials contained in this web site "
-"are \n"
-"      protected by applicable copyright and trade mark law.\n"
-"    </p>\n"
-"    <h4>2. Use License</h4>\n"
-"    <ol type=\"a\">\n"
-"      <li>\n"
-"        Permission is granted to temporarily download one copy of the "
-"materials \n"
-"        (information or software) on QRwaa's web site for personal, \n"
-"        non-commercial transitory viewing only. This is the grant of a "
-"license, \n"
-"        not a transfer of title, and under this license you may not:      \n"
-"        <ol type=\"i\">\n"
-"          <li>modify or copy the materials;</li>\n"
-"          <li>use the materials for any commercial purpose, or for any "
-"public display (commercial or non-commercial);</li>\n"
-"          <li>attempt to decompile or reverse engineer any software "
-"contained on QRwaa's web site;</li>\n"
-"          <li>remove any copyright or other proprietary notations from the "
-"materials; or</li>\n"
-"          <li>transfer the materials to another person or \"mirror\" the "
-"materials on any other server.</li>\n"
-"        </ol>\n"
-"      </li>\n"
-"      <li>\n"
-"        This license shall automatically terminate if you violate any of "
-"these restrictions and may be terminated by QRwaa at any time. Upon "
-"terminating your viewing of these materials or upon the termination of this "
-"license, you must destroy any downloaded materials in your possession "
-"whether in electronic or printed format.\n"
-"      </li>\n"
-"    </ol>\n"
-"    <h4>3. Disclaimer</h4>\n"
-"    <ol type=\"a\">\n"
-"      <li>\n"
-"        The materials on QRwaa's web site are provided \"as is\". QRwaa "
-"makes no warranties, expressed or implied, and hereby disclaims and negates "
-"all other warranties, including without limitation, implied warranties or "
-"conditions of merchantability, fitness for a particular purpose, or non-"
-"infringement of intellectual property or other violation of rights. Further, "
-"QRwaa does not warrant or make any representations concerning the accuracy, "
-"likely results, or reliability of the use of the materials on its Internet "
-"web site or otherwise relating to such materials or on any sites linked to "
-"this site.\n"
-"      </li>\n"
-"    </ol>\n"
-"    <h4>4. Limitations</h4>\n"
-"    <p>\n"
-"      In no event shall QRwaa or its suppliers be liable for any damages "
-"(including, without limitation, damages for loss of data or profit, or due "
-"to business interruption,) arising out of the use or inability to use the "
-"materials on QRwaa's Internet site, even if QRwaa or a QRwaa authorized "
-"representative has been notified orally or in writing of the possibility of "
-"such damage. Because some jurisdictions do not allow limitations on implied "
-"warranties, or limitations of liability for consequential or incidental "
-"damages, these limitations may not apply to you.\n"
-"    </p>\n"
-"    <h4>5. Revisions and Errata</h4>\n"
-"    <p>\n"
-"      The materials appearing on QRwaa's web site could include technical, "
-"typographical, or photographic errors. QRwaa does not warrant that any of "
-"the materials on its web site are accurate, complete, or current. QRwaa may "
-"make changes to the materials contained on its web site at any time without "
-"notice. QRwaa does not, however, make any commitment to update the "
-"materials.\n"
-"    </p>\n"
-"    <h4>6. Links</h4>\n"
-"    <p>\n"
-"      QRwaa has not reviewed all of the sites linked to its Internet web "
-"site and is not responsible for the contents of any such linked site. The "
-"inclusion of any link does not imply endorsement by QRwaa of the site. Use "
-"of any such linked web site is at the user's own risk.\n"
-"    </p>\n"
-"    <h4>7. Site Terms of Use Modifications</h4>\n"
-"    <p>\n"
-"      QRwaa may revise these terms of use for its web site at any time "
-"without notice. By using this web site you are agreeing to be bound by the "
-"then current version of these Terms and Conditions of Use.\n"
-"    </p>\n"
-"    <h4>8. Governing Law</h4>\n"
-"    <p>\n"
-"      Any claim relating to QRwaa's web site shall be governed by the laws "
-"of the State of HHHHHHHHHH without regard to its conflict of law "
-"provisions.\n"
-"    </p>\n"
-"    <p>\n"
-"      General Terms and Conditions applicable to Use of a Web Site.\n"
-"    </p>\n"
-"\n"
-"    <h3>Privacy Policy</h3>\n"
-"    <p>\n"
-"      Your privacy is very important to us. Accordingly, we have developed "
-"this Policy in order for you to understand how we collect, use, communicate "
-"and disclose and make use of personal information. The following outlines "
-"our privacy policy.\n"
-"    </p>\n"
-"    <ul>\n"
-"      <li>\n"
-"        Before or at the time of collecting personal information, we will "
-"identify the purposes for which information is being collected.\n"
-"      </li>\n"
-"      <li>\n"
-"        We will collect and use of personal information solely with the "
-"objective of fulfilling those purposes specified by us and for other "
-"compatible purposes, unless we obtain the consent of the individual "
-"concerned or as required by law.\t\t\n"
-"      </li>\n"
-"      <li>\n"
-"        We will only retain personal information as long as necessary for "
-"the fulfillment of those purposes. \n"
-"      </li>\n"
-"      <li>\n"
-"        We will collect personal information by lawful and fair means and, "
-"where appropriate, with the knowledge or consent of the individual "
-"concerned. \n"
-"      </li>\n"
-"      <li>\n"
-"        Personal data should be relevant to the purposes for which it is to "
-"be used, and, to the extent necessary for those purposes, should be "
-"accurate, complete, and up-to-date. \n"
-"      </li>\n"
-"      <li>\n"
-"        We will protect personal information by reasonable security "
-"safeguards against loss or theft, as well as unauthorized access, "
-"disclosure, copying, use or modification.\n"
-"      </li>\n"
-"      <li>\n"
-"        We will make readily available to customers information about our "
-"policies and practices relating to the management of personal information. \n"
-"      </li>\n"
-"    </ul>\n"
-"    <p>\n"
-"      Any questions about this Privacy Policy should be sent to info@qrwaa."
-"info.\n"
-"    </p>\n"
-"    "
-msgstr ""
-
-#: templates/modals.html:104 templates/modals.html.py:175
+#: templates/modals.html:15 templates/modals.html.py:86
 msgid "Close"
 msgstr ""
 
-#: templates/modals.html:157 templates/modals.html.py:212
+#: templates/modals.html:68 templates/modals.html.py:123
 msgid "Cancel"
 msgstr ""
 
-#: templates/modals.html:158
+#: templates/modals.html:69
 msgid "Sent"
 msgstr ""
 
-#: templates/modals.html:200
+#: templates/modals.html:111
 msgid "Import your account here!!"
 msgstr ""
 
-#: templates/modals.html:206
+#: templates/modals.html:117
 msgid ""
 "<strong>Oops!!</strong> something wrong with the site. Try reloading please "
 "or report us and we will fix it soon"
 msgstr ""
 
-#: templates/modals.html:211
+#: templates/modals.html:122
 msgid "Logout all"
 msgstr ""
+
+#: templates/tos.html:3
+msgid ""
+"\n"
+"<h3>Web Site Terms and Conditions of Use</h3>\n"
+"<h4>1. Terms</h4>\n"
+"<p>\n"
+"  By accessing this web site, you are agreeing to be bound by these \n"
+"  web site Terms and Conditions of Use, all applicable laws and "
+"regulations, \n"
+"  and agree that you are responsible for compliance with any applicable "
+"local \n"
+"  laws. If you do not agree with any of these terms, you are prohibited "
+"from \n"
+"  using or accessing this site. The materials contained in this web site "
+"are \n"
+"  protected by applicable copyright and trade mark law.\n"
+"</p>\n"
+"<h4>2. Use License</h4>\n"
+"<ol type=\"a\">\n"
+"  <li>\n"
+"    Permission is granted to temporarily download one copy of the "
+"materials \n"
+"    (information or software) on QR friends's web site for personal, \n"
+"    non-commercial transitory viewing only. This is the grant of a "
+"license, \n"
+"    not a transfer of title, and under this license you may not:      \n"
+"    <ol type=\"i\">\n"
+"      <li>modify or copy the materials;</li>\n"
+"      <li>use the materials for any commercial purpose, or for any public "
+"display (commercial or non-commercial);</li>\n"
+"      <li>attempt to decompile or reverse engineer any software contained on "
+"QR friends's web site;</li>\n"
+"      <li>remove any copyright or other proprietary notations from the "
+"materials; or</li>\n"
+"      <li>transfer the materials to another person or \"mirror\" the "
+"materials on any other server.</li>\n"
+"    </ol>\n"
+"  </li>\n"
+"  <li>\n"
+"    This license shall automatically terminate if you violate any of these "
+"restrictions and may be terminated by QR friends at any time. Upon "
+"terminating your viewing of these materials or upon the termination of this "
+"license, you must destroy any downloaded materials in your possession "
+"whether in electronic or printed format.\n"
+"  </li>\n"
+"</ol>\n"
+"<h4>3. Disclaimer</h4>\n"
+"<ol type=\"a\">\n"
+"  <li>\n"
+"    The materials on QR friends's web site are provided \"as is\". QR "
+"friends makes no warranties, expressed or implied, and hereby disclaims and "
+"negates all other warranties, including without limitation, implied "
+"warranties or conditions of merchantability, fitness for a particular "
+"purpose, or non-infringement of intellectual property or other violation of "
+"rights. Further, QR friends does not warrant or make any representations "
+"concerning the accuracy, likely results, or reliability of the use of the "
+"materials on its Internet web site or otherwise relating to such materials "
+"or on any sites linked to this site.\n"
+"  </li>\n"
+"</ol>\n"
+"<h4>4. Limitations</h4>\n"
+"<p>\n"
+"  In no event shall QR friends or its suppliers be liable for any damages "
+"(including, without limitation, damages for loss of data or profit, or due "
+"to business interruption,) arising out of the use or inability to use the "
+"materials on QR friends's Internet site, even if QR friends or a QR friends "
+"authorized representative has been notified orally or in writing of the "
+"possibility of such damage. Because some jurisdictions do not allow "
+"limitations on implied warranties, or limitations of liability for "
+"consequential or incidental damages, these limitations may not apply to "
+"you.\n"
+"</p>\n"
+"<h4>5. Revisions and Errata</h4>\n"
+"<p>\n"
+"  The materials appearing on QR friends's web site could include technical, "
+"typographical, or photographic errors. QR friends does not warrant that any "
+"of the materials on its web site are accurate, complete, or current. QR "
+"friends may make changes to the materials contained on its web site at any "
+"time without notice. QR friends does not, however, make any commitment to "
+"update the materials.\n"
+"</p>\n"
+"<h4>6. Links</h4>\n"
+"<p>\n"
+"  QR friends has not reviewed all of the sites linked to its Internet web "
+"site and is not responsible for the contents of any such linked site. The "
+"inclusion of any link does not imply endorsement by QR friends of the site. "
+"Use of any such linked web site is at the user's own risk.\n"
+"</p>\n"
+"<h4>7. Site Terms of Use Modifications</h4>\n"
+"<p>\n"
+"  QR friends may revise these terms of use for its web site at any time "
+"without notice. By using this web site you are agreeing to be bound by the "
+"then current version of these Terms and Conditions of Use.\n"
+"</p>\n"
+"<h4>8. Governing Law</h4>\n"
+"<p>\n"
+"  Any claim relating to QR friends's web site shall be governed by the laws "
+"of the State of HHHHHHHHHH without regard to its conflict of law "
+"provisions.\n"
+"</p>\n"
+"<p>\n"
+"  General Terms and Conditions applicable to Use of a Web Site.\n"
+"</p>\n"
+"\n"
+"<h3>Privacy Policy</h3>\n"
+"<p>\n"
+"  Your privacy is very important to us. Accordingly, we have developed this "
+"Policy in order for you to understand how we collect, use, communicate and "
+"disclose and make use of personal information. The following outlines our "
+"privacy policy.\n"
+"</p>\n"
+"<ul>\n"
+"  <li>\n"
+"    Before or at the time of collecting personal information, we will "
+"identify the purposes for which information is being collected.\n"
+"  </li>\n"
+"  <li>\n"
+"    We will collect and use of personal information solely with the "
+"objective of fulfilling those purposes specified by us and for other "
+"compatible purposes, unless we obtain the consent of the individual "
+"concerned or as required by law.\t\t\n"
+"  </li>\n"
+"  <li>\n"
+"    We will only retain personal information as long as necessary for the "
+"fulfillment of those purposes. \n"
+"  </li>\n"
+"  <li>\n"
+"    We will collect personal information by lawful and fair means and, where "
+"appropriate, with the knowledge or consent of the individual concerned. \n"
+"  </li>\n"
+"  <li>\n"
+"    Personal data should be relevant to the purposes for which it is to be "
+"used, and, to the extent necessary for those purposes, should be accurate, "
+"complete, and up-to-date. \n"
+"  </li>\n"
+"  <li>\n"
+"    We will protect personal information by reasonable security safeguards "
+"against loss or theft, as well as unauthorized access, disclosure, copying, "
+"use or modification.\n"
+"  </li>\n"
+"  <li>\n"
+"    We will make readily available to customers information about our "
+"policies and practices relating to the management of personal information. \n"
+"  </li>\n"
+"</ul>\n"
+"<p>\n"
+"  Any questions about this Privacy Policy should be sent to info@qrfriends."
+"info.\n"
+"</p>\n"
+msgstr ""
+
+#~ msgid "Project name"
+#~ msgstr "ภาษาไทย"

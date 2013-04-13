@@ -5,9 +5,9 @@
 {% block content %}
 {% cache 600 index_head %}
 <div class="jumbotron">
-  <h1>{% trans 'Welcome to' %}<br />{% trans 'QRwaa' %}</h1>
+  <h1>{% trans 'Welcome to' %}<br />{% trans 'QR friends' %}</h1>
   <p class="lead">
-  <strong>{% trans 'QRwaa' %}</strong>
+  <strong>{% trans 'QR friends' %}</strong>
   {% trans "gets profile picture of you and your friends<br />and generates a cool QR code from the pictures.<br />Import an account and try it now!!<br />Don't forget to share it with your friends!!" %}
   </p>
 
@@ -26,7 +26,7 @@
   <div id="alerts"></div>
 
   <form action="getqrcode/" method="post" onsubmit="return false">
-    {{ form.backdoor }}
+    <div class="hide">{{ form.backdoor }}</div>
     <div class="btn-group">
       {{ form.text }}
       <button class="btn" id="import_button" type="button" data-toggle="popover" data-html="true" data-placement="top" data-content="{% trans 'Import your social account' %}" data-original-title="{% trans 'Second step' %} <button type='button' class='close'>×</button>">{% trans 'Import' %}</button>
