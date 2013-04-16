@@ -2,7 +2,9 @@
 {% load i18n %}
 {% load cache %}
 
-{% cache 600 base_head %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% cache 600 base_head LANGUAGE_CODE %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
@@ -93,7 +95,7 @@
 
       {% block content %}{% endblock %}
 
-{% cache 600 base_footer %}
+{% cache 600 base_footer LANGUAGE_CODE %}
       <div id="content">
         <!-- Begin BidVertiser code -->
         <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=525790&bid=1310538" type="text/javascript"></SCRIPT>
@@ -103,7 +105,7 @@
 
       <div class="footer">
         <p>&copy; 2013 - {% now 'Y' %} QR friends, {% trans 'All Rights Reserved.' %}</p>
-        <p><a href="{% url 'term_of_service' %}"><small class="muted">{% trans "ToS and Privacy Policy" %}</small></p>
+        <p><a href="{% url 'term_of_service' %}"><small class="muted">{% trans "ToS and Privacy Policy" %}</small></a></p>
         <p><small class="muted">{% trans "We don't know what IE is. Please use other browser for your better life." %}</small></p>
       </div> <!-- /container -->
 

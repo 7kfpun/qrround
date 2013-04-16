@@ -1,7 +1,9 @@
 {% load i18n %}
 {% load cache %}
 
-{% cache 600 modals %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% cache 600 modals LANGUAGE_CODE %}
 <!-- Policy Modal -->
 <div id="policy_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">

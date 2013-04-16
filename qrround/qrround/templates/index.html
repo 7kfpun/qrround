@@ -2,19 +2,16 @@
 {% load i18n %}
 {% load cache %}
 
+{% get_current_language as LANGUAGE_CODE %}
+
 {% block content %}
-{% cache 600 index_head %}
+{% cache 600 index_head LANGUAGE_CODE %}
 <div class="jumbotron">
   <h1>{% trans 'Welcome to' %}<br />{% trans 'QR friends' %}</h1>
   <p class="lead">
   <strong>{% trans 'QR friends' %}</strong>
   {% trans "gets profile picture of you and your friends<br />and generates a cool QR code from the pictures.<br />Import an account and try it now!!<br />Don't forget to share it with your friends!!" %}
   </p>
-
-  <!-- Begin BidVertiser code -->
-  <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=525790&bid=1310538" type="text/javascript"></SCRIPT>
-  <noscript><a href="http://www.bidvertiser.com/bdv/BidVertiser/bdv_publisher_toolbar_creator.dbm">custom toolbar</a></noscript>
-  <!-- End BidVertiser code -->
         
   <p id="qrcode">
     {% if qrcode %}
@@ -119,7 +116,7 @@
                   </div>
                 </div>
 
-{% cache 600 index_footer %}
+{% cache 600 index_footer LANGUAGE_CODE %}
               </div>
             </div>
           </div>
