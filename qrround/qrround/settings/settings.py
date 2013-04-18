@@ -9,7 +9,8 @@ SITE_ID = 1
 
 PROJECT_ROOT = op.abspath(op.dirname(op.dirname(__file__)))
 PROJECT_NAME = op.basename(PROJECT_ROOT)
-PROJECT_NAME_TEST = 'Testing'
+PROJECT_NAME = 'QR friends'
+SITE_URL = 'http://www.qrfriends.info/'
 
 ENVIRONMENT_NAME = 'core'
 
@@ -23,7 +24,7 @@ ALLOWED_HOSTS = []
 RATELIMIT_ENABLE = True
 
 if DEBUG:
-    INTERNAL_IPS = '127.0.0.1', '192.168.1.69'
+    INTERNAL_IPS = '127.0.0.1'
     DEBUG_TOOLBAR_CONFIG = {
         "INTERCEPT_REDIRECTS": False,
         "HIDE_DJANGO_SQL": False,

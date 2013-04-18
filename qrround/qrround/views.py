@@ -20,7 +20,7 @@ from random import choice
 from ratelimit.decorators import ratelimit
 import re
 import requests
-from settings.settings import MEDIA_ROOT, PROJECT_NAME_TEST  # TODO: real NAME
+from settings.settings import MEDIA_ROOT, PROJECT_NAME, SITE_URL  # TODO: real NAME
 from time import time
 import tweepy
 from urllib import urlencode
@@ -115,8 +115,8 @@ def postfacebookphotos(request):
         url = 'https://graph.facebook.com/%s/feed' % user.client.split('#')[1]
         data = {
             'access_token': user.access_token,
-            'message': PROJECT_NAME_TEST,
-            'caption': PROJECT_NAME_TEST,
+            'message': PROJECT_NAME,
+            'caption': PROJECT_NAME,
             'type': 'photo',
             'picture': 'http://img.photobucket.com/albums/v317/phillycrazy/blog/ZhangXuan.jpg',  # user.profile_picture_url,  # noqa
             'link': 'http://img.photobucket.com/albums/v317/phillycrazy/blog/ZhangXuan.jpg',  # user.profile_picture_url,  # noqa
@@ -132,8 +132,8 @@ def postfacebookphotos(request):
                 % user.client.split('#')[1]
             data = {
                 'access_token': user.access_token,
-                'name': PROJECT_NAME_TEST,
-                'message': PROJECT_NAME_TEST,
+                'name': PROJECT_NAME,
+                'message': PROJECT_NAME,
             }
             r = requests.post(url, urlencode(data))
             album_id = r.json()['id']
@@ -143,7 +143,7 @@ def postfacebookphotos(request):
         url = 'https://graph.facebook.com/%s/photos' % album_id
         data = {
             'access_token': user.access_token,
-            'message': PROJECT_NAME_TEST,
+            'message': PROJECT_NAME,
         }
         r = requests.post(
             url, data=data,
@@ -172,8 +172,8 @@ def postkaixin001photos(request):
             url = 'https://api.kaixin001.com/album/create.json'
             data = {
                 'access_token': user.access_token,
-                'title': PROJECT_NAME_TEST,
-                'description': PROJECT_NAME_TEST,
+                'title': PROJECT_NAME,
+                'description': PROJECT_NAME,
             }
             r = requests.post(url, urlencode(data))
             return HttpResponse(r.text)
@@ -185,7 +185,7 @@ def postkaixin001photos(request):
         data = {
             'access_token': user.access_token,
             'albumid': album_id,
-            'title': PROJECT_NAME_TEST,
+            'title': PROJECT_NAME,
         }
         r = requests.post(
             url, data=data,
@@ -847,8 +847,8 @@ def autopostfacebook(request):
                     % user.client.split('#')[1]
                 data = {
                     'access_token': user.access_token,
-                    'name': PROJECT_NAME_TEST,
-                    'message': PROJECT_NAME_TEST,
+                    'name': PROJECT_NAME,
+                    'message': PROJECT_NAME,
                 }
                 r = requests.post(url, urlencode(data))
                 album_id = r.json()['id']
@@ -858,7 +858,8 @@ def autopostfacebook(request):
             url = 'https://graph.facebook.com/%s/photos' % album_id
             data = {
                 'access_token': user.access_token,
-                'message': PROJECT_NAME_TEST,
+                'message': PROJECT_NAME + ": Let's come and have your cool one here!!",
+                'link': SITE_URL,
             }
             r = requests.post(
                 url, data=data,

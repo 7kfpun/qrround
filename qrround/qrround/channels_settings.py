@@ -3,13 +3,14 @@ import os
 
 
 if 'dotcloud' in os.environ.get('PYTHONPATH', ''):
-    SITE_URL = 'http://qrround-710kfpun.dotcloud.com/'
+    # SITE_URL = 'http://qrround-710kfpun.dotcloud.com/'
+    SITE_URL = 'http://www.qrfriends.info/'
 
-    FACEBOOK_CLIENT_ID = '450704555005617'
-    FACEBOOK_CLIENT_SECRET = '6b17f7ea59856d82187a6981b17df0f0'
+    FACEBOOK_CLIENT_ID = '475070575897545'
+    FACEBOOK_CLIENT_SECRET = '8a5be641e20b1fef3b91474a095e35e7'
 
-    GOOGLE_CLIENT_ID = '533974579689.apps.googleusercontent.com'
-    GOOGLE_CLIENT_SECRET = 'OJyFy0XPYsjtkuq6R7TBcILn'
+    GOOGLE_CLIENT_ID = '533974579689-tvpcg4v2rc6kmedteepn5n912if62kd7.apps.googleusercontent.com'
+    GOOGLE_CLIENT_SECRET = 'f4CSaIl_X38MSGdPh0ejJKsW'
 
     KAIXIN001_CLIENT_ID = '1214876808351987b5b2f5659b72f67c'
     KAIXIN001_CLIENT_SECRET = 'bf2726ad4eb6dc8e3c41fa6f9edf8ab3'
