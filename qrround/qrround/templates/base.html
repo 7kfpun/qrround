@@ -56,10 +56,7 @@
   </head>
   <body>{% csrf_token %}
     <div class="container-narrow ">
-      <!-- Begin BidVertiser code -->
-      <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=525790&bid=1310538" type="text/javascript"></SCRIPT>
-      <noscript><a href="http://www.bidvertiser.com/bdv/BidVertiser/bdv_publisher_toolbar_creator.dbm">custom toolbar</a></noscript>
-      <!-- End BidVertiser code -->
+      {% include "bidvertiser.html" %}
 
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
@@ -96,11 +93,7 @@
       {% block content %}{% endblock %}
 
 {% cache 600 base_footer LANGUAGE_CODE %}
-      <div id="content">
-        <!-- Begin BidVertiser code -->
-        <SCRIPT LANGUAGE="JavaScript1.1" SRC="http://bdv.bidvertiser.com/BidVertiser.dbm?pid=525790&bid=1310538" type="text/javascript"></SCRIPT>
-        <!-- End BidVertiser code -->
-      </div>
+      <div id="content">{% include "bidvertiser.html" %}</div>
       <hr>
 
       <div class="footer">
@@ -151,6 +144,8 @@
       ga('send', 'pageview');
 
     </script>
+    <noscript><a href="http://www.bidvertiser.com/bdv/BidVertiser/bdv_publisher_toolbar_creator.dbm">custom toolbar</a></noscript>
+
   </body>
 </html>
 {% endcache %}
